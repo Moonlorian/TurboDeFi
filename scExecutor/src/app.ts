@@ -1,4 +1,4 @@
-import Executor from "./libs/StructReader/Executor";
+import Executor from "./StructReader/Executor";
 
 
 Executor.exec(
