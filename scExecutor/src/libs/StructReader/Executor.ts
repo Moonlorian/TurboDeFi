@@ -42,7 +42,7 @@ class Executor {
       ...ags
     );
 
-    console.log(dataTypeConverter.generateFlatParameterList(endpointObject.outputs || []));
+    //console.log(dataTypeConverter.generateFlatParameterList(endpointObject.outputs || []));
     
 
     if (endpointObject.address == "")
