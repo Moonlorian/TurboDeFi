@@ -58,6 +58,9 @@ class StructBase {
     return this._address;
   }
 
+  /**
+   * Converts this struct into json object
+   */
   toJson(): any {
     const fieldsList = Object.keys(this);
     const values = Object.values(this);

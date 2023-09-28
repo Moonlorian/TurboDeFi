@@ -1,13 +1,14 @@
 import {
   AbiRegistry,
   Address,
-  ContractFunction,
   ResultsParser,
   SmartContract,
+  TypedOutcomeBundle,
+  TypedValue,
 } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
-import DataTypeConverter from "./DataTypeConverter";
 import StructReader from "./StructReader";
+import { DataType } from "./types";
 
 class Executor {
   /**
@@ -35,6 +36,7 @@ class Executor {
 
     const structReader = new StructReader(project);
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
+
     const abiJson = {
       endpoints: [endpointObject.toJson()],
       types: structReader.getCustomFields(true),
@@ -56,10 +58,54 @@ class Executor {
       ]);
       const query = interaction.check().buildQuery();
       const res = await provider.queryContract(query);
-      let typedBundle = new ResultsParser().parseQueryResponse(res, interaction.getEndpoint());
-      //console.log(typedBundle.firstValue?.valueOf());
-      console.log(typedBundle);
-      return res;
+      let typedBundle = new ResultsParser().parseQueryResponse(
+        res,
+        interaction.getEndpoint()
+      );
+
+      const bundleValues = [
+        typedBundle.firstValue,
+        typedBundle.secondValue,
+        typedBundle.thirdValue,
+      ];
+      const customFields = structReader.getCustomFields();
+      const customFieldsIndex = Object.keys(customFields);
+      const finalOutput: { [key: string]: any } = {};
+      bundleValues.map((bundle, index) => {
+        if (bundle) {
+          if ((endpointObject.outputs || []).length < index)
+            throw new Error("Wrong number of endpoint outputs");
+          const output = (endpointObject.outputs || [])[index];
+          const bundleTypeName = bundle.getType().getName();
+          if (customFieldsIndex.includes(bundleTypeName)) {
+            //Is a struct?
+
+            const fields = customFields[bundleTypeName].fields || [];
+            const values = bundle?.valueOf();
+            if (fields.length > 0) {
+              fields.map((fieldData) => {
+                finalOutput[fieldData.name || ""] = {
+                  ...fieldData,
+                  value: values[fieldData.name || ""],
+                };
+              });
+            } else {
+              finalOutput[output.name || ""] = {
+                ...customFields[bundleTypeName].toJson(),
+                value: values.name,
+              };
+            }
+          } else {
+            //Is a single field
+            finalOutput[output.name || ""] = {
+              ...output,
+              value: bundle?.valueOf(),
+            };
+          }
+        }
+      });
+
+      return finalOutput;
     } else {
     }
 

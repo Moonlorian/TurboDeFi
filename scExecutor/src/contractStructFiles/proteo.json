@@ -82,6 +82,9 @@
           ],
           "outputs": [
             {
+              "type": "WalletInfo [[[PONER DIRECTAMENTE LA DEFINICIÓN DE LA RESPUESTA]]]"
+            },
+            {
               "name": "deposited_tokens",
               "label": "Deposited",
               "type": "BigUint",
