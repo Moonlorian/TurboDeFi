@@ -45,7 +45,7 @@ type VariantType = {
   discriminant: string;
 };
 
-type CustomType = {
+type CustomType = BaseStructType & {
   /**
    * Type of data
    */
@@ -81,6 +81,10 @@ type DataType = {
    * Token to use
    */
   token?: string;
+  /**
+   * Value of this data
+   */
+  value:any;
 };
 
 type EndpointType = BaseStructType & {

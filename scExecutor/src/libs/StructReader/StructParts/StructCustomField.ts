@@ -1,6 +1,7 @@
 import { CustomType } from "../types";
+import StructBase from "./StructBase";
 
-class StructCustomField {
+class StructCustomField extends StructBase{
   private _type: CustomType["type"];
   private _fields: CustomType["fields"];
   private _variants: CustomType["variants"];
@@ -14,6 +15,7 @@ class StructCustomField {
    *
    */
   constructor(typeInfo: CustomType) {
+    super(typeInfo);
     this._type = typeInfo.type;
     this._fields = typeInfo.fields;
     this._variants = typeInfo.variants;

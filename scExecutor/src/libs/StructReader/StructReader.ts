@@ -145,7 +145,11 @@ class StructReader {
         if (module.endpoints[i].name == endpointName) {
           const currentEndPoint = module.endpoints[i];
           const sc = this._getSC(this.getProject(), module, currentEndPoint);
-          const token = this._getToken(this.getProject(), module, currentEndPoint);
+          const token = this._getToken(
+            this.getProject(),
+            module,
+            currentEndPoint
+          );
           return new StructEndPoint({
             name: currentEndPoint.name,
             description: currentEndPoint.description,
@@ -185,7 +189,7 @@ class StructReader {
    * Retuns all the custom fields
    *
    */
-  getCustomFields(): { [key: string]: StructCustomField } {
+  getCustomFields(json = false): { [key: string]: StructCustomField } {
     if (Object.keys(this._customFields).length == 0) {
       const typesList = this._readFile()?.types;
 
@@ -197,6 +201,15 @@ class StructReader {
       });
     }
 
+    if (json) {
+      const jsonObject: { [key: string]: any } = {};
+      const fieldsList = Object.keys(this._customFields);
+      fieldsList.map(
+        (fieldName: string) =>
+          (jsonObject[fieldName] = this._customFields[fieldName].toJson())
+      );
+      return jsonObject;
+    }
     return this._customFields;
   }
 

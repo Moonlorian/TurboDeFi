@@ -47,17 +47,27 @@ class StructBase {
   /**
    * Get token
    */
-  get token(): string | undefined{
+  get token(): string | undefined {
     return this._token;
   }
 
   /**
    * Get address
    */
-  get address(): string | undefined{
+  get address(): string | undefined {
     return this._address;
   }
 
+  toJson(): any {
+    const fieldsList = Object.keys(this);
+    const values = Object.values(this);
+    const jsonObject: { [key: string]: any } = {};
+    fieldsList.map((field: string, index: number) => {
+      if (values[index] != undefined)
+        jsonObject[field.replace(/^_/, "")] = values[index];
+    });
+    return jsonObject;
+  }
   _checkFields() {
     if (!this._name) {
       throw new Error("Name field is empty");

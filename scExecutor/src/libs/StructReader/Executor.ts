@@ -1,6 +1,8 @@
 import {
+  AbiRegistry,
   Address,
   ContractFunction,
+  ResultsParser,
   SmartContract,
 } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
@@ -24,7 +26,7 @@ class Executor {
     project: string,
     module: string,
     endpoint: string,
-    ...ags: any
+    ...args: any
   ): Promise<any> {
     const provider = new ProxyNetworkProvider(
       "https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a",
@@ -32,34 +34,31 @@ class Executor {
     );
 
     const structReader = new StructReader(project);
-    const dataTypeConverter = new DataTypeConverter(
-      structReader.getCustomFields()
-    );
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
-
-    const args = dataTypeConverter.argsToEndpointInput(
-      endpointObject.inputs || [],
-      ...ags
-    );
-
-    //console.log(dataTypeConverter.generateFlatParameterList(endpointObject.outputs || []));
-    
-
+    const abiJson = {
+      endpoints: [endpointObject.toJson()],
+      types: structReader.getCustomFields(true),
+    };
+    //console.log(abiJson);
+    const legacyDelegationAbi = AbiRegistry.create(abiJson);
     if (endpointObject.address == "")
       throw new Error("A smart contract is needed");
 
     if (endpointObject.readonly) {
-      const contract = new SmartContract({
+      const legacyDelegationContract = new SmartContract({
         address: new Address(endpointObject.address),
+        abi: legacyDelegationAbi,
       });
-      const options = {
-        func: new ContractFunction(endpointObject.name),
-        address: [] as any,
-        args,
-      };
-      const query = contract!.createQuery(options);
-      const res = await provider!.queryContract(query);
 
+      //return;
+      let interaction = legacyDelegationContract.methods[endpointObject.name]([
+        ...args,
+      ]);
+      const query = interaction.check().buildQuery();
+      const res = await provider.queryContract(query);
+      let typedBundle = new ResultsParser().parseQueryResponse(res, interaction.getEndpoint());
+      //console.log(typedBundle.firstValue?.valueOf());
+      console.log(typedBundle);
       return res;
     } else {
     }
