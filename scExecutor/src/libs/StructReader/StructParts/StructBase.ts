@@ -47,14 +47,14 @@ class StructBase {
   /**
    * Get token
    */
-  get token(): string {
+  get token(): string | undefined{
     return this._token;
   }
 
   /**
    * Get address
    */
-  get address(): string {
+  get address(): string | undefined{
     return this._address;
   }
 

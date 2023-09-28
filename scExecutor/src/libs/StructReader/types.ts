@@ -24,8 +24,7 @@ type BaseStructType = {
 type ProjectType = BaseStructType;
 
 type BaseRustType =
-  | "ManagedAddress"
-  | "ManagedBuffer"
+  | "Address"
   | "BigUint"
   | "u8"
   | "u16"
@@ -33,26 +32,7 @@ type BaseRustType =
   | "u64"
   | "usize"
   | "number"
-  | "string";
-
-type FieldType = {
-  /**
-   * Field's ID
-   */
-  name: string;
-  /**
-   * field's type
-   */
-  type: BaseRustType;
-  /**
-   * Is this field a balance?
-   */
-  balance?: boolean;
-  /**
-   * Token to use
-   */
-  token?: string;
-};
+  | "bytes";
 
 type VariantType = {
   /**
@@ -60,7 +40,7 @@ type VariantType = {
    */
   name: string;
   /**
-   * Numeric representatio of the variant, is the value that comes from SC
+   * Numeric representation of the variant, is the value that comes from SC
    */
   discriminant: string;
 };
@@ -73,7 +53,7 @@ type CustomType = {
   /**
    * For structs
    */
-  fields?: FieldType[];
+  fields?: DataType[];
   /**
    * For enum
    */
@@ -93,17 +73,25 @@ type DataType = {
    * type of data
    */
   type: BaseRustType | string;
+  /**
+   * Is this field a balance?
+   */
+  balance?: boolean;
+  /**
+   * Token to use
+   */
+  token?: string;
 };
 
 type EndpointType = BaseStructType & {
   /**
    * Input data
    */
-  input?: DataType[];
+  inputs?: DataType[];
   /**
    * Output data
    */
-  output?: DataType[];
+  outputs?: DataType[];
   /**
    * readonly: true = view | false = endpoint
    */
@@ -121,4 +109,11 @@ type ModuleType = BaseStructType & {
   endpoints?: EndpointType[];
 };
 
-export { BaseStructType, ProjectType, ModuleType, EndpointType, CustomType, DataType };
+export {
+  BaseStructType,
+  ProjectType,
+  ModuleType,
+  EndpointType,
+  CustomType,
+  DataType
+};

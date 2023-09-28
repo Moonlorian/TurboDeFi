@@ -1,6 +1,5 @@
 import fs from "fs";
 import StructCustomField from "./StructParts/StructCustomField";
-import { DataType, ModuleType, ProjectType } from "./types";
 import StructProject from "./StructParts/StructProject";
 import StructModule from "./StructParts/StructModule";
 import StructEndPoint from "./StructParts/StructEndpoint";
@@ -8,9 +7,9 @@ import StructEndPoint from "./StructParts/StructEndpoint";
 class StructReader {
   private _fileName: string = "";
   private _fullStructFilePath: string = "";
-  private _project: StructProject;
+  private _project: StructProject | undefined;
   private _customFields: { [key: string]: StructCustomField } = {};
-  private _modules: StructModule[];
+  private _modules: StructModule[] = [];
 
   private _asterisk = "*****************************************";
   /**
@@ -50,8 +49,11 @@ class StructReader {
    *
    */
   info(): void {
-    this._loadProject();
+    this.getProject();
+
     console.log(this._asterisk);
+    if (!this._project) throw new Error("Empty project");
+
     if (this._project.name) this._prettyPrint("Name : " + this._project.name);
     if (this._project.label)
       this._prettyPrint("Label : " + this._project.label);
@@ -73,7 +75,7 @@ class StructReader {
    *
    */
   modulesInfo(): void {
-    this._loadModules();
+    this.getModules();
     console.log(this._asterisk);
     this._prettyPrint("Modules found: " + this._modules.length);
 
@@ -96,7 +98,7 @@ class StructReader {
    *
    */
   customFieldsInfo(): void {
-    this._loadCustomFields();
+    this.getCustomFields();
     const asterisk = "*****************************************";
     console.log(asterisk);
     const fieldNames = Object.keys(this._customFields);
@@ -111,39 +113,64 @@ class StructReader {
     console.log(asterisk);
   }
 
-  executeModule(moduleName: string, ...args: any) {
-    this._loadProject();
-    this._loadModules();
+  /**
+   * Get all endpoints from a module
+   *
+   * @remarks
+   * Retuns all module's endpoints
+   *
+   */
+  getModuleEndpoints(moduleName: string): StructEndPoint[] {
+    this.getProject();
+    this.getModules();
+    this.getCustomFields();
     const module = this._getModule(moduleName);
-    const results = [];
-    module.endpoints.map((endpoint) => {});
+    return module.endpoints;
   }
 
-  //private methods
-  private argsToEndpointInput(endpointInput: DataType[], ...args: any){
-    const returnList:any[] = [];
-    endpointInput.map((inputParam, index) => {
-      if (index > args.length) throw new Error("Incorrect number or args");
-      const argument = args[index];
-      
-    });
-
-    return returnList;
-  }
-  private _getModule(moduleName: string): StructModule {
-    this._loadModules();
-    this._modules.map((module) => {
-      if (module.name == moduleName) {
-        return module;
+  /**
+   * Get a specific endpoint
+   *
+   * @remarks
+   * Retuns a module endpoint
+   *
+   */
+  getModuleEndpoint(moduleName: string, endpointName: string): StructEndPoint {
+    this.getProject();
+    this.getModules();
+    this.getCustomFields();
+    const module = this._getModule(moduleName);
+    if (module.endpoints) {
+      for (let i = 0; i < module.endpoints.length; i++) {
+        if (module.endpoints[i].name == endpointName) {
+          const currentEndPoint = module.endpoints[i];
+          const sc = this._getSC(this.getProject(), module, currentEndPoint);
+          const token = this._getToken(this.getProject(), module, currentEndPoint);
+          return new StructEndPoint({
+            name: currentEndPoint.name,
+            description: currentEndPoint.description,
+            label: currentEndPoint.label,
+            token: token,
+            address: sc,
+            inputs: currentEndPoint.inputs,
+            outputs: currentEndPoint.outputs,
+            readOnly: currentEndPoint.readonly,
+            balance: currentEndPoint.balance,
+          });
+        }
       }
-    });
-    throw new Error("Module not found");
-  }
-  private _readFile(): any {
-    return JSON.parse(fs.readFileSync(this._fullStructFilePath, "utf8"));
+    }
+    throw new Error("Endpoint not found");
   }
 
-  private _loadProject(): any {
+  /**
+   * Get project information
+   *
+   * @remarks
+   * Retuns project information
+   *
+   */
+  getProject(): any {
     if (!this._project) {
       this._project = new StructProject(this._readFile()?.project);
     }
@@ -151,7 +178,14 @@ class StructReader {
     return this._project;
   }
 
-  private _loadCustomFields(): { [key: string]: StructCustomField } {
+  /**
+   * Get custom fields
+   *
+   * @remarks
+   * Retuns all the custom fields
+   *
+   */
+  getCustomFields(): { [key: string]: StructCustomField } {
     if (Object.keys(this._customFields).length == 0) {
       const typesList = this._readFile()?.types;
 
@@ -166,12 +200,55 @@ class StructReader {
     return this._customFields;
   }
 
-  private _loadModules(): StructModule[] {
-    if (!this._modules) {
+  /**
+   * Get all modules
+   *
+   * @remarks
+   * Retuns all modules
+   *
+   */
+  getModules(): StructModule[] {
+    if (!this._modules.length) {
       const modulesList = this._readFile()?.modules;
-      this._modules = modulesList.map((module) => new StructModule(module));
+      this._modules = modulesList.map(
+        (module: any) => new StructModule(module)
+      );
     }
     return this._modules;
+  }
+
+  //private methods
+  private _getSC(
+    project: StructProject,
+    module: StructModule,
+    endpoint: StructEndPoint
+  ): string {
+    if (endpoint.address) return endpoint.address;
+    if (module.address) return module.address;
+    return project.address || "";
+  }
+
+  private _getToken(
+    project: StructProject,
+    module: StructModule,
+    endpoint: StructEndPoint
+  ): string {
+    if (endpoint.token) return endpoint.token;
+    if (module.token) return module.token;
+    return project.token || "";
+  }
+
+  private _getModule(moduleName: string): StructModule {
+    this.getModules();
+    for (let i = 0; i < this._modules.length; i++) {
+      if (this._modules[i].name == moduleName) {
+        return this._modules[i];
+      }
+    }
+    throw new Error("Module not found");
+  }
+  private _readFile(): any {
+    return JSON.parse(fs.readFileSync(this._fullStructFilePath, "utf8"));
   }
 
   private _prettyPrint(msg: string) {

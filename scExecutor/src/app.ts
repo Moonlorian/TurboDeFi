@@ -1,12 +1,10 @@
+import DataTypeConverter from "./libs/StructReader/DataTypeConverter";
 import StructReader from "./libs/StructReader/StructReader";
+import Executor from "./libs/StructReader/Executor";
 
-const structReader = new StructReader("proteo");
-
-//Show struct reader general information:
-structReader.info();
-
-//Show struct reader information about custom types declarated inside the file
-structReader.customFieldsInfo();
-
-//Show modules information
-structReader.modulesInfo();
+Executor.exec(
+  "proteo",
+  "Elite",
+  "user_info",
+  "erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz"
+).then((response) => console.log(response));

@@ -12,5 +12,9 @@
   "devDependencies": {
     "@types/node": "^20.7.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@multiversx/sdk-core": "^12.9.0",
+    "@multiversx/sdk-network-providers": "^2.0.0"
   }
 }

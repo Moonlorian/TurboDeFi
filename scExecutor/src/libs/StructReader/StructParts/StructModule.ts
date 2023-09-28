@@ -3,7 +3,7 @@ import StructBase from "./StructBase";
 import StructEndpoint from "./StructEndpoint";
 
 class StructModule extends StructBase {
-  _endpoints: StructEndpoint[];
+  _endpoints: StructEndpoint[] = [];
   /**
    * Constructor
    *
@@ -17,11 +17,13 @@ class StructModule extends StructBase {
     super(moduleData);
     this._checkFields();
 
-    const endpointsList = moduleData?.endpoints;
-    const newEndpointsList: StructEndpoint[] = [];
-    this._endpoints = endpointsList.map(
-      (endpotintData) => new StructEndpoint(endpotintData)
-    );
+    const endpointsList = moduleData?.endpoints;  
+    if (endpointsList) {
+      this._endpoints = endpointsList.map(
+        (endpotintData) => new StructEndpoint(endpotintData)
+      );
+      //console.log(this._endpoints);
+    }
   }
 
   /**

@@ -2,10 +2,10 @@ import StructBase from "./StructBase";
 import { EndpointType } from "../types";
 
 class StructEndpoint extends StructBase {
-  private _input: EndpointType["input"];
-  private _output: EndpointType["output"];
-  private _balance: EndpointType["balance"];
-  private _readOnly: EndpointType["readOnly"];
+  private _inputs: EndpointType["inputs"] = [];
+  private _outputs: EndpointType["outputs"] = [];
+  private _balance: EndpointType["balance"] = false;
+  private _readOnly: EndpointType["readOnly"] = true;
   /**
    * Constructor
    *
@@ -17,11 +17,11 @@ class StructEndpoint extends StructBase {
    */
   constructor(endpointData: EndpointType) {
     super(endpointData);
-    
-    this._input = endpointData.input;
-    this._output = endpointData.output;
-    this._balance = endpointData.balance;
-    this._readOnly = endpointData.readOnly;
+    //console.log(endpointData);
+    this._inputs = endpointData.inputs ?? this._inputs;
+    this._outputs = endpointData.outputs ?? this._outputs;
+    this._balance = endpointData.balance ?? this._balance;
+    this._readOnly = endpointData.readOnly ?? this._readOnly;
 
     this._checkFields()
   }
@@ -29,14 +29,14 @@ class StructEndpoint extends StructBase {
   /**
    * Get endpoint inpput data
    */
-  get input() {
-    return this._input;
+  get inputs() {
+    return this._inputs;
   }
   /**
    * Get endpoint output data
    */
-  get output() {
-    return this._output;
+  get outputs() {
+    return this._outputs;
   }
   /**
    * Get endpoint balance data
