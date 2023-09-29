@@ -1,17 +1,17 @@
-import fs from "fs";
-import StructCustomField from "./StructParts/StructCustomField";
-import StructProject from "./StructParts/StructProject";
-import StructModule from "./StructParts/StructModule";
-import StructEndPoint from "./StructParts/StructEndpoint";
+import StructCustomField from './StructParts/StructCustomField';
+import StructProject from './StructParts/StructProject';
+import StructModule from './StructParts/StructModule';
+import StructEndPoint from './StructParts/StructEndpoint';
+import axios from 'axios';
 
 class StructReader {
-  private _fileName: string = "";
-  private _fullStructFilePath: string = "";
-  private _project: StructProject | undefined;
+  private _fileName: string;
+  //private _fullStructFilePath: string;
+  private _project: StructProject | undefined = undefined;
   private _customFields: { [key: string]: StructCustomField } = {};
   private _modules: StructModule[] = [];
 
-  private _asterisk = "*****************************************";
+  private _asterisk = '*****************************************';
   /**
    * Constructor
    *
@@ -22,12 +22,28 @@ class StructReader {
    *
    */
   constructor(fileName: string) {
-    this._fileName = fileName.endsWith(".json") ? fileName : fileName + ".json";
-    this._fullStructFilePath =
-      __dirname + "/../contractStructFiles/" + this._fileName;
-    if (!fs.existsSync(this._fullStructFilePath)) {
-      throw new Error("Struct file not found");
-    }
+    this._fileName = fileName.endsWith('.json') ? fileName : fileName + '.json';
+  }
+
+  /**
+   * Load the json name asynchronously
+   *
+   * @remarks
+   * load Json
+   *
+   */
+  async load() {
+    return axios
+      .get(this._fileName)
+      .then((response) => {
+        return response.data;
+      })
+      .then((json) => {
+        this._loadProject(json);
+        this._loadModules(json);
+        this._loadCustomFields(json);
+        return this;
+      });
   }
 
   /**
@@ -49,22 +65,20 @@ class StructReader {
    *
    */
   info(): void {
-    this.getProject();
-
     console.log(this._asterisk);
-    if (!this._project) throw new Error("Empty project");
+    if (!this._project) throw new Error('Empty project');
 
-    if (this._project.name) this._prettyPrint("Name : " + this._project.name);
+    if (this._project.name) this._prettyPrint('Name : ' + this._project.name);
     if (this._project.label)
-      this._prettyPrint("Label : " + this._project.label);
+      this._prettyPrint('Label : ' + this._project.label);
     if (this._project.token)
-      this._prettyPrint("Token : " + this._project.token);
+      this._prettyPrint('Token : ' + this._project.token);
     if (this._project.address)
-      this._prettyPrint("Address : " + this._project.address);
+      this._prettyPrint('Address : ' + this._project.address);
 
     console.log(this._asterisk);
     if (this._project.description)
-      console.log("\n" + this._project.description + "\n");
+      console.log('\n' + this._project.description + '\n');
   }
 
   /**
@@ -77,14 +91,14 @@ class StructReader {
   modulesInfo(): void {
     this.getModules();
     console.log(this._asterisk);
-    this._prettyPrint("Modules found: " + this._modules.length);
+    this._prettyPrint('Modules found: ' + this._modules.length);
 
     this._modules.map((module) => {
       this._prettyPrint(
-        module.name + " -endpoints (" + module.endpoints.length + "):"
+        module.name + ' -endpoints (' + module.endpoints.length + '):'
       );
       module.endpoints.map((endpoint) => {
-        this._prettyPrint("--->" + endpoint.name);
+        this._prettyPrint('--->' + endpoint.name);
       });
     });
     console.log(this._asterisk);
@@ -99,14 +113,14 @@ class StructReader {
    */
   customFieldsInfo(): void {
     this.getCustomFields();
-    const asterisk = "*****************************************";
+    const asterisk = '*****************************************';
     console.log(asterisk);
     const fieldNames = Object.keys(this._customFields);
-    this._prettyPrint("Custom types found: " + fieldNames.length);
+    this._prettyPrint('Custom types found: ' + fieldNames.length);
 
     fieldNames.map((fieldName) => {
       this._prettyPrint(
-        fieldName + " is " + this._customFields[fieldName].type + " type"
+        fieldName + ' is ' + this._customFields[fieldName].type + ' type'
       );
     });
 
@@ -121,9 +135,6 @@ class StructReader {
    *
    */
   getModuleEndpoints(moduleName: string): StructEndPoint[] {
-    this.getProject();
-    this.getModules();
-    this.getCustomFields();
     const module = this._getModule(moduleName);
     return module.endpoints;
   }
@@ -136,20 +147,14 @@ class StructReader {
    *
    */
   getModuleEndpoint(moduleName: string, endpointName: string): StructEndPoint {
-    this.getProject();
-    this.getModules();
-    this.getCustomFields();
+    if (!this._project) throw new Error('Project is not defined');
     const module = this._getModule(moduleName);
     if (module.endpoints) {
       for (let i = 0; i < module.endpoints.length; i++) {
         if (module.endpoints[i].name == endpointName) {
           const currentEndPoint = module.endpoints[i];
-          const sc = this._getSC(this.getProject(), module, currentEndPoint);
-          const token = this._getToken(
-            this.getProject(),
-            module,
-            currentEndPoint
-          );
+          const sc = this._getSC(this._project, module, currentEndPoint);
+          const token = this._getToken(this._project, module, currentEndPoint);
           return new StructEndPoint({
             name: currentEndPoint.name,
             description: currentEndPoint.description,
@@ -159,12 +164,12 @@ class StructReader {
             inputs: currentEndPoint.inputs,
             outputs: currentEndPoint.outputs,
             readOnly: currentEndPoint.readonly,
-            balance: currentEndPoint.balance,
+            balance: currentEndPoint.balance
           });
         }
       }
     }
-    throw new Error("Endpoint not found");
+    throw new Error('Endpoint not found');
   }
 
   /**
@@ -175,10 +180,6 @@ class StructReader {
    *
    */
   getProject(): any {
-    if (!this._project) {
-      this._project = new StructProject(this._readFile()?.project);
-    }
-
     return this._project;
   }
 
@@ -190,17 +191,6 @@ class StructReader {
    *
    */
   getCustomFields(json = false): { [key: string]: StructCustomField } {
-    if (Object.keys(this._customFields).length == 0) {
-      const typesList = this._readFile()?.types;
-
-      const typeNames = Object.keys(typesList);
-      typeNames.map((typeName) => {
-        this._customFields[typeName] = new StructCustomField(
-          typesList[typeName]
-        );
-      });
-    }
-
     if (json) {
       const jsonObject: { [key: string]: any } = {};
       const fieldsList = Object.keys(this._customFields);
@@ -221,16 +211,26 @@ class StructReader {
    *
    */
   getModules(): StructModule[] {
-    if (!this._modules.length) {
-      const modulesList = this._readFile()?.modules;
-      this._modules = modulesList.map(
-        (module: any) => new StructModule(module)
-      );
-    }
     return this._modules;
   }
 
   //private methods
+  private _loadProject(json: any) {
+    this._project = new StructProject(json?.project);
+  }
+  private _loadModules(json: any) {
+    const modulesList = json?.modules;
+    this._modules = modulesList.map((module: any) => new StructModule(module));
+  }
+  private _loadCustomFields(json: any) {
+    const typesList = json?.types;
+
+    const typeNames = Object.keys(typesList);
+    typeNames.map((typeName) => {
+      this._customFields[typeName] = new StructCustomField(typesList[typeName]);
+    });
+  }
+
   private _getSC(
     project: StructProject,
     module: StructModule,
@@ -238,7 +238,7 @@ class StructReader {
   ): string {
     if (endpoint.address) return endpoint.address;
     if (module.address) return module.address;
-    return project.address || "";
+    return project.address || '';
   }
 
   private _getToken(
@@ -248,7 +248,7 @@ class StructReader {
   ): string {
     if (endpoint.token) return endpoint.token;
     if (module.token) return module.token;
-    return project.token || "";
+    return project.token || '';
   }
 
   private _getModule(moduleName: string): StructModule {
@@ -258,14 +258,16 @@ class StructReader {
         return this._modules[i];
       }
     }
-    throw new Error("Module not found");
+    throw new Error('Module not found');
   }
+
+  //TODO Load file from a folder
   private _readFile(): any {
-    return JSON.parse(fs.readFileSync(this._fullStructFilePath, "utf8"));
+    //return JSON.parse(fs.readFileSync(this._fullStructFilePath, 'utf8'));
   }
 
   private _prettyPrint(msg: string) {
-    console.log("** " + msg.padEnd(this._asterisk.length - 5, " ") + "**");
+    console.log('** ' + msg.padEnd(this._asterisk.length - 5, ' ') + '**');
   }
 }
 

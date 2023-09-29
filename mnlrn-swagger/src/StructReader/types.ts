@@ -113,7 +113,7 @@ type ModuleType = BaseStructType & {
   endpoints?: EndpointType[];
 };
 
-export type{
+export type {
   BaseStructType,
   ProjectType,
   ModuleType,
