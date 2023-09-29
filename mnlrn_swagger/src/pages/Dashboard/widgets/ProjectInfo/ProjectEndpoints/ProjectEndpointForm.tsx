@@ -1,30 +1,31 @@
 import StructEndpoint from 'StructReader/StructParts/StructEndpoint';
 import StructModule from 'StructReader/StructParts/StructModule';
-import StructProject from 'StructReader/StructParts/StructProject';
-import StructReader from 'StructReader/StructReader';
 import { Button, Card, Label, OutputContainer } from 'components';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Accordion, Form } from 'react-bootstrap';
-import { ProjectEndpoint } from './ProjectEndpoint';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
+import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
+
+//erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
 
 export const ProjectEndpointForm = ({
-  selectedFileName,
-  structReader,
   module,
   endpoint
 }: {
-  selectedFileName: string;
-  structReader: StructReader;
   module: StructModule;
   endpoint: StructEndpoint;
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
+
+  const dashBorardStructReaderContext = useContext(
+    DashBorardStructReaderContext
+  );
+
   const executeEndpoint = () => {
     Executor.exec(
-      structReader,
+      dashBorardStructReaderContext.structReader,
       module.name,
       endpoint.name,
       ...fieldValues

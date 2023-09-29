@@ -1,20 +1,7 @@
 import { AuthRedirectWrapper, PageWrapper } from 'wrappers';
 import { Transaction } from './Transaction';
-import StructReader from 'StructReader/StructReader';
-import Executor from 'StructReader/Executor';
 
 export const Home = () => {
-  //test:
-  /*
-  new StructReader('proteo').load().then((structReader) => {
-    Executor.exec(
-      structReader,
-      'Elite',
-      'user_info',
-      'erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz'
-    ).then((response: any) => console.log(response));
-  });
-  */
   return (
     <AuthRedirectWrapper requireAuth={false}>
       <PageWrapper>

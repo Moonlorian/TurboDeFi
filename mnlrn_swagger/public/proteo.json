@@ -82,37 +82,7 @@
           ],
           "outputs": [
             {
-              "type": "WalletInfo [[[PONER DIRECTAMENTE LA DEFINICIÓN DE LA RESPUESTA]]]"
-            },
-            {
-              "name": "deposited_tokens",
-              "label": "Deposited",
-              "type": "BigUint",
-              "balance": true
-            },
-            {
-              "name": "pending_rewards_token_a",
-              "label": "Pending Rewards A",
-              "type": "BigUint",
-              "balance": true,
-              "token": "SPROTEO-c75f56"
-            },
-            {
-              "name": "pending_rewards_token_b",
-              "label": "Pending Rewards B",
-              "type": "BigUint",
-              "balance": true,
-              "token": "WEB-5d08be"
-            },
-            {
-              "name": "last_harvest_epoch",
-              "label": "Last Harvest Epoch",
-              "type": "u64"
-            },
-            {
-              "name": "last_deposited_epoch",
-              "label": "Last Deposited Epoch",
-              "type": "u64"
+              "type": "WalletInfo"
             }
           ]
         }
@@ -218,17 +188,22 @@
         {
           "name": "deposited_tokens",
           "label": "Deposited",
-          "type": "BigUint"
+          "type": "BigUint",
+          "balance": true
         },
         {
           "name": "pending_rewards_token_a",
           "label": "Pending Rewards A",
-          "type": "BigUint"
+          "type": "BigUint",
+          "balance": true,
+          "token": "SPROTEO-c75f56"
         },
         {
           "name": "pending_rewards_token_b",
           "label": "Pending Rewards B",
-          "type": "BigUint"
+          "type": "BigUint",
+          "balance": true,
+          "token": "WEB-5d08be"
         },
         {
           "name": "last_harvest_epoch",

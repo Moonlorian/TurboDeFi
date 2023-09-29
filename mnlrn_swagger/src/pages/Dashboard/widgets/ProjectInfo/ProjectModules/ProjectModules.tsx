@@ -1,27 +1,24 @@
 import StructModule from 'StructReader/StructParts/StructModule';
-import StructProject from 'StructReader/StructParts/StructProject';
-import StructReader from 'StructReader/StructReader';
-import { Card, Label, OutputContainer } from 'components';
-import { useMemo } from 'react';
+import { Card } from 'components';
+import { useContext, useMemo } from 'react';
 import { ProjectEndpoints } from '../ProjectEndpoints';
+import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
 
-export const ProjectModules = ({
-  selectedFileName,
-  structReader
-}: {
-  selectedFileName: string;
-  structReader: StructReader;
-}) => {
+export const ProjectModules = () => {
+  const dashBorardStructReaderContext = useContext(
+    DashBorardStructReaderContext
+  );
+
   const projectModulesList: StructModule[] = useMemo(
-    () => structReader.getModules(),
-    [structReader]
+    () => dashBorardStructReaderContext.structReader.getModules(),
+    [dashBorardStructReaderContext.structReader]
   );
   return (
     <Card
       className='flex-2'
       key={'projectModules'}
       title={'Project modules'}
-      description={`${selectedFileName} project modules`}
+      description={`${dashBorardStructReaderContext.selectedFileName} project modules`}
       reference={''}
     >
       {projectModulesList.map((module: StructModule, index: any) => (
@@ -38,11 +35,7 @@ export const ProjectModules = ({
             description={''}
             reference={''}
           >
-            <ProjectEndpoints
-              selectedFileName={selectedFileName}
-              structReader={structReader}
-              selectedModule={module}
-            />
+            <ProjectEndpoints selectedModule={module} />
           </Card>
         </Card>
       ))}

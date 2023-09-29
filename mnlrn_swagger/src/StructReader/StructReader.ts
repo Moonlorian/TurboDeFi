@@ -10,6 +10,7 @@ class StructReader {
   private _project: StructProject | undefined = undefined;
   private _customFields: { [key: string]: StructCustomField } = {};
   private _modules: StructModule[] = [];
+  private _loaded: boolean = false;
 
   private _asterisk = '*****************************************';
   /**
@@ -42,8 +43,20 @@ class StructReader {
         this._loadProject(json);
         this._loadModules(json);
         this._loadCustomFields(json);
+        this._loaded = true;
         return this;
       });
+  }
+
+/**
+   * Indicates if a file has beel loaded
+   *
+   * @remarks
+   * check if is loaded
+   *
+   */
+  isLoaded() {
+    return this._loaded;
   }
 
   /**
