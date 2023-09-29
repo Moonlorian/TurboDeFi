@@ -33,6 +33,36 @@
               "type": "UserInfo"
             }
           ]
+        },
+        {
+          "name": "test_endpoint",
+          "description": "This is a test endpoint",
+          "label": "Test endpoint",
+          "readOnly": true,
+          "inputs": [
+            {
+              "name": "user_address",
+              "label": "Address",
+              "type": "Address"
+            },
+            {
+              "name": "amount",
+              "label": "Amount",
+              "type": "BigUint"
+            },
+            {
+              "name": "token",
+              "label": "Token",
+              "type": "TokenIdentifier"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "userInfo",
+              "label": "User Info",
+              "type": "UserInfo"
+            }
+          ]
         }
       ]
     },

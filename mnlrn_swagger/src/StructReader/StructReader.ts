@@ -3,6 +3,7 @@ import StructProject from './StructParts/StructProject';
 import StructModule from './StructParts/StructModule';
 import StructEndPoint from './StructParts/StructEndpoint';
 import axios from 'axios';
+import PrettyPrinter from './PrettyPrinter';
 
 class StructReader {
   private _fileName: string;
@@ -12,7 +13,6 @@ class StructReader {
   private _modules: StructModule[] = [];
   private _loaded: boolean = false;
 
-  private _asterisk = '*****************************************';
   /**
    * Constructor
    *
@@ -78,18 +78,19 @@ class StructReader {
    *
    */
   info(): void {
-    console.log(this._asterisk);
+    PrettyPrinter.printAsterisk();
+    PrettyPrinter.printAsterisk();
     if (!this._project) throw new Error('Empty project');
 
-    if (this._project.name) this._prettyPrint('Name : ' + this._project.name);
+    if (this._project.name) PrettyPrinter.prettyLog('Name : ' + this._project.name);
     if (this._project.label)
-      this._prettyPrint('Label : ' + this._project.label);
+      PrettyPrinter.prettyLog('Label : ' + this._project.label);
     if (this._project.token)
-      this._prettyPrint('Token : ' + this._project.token);
+      PrettyPrinter.prettyLog('Token : ' + this._project.token);
     if (this._project.address)
-      this._prettyPrint('Address : ' + this._project.address);
+      PrettyPrinter.prettyLog('Address : ' + this._project.address);
 
-    console.log(this._asterisk);
+    PrettyPrinter.printAsterisk();
     if (this._project.description)
       console.log('\n' + this._project.description + '\n');
   }
@@ -103,18 +104,18 @@ class StructReader {
    */
   modulesInfo(): void {
     this.getModules();
-    console.log(this._asterisk);
-    this._prettyPrint('Modules found: ' + this._modules.length);
+    PrettyPrinter.printAsterisk();
+    PrettyPrinter.prettyLog('Modules found: ' + this._modules.length);
 
     this._modules.map((module) => {
-      this._prettyPrint(
+      PrettyPrinter.prettyLog(
         module.name + ' -endpoints (' + module.endpoints.length + '):'
       );
       module.endpoints.map((endpoint) => {
-        this._prettyPrint('--->' + endpoint.name);
+        PrettyPrinter.prettyLog('--->' + endpoint.name);
       });
     });
-    console.log(this._asterisk);
+    PrettyPrinter.printAsterisk();
   }
 
   /**
@@ -126,18 +127,17 @@ class StructReader {
    */
   customFieldsInfo(): void {
     this.getCustomFields();
-    const asterisk = '*****************************************';
-    console.log(asterisk);
+    PrettyPrinter.printAsterisk();
     const fieldNames = Object.keys(this._customFields);
-    this._prettyPrint('Custom types found: ' + fieldNames.length);
+    PrettyPrinter.prettyLog('Custom types found: ' + fieldNames.length);
 
     fieldNames.map((fieldName) => {
-      this._prettyPrint(
+      PrettyPrinter.prettyLog(
         fieldName + ' is ' + this._customFields[fieldName].type + ' type'
       );
     });
 
-    console.log(asterisk);
+    PrettyPrinter.printAsterisk();
   }
 
   /**
@@ -279,9 +279,6 @@ class StructReader {
     //return JSON.parse(fs.readFileSync(this._fullStructFilePath, 'utf8'));
   }
 
-  private _prettyPrint(msg: string) {
-    console.log('** ' + msg.padEnd(this._asterisk.length - 5, ' ') + '**');
-  }
 }
 
 export default StructReader;

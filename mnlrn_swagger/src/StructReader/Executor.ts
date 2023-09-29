@@ -83,20 +83,23 @@ class Executor {
               fields.map((fieldData: any) => {
                 finalOutput[fieldData.name || ''] = {
                   ...fieldData,
-                  value: values[fieldData.name || '']
+                  value: values[fieldData.name || ''],
+                  token: (fieldData.balance) ? endpointObject.token : '',
                 };
               });
             } else {
               finalOutput[output.name || ''] = {
                 ...customFields[bundleTypeName].toJson(),
-                value: values.name
+                value: values.name,
+                token: (output.balance) ? endpointObject.token : '',
               };
             }
           } else {
             //Is a single field
             finalOutput[output.name || ''] = {
               ...output,
-              value: bundle?.valueOf()
+              value: bundle?.valueOf(),
+              token: (output.balance) ? endpointObject.token : '',
             };
           }
         }

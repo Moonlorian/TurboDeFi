@@ -6,6 +6,7 @@ import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
+import PrettyPrinter from 'StructReader/PrettyPrinter';
 
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
 
@@ -37,9 +38,11 @@ export const ProjectEndpointForm = ({
 
   const updateValue = useCallback(
     (index: any, value: any) => {
+      console.log('Update index: ', index, 'this value: ', value);
       const newFieldValues = fieldValues.map((data: any, subIndex: number) =>
-        data + (index === subIndex) ? value : ''
+        index === subIndex ? value : data
       );
+      console.log(newFieldValues);
       setFieldValues(newFieldValues);
     },
     [fieldValues]
@@ -56,24 +59,34 @@ export const ProjectEndpointForm = ({
         <Form.Group key={index} className='mb-1'>
           <Form.Label>{input.label}</Form.Label>
           <Form.Control
-            type=''
+            type={PrettyPrinter.getFormInputType(input.type)}
             placeholder={input.label}
             value={fieldValues[index] ?? ''}
             onChange={(e: any) => {
+              console.log('update index: ', index);
               updateValue(index, e.target.value);
             }}
           />
         </Form.Group>
       ))}
       <Button onClick={executeEndpoint}>Execute</Button>
-      <Button onClick={() => {setResponse([])}}>Clear</Button>
+      <Button
+        onClick={() => {
+          setResponse([]);
+        }}
+      >
+        Clear
+      </Button>
       <br />
       {response.length > 0 && (
         <OutputContainer>
           {response.map((output: DataType, index) => (
-            <p key={index}>
-              <Label>{output.label ?? output.name}:</Label>{" "}
-              {output.value.toString()}
+            <p
+              className={`${output.balance ? 'font-weight-bold' : ''}`}
+              key={index}
+            >
+              <Label>{output.label ?? output.name}:</Label>{' '}
+              {output.value.toString()} {output.balance && endpoint.token}
             </p>
           ))}
         </OutputContainer>
