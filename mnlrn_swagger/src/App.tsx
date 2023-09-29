@@ -21,6 +21,7 @@ import { RouteNamesEnum } from 'localConstants';
 import { PageNotFound, Unlock } from 'pages';
 import { routes } from 'routes';
 import { BatchTransactionsContextProvider } from 'wrappers';
+import { DappDataComponent } from 'services/DappDataLoad';
 
 const AppContent = () => {
   return (
@@ -51,22 +52,24 @@ const AppContent = () => {
       }}
     >
       <AxiosInterceptorContext.Listener>
-        <Layout>
-          <TransactionsToastList />
-          <NotificationModal />
-          <SignTransactionsModals />
-          <Routes>
-            <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
-            {routes.map((route) => (
-              <Route
-                path={route.path}
-                key={`route-key-'${route.path}`}
-                element={<route.component />}
-              />
-            ))}
-            <Route path='*' element={<PageNotFound />} />
-          </Routes>
-        </Layout>
+        <DappDataComponent>
+          <Layout>
+            <TransactionsToastList />
+            <NotificationModal />
+            <SignTransactionsModals />
+            <Routes>
+              <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
+              {routes.map((route) => (
+                <Route
+                  path={route.path}
+                  key={`route-key-'${route.path}`}
+                  element={<route.component />}
+                />
+              ))}
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
+          </Layout>
+        </DappDataComponent>
       </AxiosInterceptorContext.Listener>
     </DappProvider>
   );
