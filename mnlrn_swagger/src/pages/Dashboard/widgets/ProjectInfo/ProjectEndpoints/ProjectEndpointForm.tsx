@@ -38,11 +38,9 @@ export const ProjectEndpointForm = ({
 
   const updateValue = useCallback(
     (index: any, value: any) => {
-      console.log('Update index: ', index, 'this value: ', value);
       const newFieldValues = fieldValues.map((data: any, subIndex: number) =>
         index === subIndex ? value : data
       );
-      console.log(newFieldValues);
       setFieldValues(newFieldValues);
     },
     [fieldValues]
@@ -63,7 +61,6 @@ export const ProjectEndpointForm = ({
             placeholder={input.label}
             value={fieldValues[index] ?? ''}
             onChange={(e: any) => {
-              console.log('update index: ', index);
               updateValue(index, e.target.value);
             }}
           />

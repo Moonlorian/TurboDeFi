@@ -17,7 +17,6 @@ class StructEndpoint extends StructBase {
    */
   constructor(endpointData: EndpointType) {
     super(endpointData);
-    //console.log(endpointData);
     this._inputs = endpointData.inputs ?? this._inputs;
     this._outputs = endpointData.outputs ?? this._outputs;
     this._balance = endpointData.balance ?? this._balance;

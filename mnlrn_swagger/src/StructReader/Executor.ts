@@ -37,7 +37,6 @@ class Executor {
       endpoints: [endpointObject.toJson()],
       types: structReader.getCustomFields(true)
     };
-    //console.log(abiJson);
     const legacyDelegationAbi = AbiRegistry.create(abiJson);
     if (endpointObject.address == '')
       throw new Error('A smart contract is needed');
@@ -84,14 +83,14 @@ class Executor {
                 finalOutput[fieldData.name || ''] = {
                   ...fieldData,
                   value: values[fieldData.name || ''],
-                  token: (fieldData.balance) ? endpointObject.token : '',
+                  token: fieldData.balance ? endpointObject.token : ''
                 };
               });
             } else {
               finalOutput[output.name || ''] = {
                 ...customFields[bundleTypeName].toJson(),
                 value: values.name,
-                token: (output.balance) ? endpointObject.token : '',
+                token: output.balance ? endpointObject.token : ''
               };
             }
           } else {
@@ -99,7 +98,7 @@ class Executor {
             finalOutput[output.name || ''] = {
               ...output,
               value: bundle?.valueOf(),
-              token: (output.balance) ? endpointObject.token : '',
+              token: output.balance ? endpointObject.token : ''
             };
           }
         }

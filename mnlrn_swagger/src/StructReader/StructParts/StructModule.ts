@@ -22,7 +22,6 @@ class StructModule extends StructBase {
       this._endpoints = endpointsList.map(
         (endpotintData) => new StructEndpoint(endpotintData)
       );
-      //console.log(this._endpoints);
     }
   }
 
