@@ -1,116 +1,62 @@
+import StructReader from 'StructReader/StructReader';
+import { OutputContainer } from 'components';
 import { Card } from 'components/Card';
-import { contractAddress } from 'config';
+import { useCallback, useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { AuthRedirectWrapper } from 'wrappers';
-import {
-  Account,
-  PingPongAbi,
-  SignMessage,
-  NativeAuth,
-  BatchTransactions,
-  PingPongRaw,
-  PingPongService,
-  Transactions
-} from './widgets';
+import { ProjectInfo } from './widgets/ProjectInfo';
+import { ProjectModules } from './widgets/ProjectInfo/ProjectModules';
+import { ProjectEndpoints } from './widgets/ProjectInfo/ProjectEndpoints';
 
-type WidgetsType = {
-  title: string;
-  widget: (props: any) => JSX.Element;
-  description?: string;
-  props?: { receiver?: string };
-  reference: string;
-};
+export const Dashboard = () => {
+  const [structReader, setStructReader] = useState<StructReader>();
+  const [selectedFileName, setSelectedFileName] = useState('');
 
-const WIDGETS: WidgetsType[] = [
-  {
-    title: 'Account',
-    widget: Account,
-    description: 'Connected account details',
-    reference: 'https://docs.multiversx.com/sdk-and-tools/sdk-dapp/#account'
-  },
-  {
-    title: 'Ping & Pong (Manual)',
-    widget: PingPongRaw,
-    description:
-      'Smart Contract interactions using manually formulated transactions',
-    reference:
-      'https://docs.multiversx.com/sdk-and-tools/indices/es-index-transactions/'
-  },
-  {
-    title: 'Ping & Pong (ABI)',
-    widget: PingPongAbi,
-    description:
-      'Smart Contract interactions using the ABI generated transactions',
-    reference:
-      'https://docs.multiversx.com/sdk-and-tools/sdk-js/sdk-js-cookbook/#using-interaction-when-the-abi-is-available'
-  },
-  {
-    title: 'Ping & Pong (Backend)',
-    widget: PingPongService,
-    description:
-      'Smart Contract interactions using the backend generated transactions',
-    reference: 'https://github.com/multiversx/mx-ping-pong-service'
-  },
-  {
-    title: 'Sign message',
-    widget: SignMessage,
-    description: 'Message signing using the connected account',
-    reference: 'https://docs.multiversx.com/sdk-and-tools/sdk-dapp/#account-1'
-  },
-  {
-    title: 'Native auth',
-    widget: NativeAuth,
-    description:
-      'A secure authentication token is used to interact with the backend',
-    reference: 'https://github.com/multiversx/mx-sdk-js-native-auth-server'
-  },
-  {
-    title: 'Batch Transactions',
-    widget: BatchTransactions,
-    description:
-      'For complex scenarios transactions cand be sent in the desired group/sequence',
-    reference:
-      'https://github.com/multiversx/mx-sdk-dapp#sending-transactions-synchronously-in-batches'
-  },
-  {
-    title: 'Transactions (All)',
-    widget: Transactions,
-    description: 'List transactions for the connected account',
-    reference:
-      'https://api.elrond.com/#/accounts/AccountController_getAccountTransactions'
-  },
-  {
-    title: 'Transactions (Ping & Pong)',
-    widget: Transactions,
-    props: { receiver: contractAddress },
-    description: 'Filtered transactions for a given Smart Contract',
-    reference:
-      'https://api.elrond.com/#/accounts/AccountController_getAccountTransactions'
-  }
-];
+  const fileList: string[] = ['proteo'];
 
-export const Dashboard = () => (
-  <AuthRedirectWrapper>
-    <div className='flex flex-col gap-6 max-w-3xl w-full'>
-      {WIDGETS.map((element) => {
-        const {
-          title,
-          widget: MxWidget,
-          description,
-          props = {},
-          reference
-        } = element;
+  const selectNewFile = useCallback((event: any) => {
+    const fileName = fileList[event.target.value];
+    new StructReader(fileName).load().then((newStructReader) => {
+      setStructReader(newStructReader);
+    });
+    setSelectedFileName(fileName);
+  }, []);
 
-        return (
-          <Card
-            key={title}
-            title={title}
-            description={description}
-            reference={reference}
+  return (
+    <AuthRedirectWrapper>
+      <div className='flex flex-col gap-6 max-w-7xl w-full'>
+        <Card
+          className='flex-2'
+          key={'fileSelector'}
+          title={'Select File'}
+          description={'Select file to show all its modules'}
+          reference={''}
+        >
+          <Form.Select
+            aria-label='Select file to show'
+            onChange={selectNewFile}
           >
-            <MxWidget {...props} />
-          </Card>
-        );
-      })}
-    </div>
-  </AuthRedirectWrapper>
-);
+            <option value=''>Select file</option>
+            {fileList.map((fileName: string, index) => (
+              <option key={index} value={index}>
+                {fileName}
+              </option>
+            ))}
+          </Form.Select>
+        </Card>
+        {structReader && (
+          <>
+            <ProjectInfo
+              selectedFileName={selectedFileName}
+              structReader={structReader}
+            />
+            <ProjectModules
+              selectedFileName={selectedFileName}
+              structReader={structReader}
+            />
+          </>
+        )}
+      </div>
+    </AuthRedirectWrapper>
+  );
+};
