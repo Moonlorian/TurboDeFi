@@ -21,7 +21,7 @@ import { RouteNamesEnum } from 'localConstants';
 import { PageNotFound, Unlock } from 'pages';
 import { routes } from 'routes';
 import { BatchTransactionsContextProvider } from 'wrappers';
-import { DappDataComponent } from 'services/DappDataLoad';
+import { GlobalDataComponent } from 'services/GlobalDataLoad';
 
 const AppContent = () => {
   return (
@@ -52,7 +52,7 @@ const AppContent = () => {
       }}
     >
       <AxiosInterceptorContext.Listener>
-        <DappDataComponent>
+        <GlobalDataComponent>
           <Layout>
             <TransactionsToastList />
             <NotificationModal />
@@ -69,7 +69,7 @@ const AppContent = () => {
               <Route path='*' element={<PageNotFound />} />
             </Routes>
           </Layout>
-        </DappDataComponent>
+        </GlobalDataComponent>
       </AxiosInterceptorContext.Listener>
     </DappProvider>
   );
