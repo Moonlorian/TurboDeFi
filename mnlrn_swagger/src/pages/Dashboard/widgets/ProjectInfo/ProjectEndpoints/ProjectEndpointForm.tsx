@@ -1,13 +1,14 @@
 import StructEndpoint from 'StructReader/StructParts/StructEndpoint';
 import StructModule from 'StructReader/StructParts/StructModule';
-import { Button, Card, Label, OutputContainer } from 'components';
+import { Button, Card, FormatAmount, Label, OutputContainer } from 'components';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
-
+import { useGetTokenDetails } from '@multiversx/sdk-dapp/hooks';
+import { useGetTokenInfo } from 'hooks';
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
 
 export const ProjectEndpointForm = ({
@@ -23,6 +24,8 @@ export const ProjectEndpointForm = ({
   const dashBorardStructReaderContext = useContext(
     DashBorardStructReaderContext
   );
+
+  const tokenInfo = useGetTokenInfo();
 
   const executeEndpoint = () => {
     Executor.exec(
@@ -83,7 +86,16 @@ export const ProjectEndpointForm = ({
               key={index}
             >
               <Label>{output.label ?? output.name}:</Label>{' '}
-              {output.value.toString()} {output.balance && endpoint.token}
+              {output.balance ? (
+                <FormatAmount
+                  value={output.value}
+                  decimals={tokenInfo.get(output.token || '', 'decimals')}
+                  token={output.token || ''}
+                  digits={4}
+                />
+              ) : (
+                <>{output.value.toString()}</>
+              )}
             </p>
           ))}
         </OutputContainer>

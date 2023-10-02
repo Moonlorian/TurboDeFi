@@ -1,30 +1,31 @@
 import { ReactNode, createContext, useEffect } from 'react';
 import { getApiFullGeneric } from './apiQueries';
 
-const GlobalData = {
+const globalData = {
   tokenList: {} as { [key: string]: any }
 };
 
-export type GlobalDataTYpe = typeof GlobalData;
+export type GlobalDataTYpe = typeof globalData;
 
-export const GlobalDataContext = createContext<GlobalDataTYpe>(GlobalData);
+export const GlobalDataContext = createContext<GlobalDataTYpe>(globalData);
 
 export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
   const loadTokens = async () => {
-    const tokenList = await loadAllTokens();
+    const tokenList = await getApiFullGeneric('tokens', { pageSize: 1000 });
+    tokenList.map((tokenData) => {
+      globalData.tokenList[tokenData.identifier.split('-')[0]] = tokenData;
+    });
+    console.log(globalData);
   };
 
   useEffect(() => {
-    loadTokens();
+    //loadTokens();
   }, []);
   //Here we are going to load all the dapp data
   return (
-    <GlobalDataContext.Provider value={GlobalData}>
+    <GlobalDataContext.Provider value={globalData}>
       {children}
     </GlobalDataContext.Provider>
   );
 };
 
-const loadAllTokens = async () => {
-  return getApiFullGeneric('tokens', { pageSize: 1000 });
-};
