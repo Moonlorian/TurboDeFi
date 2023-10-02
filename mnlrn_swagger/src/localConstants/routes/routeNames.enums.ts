@@ -3,5 +3,6 @@ export enum RouteNamesEnum {
   dashboard = '/dashboard',
   dashboardOld = '/dashboardOld',
   unlock = '/unlock',
-  disclaimer = '/disclaimer'
+  disclaimer = '/disclaimer',
+  scanner = '/scanner'
 }
