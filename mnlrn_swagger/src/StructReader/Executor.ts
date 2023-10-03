@@ -103,7 +103,6 @@ class Executor {
                 this._getDataFromStruct(fields, values, endpointObject, '')
               );
             } else {
-              console.log(values);
               finalOutput[output.name || ''] = {
                 ...customFields[bundleTypeName].toJson(),
                 value: values.name,
