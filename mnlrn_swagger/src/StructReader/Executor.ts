@@ -6,6 +6,7 @@ import {
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import StructReader from './StructReader';
+import StructEndpoint from './StructParts/StructEndpoint';
 
 class Executor {
   /**
@@ -73,20 +74,36 @@ class Executor {
             throw new Error('Wrong number of endpoint outputs');
           const output = (endpointObject.outputs || [])[index];
           const bundleTypeName = bundle.getType().getName();
-          if (customFieldsIndex.includes(bundleTypeName)) {
-            //Is a struct?
-
+          if (bundleTypeName === 'List') {
+            const fullName = bundle
+              .getType()
+              .getFullyQualifiedName()
+              .split(':')
+              .slice(-1)[0]
+              .replace('>', '');
+            const fields = customFields[fullName].fields || [];
+            const elementList = bundle.valueOf();
+            elementList.map((values: any, index: number) => {
+              Object.assign(
+                finalOutput,
+                this._getDataFromStruct(
+                  fields,
+                  values,
+                  endpointObject,
+                  '_' + index.toString()
+                )
+              );
+            });
+          } else if (customFieldsIndex.includes(bundleTypeName)) {
             const fields = customFields[bundleTypeName].fields || [];
             const values = bundle?.valueOf();
             if (fields.length > 0) {
-              fields.map((fieldData: any) => {
-                finalOutput[fieldData.name || ''] = {
-                  ...fieldData,
-                  value: values[fieldData.name || ''],
-                  token: fieldData.balance ? endpointObject.token : ''
-                };
-              });
+              Object.assign(
+                finalOutput,
+                this._getDataFromStruct(fields, values, endpointObject, '')
+              );
             } else {
+              console.log(values);
               finalOutput[output.name || ''] = {
                 ...customFields[bundleTypeName].toJson(),
                 value: values.name,
@@ -109,6 +126,24 @@ class Executor {
     }
 
     return '';
+  }
+
+  private static _getDataFromStruct(
+    fields: any[],
+    values: any,
+    endpointObject: StructEndpoint,
+    prefix = ''
+  ): any {
+    const finalOutput: { [key: string]: any } = {};
+    fields.map((fieldData: any) => {
+      const value = values[fieldData.name || ''];
+      finalOutput[fieldData.name + prefix] = {
+        ...fieldData,
+        value: value.name ?? value,
+        token: fieldData.balance ? endpointObject.token : ''
+      };
+    });
+    return finalOutput;
   }
 }
 

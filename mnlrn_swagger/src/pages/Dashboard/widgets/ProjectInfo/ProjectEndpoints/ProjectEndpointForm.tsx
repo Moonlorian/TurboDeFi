@@ -36,7 +36,6 @@ export const ProjectEndpointForm = ({
       endpoint.name,
       ...fieldValues
     ).then((output: any) => {
-      console.log(output);
       const newResponse = Object.keys(output).map((field) => output[field]);
       setResponse(newResponse);
     });
