@@ -7,8 +7,9 @@ import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
-import { useGetTokenDetails } from '@multiversx/sdk-dapp/hooks';
 import { useGetTokenInfo } from 'hooks';
+import { Typeahead } from 'react-bootstrap-typeahead';
+
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
 
 export const ProjectEndpointForm = ({
@@ -20,6 +21,7 @@ export const ProjectEndpointForm = ({
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
+  const [tokenList, setTokenList] = useState<string[]>([]);
 
   const dashBorardStructReaderContext = useContext(
     DashBorardStructReaderContext
@@ -50,6 +52,11 @@ export const ProjectEndpointForm = ({
   );
 
   useEffect(() => {
+    const formattedTokenList = tokenInfo.getList().map((token:any) => `${token.name} (${token.ticker})`);
+    setTokenList(formattedTokenList);
+  }, [tokenInfo.getList]);
+
+  useEffect(() => {
     const initialValues = (endpoint.inputs || []).map(() => '');
     setFieldValues(initialValues);
   }, []);
@@ -59,24 +66,31 @@ export const ProjectEndpointForm = ({
       {endpoint.inputs?.map((input: DataType, index) => (
         <Form.Group key={index} className='mb-1'>
           <Form.Label>{input.label}</Form.Label>
-          <Form.Control
-            type={PrettyPrinter.getFormInputType(input.type)}
-            placeholder={input.label}
-            value={fieldValues[index] ?? ''}
-            onChange={(e: any) => {
-              updateValue(index, e.target.value);
-            }}
-          />
+          {input.type == 'TokenIdentifier' ||
+          input.type == 'EgldOrTokenIdentifier' ? (
+            <Typeahead
+              id={`token_${index}`}
+              labelKey='Token'
+              onChange={(e: any) => {
+                updateValue(index, e[0]);
+              }}
+              options={tokenList}
+              placeholder='Token'
+            />
+          ) : (
+            <Form.Control
+              type={PrettyPrinter.getFormInputType(input.type)}
+              placeholder={input.label}
+              value={fieldValues[index] ?? ''}
+              onChange={(e: any) => {
+                updateValue(index, e.target.value);
+              }}
+            />
+          )}
         </Form.Group>
       ))}
       <Button onClick={executeEndpoint}>Execute</Button>
-      <Button
-        onClick={() => {
-          setResponse([]);
-        }}
-      >
-        Clear
-      </Button>
+
       <br />
       {response.length > 0 && (
         <OutputContainer>

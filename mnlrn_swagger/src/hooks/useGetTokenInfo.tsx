@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { GlobalDataContext } from '../services';
 
 export const useGetTokenInfo = () => {
@@ -15,5 +15,12 @@ export const useGetTokenInfo = () => {
     if (tokenList[tokenId]) return tokenList[tokenId][fieldName];
     return defaultValue;
   }
-  return { get };
+
+  const getList = useCallback(
+    () => {
+      return Object.keys(tokenList).map((tokenId) => tokenList[tokenId])},
+    [tokenList]
+  );
+
+  return { get, getList, tokenList };
 };
