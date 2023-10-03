@@ -1,6 +1,13 @@
 import StructEndpoint from 'StructReader/StructParts/StructEndpoint';
 import StructModule from 'StructReader/StructParts/StructModule';
-import { Button, Card, FormatAmount, Label, OutputContainer } from 'components';
+import {
+  Button,
+  Card,
+  TokenSelector,
+  FormatAmount,
+  Label,
+  OutputContainer
+} from 'components';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
@@ -69,14 +76,11 @@ export const ProjectEndpointForm = ({
           <Form.Label>{input.label}</Form.Label>
           {input.type == 'TokenIdentifier' ||
           input.type == 'EgldOrTokenIdentifier' ? (
-            <Typeahead
-              id={`token_${index}`}
-              labelKey='Token'
-              onChange={(e: any) => {
-                updateValue(index, e[0]);
+            <TokenSelector
+              onChange={(tokenId: string) => {
+                updateValue(index, tokenId);
               }}
-              options={tokenList}
-              placeholder='Token'
+              placeHolder='Token'
             />
           ) : (
             <Form.Control
