@@ -36,6 +36,7 @@ export const ProjectEndpointForm = ({
       endpoint.name,
       ...fieldValues
     ).then((output: any) => {
+      console.log(output);
       const newResponse = Object.keys(output).map((field) => output[field]);
       setResponse(newResponse);
     });
@@ -43,16 +44,17 @@ export const ProjectEndpointForm = ({
 
   const updateValue = useCallback(
     (index: any, value: any) => {
-      const newFieldValues = fieldValues.map((data: any, subIndex: number) =>
-        index === subIndex ? value : data
-      );
+      const newFieldValues = [...fieldValues];
+      newFieldValues[index] = value;
       setFieldValues(newFieldValues);
     },
     [fieldValues]
   );
 
   useEffect(() => {
-    const formattedTokenList = tokenInfo.getList().map((token:any) => `${token.name} (${token.ticker})`);
+    const formattedTokenList = tokenInfo
+      .getList()
+      .map((token: any) => `${token.name} (${token.ticker})`);
     setTokenList(formattedTokenList);
   }, [tokenInfo.getList]);
 

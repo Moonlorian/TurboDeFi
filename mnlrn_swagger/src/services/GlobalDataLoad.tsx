@@ -17,7 +17,7 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
     const tokenList = await getApiFullGeneric('tokens', { pageSize: 1000 });
     const newTokenList = {} as { [key: string]: any };
     tokenList.map((tokenData) => {
-      newTokenList[tokenData.identifier.split('-')[0]] = tokenData;
+      newTokenList[tokenData.identifier] = tokenData;
     });
     return newTokenList;
   };

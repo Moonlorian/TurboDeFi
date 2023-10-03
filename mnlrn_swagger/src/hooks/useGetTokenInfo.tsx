@@ -10,17 +10,38 @@ export const useGetTokenInfo = () => {
     setTokenList(globalDataContext.tokenList);
   }, [globalDataContext.tokenList]);
 
-  function get(tokenId: string, fieldName: string) {
-    const defaultValue = fieldName == 'decimals' ? 18 : '';
-    if (tokenList[tokenId]) return tokenList[tokenId][fieldName];
-    return defaultValue;
+  /**
+   * Get a token property or a full token data
+   *
+   * @remarks
+   * If no property is passed, it returns all properties.
+   *
+   * @param tokenId - (string) Token id.
+   * 
+   * @param fieldName - (string, optional) If field exists this function will returns this property value. If not, return null. 
+   * If fieldname is not specified, this function returns al token properties 
+   *
+   */
+  function get(tokenId: string, fieldName?: string) {
+    if (fieldName) {
+      const defaultValue = fieldName == 'decimals' ? 18 : '';
+      if (tokenList[tokenId]) return tokenList[tokenId][fieldName];
+      return defaultValue;
+    } else {
+      return tokenList[tokenId];
+    }
   }
 
-  const getList = useCallback(
-    () => {
-      return Object.keys(tokenList).map((tokenId) => tokenList[tokenId])},
-    [tokenList]
-  );
+  /**
+   * Get token in array format
+   *
+   * @remarks
+   * Returns token list in array format instead an associative array (object)
+   *
+   */
+  const getList = useCallback(() => {
+    return Object.keys(tokenList).map((tokenId) => tokenList[tokenId]);
+  }, [tokenList]);
 
   return { get, getList, tokenList };
 };

@@ -26,7 +26,7 @@ export const Dashboard = () => {
   );
   const [selectedFileName, setSelectedFileName] = useState('');
 
-  const fileList: string[] = ['proteo'];
+  const fileList: string[] = ['proteo', 'seedCaptain'];
 
   const selectNewFile = useCallback((event: any) => {
     const fileName = fileList[event.target.value];
