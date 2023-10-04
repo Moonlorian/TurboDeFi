@@ -19,7 +19,7 @@ export const ProjectEndpoint = ({
 
   return (
     <Accordion.Item eventKey={endpoint.name}>
-      <Accordion.Header>{endpoint.name}</Accordion.Header>
+      <Accordion.Header>{endpoint.label || endpoint.name}</Accordion.Header>
       <Accordion.Body>
         {endpoint.description}
         <ProjectEndpointForm
