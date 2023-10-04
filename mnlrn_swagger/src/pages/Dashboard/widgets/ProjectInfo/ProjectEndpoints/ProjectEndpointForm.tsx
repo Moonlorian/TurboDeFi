@@ -95,30 +95,58 @@ export const ProjectEndpointForm = ({
         </Form.Group>
       ))}
       <Button onClick={executeEndpoint}>Execute</Button>
-
       <br />
       {response.length > 0 && (
         <OutputContainer>
-          {response.map((output: DataType, index) => (
-            <p
-              className={`${output.balance ? 'font-weight-bold' : ''}`}
-              key={index}
-            >
-              <Label>{output.label ?? output.name}:</Label>{' '}
-              {output.balance ? (
-                <FormatAmount
-                  value={output.value.toFixed()}
-                  decimals={tokenInfo.get(output.token || '', 'decimals')}
-                  token={output.token || ''}
-                  digits={4}
-                />
-              ) : (
-                <>{output.value.toString()}</>
-              )}
-            </p>
-          ))}
+          <ShowField output={response.slice(0, 1)} endpoint={endpoint} />
         </OutputContainer>
       )}
     </Form>
   );
+};
+
+const ShowField = ({
+  output,
+  endpoint
+}: {
+  output: any;
+  endpoint: StructEndpoint;
+}) => {
+  const tokenInfo = useGetTokenInfo();
+
+  if (Array.isArray(output)) {
+    //const splittedArray = output.slice(0, 3);
+    //return splittedArray.map((element, index) => {
+      return output.map((element, index) => {
+      return <ShowField output={element} endpoint={endpoint} key={index} />;
+    });
+  } else if (output?.value == undefined) {
+    const fieldList = Object.values(output);
+    return (
+      <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
+        <Label>{output.label || output.name}</Label>
+        <OutputContainer>
+          {fieldList.map((newOutput, index) => (
+            <ShowField key={index} output={newOutput} endpoint={endpoint} />
+          ))}
+        </OutputContainer>
+      </div>
+    );
+  } else {
+    return (
+      <p className={`${output.balance ? 'font-weight-bold' : ''}`}>
+        <Label>{output.label ?? output.name}:</Label>{' '}
+        {output.balance ? (
+          <FormatAmount
+            value={output.value.toFixed()}
+            decimals={tokenInfo.get(output.token || '', 'decimals')}
+            token={output.token || ''}
+            digits={4}
+          />
+        ) : (
+          <>{output.value.toString()}</>
+        )}
+      </p>
+    );
+  }
 };

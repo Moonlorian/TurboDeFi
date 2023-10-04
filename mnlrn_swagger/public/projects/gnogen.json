@@ -57,6 +57,8 @@
           "inputs": [],
           "outputs": [
             {
+              "name": "status",
+              "label": "Status",
               "type": "BattleStatus"
             }
           ]
@@ -104,7 +106,7 @@
           "outputs": [
             {
               "name": "rewards",
-              "label":"Rewards",
+              "label": "Rewards",
               "type": "BigUint",
               "balance": true
             }
@@ -623,6 +625,8 @@
           "inputs": [],
           "outputs": [
             {
+              "name": "timestamp",
+              "label": "Timestamp",
               "type": "u64"
             }
           ]
@@ -729,7 +733,7 @@
           "name": "gng_claimed",
           "label": "Clamied",
           "type": "BigUint",
-          "balance":true
+          "balance": true
         }
       ]
     }

@@ -74,44 +74,51 @@ class Executor {
             throw new Error('Wrong number of endpoint outputs');
           const output = (endpointObject.outputs || [])[index];
           const bundleTypeName = bundle.getType().getName();
-          if (bundleTypeName === 'List') {
+          if (bundleTypeName === 'List' || bundleTypeName === 'Variadic') {
             const fullName = bundle
               .getType()
               .getFullyQualifiedName()
               .split(':')
               .slice(-1)[0]
               .replace('>', '');
-            const fields = customFields[fullName].fields || [];
+            /*const fields = customFieldsIndex.includes(fullName)
+              ? customFields[fullName].fields || []
+              : [{ name: "_" + fullName, type: fullName }];
+              */
             const elementList = bundle.valueOf();
-            elementList.map((values: any, index: number) => {
-              Object.assign(
-                finalOutput,
-                this._getDataFromStruct(
-                  fields,
-                  values,
-                  endpointObject,
-                  '_' + index.toString()
-                )
-              );
-            });
+
+            finalOutput[fullName] = elementList.map(
+              (values: any, index: number) => {
+                if (customFieldsIndex.includes(fullName)) {
+                  return this._getDataFromStruct(
+                    customFields[fullName].fields || [],
+                    values,
+                    endpointObject
+                  );
+                } else {
+                  return {
+                    name: fullName,
+                    value: values,
+                    token: output.balance ? endpointObject.token : ''
+                  };
+                }
+              }
+            );
           } else if (customFieldsIndex.includes(bundleTypeName)) {
             const fields = customFields[bundleTypeName].fields || [];
             const values = bundle?.valueOf();
-            if (fields.length > 0) {
-              Object.assign(
-                finalOutput,
-                this._getDataFromStruct(fields, values, endpointObject, '')
-              );
-            } else {
-              finalOutput[output.name || ''] = {
-                ...customFields[bundleTypeName].toJson(),
-                value: values.name,
-                token: output.balance ? endpointObject.token : ''
-              };
-            }
+            finalOutput[output.name || output.label || ''] = {
+              ...output,
+              ...customFields[bundleTypeName].toJson(),
+              value:
+                fields.length > 0
+                  ? this._getDataFromStruct(fields, values, endpointObject)
+                  : values.name,
+              token: output.balance ? endpointObject.token : ''
+            };
           } else {
             //Is a single field
-            finalOutput[output.name || ''] = {
+            finalOutput[output.name || output.label || ''] = {
               ...output,
               value: bundle?.valueOf(),
               token: output.balance ? endpointObject.token : ''
@@ -130,13 +137,12 @@ class Executor {
   private static _getDataFromStruct(
     fields: any[],
     values: any,
-    endpointObject: StructEndpoint,
-    prefix = ''
+    endpointObject: StructEndpoint
   ): any {
     const finalOutput: { [key: string]: any } = {};
     fields.map((fieldData: any) => {
       const value = values[fieldData.name || ''];
-      finalOutput[fieldData.name + prefix] = {
+      finalOutput[fieldData.name] = {
         ...fieldData,
         value: value.name ?? value,
         token: fieldData.balance ? endpointObject.token : ''
