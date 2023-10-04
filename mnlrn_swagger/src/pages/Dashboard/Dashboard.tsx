@@ -26,11 +26,11 @@ export const Dashboard = () => {
   );
   const [selectedFileName, setSelectedFileName] = useState('');
 
-  const fileList: string[] = ['proteo', 'seedCaptain'];
+  const fileList: string[] = ['proteo', 'seedCaptain', 'gnogen'];
 
   const selectNewFile = useCallback((event: any) => {
     const fileName = fileList[event.target.value];
-    new StructReader(fileName).load().then((newStructReader) => {
+    new StructReader('projects/' + fileName).load().then((newStructReader) => {
       setStructReader(newStructReader);
     });
     setSelectedFileName(fileName);
@@ -44,16 +44,16 @@ export const Dashboard = () => {
         <div className='flex flex-col gap-6 max-w-7xl w-full'>
           <Card
             className='flex-2'
-            key={'fileSelector'}
-            title={'Select File'}
-            description={'Select file to show all its modules'}
+            key={'projectSelector'}
+            title={'Select Project'}
+            description={'Select project to show all its modules'}
             reference={''}
           >
             <Form.Select
-              aria-label='Select file to show'
+              aria-label='Select project to show'
               onChange={selectNewFile}
             >
-              <option value=''>Select file</option>
+              <option value=''>Select project</option>
               {fileList.map((fileName: string, index) => (
                 <option key={index} value={index}>
                   {fileName}
