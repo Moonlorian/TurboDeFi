@@ -15,7 +15,6 @@ import Executor from 'StructReader/Executor';
 import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
 import { useGetTokenInfo } from 'hooks';
-import { Typeahead } from 'react-bootstrap-typeahead';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
