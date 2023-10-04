@@ -1,0 +1,737 @@
+{
+  "project": {
+    "name": "gnogen",
+    "description": "Gnogen",
+    "label": "Gnogen",
+    "token": "XGNG-04bd9e",
+    "address": ""
+  },
+  "modules": [
+    {
+      "name": "staking",
+      "description": "Staking",
+      "label": "Staking",
+      "address": "erd1qqqqqqqqqqqqqpgqunfdvkfvux3025m9kzsx6e7n5peg07lmm8qsj6sshf",
+      "endpoints": [
+        {
+          "name": "stake",
+          "mutability": "mutable",
+          "payableInTokens": ["*"],
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "battle",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "OperationCompletionStatus"
+            },
+            {
+              "type": "u64"
+            }
+          ]
+        },
+        {
+          "name": "claimRewards",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "withdraw",
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "tokens",
+              "type": "variadic<multi<TokenIdentifier,u64>>",
+              "multi_arg": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "getBattleStatus",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "BattleStatus"
+            }
+          ]
+        },
+        {
+          "docs": ["Returns if whether the current day is Sunday"],
+          "name": "isTodaySpecial",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "name": "getAllStakedForAddress",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "variadic<multi<TokenIdentifier,u64>>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "docs": ["Does not include the rewards of the current battle"],
+          "name": "getPendingRewardsForAddress",
+          "label": "Get pending rewards for a address",
+          "mutability": "readonly",
+          "readonly": true,
+          "inputs": [
+            {
+              "name": "address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "rewards",
+              "label":"Rewards",
+              "type": "BigUint",
+              "balance": true
+            }
+          ]
+        },
+        {
+          "label": "Get Address stats",
+          "name": "getStatsForAddress",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "UserStats"
+            }
+          ]
+        },
+        {
+          "name": "getGlobalStats",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "from",
+              "type": "u32"
+            },
+            {
+              "name": "size",
+              "type": "u32"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "variadic<multi<Address,BigUint,u64>>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "getGlobalStatsByAddress",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "Address"
+            },
+            {
+              "type": "u64"
+            },
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getAmountOfUsers",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "u32"
+            }
+          ]
+        },
+        {
+          "name": "getCurrentBattle",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "u64"
+            }
+          ]
+        },
+        {
+          "name": "getStakedForAddress",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            },
+            {
+              "name": "token_id",
+              "type": "TokenIdentifier"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "variadic<u64>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "getBattleStack",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "variadic<Token>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "getRemainingNftsInBattle",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "battle",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "u32"
+            }
+          ]
+        },
+        {
+          "name": "hasBattleStarted",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "battle",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "name": "getTotalNftEngaged",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "u64"
+            }
+          ]
+        },
+        {
+          "name": "getTotalBattleWinnerPower",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "battle",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "u64"
+            }
+          ]
+        },
+        {
+          "name": "getRawPendingRewardsForAddress",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "PendingRewards"
+            }
+          ]
+        },
+        {
+          "name": "getAddresses",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "variadic<Address>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "getTotalRewardsForStakers",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "battle_id",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getTotalRewardsForOperators",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "battle_id",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getTotalNumberClashesCurrentBattle",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "u32"
+            }
+          ]
+        },
+        {
+          "name": "setBattleToken",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "tokens",
+              "type": "multi<TokenIdentifier,TokenIdentifier,TokenIdentifier,TokenIdentifier,TokenIdentifier>",
+              "multi_arg": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "addExtraBattleToken",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "token",
+              "type": "TokenIdentifier"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "removeExtraBattleToken",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "token",
+              "type": "TokenIdentifier"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setAttributes",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "args",
+              "type": "variadic<multi<TokenIdentifier,u64,u16,u16,u16>>",
+              "multi_arg": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "pause",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "resume",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "depositGng",
+          "mutability": "mutable",
+          "payableInTokens": ["*"],
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "addAdmin",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "admin",
+              "type": "Address"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "removeAdmin",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "admin",
+              "type": "Address"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setBattleRewardAmount",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "BigUint"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setBattleOperatorRewardAmount",
+          "onlyOwner": true,
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "BigUint"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "getBattleRewardAmountWithHalving",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getTokenAttributes",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "token_id",
+              "type": "TokenIdentifier"
+            },
+            {
+              "name": "nonce",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "Attributes"
+            }
+          ]
+        },
+        {
+          "name": "getBattleTokens",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "variadic<TokenIdentifier>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "getState",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "State"
+            }
+          ]
+        },
+        {
+          "name": "getNftOwner",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "token_id",
+              "type": "TokenIdentifier"
+            },
+            {
+              "name": "nonce",
+              "type": "u64"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "Address"
+            }
+          ]
+        },
+        {
+          "name": "getGngTokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getEmidasTokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getSupremeTokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getGnogonTokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getValidatorV2TokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getDogaTokenId",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "TokenIdentifier"
+            }
+          ]
+        },
+        {
+          "name": "getRewardCapacity",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getBattleRewardAmount",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getBattleOperatorRewardAmount",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "BigUint"
+            }
+          ]
+        },
+        {
+          "name": "getFirstBattleTimestamp",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "u64"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "types": {
+    "Attributes": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "power",
+          "type": "u16"
+        },
+        {
+          "name": "heart",
+          "type": "u16"
+        },
+        {
+          "name": "ram",
+          "type": "u16"
+        }
+      ]
+    },
+    "BattleStatus": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "Preparation",
+          "discriminant": 0
+        },
+        {
+          "name": "Battle",
+          "discriminant": 1
+        }
+      ]
+    },
+    "OperationCompletionStatus": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "Completed",
+          "discriminant": 0
+        },
+        {
+          "name": "InterruptedBeforeOutOfGas",
+          "discriminant": 1
+        }
+      ]
+    },
+    "PendingRewards": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "calculated_rewards",
+          "type": "BigUint"
+        },
+        {
+          "name": "awaiting_battle_id",
+          "type": "u64"
+        },
+        {
+          "name": "awaiting_power",
+          "type": "u64"
+        }
+      ]
+    },
+    "State": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "Inactive",
+          "discriminant": 0
+        },
+        {
+          "name": "Active",
+          "discriminant": 1
+        }
+      ]
+    },
+    "Token": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "token_id",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ]
+    },
+    "UserStats": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "power",
+          "label": "Power",
+          "type": "u64"
+        },
+        {
+          "name": "gng_claimed",
+          "label": "Clamied",
+          "type": "BigUint",
+          "balance":true
+        }
+      ]
+    }
+  }
+}
