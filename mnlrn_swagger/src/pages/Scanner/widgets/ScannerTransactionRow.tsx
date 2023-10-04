@@ -1,24 +1,19 @@
-import React from 'react';
 import classNames from 'classnames';
-
-//import globalStyles from 'assets/sass/main.scss';
-
-//import styles from './transactionsTable.styles.scss';
 import {
   TimeAgo,
   TransactionMethod,
   TransactionReceiver,
-  TransactionValue
+  TransactionValue,
 } from '@multiversx/sdk-dapp/UI';
 import {
   WithClassnameType,
   WithTransactionType
 } from '@multiversx/sdk-dapp/UI/types';
-import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
+import { ScannerTransactionHash } from './ScannerTransactionHash';
 
 export interface TransactionRowPropsType
   extends WithTransactionType,
-    WithClassnameType {
+  WithClassnameType {
   showDirectionCol?: boolean;
   showLockedAccounts?: boolean;
 }
@@ -32,11 +27,15 @@ export const ScannerTransactionRow = ({
   return (
     <tr className={classNames(className, { new: transaction.isNew })}>
       <td>
-        <TimeAgo value={transaction.timestamp} short tooltip />
+        <ScannerTransactionHash transaction={transaction} />
       </td>
 
       <td>
         <TransactionReceiver {...{ transaction, showLockedAccounts }} />
+      </td>
+
+      <td>
+        <TimeAgo value={transaction.timestamp} short tooltip />
       </td>
 
       <td className=''>
