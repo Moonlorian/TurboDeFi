@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 
 import './TokenSelector.css';
 import { useGetTokenInfo } from 'hooks';
@@ -26,9 +26,14 @@ export const TokenSelector = ({
 
   const tokenInfo = useGetTokenInfo();
 
+  const wrapperRef = useRef(null);
+
+  /*
+  //TODO Shall we clean search value?
   useEffect(() => {
     setSearchValue('');
   }, [showMenu]);
+  */
 
   const handleInputClick = (e: any) => {
     setShowMenu(!showMenu);
@@ -38,7 +43,15 @@ export const TokenSelector = ({
     if (!selectedValue) {
       return placeHolder;
     }
-    return selectedValue;
+    const token = tokenInfo.get(selectedValue);
+    return (
+      <>
+        {token.assets && token.assets['svgUrl'] && (
+          <img src={token.assets['svgUrl']} />
+        )}{' '}
+        {selectedValue}
+      </>
+    );
   };
 
   const onItemClick = (option: any) => {
@@ -48,13 +61,6 @@ export const TokenSelector = ({
     handleInputClick(option);
   };
 
-  const isSelected = (option: any) => {
-    if (!selectedValue) {
-      return false;
-    }
-    return selectedValue === option.value;
-  };
-
   const onSearch = (e: any) => {
     setSearchValue(e.target.value);
   };
@@ -62,54 +68,74 @@ export const TokenSelector = ({
   const getOptions = useMemo(() => {
     const tokenList = tokenInfo.getList();
 
-    if (!searchValue) {
-      return tokenList;
-    }
-
     return tokenList.filter(
-      (option: any) =>
-        option.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0 ||
-        option.ticker.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
+      (token: any) =>
+        searchValue == '' ||
+        token.name
+          .concat(' ', token.identifier)
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
     );
   }, [tokenInfo.getList, searchValue]);
 
+  useEffect(() => {
+    if (!showMenu) return;
+    function handleClickOutside(event: any) {
+      if (
+        showMenu &&
+        !['token-selector-item', 'token-selector-input', 'token-selector-selected-value'].some((v) =>
+          event.target.className.includes(v)
+        )
+      ) {
+        handleInputClick(event);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [wrapperRef, showMenu]);
+
   return (
-    <div className='token-selector-container'>
+    <div className='token-selector-container' ref={wrapperRef}>
       <div onClick={handleInputClick} className='token-selector-input'>
-        <div className='token-selector-selected-value'>{getDisplay()}</div>
-        <div className='token-selector-tools'>
-          <div className='token-selector-tool'>
-            <Icon />
-          </div>
+        <div className='token-selector-selected-value d-flex align-items-center w-100'>
+          {getDisplay()}
+        </div>
+        <div className='token-selector-tool'>
+          <Icon />
         </div>
       </div>
-      {showMenu && (
+
+      <div
+        className={`token-selector-floating-layer ${!showMenu ? 'd-none' : ''}`}
+      >
+        {isSearchable && showMenu && (
+          <div className='search-box'>
+            <input className="token-selector-input" autoFocus={true} onChange={onSearch} value={searchValue} />
+          </div>
+        )}
+
         <div className='token-selector-menu'>
-          {isSearchable && (
-            <div className='search-box'>
-              <input autoFocus={true} onChange={onSearch} value={searchValue} />
-            </div>
-          )}
           {getOptions.map((token: any, index: number) => (
             <div
-              onClick={() => onItemClick(token.ticker)}
+              onClick={() => onItemClick(token.identifier)}
               key={index}
               className={`token-selector-item ${
-                isSelected(token.ticker) && 'selected'
+                selectedValue === token.identifier && 'selected'
               } d-flex align-items-center`}
             >
-              <img
-                src={
-                  token.assets && token.assets['svgUrl']
-                    ? token.assets['svgUrl']
-                    : ''
-                }
-              />
-              {`${token.name} (${token.ticker})`}
+              {token.assets && token.assets['svgUrl'] && (
+                <img src={token.assets['svgUrl']} />
+              )}
+              {`${token.name} (${token.identifier})`}
             </div>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };

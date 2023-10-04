@@ -3,14 +3,19 @@
   border: 1px solid #ccc;
   position: relative;
   border-radius: 5px;
+  cursor: pointer;
 }
-
+.token-selector-floating-layer {
+  position: absolute;
+  width: 100%;
+}
 .token-selector-input {
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  min-height: 38px;
 }
 
 .token-selector-menu {
@@ -29,7 +34,7 @@
   padding: 5px;
   cursor: pointer;
 }
-.token-selector-item img{
+.token-selector-selected-value img, .token-selector-item img {
   max-width: 28px;
   height: auto;
   margin-right: 1rem;

@@ -17,7 +17,11 @@ import PrettyPrinter from 'StructReader/PrettyPrinter';
 import { useGetTokenInfo } from 'hooks';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
+//Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
+
+//wallet in seed captain
+//erd1lwtuygl44xqlydzhmpcczsu2g2r53ptg52d02htn52vryd2zs8nquv0ahq
 
 export const ProjectEndpointForm = ({
   module,
@@ -28,7 +32,6 @@ export const ProjectEndpointForm = ({
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
-  const [tokenList, setTokenList] = useState<string[]>([]);
 
   const dashBorardStructReaderContext = useContext(
     DashBorardStructReaderContext
@@ -56,13 +59,6 @@ export const ProjectEndpointForm = ({
     },
     [fieldValues]
   );
-
-  useEffect(() => {
-    const formattedTokenList = tokenInfo
-      .getList()
-      .map((token: any) => `${token.name} (${token.ticker})`);
-    setTokenList(formattedTokenList);
-  }, [tokenInfo.getList]);
 
   useEffect(() => {
     const initialValues = (endpoint.inputs || []).map(() => '');
