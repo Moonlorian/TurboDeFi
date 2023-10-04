@@ -14,11 +14,13 @@ const Icon = () => {
 export const TokenSelector = ({
   onChange,
   placeHolder = '',
-  isSearchable = true
+  isSearchable = true,
+  defaultValue = ''
 }: {
   onChange: any;
   placeHolder?: string;
   isSearchable?: boolean;
+  defaultValue?: string;
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
@@ -27,13 +29,6 @@ export const TokenSelector = ({
   const tokenInfo = useGetTokenInfo();
 
   const wrapperRef = useRef(null);
-
-  /*
-  //TODO Shall we clean search value?
-  useEffect(() => {
-    setSearchValue('');
-  }, [showMenu]);
-  */
 
   const handleInputClick = (e: any) => {
     setShowMenu(!showMenu);
@@ -46,7 +41,7 @@ export const TokenSelector = ({
     const token = tokenInfo.get(selectedValue);
     return (
       <>
-        {token.assets && token.assets['svgUrl'] && (
+        {token && token.assets && token.assets['svgUrl'] && (
           <img src={token.assets['svgUrl']} />
         )}{' '}
         {selectedValue}
@@ -83,9 +78,11 @@ export const TokenSelector = ({
     function handleClickOutside(event: any) {
       if (
         showMenu &&
-        !['token-selector-item', 'token-selector-input', 'token-selector-selected-value'].some((v) =>
-          event.target.className.includes(v)
-        )
+        ![
+          'token-selector-item',
+          'token-selector-input',
+          'token-selector-selected-value'
+        ].some((v) => event.target.className.includes(v))
       ) {
         handleInputClick(event);
       }
@@ -98,6 +95,10 @@ export const TokenSelector = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [wrapperRef, showMenu]);
+
+  useEffect(() => {
+    setSelectedValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <div className='token-selector-container' ref={wrapperRef}>
@@ -115,7 +116,12 @@ export const TokenSelector = ({
       >
         {isSearchable && showMenu && (
           <div className='search-box'>
-            <input className="token-selector-input" autoFocus={true} onChange={onSearch} value={searchValue} />
+            <input
+              className='token-selector-input'
+              autoFocus={true}
+              onChange={onSearch}
+              value={searchValue}
+            />
           </div>
         )}
 

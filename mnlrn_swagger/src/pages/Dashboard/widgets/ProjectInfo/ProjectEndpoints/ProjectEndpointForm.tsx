@@ -22,6 +22,9 @@ import { useGetTokenInfo } from 'hooks';
 //wallet in seed captain
 //erd1lwtuygl44xqlydzhmpcczsu2g2r53ptg52d02htn52vryd2zs8nquv0ahq
 
+//wallet for test gnogen
+//erd1jl3sunvv58tplcke6y0qg0zrr5tnwpg54ql9ngs8jad89tm2u8hqehey5y
+
 export const ProjectEndpointForm = ({
   module,
   endpoint
@@ -39,6 +42,7 @@ export const ProjectEndpointForm = ({
   const tokenInfo = useGetTokenInfo();
 
   const executeEndpoint = () => {
+    setResponse([]);
     Executor.exec(
       dashBorardStructReaderContext.structReader,
       module.name,
@@ -68,7 +72,7 @@ export const ProjectEndpointForm = ({
     <Form className='mb-3'>
       {endpoint.inputs?.map((input: DataType, index) => (
         <Form.Group key={index} className='mb-1'>
-          <Form.Label>{input.label}</Form.Label>
+          <Form.Label>{input.label || input.name}</Form.Label>
           {input.type == 'TokenIdentifier' ||
           input.type == 'EgldOrTokenIdentifier' ? (
             <TokenSelector
@@ -76,6 +80,7 @@ export const ProjectEndpointForm = ({
                 updateValue(index, tokenId);
               }}
               placeHolder='Token'
+              defaultValue={input.token || endpoint.token}
             />
           ) : (
             <Form.Control
@@ -102,7 +107,7 @@ export const ProjectEndpointForm = ({
               <Label>{output.label ?? output.name}:</Label>{' '}
               {output.balance ? (
                 <FormatAmount
-                  value={output.value}
+                  value={output.value.toFixed()}
                   decimals={tokenInfo.get(output.token || '', 'decimals')}
                   token={output.token || ''}
                   digits={4}
