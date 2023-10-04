@@ -11,7 +11,7 @@
       "name": "staking",
       "description": "Staking",
       "label": "Staking",
-      "address": "erd1qqqqqqqqqqqqqpgqunfdvkfvux3025m9kzsx6e7n5peg07lmm8qsj6sshf",
+      "address": "erd1qqqqqqqqqqqqqpgqmldpgqt7e67skh7e0dxfeeezwyf98jw5m8qsjuxcuk",
       "endpoints": [
         {
           "name": "stake",
