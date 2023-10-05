@@ -4,14 +4,18 @@ import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
 import { Button, Dropdown, Form } from 'react-bootstrap';
 import ScannerService from '../../services/ScannerService';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+
 
 const COLUMNS = ['TxHash', 'To', 'Age', 'Method', 'Value'];
 
 export const Scanner = () => {
+    const { address } = useGetAccountInfo();
+
     const [transactionsList, setTransactionsList] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [filterPeriod, setFilterPeriod] = useState(0);
-    const [address, setAddress] = useState("");
+    const [filterAddress, setFilterAddress] = useState(address ? address : '');
 
     const scannerService = new ScannerService();
 
@@ -38,11 +42,14 @@ export const Scanner = () => {
     }
 
     const getTransactionsList = async () => {
-        setIsLoading(true);
+        if (filterAddress != '') {
+            console.log("_" + filterAddress + "_");
+            setIsLoading(true);
 
-        const transactions: any[] = await scannerService.getTransactionsList({ address: address, filterDays: calculateFilterDays() });
+            const transactions: any[] = await scannerService.getTransactionsList({ address: filterAddress, filterDays: calculateFilterDays() });
 
-        setTransactionsList(transactions);
+            setTransactionsList(transactions);
+        }
         setIsLoading(false);
     }
 
@@ -52,10 +59,11 @@ export const Scanner = () => {
     }
 
     const updateAddress = (newAddress: string) => {
-        setAddress(newAddress);
+        setFilterAddress(newAddress);
     }
 
     const scanAddress = () => {
+        setTransactionsList([]);
         getTransactionsList();
     }
 
@@ -69,8 +77,8 @@ export const Scanner = () => {
                 <Form className='mb-2 d-flex w-75'>
                     <Form.Group className='mr-3 w-100'>
                         <Form.Control
-                            placeholder='Address'
-                            value={`${address}`}
+                            placeholder='Address to scan'
+                            value={`${filterAddress}`}
                             onChange={(e: any) => {
                                 updateAddress(e.target.value);
                             }}
