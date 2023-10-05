@@ -28,8 +28,19 @@ interface Transaction {
 
 class ScannerService {
 
-    async getTransactionsList({ address, filterDays }: { address: string, filterDays: number }): Promise<Array<any>> {
+    async getTransactionsList(
+        { address, filterDays, receiver }: { address: string, filterDays: number, receiver?: string }
+    ): Promise<Array<any>> {
         const timestamp = this.calculateFilterTimestamp(filterDays);
+
+        if (!receiver) {
+            return await this.getTransactions(address, timestamp);
+        }
+
+        return this.getReceiverTransactions(address, receiver, timestamp)
+    }
+
+    private async getTransactions(address: string, timestamp: number): Promise<Array<any>> {
         const list: Transaction[] = await getApiFullGeneric(
             `transactions?sender=${address}&fields=${transactionFields.toString()}${timestamp > 0 ? `&after=${timestamp}` : ''}`,
             { pageSize: 10000 }
@@ -38,10 +49,10 @@ class ScannerService {
         const receiversList: string[] = [];
         const filteredList = list.filter((transaction) => {
             const receiver = transaction.receiver;
-            if (!receiver.includes('qqqqq') && receiver != address) {
+            if (!receiver.includes('qqqqq') || receiver == address) {
                 return false;
             }
-            if (!receiversList.includes(receiver) || receiver == address) {
+            if (!receiversList.includes(receiver)) {
                 receiversList.push(receiver);
                 return true;
             }
@@ -49,6 +60,13 @@ class ScannerService {
         });
 
         return filteredList;
+    }
+
+    private async getReceiverTransactions(address: string, receiver: string, timestamp: number): Promise<Array<any>> {
+        return await getApiFullGeneric(
+            `transactions?receiver=${receiver}&sender=${address}&fields=${transactionFields.toString()}${timestamp > 0 ? `&after=${timestamp}` : ''}`,
+            { pageSize: 10000 }
+        );
     }
 
     private calculateFilterTimestamp(days: number): number {
