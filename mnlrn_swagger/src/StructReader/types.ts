@@ -58,6 +58,10 @@ type CustomType = BaseStructType & {
    * For enum
    */
   variants?: VariantType[];
+  /**
+   * For bools
+   */
+  isNFT?: boolean;
 };
 
 type DataType = {

@@ -1,5 +1,6 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { API_URL } from '../config/index';
+import {Nonce} from '@multiversx/sdk-network-providers/out/primitives';
 
 type apiQueryOptions = {
   maxRetries?: number;
@@ -13,6 +14,17 @@ type apiQueryMandatoryOptions = {
   milisecondsToWaitBetweenRetries: number;
   pageSize: number;
   milisecondsBetweenCalls: number;
+};
+
+export const getNFT = async (
+  collection: string,
+  nonce: number
+) => {
+  const provider = new ApiNetworkProvider(API_URL);
+  
+  //const NFT = await provider.getNonFungibleToken(collection, nonce );
+  const NFT = await provider.doGetGeneric('nfts/' + collection + '-' + new Nonce(nonce).hex());
+  return (NFT);
 };
 
 export const getApiFullGeneric = async (

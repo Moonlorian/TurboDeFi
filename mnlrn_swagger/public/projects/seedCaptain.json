@@ -36,7 +36,10 @@
   ],
   "types": {
     "StakedNft": {
+      "name":"staked_nfts",
+      "label": "Staked NFTs",
       "type": "struct",
+      "isNFT": true,
       "fields": [
         {
           "name": "staked_nft_id",
@@ -44,11 +47,13 @@
         },
         {
           "name": "collection",
-          "type": "TokenIdentifier"
+          "type": "TokenIdentifier",
+          "isCollection": true
         },
         {
           "name": "nonce",
-          "type": "u64"
+          "type": "u64",
+          "isNonce": true
         },
         {
           "name": "withdraw_in_epoch",

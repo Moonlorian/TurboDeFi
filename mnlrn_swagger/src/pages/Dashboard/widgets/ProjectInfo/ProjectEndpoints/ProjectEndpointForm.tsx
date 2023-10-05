@@ -8,13 +8,14 @@ import {
   Label,
   OutputContainer
 } from 'components';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import { DashBorardStructReaderContext } from 'pages/Dashboard/Dashboard';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
 import { useGetTokenInfo } from 'hooks';
+import { getNFT } from 'services';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
@@ -38,8 +39,6 @@ export const ProjectEndpointForm = ({
   const dashBorardStructReaderContext = useContext(
     DashBorardStructReaderContext
   );
-
-  const tokenInfo = useGetTokenInfo();
 
   const executeEndpoint = () => {
     setResponse([]);
@@ -115,7 +114,7 @@ const ShowData = ({
   if (Array.isArray(output)) {
     //console.log('Is array');
     return (
-      <ShowContainer label={label}>
+      <ShowContainer label={label} output={output}>
         {label != '' && <Label>{label}: </Label>}
         {output.map((element, index) => (
           <ShowData output={element} endpoint={endpoint} key={index} />
@@ -128,7 +127,7 @@ const ShowData = ({
   } else {
     //console.log('Is an object');
     return (
-      <ShowContainer label={label}>
+      <ShowContainer label={label} output={output}>
         {label != '' && <Label>{label}: </Label>}
         <ShowData output={output.value} endpoint={endpoint} />
       </ShowContainer>
@@ -138,16 +137,25 @@ const ShowData = ({
 
 const ShowContainer = ({
   label,
+  output,
   children
 }: {
   label: string;
+  output: any;
   children: any;
 }) => {
-  if (label != '') {
-    return <OutputContainer>{children}</OutputContainer>;
-  } else {
-    return <>{children}</>;
-  }
+  return (
+    <>
+      {label != '' ? (
+        <OutputContainer>
+          {output.isNFT && <ShowNFT NFTOutputData={output} />}
+          {children}
+        </OutputContainer>
+      ) : (
+        <>{children}</>
+      )}
+    </>
+  );
 };
 
 const ShowField = ({
@@ -179,7 +187,7 @@ const FormatField = ({ output, field }: { output: any; field: any }) => {
   return (
     <div className={`${field.balance ? 'font-weight-bold' : ''}`}>
       {(field?.label || field?.name) && (
-        <Label>{field?.label || field?.name}:{' '}</Label>
+        <Label>{field?.label || field?.name}: </Label>
       )}
       {field.balance ? (
         <FormatAmount
@@ -190,6 +198,53 @@ const FormatField = ({ output, field }: { output: any; field: any }) => {
         />
       ) : (
         <>{(field.value ?? field).toString()}</>
+      )}
+    </div>
+  );
+};
+
+const ShowNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
+  const [NFTData, setNFTData] = useState<any>({});
+  const collectionKey = useMemo(
+    () =>
+      Object.keys(NFTOutputData.value).find(
+        (fieldName) => NFTOutputData.value[fieldName]?.isCollection ?? false
+      ) || '',
+    [NFTOutputData]
+  );
+  const collection: string = useMemo(
+    () => NFTOutputData.value[collectionKey]?.value || '',
+    [NFTOutputData]
+  );
+  const nonceKey = useMemo(
+    () =>
+      Object.keys(NFTOutputData.value).find(
+        (fieldName) => NFTOutputData.value[fieldName]?.isNonce ?? false
+      ) || '',
+    [NFTOutputData]
+  );
+  const nonce: number = useMemo(
+    () => NFTOutputData.value[nonceKey]?.value || '',
+    [NFTOutputData]
+  );
+
+  const getNFTData = async () => {
+    const NFTData = await getNFT(collection, nonce);
+    console.log(NFTData);
+    setNFTData(NFTData)
+    return NFTData;
+  };
+
+  useEffect(() => {
+    getNFTData();
+  }, []);
+
+  return (
+    <div>
+      <Label>Name:</Label>
+      {' '}{NFTData?.name}
+      {NFTData?.media.length && (
+        <img src={NFTData.media[0].thumbnailUrl ?? NFTData.media[0].url} alt={NFTData?.metadata?.description} />
       )}
     </div>
   );
