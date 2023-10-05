@@ -230,7 +230,7 @@ const ShowNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
 
   const getNFTData = async () => {
     const NFTData = await getNFT(collection, nonce);
-    setNFTData(NFTData)
+    setNFTData(NFTData);
     return NFTData;
   };
 
@@ -240,10 +240,12 @@ const ShowNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
 
   return (
     <div>
-      <Label>Name:</Label>
-      {' '}{NFTData?.name}
-      {NFTData?.media.length && (
-        <img src={NFTData.media[0].thumbnailUrl ?? NFTData.media[0].url} alt={NFTData?.metadata?.description} />
+      <Label>Name:</Label> {NFTData?.name}
+      {NFTData?.media?.length && (
+        <img
+          src={NFTData.media[0].thumbnailUrl ?? NFTData.media[0].url}
+          alt={NFTData?.metadata?.description}
+        />
       )}
     </div>
   );
