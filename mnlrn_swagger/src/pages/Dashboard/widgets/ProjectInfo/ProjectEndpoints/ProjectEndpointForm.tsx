@@ -165,16 +165,16 @@ const ShowField = ({
     return (
       <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
         {fieldList.map((newOutput: any, index) => (
-          <FormatField field={newOutput} key={index} />
+          <FormatField output={output} field={newOutput} key={index} />
         ))}
       </div>
     );
   } else {
-    return <FormatField field={output} />;
+    return <FormatField output={output} field={output} />;
   }
 };
 
-const FormatField = ({ field }: { field: any }) => {
+const FormatField = ({ output, field }: { output: any; field: any }) => {
   const tokenInfo = useGetTokenInfo();
   return (
     <div className={`${field.balance ? 'font-weight-bold' : ''}`}>
