@@ -165,37 +165,23 @@ const ShowField = ({
     return (
       <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
         {fieldList.map((newOutput: any, index) => (
-          <div key={index}>
-            {(newOutput?.label || newOutput?.name) && (
-              <Label>{newOutput?.label || newOutput?.name}: </Label>
-            )}
-            {output.balance ? (
-              <FormatAmount
-                value={(newOutput.value ?? newOutput).toFixed()}
-                decimals={tokenInfo.get(newOutput?.token || '', 'decimals')}
-                token={newOutput?.token || ''}
-                digits={4}
-              />
-            ) : (
-              <>{(newOutput.value ?? newOutput).toString()}</>
-            )}
-          </div>
+          <FormatField field={newOutput} key={index} />
         ))}
       </div>
     );
   } else {
-    return <FormatField output={output} field={output} />;
+    return <FormatField field={output} />;
   }
 };
 
-const FormatField = ({ output, field }: { output: any; field: any }) => {
+const FormatField = ({ field }: { field: any }) => {
   const tokenInfo = useGetTokenInfo();
   return (
-    <div>
+    <div className={`${field.balance ? 'font-weight-bold' : ''}`}>
       {(field?.label || field?.name) && (
-        <Label>{field?.label || field?.name}: </Label>
+        <Label>{field?.label || field?.name}:{' '}</Label>
       )}
-      {output.balance ? (
+      {field.balance ? (
         <FormatAmount
           value={(field.value ?? field).toFixed()}
           decimals={tokenInfo.get(field?.token || '', 'decimals')}
