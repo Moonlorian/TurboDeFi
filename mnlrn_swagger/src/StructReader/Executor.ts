@@ -7,6 +7,7 @@ import {
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import StructReader from './StructReader';
 import StructEndpoint from './StructParts/StructEndpoint';
+import { DataType } from './types';
 
 class Executor {
   /**
@@ -81,29 +82,37 @@ class Executor {
               .split(':')
               .slice(-1)[0]
               .replace('>', '');
-            /*const fields = customFieldsIndex.includes(fullName)
-              ? customFields[fullName].fields || []
-              : [{ name: "_" + fullName, type: fullName }];
-              */
             const elementList = bundle.valueOf();
-
-            finalOutput[fullName] = elementList.map(
-              (values: any, index: number) => {
+            finalOutput[fullName] = {
+              ...output,
+              token: output.token || output.balance ? endpointObject.token : '',
+              value: elementList.map((values: any, index: number) => {
                 if (customFieldsIndex.includes(fullName)) {
-                  return this._getDataFromStruct(
-                    customFields[fullName].fields || [],
-                    values,
-                    endpointObject
-                  );
+                  return {
+                    ...customFields[fullName].toJson(),
+                    ...output,
+                    token:
+                      output.token || output.balance
+                        ? endpointObject.token
+                        : '',
+
+                    value: this._getDataFromStruct(
+                      customFields[fullName].fields || [],
+                      values,
+                      endpointObject,
+                      output
+                    )
+                  };
                 } else {
                   return {
                     name: fullName,
                     value: values,
-                    token: output.balance ? endpointObject.token : ''
+                    token:
+                      output.token || output.balance ? endpointObject.token : ''
                   };
                 }
-              }
-            );
+              })
+            };
           } else if (customFieldsIndex.includes(bundleTypeName)) {
             const fields = customFields[bundleTypeName].fields || [];
             const values = bundle?.valueOf();
@@ -112,7 +121,12 @@ class Executor {
               ...customFields[bundleTypeName].toJson(),
               value:
                 fields.length > 0
-                  ? this._getDataFromStruct(fields, values, endpointObject)
+                  ? this._getDataFromStruct(
+                      fields,
+                      values,
+                      endpointObject,
+                      output
+                    )
                   : values.name,
               token: output.balance ? endpointObject.token : ''
             };
@@ -135,9 +149,10 @@ class Executor {
   }
 
   private static _getDataFromStruct(
-    fields: any[],
-    values: any,
-    endpointObject: StructEndpoint
+    fields: any[], // ==> List Fields object defined in the output. each field object has its owns properties and must be included
+    values: any, // ==> Values of this fields, obtained from query trough abi format
+    endpointObject: StructEndpoint, // ==> Endpoint that we have called
+    output: DataType // Output element for this endpoint (an endpoint can have more than 1 output element)
   ): any {
     const finalOutput: { [key: string]: any } = {};
     fields.map((fieldData: any) => {
@@ -145,7 +160,10 @@ class Executor {
       finalOutput[fieldData.name] = {
         ...fieldData,
         value: value.name ?? value,
-        token: fieldData.balance ? endpointObject.token : ''
+        token:
+          fieldData.token || fieldData.balance
+            ? output.token || endpointObject.token
+            : ''
       };
     });
     return finalOutput;

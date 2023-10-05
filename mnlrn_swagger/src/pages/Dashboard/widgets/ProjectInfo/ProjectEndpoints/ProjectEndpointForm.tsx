@@ -97,12 +97,57 @@ export const ProjectEndpointForm = ({
       <Button onClick={executeEndpoint}>Execute</Button>
       <br />
       {response.length > 0 && (
-        <OutputContainer>
-          <ShowField output={response.slice(0, 1)} endpoint={endpoint} />
-        </OutputContainer>
+        <ShowData output={response.slice(0, 1)} endpoint={endpoint} />
       )}
     </Form>
   );
+};
+
+const ShowData = ({
+  output,
+  endpoint
+}: {
+  output: any;
+  endpoint: StructEndpoint;
+}) => {
+  //console.log(output);
+  const label = (output.label ?? output.name) || '';
+  if (Array.isArray(output)) {
+    //console.log('Is array');
+    return (
+      <ShowContainer label={label}>
+        {label != '' && <Label>{label}: </Label>}
+        {output.map((element, index) => (
+          <ShowData output={element} endpoint={endpoint} key={index} />
+        ))}
+      </ShowContainer>
+    );
+  } else if (!output.hasOwnProperty('value')) {
+    //console.log('Is a field');
+    return <ShowField output={output} endpoint={endpoint} />;
+  } else {
+    //console.log('Is an object');
+    return (
+      <ShowContainer label={label}>
+        {label != '' && <Label>{label}: </Label>}
+        <ShowData output={output.value} endpoint={endpoint} />
+      </ShowContainer>
+    );
+  }
+};
+
+const ShowContainer = ({
+  label,
+  children
+}: {
+  label: string;
+  children: any;
+}) => {
+  if (label != '') {
+    return <OutputContainer>{children}</OutputContainer>;
+  } else {
+    return <>{children}</>;
+  }
 };
 
 const ShowField = ({
@@ -113,40 +158,53 @@ const ShowField = ({
   endpoint: StructEndpoint;
 }) => {
   const tokenInfo = useGetTokenInfo();
+  const className = output.constructor.name;
 
-  if (Array.isArray(output)) {
-    //const splittedArray = output.slice(0, 3);
-    //return splittedArray.map((element, index) => {
-      return output.map((element, index) => {
-      return <ShowField output={element} endpoint={endpoint} key={index} />;
-    });
-  } else if (output?.value == undefined) {
+  if (className == 'Object') {
     const fieldList = Object.values(output);
     return (
       <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
-        <Label>{output.label || output.name}</Label>
-        <OutputContainer>
-          {fieldList.map((newOutput, index) => (
-            <ShowField key={index} output={newOutput} endpoint={endpoint} />
-          ))}
-        </OutputContainer>
+        {fieldList.map((newOutput: any, index) => (
+          <div key={index}>
+            {(newOutput?.label || newOutput?.name) && (
+              <Label>{newOutput?.label || newOutput?.name}: </Label>
+            )}
+            {output.balance ? (
+              <FormatAmount
+                value={(newOutput.value ?? newOutput).toFixed()}
+                decimals={tokenInfo.get(newOutput?.token || '', 'decimals')}
+                token={newOutput?.token || ''}
+                digits={4}
+              />
+            ) : (
+              <>{(newOutput.value ?? newOutput).toString()}</>
+            )}
+          </div>
+        ))}
       </div>
     );
   } else {
-    return (
-      <p className={`${output.balance ? 'font-weight-bold' : ''}`}>
-        <Label>{output.label ?? output.name}:</Label>{' '}
-        {output.balance ? (
-          <FormatAmount
-            value={output.value.toFixed()}
-            decimals={tokenInfo.get(output.token || '', 'decimals')}
-            token={output.token || ''}
-            digits={4}
-          />
-        ) : (
-          <>{output.value.toString()}</>
-        )}
-      </p>
-    );
+    return <FormatField output={output} field={output} />;
   }
+};
+
+const FormatField = ({ output, field }: { output: any; field: any }) => {
+  const tokenInfo = useGetTokenInfo();
+  return (
+    <div>
+      {(field?.label || field?.name) && (
+        <Label>{field?.label || field?.name}: </Label>
+      )}
+      {output.balance ? (
+        <FormatAmount
+          value={(field.value ?? field).toFixed()}
+          decimals={tokenInfo.get(field?.token || '', 'decimals')}
+          token={field?.token || ''}
+          digits={4}
+        />
+      ) : (
+        <>{(field.value ?? field).toString()}</>
+      )}
+    </div>
+  );
 };
