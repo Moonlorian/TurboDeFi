@@ -230,7 +230,6 @@ const ShowNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
 
   const getNFTData = async () => {
     const NFTData = await getNFT(collection, nonce);
-    console.log(NFTData);
     setNFTData(NFTData)
     return NFTData;
   };
