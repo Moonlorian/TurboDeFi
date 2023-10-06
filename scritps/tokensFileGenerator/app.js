@@ -11,7 +11,7 @@ const getTokenList = async () => {
   });
 
   console.log("Filtering token list")
-  const filteredTokenList = tokenList.filter((token, index) => token.assets);
+  const filteredTokenList = tokenList.filter((token, index) => true);
 
   if (!tokenList) return;
 
