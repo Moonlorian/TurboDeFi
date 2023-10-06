@@ -23,6 +23,7 @@ import PrettyPrinter from 'StructReader/PrettyPrinter';
 import { useGetAccountInfo, useGetTokenInfo } from 'hooks';
 import { getNFT } from 'services';
 import StructReader from 'StructReader/StructReader';
+import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
@@ -133,7 +134,9 @@ export const ProjectEndpointForm = ({
             )}
           </Fragment>
         ))}
-        <Button onClick={executeEndpoint}>Execute</Button>
+        <Button disabled={!address} onClick={executeEndpoint}>
+          Execute
+        </Button>
         <br />
         <OutputContainer isLoading={isLoading}>
           {response.length > 0 && (
@@ -152,7 +155,7 @@ const ShowData = ({
   output: any;
   endpoint: StructEndpoint;
 }) => {
-  //console.log(output);
+  console.log(output);
   const label = (output.label ?? output.name) || '';
   if (Array.isArray(output)) {
     //console.log('Is array');
@@ -228,19 +231,41 @@ const ShowField = ({
 const FormatField = ({ output, field }: { output: any; field: any }) => {
   const tokenInfo = useGetTokenInfo();
   return (
-    <div className={`${field.balance ? 'font-weight-bold' : ''}`}>
+    <div
+      className={`${
+        field.balance ? 'font-weight-bold' : ''
+      } d-flex align-items-center`}
+    >
       {(field?.label || field?.name) && (
         <Label>{field?.label || field?.name}: </Label>
       )}
       {field.balance ? (
-        <FormatAmount
-          value={(field.value ?? field).toFixed()}
-          decimals={tokenInfo.get(field?.token || '', 'decimals')}
-          token={field?.token || ''}
-          digits={4}
-        />
+        <div>
+          {formatAmount({
+            input: (field.value ?? field).toFixed(),
+            decimals: tokenInfo.get(field?.token || '', 'decimals'),
+            digits: 5,
+            addCommas: true,
+            showLastNonZeroDecimal: false
+          })}
+        </div>
       ) : (
         <>{(field.value ?? field).toString()}</>
+      )}
+      {field.token && (
+        <>
+          {tokenInfo.get(field?.token || '', 'assets').svgUrl ? (
+            <img
+              className='ms-2 max-h-6'
+              src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
+              alt={tokenInfo.get(field?.token || '', 'ticker')}
+            />
+          ) : (
+            <div className='ms-2 max-h-6'>
+              {tokenInfo.get(field?.token || '', 'ticker')}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
