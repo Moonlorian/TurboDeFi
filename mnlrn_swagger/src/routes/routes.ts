@@ -1,6 +1,6 @@
 import { RouteNamesEnum } from 'localConstants';
 import { Dashboard, Disclaimer, Home } from 'pages';
-import { Project } from 'pages/Proyect';
+import { Project } from 'pages/Project';
 import { Scanner } from 'pages/Scanner';
 import { RouteType } from 'types';
 
