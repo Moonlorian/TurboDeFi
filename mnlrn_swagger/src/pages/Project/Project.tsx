@@ -7,7 +7,7 @@ import { ProjectInfo } from './ProjectInfo';
 import { environment } from 'config';
 import StructReader from 'StructReader/StructReader';
 import StructModule from 'StructReader/StructParts/StructModule';
-import { ProjectModule } from './ProjectInfo/ProjectModules/ProjectModule';
+import { ProjectModule } from './ProjectInfo';
 
 export const Project = () => {
   const [structReader, setStructReader] = useState<StructReader>();

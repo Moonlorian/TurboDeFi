@@ -1,8 +1,7 @@
 import StructModule from 'StructReader/StructParts/StructModule';
 import { Card } from 'components';
-import { ProjectEndpoint } from '../ProjectEndpoints';
 import StructReader from 'StructReader/StructReader';
-import { ProjectEndpointForm } from '../ProjectEndpoints/ProjectEndpointForm';
+import { ProjectEndpointForm } from '../ProjectEndpoint/ProjectEndpointForm';
 
 export const ProjectModule = ({
   module,
