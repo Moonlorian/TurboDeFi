@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@multiversx/sdk-core": "^12.9.0",
+    "@multiversx/sdk-network-providers": "^2.0.0"
+  }
+}
