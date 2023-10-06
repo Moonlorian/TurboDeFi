@@ -8,14 +8,14 @@ import { environment } from 'config';
 import StructReader from 'StructReader/StructReader';
 import StructModule from 'StructReader/StructParts/StructModule';
 import { ProjectModule } from './ProjectInfo';
+import { setPriority } from 'os';
 
 export const Project = () => {
   const [structReader, setStructReader] = useState<StructReader>();
-
-  const location = useLocation();
-  const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
+  const [projectId, selectProjectId] = useState('');
   const projectList = ProjectList;
-  const projectId: string = path.slice(-1)[0];
+  //const projectId: string = path.slice(-1)[0];
+  const location = useLocation();
 
   const selectProject = async (selectedProject: string) => {
     const newStructReader = new StructReader(
@@ -35,15 +35,18 @@ export const Project = () => {
     selectProject(projectId).then((newStructReader: StructReader) =>
       setStructReader(newStructReader)
     );
-  }, []);
+  }, [projectId]);
+
+  useEffect(() => {
+    const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
+    const currentProjectId: string = path.slice(-1)[0];
+    if (!projectList.includes(currentProjectId)) return;
+    selectProjectId(currentProjectId);
+  }, [location]);
 
   //Check if we have a project
+  const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
   if (path.length < 2) return <ProyectSelector />;
-
-  //when project not found, naviate to project selector
-  if (!projectList.includes(projectId)) {
-    return <Navigate to={'/project'} />;
-  }
 
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
@@ -53,7 +56,11 @@ export const Project = () => {
           {structReader
             ?.getModules()
             .map((module: StructModule, index) => (
-              <ProjectModule key={index} module={module} structReader={structReader} />
+              <ProjectModule
+                key={index}
+                module={module}
+                structReader={structReader}
+              />
             ))}
         </>
       )}
