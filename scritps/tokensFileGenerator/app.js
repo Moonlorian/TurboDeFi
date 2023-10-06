@@ -10,13 +10,26 @@ const getTokenList = async () => {
     milisecondsBetweenCalls: 100,
   });
 
-  console.log("Filtering token list")
-  const filteredTokenList = tokenList.filter((token, index) => true);
+  console.log("Filtering token list");
+  //const filteredTokenList = tokenList.filter((token, index) => true);
+  const filteredTokenList = tokenList.map((token, index) => {
+    return {
+      name: token?.name || "",
+      identifier: token?.identifier || "",
+      ticker: token?.ticker || "",
+      decimals: token?.decimals || "",
+      assets: { svgUrl: token?.assets?.svgUrl || "" },
+    };
+  });
 
   if (!tokenList) return;
 
   console.log("Saving token list to file");
-  fs.writeFileSync(path + "tokenList.json", JSON.stringify(filteredTokenList), "utf8");
+  fs.writeFileSync(
+    path + "tokenList.json",
+    JSON.stringify(filteredTokenList),
+    "utf8"
+  );
 };
 
 getTokenList().then(() => console.log("Finished"));
