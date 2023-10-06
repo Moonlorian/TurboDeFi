@@ -140,7 +140,8 @@
         {
           "name": "unbonding_epoch",
           "label": "unbonding epoch",
-          "type": "u64"
+          "type": "u64",
+          "hidden": true
         },
         {
           "name": "age",

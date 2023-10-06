@@ -16,7 +16,7 @@ import {
   useMemo,
   useState
 } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
@@ -219,7 +219,11 @@ const ShowField = ({
     return (
       <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
         {fieldList.map((newOutput: any, index) => (
-          <FormatField output={output} field={newOutput} key={index} />
+          <Fragment key={index}>
+            {!newOutput.hidden && (
+              <FormatField output={output} field={newOutput} />
+            )}
+          </Fragment>
         ))}
       </div>
     );
@@ -255,11 +259,19 @@ const FormatField = ({ output, field }: { output: any; field: any }) => {
       {field.token && (
         <>
           {tokenInfo.get(field?.token || '', 'assets').svgUrl ? (
-            <img
-              className='ms-2 max-h-6'
-              src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
-              alt={tokenInfo.get(field?.token || '', 'ticker')}
-            />
+            <OverlayTrigger
+              overlay={
+                <Tooltip>{tokenInfo.get(field?.token || '', 'ticker')}</Tooltip>
+              }
+              placement='top'
+              delay={150}
+            >
+              <img
+                className='ms-2 max-h-6'
+                src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
+                alt={tokenInfo.get(field?.token || '', 'ticker')}
+              />
+            </OverlayTrigger>
           ) : (
             <div className='ms-2 max-h-6'>
               {tokenInfo.get(field?.token || '', 'ticker')}
