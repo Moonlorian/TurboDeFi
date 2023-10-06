@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { getApiFullGeneric } from './apiQueries';
+import { getTokenList } from './tokenLoadService';
 
 const globalData = {
   tokenList: {} as { [key: string]: any }
@@ -14,9 +15,10 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
     useState<GlobalDataTYpe>(globalData);
 
   const loadTokens = async () => {
-    const tokenList = await getApiFullGeneric('tokens', { pageSize: 1000 });
+    //const tokenList = await getApiFullGeneric('tokens', { pageSize: 1000 });
+    const tokenList = await getTokenList();
     const newTokenList = {} as { [key: string]: any };
-    tokenList.map((tokenData) => {
+    tokenList.map((tokenData:any) => {
       newTokenList[tokenData.identifier] = tokenData;
     });
     console.log(newTokenList['WEGLD-d7c6bb']);
