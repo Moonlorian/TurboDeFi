@@ -1,5 +1,6 @@
 import { RouteNamesEnum } from 'localConstants';
 import { Dashboard, Disclaimer, Home } from 'pages';
+import { Project } from 'pages/Proyect';
 import { Scanner } from 'pages/Scanner';
 import { RouteType } from 'types';
 
@@ -27,5 +28,10 @@ export const routes: RouteWithTitleType[] = [
     path: RouteNamesEnum.scanner,
     title: 'Scanner',
     component: Scanner
+  },
+  {
+    path: RouteNamesEnum.project,
+    title: 'Project',
+    component: Project
   }
 ];
