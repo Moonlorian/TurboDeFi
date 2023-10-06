@@ -8,7 +8,14 @@ import {
   Label,
   OutputContainer
 } from 'components';
-import { Fragment, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
@@ -38,11 +45,13 @@ export const ProjectEndpointForm = ({
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
   const [executeAction, setExecuteAction] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { address } = useGetAccountInfo();
 
   const executeEndpoint = () => {
     setResponse([]);
+    setIsLoading(true);
     Executor.exec(
       structReader,
       module.name,
@@ -50,6 +59,7 @@ export const ProjectEndpointForm = ({
       ...fieldValues
     ).then((output: any) => {
       const newResponse = Object.keys(output).map((field) => output[field]);
+      setIsLoading(false);
       setResponse(newResponse);
     });
   };
@@ -125,9 +135,11 @@ export const ProjectEndpointForm = ({
         ))}
         <Button onClick={executeEndpoint}>Execute</Button>
         <br />
-        {response.length > 0 && (
-          <ShowData output={response.slice(0, 1)} endpoint={endpoint} />
-        )}
+        <OutputContainer isLoading={isLoading}>
+          {response.length > 0 && (
+            <ShowData output={response.slice(0, 1)} endpoint={endpoint} />
+          )}
+        </OutputContainer>
       </Form>
     </Card>
   );
