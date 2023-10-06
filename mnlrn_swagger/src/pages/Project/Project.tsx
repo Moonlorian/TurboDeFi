@@ -40,13 +40,17 @@ export const Project = () => {
   useEffect(() => {
     const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
     const currentProjectId: string = path.slice(-1)[0];
-    if (!projectList.includes(currentProjectId)) return;
-    selectProjectId(currentProjectId);
+    if (!projectList.includes(currentProjectId)) {
+      console.log('nada');
+      selectProjectId('');
+    } else {
+      selectProjectId(currentProjectId);
+    }
   }, [location]);
 
   //Check if we have a project
   const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
-  if (path.length < 2) return <ProyectSelector />;
+  if (path.length < 2 || projectId == '') return <ProyectSelector />;
 
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>

@@ -155,7 +155,7 @@ const ShowData = ({
   output: any;
   endpoint: StructEndpoint;
 }) => {
-  console.log(output);
+  //console.log(output);
   const label = (output.label ?? output.name) || '';
   if (Array.isArray(output)) {
     //console.log('Is array');
