@@ -162,7 +162,7 @@ class Executor {
         value: value.name ?? value,
         token:
           fieldData.token || fieldData.balance
-            ? output.token || endpointObject.token
+            ? fieldData.token || output.token || endpointObject.token
             : ''
       };
     });
