@@ -12,7 +12,7 @@ import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
-import { useGetAccountInfo, useGetTokenInfo } from 'hooks';
+import { useGetAccountInfo, useGetNetworkConfig, useGetTokenInfo } from 'hooks';
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 
@@ -43,6 +43,7 @@ export const ProjectEndpointForm = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { address } = useGetAccountInfo();
+  const nonce = useGetNetworkConfig();
 
   const executeEndpoint = () => {
     const endpointName =
@@ -54,7 +55,9 @@ export const ProjectEndpointForm = ({
       structReader,
       module.name,
       endpointName || '',
-      {},
+      {
+        address: address,
+      },
       ...fieldValues
     ).then((output: any) => {
       const newResponse = Object.keys(output).map((field) => output[field]);

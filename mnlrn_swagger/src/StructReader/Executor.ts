@@ -156,9 +156,8 @@ class Executor {
       const transaction = contract.methods[
         endpointObject.endpoint || endpointObject.name
       ](this._endpointInputsToRustData(endpointObject, args))
-        .withSender(new Address(txInfo.address))
-        .withNonce(txInfo.nonce || 0)
-        .withGasLimit(txInfo.gasLimit || 0)
+        .withSender(new Address(txParams.address))
+        .withGasLimit(txParams.gasLimit)
         .withChainID('D')
         .buildTransaction();
       
