@@ -21,7 +21,7 @@ class StructEndpoint extends StructBase {
     this._inputs = endpointData.inputs ?? this._inputs;
     this._outputs = endpointData.outputs ?? this._outputs;
     this._balance = endpointData.balance ?? this._balance;
-    this._readOnly = endpointData.readOnly || endpointData.mutability == "readonly" || this._readOnly;
+    this._readOnly = endpointData.mutability == "readonly" || this._readOnly;
     this._endpoint = endpointData.endpoint ?? this._endpoint;
 
     this._checkFields();
