@@ -5,7 +5,7 @@ class StructEndpoint extends StructBase {
   private _inputs: EndpointType['inputs'] = [];
   private _outputs: EndpointType['outputs'] = [];
   private _balance: EndpointType['balance'] = false;
-  private _readOnly: EndpointType['readOnly'] = true;
+  private _readOnly: EndpointType['readOnly'] = false;
   private _endpoint: EndpointType['endpoint'] = '';
   /**
    * Constructor
@@ -21,7 +21,7 @@ class StructEndpoint extends StructBase {
     this._inputs = endpointData.inputs ?? this._inputs;
     this._outputs = endpointData.outputs ?? this._outputs;
     this._balance = endpointData.balance ?? this._balance;
-    this._readOnly = endpointData.readOnly || endpointData.mutability== "readonly" || this._readOnly;
+    this._readOnly = endpointData.readOnly || endpointData.mutability == "readonly" || this._readOnly;
     this._endpoint = endpointData.endpoint ?? this._endpoint;
 
     this._checkFields();
