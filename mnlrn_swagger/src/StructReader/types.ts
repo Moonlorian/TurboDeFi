@@ -108,6 +108,10 @@ type EndpointType = BaseStructType & {
    * function returns a balance
    */
   balance?: boolean;
+  /**
+   * This is the endpoint to call. if is empty, the name will be used
+   */
+  endpoint?: string;
 };
 
 type ModuleType = BaseStructType & {

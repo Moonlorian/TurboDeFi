@@ -4,6 +4,7 @@ import StructModule from './StructParts/StructModule';
 import StructEndPoint from './StructParts/StructEndpoint';
 import axios from 'axios';
 import PrettyPrinter from './PrettyPrinter';
+import { EndpointDefinition } from '@multiversx/sdk-core/out';
 
 class StructReader {
   private _fileName: string;
@@ -48,7 +49,7 @@ class StructReader {
       });
   }
 
-/**
+  /**
    * Indicates if a file has beel loaded
    *
    * @remarks
@@ -82,7 +83,8 @@ class StructReader {
     PrettyPrinter.printAsterisk();
     if (!this._project) throw new Error('Empty project');
 
-    if (this._project.name) PrettyPrinter.prettyLog('Name : ' + this._project.name);
+    if (this._project.name)
+      PrettyPrinter.prettyLog('Name : ' + this._project.name);
     if (this._project.label)
       PrettyPrinter.prettyLog('Label : ' + this._project.label);
     if (this._project.token)
@@ -233,6 +235,26 @@ class StructReader {
   }
   private _loadModules(json: any) {
     const modulesList = json?.modules;
+    //Let's check if there is duplicated modules:
+    const uniqueModulesObject: { [key: string]: string } = {};
+    modulesList.map((module: any) => {
+      uniqueModulesObject[module.name] = module.name;
+    });
+
+    if (modulesList.length != Object.keys(uniqueModulesObject).length) {
+      throw new Error('Duplicated module names');
+    }
+    //Let's check if there is duplicated endpoints:
+    modulesList.map((module: any) => {
+      const uniqueEndpointObject: { [key: string]: string } = {};
+      module?.endpoints.map((endpoint: any) => {
+        uniqueEndpointObject[endpoint.name] = endpoint.name;
+      });
+      if (module.endpoints != Object.keys(uniqueEndpointObject).length) {
+        throw new Error('Duplicated endpoint names');
+      }
+    });
+
     this._modules = modulesList.map((module: any) => new StructModule(module));
   }
   private _loadCustomFields(json: any) {
@@ -278,7 +300,6 @@ class StructReader {
   private _readFile(): any {
     //return JSON.parse(fs.readFileSync(this._fullStructFilePath, 'utf8'));
   }
-
 }
 
 export default StructReader;
