@@ -105,7 +105,6 @@ class Executor {
                   };
                 } else {
                   return {
-                    name: fullName,
                     value: values,
                     token:
                       output.token || output.balance ? endpointObject.token : ''
