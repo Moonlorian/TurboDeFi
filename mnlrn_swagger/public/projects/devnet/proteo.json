@@ -67,6 +67,50 @@
       ]
     },
     {
+      "name": "Farms",
+      "description": "Proteo Farms",
+      "label": "Proteo Farms",
+      "endpoints": [
+        {
+          "name": "MyStakedInfo",
+          "description": "Info about the position of an Address in this farm",
+          "label": "Elite Single Farm - EGLD",
+          "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
+          "readOnly": true,
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "WalletInfoV2"
+            }
+          ]
+        },
+        {
+          "name": "MyStakedInfo-2",
+          "endpoint": "MyStakedInfo",
+          "description": "Info about the position of an Address in this farm",
+          "label": "Elite Dual Farm - WEB/EGLD",
+          "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
+          "readOnly": true,
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "WalletInfo"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Elite Farm EGLD",
       "description": "SF of EGLD",
       "label": "Elite SF EGLD",
