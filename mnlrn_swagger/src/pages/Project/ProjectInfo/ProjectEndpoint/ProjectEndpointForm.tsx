@@ -54,7 +54,6 @@ export const ProjectEndpointForm = ({
   const executeEndpoint = () => {
     const endpointName =
       endpoint.endpoint != '' ? endpoint.endpoint : endpoint.name;
-    console.log('Execute: ', endpointName, endpoint);
     setResponse([]);
     setIsLoading(true);
     Executor.exec(
@@ -97,7 +96,8 @@ export const ProjectEndpointForm = ({
 
     setFieldValues(initialValues);
     if (
-      initialValues.filter((data) => data).length === initialValues.length && endpoint.readonly
+      initialValues.filter((data) => data).length === initialValues.length &&
+      endpoint.readonly
     ) {
       setExecuteAction(true);
       setShowExecuteBtn(false);
@@ -175,12 +175,14 @@ const ShowData = ({
   if (Array.isArray(output)) {
     //console.log('Is array');
     return (
-      <ShowContainer label={label} output={output}>
-        {label != '' && <Label>{label}: </Label>}
-        {output.map((element, index) => (
-          <ShowData output={element} endpoint={endpoint} key={index} />
-        ))}
-      </ShowContainer>
+      <ul>
+        <ShowContainer label={label} output={output}>
+          {label != '' && <Label>{label}: </Label>}
+          {output.map((element, index) => (
+            <li key={index}><ShowData output={element} endpoint={endpoint}/></li>
+          ))}
+        </ShowContainer>
+      </ul>
     );
   } else if (!output.hasOwnProperty('value')) {
     //console.log('Is a field');
@@ -208,10 +210,10 @@ const ShowContainer = ({
   return (
     <>
       {label != '' ? (
-        <OutputContainer>
+        <>
           {output.isNFT && <ShowNFT NFTOutputData={output} />}
           {children}
-        </OutputContainer>
+        </>
       ) : (
         <>{children}</>
       )}

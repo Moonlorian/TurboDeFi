@@ -21,7 +21,7 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
     tokenList.map((tokenData:any) => {
       newTokenList[tokenData.identifier] = tokenData;
     });
-    console.log(newTokenList['WEGLD-d7c6bb']);
+
     return newTokenList;
   };
 

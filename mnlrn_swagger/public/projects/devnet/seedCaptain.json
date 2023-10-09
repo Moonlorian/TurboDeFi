@@ -27,6 +27,7 @@
           ],
           "outputs": [
             {
+              "label": "NFTs",
               "type": "List<StakedNft>"
             }
           ]
