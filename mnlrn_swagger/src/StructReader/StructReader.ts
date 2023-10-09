@@ -250,7 +250,7 @@ class StructReader {
       module?.endpoints.map((endpoint: any) => {
         uniqueEndpointObject[endpoint.name] = endpoint.name;
       });
-      if (module.endpoints != Object.keys(uniqueEndpointObject).length) {
+      if (module.endpoints.length != Object.keys(uniqueEndpointObject).length) {
         throw new Error('Duplicated endpoint names');
       }
     });
