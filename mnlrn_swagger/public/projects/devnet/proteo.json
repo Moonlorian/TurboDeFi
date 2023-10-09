@@ -5,7 +5,7 @@
     "label": "Proteo DEFI",
     "token": "PROTEO-d1ef39",
     "address": "",
-    "url":"https://dapp.proteodefi.com/"
+    "url": "https://dapp.proteodefi.com/"
   },
   "modules": [
     {
@@ -36,34 +36,48 @@
           ]
         },
         {
-          "name": "test_endpoint",
-          "description": "This is a test endpoint",
-          "label": "Test endpoint",
+          "name": "can_unstake",
+          "description": "Boolean value that indicates if you can unstake your sPROTEO balance",
+          "label": "Can Unstake",
           "mutability": "readonly",
           "inputs": [
             {
               "name": "user_address",
-              "label": "Address",
               "type": "Address"
-            },
-            {
-              "name": "amount",
-              "label": "Amount",
-              "type": "BigUint"
-            },
-            {
-              "name": "token",
-              "label": "Token",
-              "type": "TokenIdentifier"
             }
           ],
           "outputs": [
             {
-              "name": "userInfo",
-              "label": "User Info",
-              "type": "UserInfo"
+              "type": "bool"
             }
           ]
+        },
+        {
+          "name": "deposit",
+          "description": "Deposit sPROTEO in your Elite account",
+          "label": "Deposit sPROTEO",
+          "mutability": "mutable",
+          "payableInTokens": [
+            "*"
+          ],
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "unstake",
+          "description": "Withdraw sPROTEO if no Elite product is used",
+          "label": "Withdraw sPROTEO",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "withdraw",
+          "description": "Unstake sPROTEO once the unbonding period has finished",
+          "label": "Unstake sPROTEO",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
         }
       ]
     },
@@ -73,7 +87,8 @@
       "label": "Proteo Farms",
       "endpoints": [
         {
-          "name": "MyStakedInfo",
+          "name": "MyStakedInfo-1",
+          "endpoint": "MyStakedInfo",
           "description": "Info about the position of an Address in this farm",
           "label": "Elite Single Farm - EGLD",
           "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
