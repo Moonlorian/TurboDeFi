@@ -135,11 +135,18 @@ type ModuleType = BaseStructType & {
   endpoints?: EndpointType[];
 };
 
+type TxInfo = {
+  address?: string,
+  nonce?: number,
+  gasLimit?: number
+}
+
 export type {
   BaseStructType,
   ProjectType,
   ModuleType,
   EndpointType,
   CustomType,
-  DataType
+  DataType,
+  TxInfo
 };

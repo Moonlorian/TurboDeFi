@@ -1,13 +1,21 @@
 import {
   AbiRegistry,
   Address,
+  AddressValue,
+  BigUIntValue,
   ResultsParser,
-  SmartContract
+  SmartContract,
+  StringValue,
+  U16Value,
+  U32Value,
+  U64Value,
+  U8Value
 } from '@multiversx/sdk-core/out';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import StructReader from './StructReader';
 import StructEndpoint from './StructParts/StructEndpoint';
-import { DataType } from './types';
+import { DataType, TxInfo } from './types';
+import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
 
 class Executor {
   /**
@@ -26,13 +34,13 @@ class Executor {
     structReader: StructReader,
     module: string,
     endpoint: string,
+    txInfo: TxInfo,
     ...args: any
   ): Promise<any> {
     const provider = new ProxyNetworkProvider(
       'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a',
       { timeout: 5000 }
     );
-
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {
@@ -43,16 +51,15 @@ class Executor {
     if (endpointObject.address == '')
       throw new Error('A smart contract is needed');
 
-    if (endpointObject.readonly) {
-      const legacyDelegationContract = new SmartContract({
-        address: new Address(endpointObject.address),
-        abi: legacyDelegationAbi
-      });
+    const contract = new SmartContract({
+      address: new Address(endpointObject.address),
+      abi: legacyDelegationAbi
+    });
 
-      //return;
-      const interaction = legacyDelegationContract.methods[endpointObject.name](
-        [...args]
-      );
+    if (endpointObject.readonly) {
+      const interaction = contract.methods[
+        endpointObject.endpoint || endpointObject.name
+      ]([...args]);
       const query = interaction.check().buildQuery();
 
       const res = await provider.queryContract(query);
@@ -142,6 +149,43 @@ class Executor {
 
       return finalOutput;
     } else {
+      const txParams = {
+        gasLimit: 60000000,
+        ...txInfo
+      };
+      const transaction = contract.methods[
+        endpointObject.endpoint || endpointObject.name
+      ](this._endpointInputsToRustData(endpointObject, args))
+        .withSender(new Address(txInfo.address))
+        .withNonce(txInfo.nonce || 0)
+        .withGasLimit(txInfo.gasLimit || 0)
+        .withChainID('D')
+        .buildTransaction();
+      sendTransactions(transaction);
+
+      //todo
+      /*
+        Given an interaction:
+
+      interaction = contract.methods.foobar([]);
+
+      One can apply token transfers to the smart contract call, as well.
+
+      For single payments, do as follows:
+
+      // Fungible token 
+      interaction.withSingleESDTTransfer(TokenTransfer.fungibleFromAmount("FOO-6ce17b", "1.5", 18));
+
+      // Non-fungible token 
+      interaction.withSingleESDTNFTTransfer(TokenTransfer.nonFungible("SDKJS-38f249", 1));
+
+      For multiple payments:
+
+      interaction.withMultiESDTNFTTransfer([
+          TokenTransfer.fungibleFromAmount("FOO-6ce17b", "1.5", 18),
+          TokenTransfer.nonFungible("SDKJS-38f249", 1)
+      ]);
+      */
     }
 
     return '';
@@ -166,6 +210,40 @@ class Executor {
       };
     });
     return finalOutput;
+  }
+
+  private static _endpointInputsToRustData(
+    endpoint: StructEndpoint,
+    args: any[]
+  ): any[] {
+    const rustInputData: any[] = [];
+    let argIndex = 0;
+    endpoint.inputs?.map((input: DataType, index: number) => {
+      if (args[index]) {
+        rustInputData[index] = this._getFormattedField(args[index], input.type);
+        argIndex = args.length > argIndex + 1 ? 0 : argIndex + 1;
+      }
+    });
+    return rustInputData;
+  }
+
+  private static _getFormattedField(field: any, type: string) {
+    switch (type) {
+      case 'Address':
+        return new AddressValue(new Address(field));
+      case 'u8':
+        return new U8Value(field);
+      case 'u16':
+        return new U16Value(field);
+      case 'u32':
+        return new U32Value(field);
+      case 'u64':
+        return new U64Value(field);
+      case 'BigUint':
+        return new BigUIntValue(field);
+      default:
+        return new StringValue(field);
+    }
   }
 }
 
