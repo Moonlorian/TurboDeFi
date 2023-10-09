@@ -4,7 +4,8 @@
     "description": "Seed captain incubator",
     "label": "Seed captain",
     "token": "CTP-2bcda6",
-    "address": ""
+    "address": "",
+    "url":"https://seedcaptain.io/"
   },
   "modules": [
     {
@@ -18,7 +19,7 @@
           "name": "my_staked_nfts",
           "description": "Get my staked NFT list",
           "label": "My staked NFTs",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",

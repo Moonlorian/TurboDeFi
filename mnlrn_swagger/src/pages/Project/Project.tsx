@@ -41,7 +41,6 @@ export const Project = () => {
     const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
     const currentProjectId: string = path.slice(-1)[0];
     if (!projectList.includes(currentProjectId)) {
-      console.log('nada');
       selectProjectId('');
     } else {
       selectProjectId(currentProjectId);

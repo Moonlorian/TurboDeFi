@@ -2,6 +2,7 @@ import { ProjectType } from '../types';
 import StructBase from './StructBase';
 
 class StructProject extends StructBase {
+  private _url: ProjectType['url'] = '';
   /**
    * Constructor
    *
@@ -13,7 +14,15 @@ class StructProject extends StructBase {
    */
   constructor(projectData: ProjectType) {
     super(projectData);
+    this._url = projectData.url ?? this._url;
+
     this._checkFields();
+  }
+  /**
+   * Get project URL
+   */
+  get url() {
+    return this._url;
   }
 }
 

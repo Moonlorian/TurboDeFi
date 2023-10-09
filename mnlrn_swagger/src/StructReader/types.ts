@@ -19,9 +19,15 @@ type BaseStructType = {
    * Address of the contract. Is optional
    */
   address?: string;
+  /**
+   * Docs can contain info
+   */
+  docs?: string[];
 };
 
-type ProjectType = BaseStructType;
+type ProjectType = BaseStructType & {
+  url: string
+};
 
 type BaseRustType =
   | "Address"
@@ -116,6 +122,10 @@ type EndpointType = BaseStructType & {
    * Acts equal to readOnly:
    */
   mutability?: string;
+  /**
+   * Indicates that this endpoint is not implemented
+   */
+  notImplemented?: boolean;
 };
 
 type ModuleType = BaseStructType & {

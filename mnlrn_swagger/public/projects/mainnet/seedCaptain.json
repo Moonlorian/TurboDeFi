@@ -18,7 +18,7 @@
           "name": "my_staked_nfts",
           "description": "Get my staked NFT list",
           "label": "My staked NFTs",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",

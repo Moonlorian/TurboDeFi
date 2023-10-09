@@ -7,6 +7,7 @@ class StructEndpoint extends StructBase {
   private _balance: EndpointType['balance'] = false;
   private _readOnly: EndpointType['readOnly'] = false;
   private _endpoint: EndpointType['endpoint'] = '';
+  private _notImplemented: EndpointType['notImplemented'] = false;
   /**
    * Constructor
    *
@@ -21,8 +22,9 @@ class StructEndpoint extends StructBase {
     this._inputs = endpointData.inputs ?? this._inputs;
     this._outputs = endpointData.outputs ?? this._outputs;
     this._balance = endpointData.balance ?? this._balance;
-    this._readOnly = endpointData.mutability == "readonly" || this._readOnly;
+    this._readOnly = endpointData.readOnly || (endpointData.mutability == "readonly") || this._readOnly;
     this._endpoint = endpointData.endpoint ?? this._endpoint;
+    this._notImplemented = endpointData.notImplemented ?? this._notImplemented;
 
     this._checkFields();
   }
@@ -57,6 +59,13 @@ class StructEndpoint extends StructBase {
    */
   get endpoint() {
     return this._endpoint;
+  }
+
+  /**
+   * Get if this endpoint is not implemented
+   */
+  get notImplemented() {
+    return this._notImplemented;
   }
 
   _checkFields(): void {

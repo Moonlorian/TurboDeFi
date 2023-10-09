@@ -166,20 +166,17 @@ class StructReader {
     const module = this._getModule(moduleName);
     if (module.endpoints) {
       for (let i = 0; i < module.endpoints.length; i++) {
-        if ( (module.endpoints[i].endpoint == endpointName) || (module.endpoints[i].name == endpointName) ) {
+        if (
+          module.endpoints[i].endpoint == endpointName ||
+          module.endpoints[i].name == endpointName
+        ) {
           const currentEndPoint = module.endpoints[i];
           const sc = this._getSC(this._project, module, currentEndPoint);
           const token = this._getToken(this._project, module, currentEndPoint);
           return new StructEndPoint({
-            name: currentEndPoint.name,
-            description: currentEndPoint.description,
-            label: currentEndPoint.label,
+            ...currentEndPoint.toJson(),
             token: token,
-            address: sc,
-            inputs: currentEndPoint.inputs,
-            outputs: currentEndPoint.outputs,
-            readOnly: currentEndPoint.readonly,
-            balance: currentEndPoint.balance
+            address: sc
           });
         }
       }

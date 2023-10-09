@@ -4,26 +4,17 @@ import {
   Button,
   Card,
   TokenSelector,
-  FormatAmount,
   Label,
   OutputContainer
 } from 'components';
-import {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
-import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
 import { useGetAccountInfo, useGetTokenInfo } from 'hooks';
-import { getNFT } from 'services';
 import StructReader from 'StructReader/StructReader';
-import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
+import { ShowEndpointData } from './ShowEndpointData';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
@@ -33,6 +24,8 @@ import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount
 
 //wallet for test gnogen
 //erd1jl3sunvv58tplcke6y0qg0zrr5tnwpg54ql9ngs8jad89tm2u8hqehey5y
+
+//erd1hrh4gdjc506v5mhd74lv44mmwha66a4tk4mnjse48ka20ddatmyq42n5jy
 
 export const ProjectEndpointForm = ({
   module,
@@ -54,6 +47,7 @@ export const ProjectEndpointForm = ({
   const executeEndpoint = () => {
     const endpointName =
       endpoint.endpoint != '' ? endpoint.endpoint : endpoint.name;
+
     setResponse([]);
     setIsLoading(true);
     Executor.exec(
@@ -77,16 +71,19 @@ export const ProjectEndpointForm = ({
     [fieldValues]
   );
 
+  const showOutput = useMemo(() => {
+    return response.length > 0 || isLoading;
+  }, [response, isLoading]);
+
+  const projectUrl = useMemo(
+    () => structReader.getProject().projectUrl,
+    [structReader]
+  );
   useEffect(() => {
     if (!executeAction) return;
-    //If all field values are filled, let's do the query
     executeEndpoint();
-    setExecuteAction(executeAction);
+    setExecuteAction(false);
   }, [executeAction]);
-
-  useEffect(() => {
-    if (!address) return;
-  }, [address]);
 
   useEffect(() => {
     const initialValues = (endpoint.inputs || []).map((input) => {
@@ -95,9 +92,10 @@ export const ProjectEndpointForm = ({
     });
 
     setFieldValues(initialValues);
+
     if (
-      initialValues.filter((data) => data).length === initialValues.length &&
-      endpoint.readonly
+      endpoint.readonly &&
+      initialValues.filter((data) => data).length === initialValues.length
     ) {
       setExecuteAction(true);
       setShowExecuteBtn(false);
@@ -112,238 +110,69 @@ export const ProjectEndpointForm = ({
       description={endpoint.description}
       reference={''}
     >
-      <Form className='mb-3'>
-        {endpoint.inputs?.map((input: DataType, index) => (
-          <Fragment key={index}>
-            {fieldValues.filter((data) => !data).length > 0 && (
-              <>
-                {input.type != 'Address' && (
-                  <Form.Group className='mb-1'>
-                    <Form.Label>{input.label || input.name}</Form.Label>
-                    {input.type == 'TokenIdentifier' ||
-                    input.type == 'EgldOrTokenIdentifier' ? (
-                      <TokenSelector
-                        onChange={(tokenId: string) => {
-                          updateValue(index, tokenId);
-                        }}
-                        placeHolder='Token'
-                        defaultValue={input.token || endpoint.token}
-                      />
-                    ) : (
-                      <Form.Control
-                        type={PrettyPrinter.getFormInputType(input.type)}
-                        placeholder={input.label}
-                        value={fieldValues[index] ?? ''}
-                        onChange={(e: any) => {
-                          updateValue(index, e.target.value);
-                        }}
-                      />
-                    )}
-                  </Form.Group>
-                )}
-              </>
-            )}
-          </Fragment>
-        ))}
-        <>
-          {showExecuteBtn && (
-            <Button disabled={!address} onClick={executeEndpoint}>
-              Execute
-            </Button>
+      {endpoint.notImplemented ? (
+        <p>
+          Not implemented in this version.
+          {projectUrl && (
+            <span>
+              Visit <a href={projectUrl}>{projectUrl}</a> for more information
+            </span>
           )}
-        </>
-        <br />
-        <OutputContainer isLoading={isLoading}>
-          {response.length > 0 && (
-            <ShowData output={response.slice(0, 1)} endpoint={endpoint} />
-          )}
-        </OutputContainer>
-      </Form>
-    </Card>
-  );
-};
-
-const ShowData = ({
-  output,
-  endpoint
-}: {
-  output: any;
-  endpoint: StructEndpoint;
-}) => {
-  //console.log(output);
-  const label = (output.label ?? output.name) || '';
-  if (Array.isArray(output)) {
-    //console.log('Is array');
-    return (
-      <ul>
-        <ShowContainer label={label} output={output}>
-          {label != '' && <Label>{label}: </Label>}
-          {output.map((element, index) => (
-            <li key={index}><ShowData output={element} endpoint={endpoint}/></li>
+        </p>
+      ) : (
+        <Form className='mb-3'>
+          {endpoint.inputs?.map((input: DataType, index) => (
+            <Fragment key={index}>
+              {fieldValues.filter((data) => !data).length > 0 && (
+                <>
+                  {input.type != 'Address' && (
+                    <Form.Group className='mb-1'>
+                      <Form.Label>{input.label || input.name}</Form.Label>
+                      {input.type == 'TokenIdentifier' ||
+                      input.type == 'EgldOrTokenIdentifier' ? (
+                        <TokenSelector
+                          onChange={(tokenId: string) => {
+                            updateValue(index, tokenId);
+                          }}
+                          placeHolder='Token'
+                          defaultValue={input.token || endpoint.token}
+                        />
+                      ) : (
+                        <Form.Control
+                          type={PrettyPrinter.getFormInputType(input.type)}
+                          placeholder={input.label}
+                          value={fieldValues[index] ?? ''}
+                          onChange={(e: any) => {
+                            updateValue(index, e.target.value);
+                          }}
+                        />
+                      )}
+                    </Form.Group>
+                  )}
+                </>
+              )}
+            </Fragment>
           ))}
-        </ShowContainer>
-      </ul>
-    );
-  } else if (!output.hasOwnProperty('value')) {
-    //console.log('Is a field');
-    return <ShowField output={output} endpoint={endpoint} />;
-  } else {
-    //console.log('Is an object');
-    return (
-      <ShowContainer label={label} output={output}>
-        {label != '' && <Label>{label}: </Label>}
-        <ShowData output={output.value} endpoint={endpoint} />
-      </ShowContainer>
-    );
-  }
-};
-
-const ShowContainer = ({
-  label,
-  output,
-  children
-}: {
-  label: string;
-  output: any;
-  children: any;
-}) => {
-  return (
-    <>
-      {label != '' ? (
-        <>
-          {output.isNFT && <ShowNFT NFTOutputData={output} />}
-          {children}
-        </>
-      ) : (
-        <>{children}</>
-      )}
-    </>
-  );
-};
-
-const ShowField = ({
-  output,
-  endpoint
-}: {
-  output: any;
-  endpoint: StructEndpoint;
-}) => {
-  const tokenInfo = useGetTokenInfo();
-  const className = output.constructor.name;
-
-  if (className == 'Object') {
-    const fieldList = Object.values(output);
-    return (
-      <div className={`${output.balance ? 'font-weight-bold' : ''}`}>
-        {fieldList.map((newOutput: any, index) => (
-          <Fragment key={index}>
-            {!newOutput.hidden && (
-              <FormatField output={output} field={newOutput} />
+          <>
+            {showExecuteBtn && (
+              <Button disabled={!address} onClick={executeEndpoint}>
+                Execute
+              </Button>
             )}
-          </Fragment>
-        ))}
-      </div>
-    );
-  } else {
-    return <FormatField output={output} field={output} />;
-  }
-};
-
-const FormatField = ({ output, field }: { output: any; field: any }) => {
-  const tokenInfo = useGetTokenInfo();
-  return (
-    <div
-      className={`${
-        field.balance ? 'font-weight-bold' : ''
-      } d-flex align-items-center`}
-    >
-      {(field?.label || field?.name) && (
-        <Label>{field?.label || field?.name}: </Label>
-      )}
-      {field.balance ? (
-        <div>
-          {formatAmount({
-            input: (field.value ?? field).toFixed(),
-            decimals: tokenInfo.get(field?.token || '', 'decimals'),
-            digits: 5,
-            addCommas: true,
-            showLastNonZeroDecimal: false
-          })}
-        </div>
-      ) : (
-        <>{(field.value ?? field).toString()}</>
-      )}
-      {field.token && (
-        <>
-          {tokenInfo.get(field?.token || '', 'assets').svgUrl ? (
-            <OverlayTrigger
-              overlay={
-                <Tooltip>{tokenInfo.get(field?.token || '', 'ticker')}</Tooltip>
-              }
-              placement='top'
-              delay={150}
-            >
-              <img
-                className='ms-2 max-h-6'
-                src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
-                alt={tokenInfo.get(field?.token || '', 'ticker')}
-              />
-            </OverlayTrigger>
-          ) : (
-            <div className='ms-2 max-h-6'>
-              {tokenInfo.get(field?.token || '', 'ticker')}
-            </div>
+          </>
+          <br />
+          {showOutput && (
+            <OutputContainer isLoading={isLoading}>
+              {response.length > 0 && (
+                <ShowEndpointData
+                  output={response.length == 1 ? response[0] : response}
+                  endpoint={endpoint}
+                />
+              )}
+            </OutputContainer>
           )}
-        </>
+        </Form>
       )}
-    </div>
-  );
-};
-
-const ShowNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
-  const [NFTData, setNFTData] = useState<any>({});
-  const collectionKey = useMemo(
-    () =>
-      Object.keys(NFTOutputData.value).find(
-        (fieldName) => NFTOutputData.value[fieldName]?.isCollection ?? false
-      ) || '',
-    [NFTOutputData]
-  );
-  const collection: string = useMemo(
-    () => NFTOutputData.value[collectionKey]?.value || '',
-    [NFTOutputData]
-  );
-  const nonceKey = useMemo(
-    () =>
-      Object.keys(NFTOutputData.value).find(
-        (fieldName) => NFTOutputData.value[fieldName]?.isNonce ?? false
-      ) || '',
-    [NFTOutputData]
-  );
-  const nonce: number = useMemo(
-    () => NFTOutputData.value[nonceKey]?.value || '',
-    [NFTOutputData]
-  );
-
-  const getNFTData = async () => {
-    const NFTData = await getNFT(collection, nonce);
-    setNFTData(NFTData);
-    return NFTData;
-  };
-
-  useEffect(() => {
-    getNFTData();
-  }, []);
-
-  return (
-    <div>
-      <Label>Name:</Label> {NFTData?.name}
-      {NFTData?.media?.length && (
-        <img
-          src={NFTData.media[0].thumbnailUrl ?? NFTData.media[0].url}
-          alt={NFTData?.metadata?.description}
-        />
-      )}
-    </div>
+    </Card>
   );
 };

@@ -4,7 +4,8 @@
     "description": "Exclusive MultiversX DeFi Suite",
     "label": "Proteo DEFI",
     "token": "PROTEO-d1ef39",
-    "address": ""
+    "address": "",
+    "url":"https://dapp.proteodefi.com/"
   },
   "modules": [
     {
@@ -18,7 +19,7 @@
           "name": "user_info",
           "description": "Elite info of one Address",
           "label": "User Info",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "user_address",
@@ -38,7 +39,7 @@
           "name": "test_endpoint",
           "description": "This is a test endpoint",
           "label": "Test endpoint",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "user_address",
@@ -76,7 +77,7 @@
           "description": "Info about the position of an Address in this farm",
           "label": "Elite Single Farm - EGLD",
           "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",
@@ -95,7 +96,7 @@
           "description": "Info about the position of an Address in this farm",
           "label": "Elite Dual Farm - WEB/EGLD",
           "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",
@@ -121,7 +122,7 @@
           "description": "Info about the position of an Address in this farm",
           "label": "User Info",
           "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",
@@ -147,7 +148,7 @@
           "description": "Info about the position of an Address in this farm",
           "label": "User Info",
           "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
-          "readOnly": true,
+          "mutability": "readonly",
           "inputs": [
             {
               "name": "address",

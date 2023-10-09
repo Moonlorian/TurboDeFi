@@ -17,7 +17,7 @@ class StructBase {
    */
   constructor(baseData: BaseStructType) {
     this._name = baseData.name;
-    this._description = baseData.description;
+    this._description = baseData.description || baseData.docs?.join("\n") || '';
     this._label = baseData.label;
     this._token = baseData.token;
     this._address = baseData.address;

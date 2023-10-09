@@ -4,7 +4,8 @@
     "description": "Gnogen",
     "label": "Gnogen",
     "token": "XGNG-04bd9e",
-    "address": ""
+    "address": "",
+    "url":"gnogen.com"
   },
   "modules": [
     {
@@ -40,6 +41,7 @@
         {
           "name": "getAllStakedForAddress",
           "mutability": "readonly",
+          "notImplemented": true,
           "inputs": [
             {
               "name": "address",
