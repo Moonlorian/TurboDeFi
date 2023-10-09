@@ -47,18 +47,27 @@ export const ProjectEndpointForm = ({
   const executeEndpoint = () => {
     const endpointName =
       endpoint.endpoint != '' ? endpoint.endpoint : endpoint.name;
-
     setResponse([]);
     setIsLoading(true);
+
     Executor.exec(
       structReader,
       module.name,
       endpointName || '',
+      {},
       ...fieldValues
     ).then((output: any) => {
       const newResponse = Object.keys(output).map((field) => output[field]);
       setIsLoading(false);
       setResponse(newResponse);
+    }).catch((err) => {
+      setIsLoading(false);
+      setResponse([{
+          name: "error",
+          label: "Error",
+          value: "An error has occurred",
+          type: "bytes"
+      }]);
     });
   };
 
