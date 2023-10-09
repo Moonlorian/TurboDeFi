@@ -161,7 +161,8 @@ class Executor {
         .withGasLimit(txInfo.gasLimit || 0)
         .withChainID('D')
         .buildTransaction();
-      sendTransactions(transaction);
+      
+      sendTransactions({transactions: transaction});
 
       //todo
       /*
