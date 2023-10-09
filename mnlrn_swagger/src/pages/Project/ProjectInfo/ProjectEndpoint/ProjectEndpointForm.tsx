@@ -46,6 +46,7 @@ export const ProjectEndpointForm = ({
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
   const [executeAction, setExecuteAction] = useState(false);
+  const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const { address } = useGetAccountInfo();
@@ -92,9 +93,9 @@ export const ProjectEndpointForm = ({
     });
 
     setFieldValues(initialValues);
-
     if (initialValues.filter((data) => data).length === initialValues.length)
       setExecuteAction(true);
+    setShowExecuteBtn(false);
   }, []);
 
   return (
@@ -134,9 +135,11 @@ export const ProjectEndpointForm = ({
             )}
           </Fragment>
         ))}
-        <Button disabled={!address} onClick={executeEndpoint}>
-          Execute
-        </Button>
+        {showExecuteBtn && (
+          <Button disabled={!address} onClick={executeEndpoint}>
+            Execute
+          </Button>
+        )}
         <br />
         <OutputContainer isLoading={isLoading}>
           {response.length > 0 && (
