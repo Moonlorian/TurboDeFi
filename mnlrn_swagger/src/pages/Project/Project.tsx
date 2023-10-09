@@ -2,7 +2,7 @@ import { Card } from 'components';
 import { ProjectList } from 'localConstants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { Navigate, redirect, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ProjectInfo } from './ProjectInfo';
 import { environment } from 'config';
 import StructReader from 'StructReader/StructReader';
