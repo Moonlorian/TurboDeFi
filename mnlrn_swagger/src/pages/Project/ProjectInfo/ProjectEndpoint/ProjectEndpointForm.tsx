@@ -52,8 +52,9 @@ export const ProjectEndpointForm = ({
   const { address } = useGetAccountInfo();
 
   const executeEndpoint = () => {
-    const endpointName = endpoint.endpoint != ''? endpoint.endpoint : endpoint.name;
-    console.log("Execute: ", endpointName, endpoint);
+    const endpointName =
+      endpoint.endpoint != '' ? endpoint.endpoint : endpoint.name;
+    console.log('Execute: ', endpointName, endpoint);
     setResponse([]);
     setIsLoading(true);
     Executor.exec(
@@ -97,12 +98,13 @@ export const ProjectEndpointForm = ({
     setFieldValues(initialValues);
     if (
       initialValues.filter((data) => data).length === initialValues.length &&
-      initialValues.length > 0 && 
+      initialValues.length > 0 &&
       endpoint.readonly
     ) {
-      console.log('Exec: ' + endpoint.name);
       setExecuteAction(true);
-      setShowExecuteBtn(false);
+      if (!endpoint.readonly) {
+        setShowExecuteBtn(false);
+      }
     }
   }, []);
 
