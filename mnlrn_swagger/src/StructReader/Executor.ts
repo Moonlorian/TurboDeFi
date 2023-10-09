@@ -44,7 +44,7 @@ class Executor {
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {
-      endpoints: [endpointObject.toJson()],
+      endpoints: [{ ...endpointObject.toJson(), name: endpointObject.endpoint || endpointObject.name }],
       types: structReader.getCustomFields(true)
     };
     const legacyDelegationAbi = AbiRegistry.create(abiJson);
@@ -160,8 +160,8 @@ class Executor {
         .withGasLimit(txParams.gasLimit)
         .withChainID('D')
         .buildTransaction();
-      
-      sendTransactions({transactions: transaction});
+
+      sendTransactions({ transactions: transaction });
 
       //todo
       /*
