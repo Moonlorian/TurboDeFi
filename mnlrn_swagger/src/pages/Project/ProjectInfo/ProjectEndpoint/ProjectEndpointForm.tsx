@@ -97,14 +97,10 @@ export const ProjectEndpointForm = ({
 
     setFieldValues(initialValues);
     if (
-      initialValues.filter((data) => data).length === initialValues.length &&
-      initialValues.length > 0 &&
-      endpoint.readonly
+      initialValues.filter((data) => data).length === initialValues.length && endpoint.readonly
     ) {
       setExecuteAction(true);
-      if (!endpoint.readonly) {
-        setShowExecuteBtn(false);
-      }
+      setShowExecuteBtn(false);
     }
   }, []);
 
