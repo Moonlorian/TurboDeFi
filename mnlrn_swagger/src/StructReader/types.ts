@@ -112,6 +112,10 @@ type EndpointType = BaseStructType & {
    * This is the endpoint to call. if is empty, the name will be used
    */
   endpoint?: string;
+  /**
+   * Acts equal to readOnly:
+   */
+  mutability?: string;
 };
 
 type ModuleType = BaseStructType & {

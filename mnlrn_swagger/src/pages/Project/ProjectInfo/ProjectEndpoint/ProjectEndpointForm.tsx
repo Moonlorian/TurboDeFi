@@ -52,12 +52,14 @@ export const ProjectEndpointForm = ({
   const { address } = useGetAccountInfo();
 
   const executeEndpoint = () => {
+    const endpointName = endpoint.endpoint != ''? endpoint.endpoint : endpoint.name;
+    console.log("Execute: ", endpointName, endpoint);
     setResponse([]);
     setIsLoading(true);
     Executor.exec(
       structReader,
       module.name,
-      endpoint.name,
+      endpointName || '',
       ...fieldValues
     ).then((output: any) => {
       const newResponse = Object.keys(output).map((field) => output[field]);
@@ -93,7 +95,12 @@ export const ProjectEndpointForm = ({
     });
 
     setFieldValues(initialValues);
-    if (initialValues.filter((data) => data).length === initialValues.length) {
+    if (
+      initialValues.filter((data) => data).length === initialValues.length &&
+      initialValues.length > 0 && 
+      endpoint.readonly
+    ) {
+      console.log('Exec: ' + endpoint.name);
       setExecuteAction(true);
       setShowExecuteBtn(false);
     }
@@ -110,37 +117,43 @@ export const ProjectEndpointForm = ({
       <Form className='mb-3'>
         {endpoint.inputs?.map((input: DataType, index) => (
           <Fragment key={index}>
-            {input.type != 'Address' && (
-              <Form.Group className='mb-1'>
-                <Form.Label>{input.label || input.name}</Form.Label>
-                {input.type == 'TokenIdentifier' ||
-                input.type == 'EgldOrTokenIdentifier' ? (
-                  <TokenSelector
-                    onChange={(tokenId: string) => {
-                      updateValue(index, tokenId);
-                    }}
-                    placeHolder='Token'
-                    defaultValue={input.token || endpoint.token}
-                  />
-                ) : (
-                  <Form.Control
-                    type={PrettyPrinter.getFormInputType(input.type)}
-                    placeholder={input.label}
-                    value={fieldValues[index] ?? ''}
-                    onChange={(e: any) => {
-                      updateValue(index, e.target.value);
-                    }}
-                  />
+            {fieldValues.filter((data) => !data).length > 0 && (
+              <>
+                {input.type != 'Address' && (
+                  <Form.Group className='mb-1'>
+                    <Form.Label>{input.label || input.name}</Form.Label>
+                    {input.type == 'TokenIdentifier' ||
+                    input.type == 'EgldOrTokenIdentifier' ? (
+                      <TokenSelector
+                        onChange={(tokenId: string) => {
+                          updateValue(index, tokenId);
+                        }}
+                        placeHolder='Token'
+                        defaultValue={input.token || endpoint.token}
+                      />
+                    ) : (
+                      <Form.Control
+                        type={PrettyPrinter.getFormInputType(input.type)}
+                        placeholder={input.label}
+                        value={fieldValues[index] ?? ''}
+                        onChange={(e: any) => {
+                          updateValue(index, e.target.value);
+                        }}
+                      />
+                    )}
+                  </Form.Group>
                 )}
-              </Form.Group>
+              </>
             )}
           </Fragment>
         ))}
-        {showExecuteBtn && (
-          <Button disabled={!address} onClick={executeEndpoint}>
-            Execute
-          </Button>
-        )}
+        <>
+          {showExecuteBtn && (
+            <Button disabled={!address} onClick={executeEndpoint}>
+              Execute
+            </Button>
+          )}
+        </>
         <br />
         <OutputContainer isLoading={isLoading}>
           {response.length > 0 && (
