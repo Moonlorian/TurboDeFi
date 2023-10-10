@@ -1,1 +1,1 @@
-export const ProjectList = ['proteo', 'seedCaptain', 'gnogen'];
+export const ProjectList = ['proteo', 'seedCaptain', 'gnogen', 'xexchange'];

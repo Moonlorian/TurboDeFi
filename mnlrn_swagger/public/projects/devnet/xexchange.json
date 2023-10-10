@@ -1,0 +1,63 @@
+{
+  "project": {
+    "name": "xExchange",
+    "description": "MultiversX DEX",
+    "label": "xExchange",
+    "url": "https://xexchange.com/"
+  },
+  "modules": [
+    {
+      "name": "wrap",
+      "description": "Wrap/Unwrap EGLD",
+      "label": "Wrap/Unwrap EGLD",
+      "address": "erd1qqqqqqqqqqqqqpgqd77fnev2sthnczp2lnfx0y5jdycynjfhzzgq6p3rax",
+      "endpoints": [
+        {
+          "name": "wrapEgld",
+          "label": "Wrap EGLD",
+          "buttonLabel": "Wrap",
+          "mutability": "mutable",
+          "payableInTokens": [
+            "EGLD"
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "EsdtTokenPayment"
+            }
+          ]
+        },
+        {
+          "name": "unwrapEgld",
+          "label": "Unwrap EGLD",
+          "buttonLabel": "Unwrap",
+          "mutability": "mutable",
+          "payableInTokens": [
+            "WEGLD-d7c6bb"
+          ],
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    }
+  ],
+  "types": {
+    "EsdtTokenPayment": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "token_identifier",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "token_nonce",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "BigUint"
+        }
+      ]
+    }
+  }
+}
