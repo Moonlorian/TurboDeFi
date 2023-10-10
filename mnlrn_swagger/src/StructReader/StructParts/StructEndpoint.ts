@@ -1,5 +1,5 @@
 import StructBase from './StructBase';
-import { EndpointType } from '../types';
+import { DataType, EndpointType } from '../types';
 
 class StructEndpoint extends StructBase {
   private _inputs: EndpointType['inputs'] = [];
@@ -8,6 +8,7 @@ class StructEndpoint extends StructBase {
   private _readOnly: EndpointType['readOnly'] = false;
   private _endpoint: EndpointType['endpoint'] = '';
   private _notImplemented: EndpointType['notImplemented'] = false;
+  private _payableInTokens: EndpointType['payableInTokens'] = [];
   /**
    * Constructor
    *
@@ -22,9 +23,14 @@ class StructEndpoint extends StructBase {
     this._inputs = endpointData.inputs ?? this._inputs;
     this._outputs = endpointData.outputs ?? this._outputs;
     this._balance = endpointData.balance ?? this._balance;
-    this._readOnly = endpointData.readOnly || (endpointData.mutability == "readonly") || this._readOnly;
+    this._readOnly =
+      endpointData.readOnly ||
+      endpointData.mutability == 'readonly' ||
+      this._readOnly;
     this._endpoint = endpointData.endpoint ?? this._endpoint;
     this._notImplemented = endpointData.notImplemented ?? this._notImplemented;
+    this._payableInTokens =
+      endpointData.payableInTokens ?? this._payableInTokens;
 
     this._checkFields();
   }
@@ -33,7 +39,27 @@ class StructEndpoint extends StructBase {
    * Get endpoint inpput data
    */
   get inputs() {
-    return this._inputs;
+    //Be carefull, array must be colned to avoid reference
+    const currentInputs = [...(this._inputs || [])];
+    if (
+      currentInputs &&
+      this._payableInTokens &&
+      this._payableInTokens.length > 0
+    ) {
+      currentInputs.unshift({
+        name: 'paymentToken_0',
+        label: 'token',
+        type: 'TokenIdentifier',
+        value: undefined
+      });
+      currentInputs.unshift({
+        name: 'paymentAmount_0',
+        label: 'Amount',
+        type: 'BigUint',
+        value: undefined
+      });
+    }
+    return currentInputs;
   }
   /**
    * Get endpoint output data

@@ -100,6 +100,7 @@ export const ProjectEndpointForm = ({
       if (input.type == 'Address') return address;
       return '';
     });
+    //TODO ==> Get payable in tokens
 
     setFieldValues(initialValues);
 

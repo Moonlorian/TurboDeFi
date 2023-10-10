@@ -58,8 +58,10 @@
           "label": "Deposit sPROTEO",
           "mutability": "mutable",
           "payableInTokens": [
+            "HRIDE-b1ecb3", 
             "*"
           ],
+          "multipayment":"true/false ==> TODO Variable form",
           "inputs": [],
           "outputs": []
         },

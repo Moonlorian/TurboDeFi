@@ -126,6 +126,10 @@ type EndpointType = BaseStructType & {
    * Indicates that this endpoint is not implemented
    */
   notImplemented?: boolean;
+  /**
+   * List of payable tokens for this endpoint
+   */
+  payableInTokens?: string[];
 };
 
 type ModuleType = BaseStructType & {
