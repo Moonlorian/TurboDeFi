@@ -5,7 +5,7 @@
     "label": "Gnogen",
     "token": "XGNG-04bd9e",
     "address": "",
-    "url":"gnogen.com"
+    "url": "https://gnogen.com"
   },
   "modules": [
     {
@@ -55,7 +55,9 @@
           ]
         },
         {
-          "docs": ["Does not include the rewards of the current battle"],
+          "docs": [
+            "Does not include the rewards of the current battle"
+          ],
           "name": "getPendingRewardsForAddress",
           "label": "Get pending rewards for an address",
           "mutability": "readonly",
@@ -99,7 +101,9 @@
         {
           "name": "stake",
           "mutability": "mutable",
-          "payableInTokens": ["*"],
+          "payableInTokens": [
+            "*"
+          ],
           "inputs": [],
           "outputs": []
         },
@@ -112,6 +116,7 @@
         {
           "name": "withdraw",
           "mutability": "mutable",
+          "notImplemented": true,
           "inputs": [
             {
               "name": "tokens",
@@ -126,7 +131,7 @@
   ],
   "types": {
     "StakedNft": {
-      "name":"staked_nft",
+      "name": "staked_nft",
       "label": "Staked NFT",
       "type": "struct",
       "isNFT": true,
