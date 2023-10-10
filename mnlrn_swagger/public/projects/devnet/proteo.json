@@ -29,26 +29,7 @@
           ],
           "outputs": [
             {
-              "name": "userInfo",
-              "label": "User Info",
               "type": "UserInfo"
-            }
-          ]
-        },
-        {
-          "name": "can_unstake",
-          "description": "Boolean value that indicates if you can unstake your sPROTEO balance",
-          "label": "Can Unstake",
-          "mutability": "readonly",
-          "inputs": [
-            {
-              "name": "user_address",
-              "type": "Address"
-            }
-          ],
-          "outputs": [
-            {
-              "type": "bool"
             }
           ]
         },
@@ -58,7 +39,9 @@
           "label": "Deposit sPROTEO",
           "buttonLabel": "Deposit",
           "mutability": "mutable",
-          "payableInTokens": ["*"],
+          "payableInTokens": [
+            "SPROTEO-c75f56"
+          ],
           "multipayment": "true/false ==> TODO Variable form",
           "inputs": [],
           "outputs": []
@@ -85,16 +68,16 @@
     },
     {
       "name": "Farms",
-      "description": "Proteo Farms",
-      "label": "Proteo Farms",
+      "description": "Proteo Farms Management",
+      "label": "Farms",
       "endpoints": [
         {
           "name": "MyStakedInfo-1",
           "endpoint": "MyStakedInfo",
-          "description": "Info about the position of an Address in this farm",
           "label": "Elite Single Farm - EGLD",
           "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
           "mutability": "readonly",
+          "token": "EGLD",
           "inputs": [
             {
               "name": "address",
@@ -110,10 +93,10 @@
         {
           "name": "MyStakedInfo-2",
           "endpoint": "MyStakedInfo",
-          "description": "Info about the position of an Address in this farm",
           "label": "Elite Dual Farm - WEB/EGLD",
           "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
           "mutability": "readonly",
+          "token": "WEBEGLD-270db7",
           "inputs": [
             {
               "name": "address",
@@ -125,58 +108,74 @@
               "type": "WalletInfo"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Elite Farm EGLD",
-      "description": "SF of EGLD",
-      "label": "Elite SF EGLD",
-      "token": "EGLD",
-      "endpoints": [
+        },
         {
-          "name": "MyStakedInfo",
-          "description": "Info about the position of an Address in this farm",
-          "label": "User Info",
+            "name": "can_claim-1",
+            "endpoint": "can_claim",
+            "label": "Can claim",
+            "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
+            "mutability": "readonly",
+            "notImplemented": true,
+            "inputs": [
+                {
+                    "name": "claimer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "can_claim",
+                    "label": "Can claim",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "can_claim-2",
+            "endpoint": "can_claim",
+            "label": "Can claim",
+            "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
+            "mutability": "readonly",
+            "notImplemented": true,
+            "inputs": [
+                {
+                    "name": "claimer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "can_claim",
+                    "label": "Can claim",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+          "name": "stake_lp-1",
+          "endpoint": "stake_lp",
+          "label": "Elite Single Farm - EGLD stake",
           "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
-          "mutability": "readonly",
-          "inputs": [
-            {
-              "name": "address",
-              "type": "Address"
-            }
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "EGLD"
           ],
-          "outputs": [
-            {
-              "type": "WalletInfoV2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Dual Farm WEB/EGLD",
-      "description": "DF of WEB/EGLD",
-      "label": "Elite DF WEB/EGLD",
-      "token": "WEBEGLD-270db7",
-      "endpoints": [
+          "inputs": [],
+          "outputs": []
+        },
         {
-          "name": "MyStakedInfo",
-          "description": "Info about the position of an Address in this farm",
-          "label": "User Info",
+          "name": "stake_lp-2",
+          "endpoint": "stake_lp",
+          "label": "Elite Dual Farm - WEB/EGLD stake",
           "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
-          "mutability": "readonly",
-          "inputs": [
-            {
-              "name": "address",
-              "type": "Address"
-            }
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "WEBEGLD-270db7"
           ],
-          "outputs": [
-            {
-              "type": "WalletInfo"
-            }
-          ]
+          "inputs": [],
+          "outputs": []
         }
       ]
     }
@@ -187,31 +186,33 @@
       "fields": [
         {
           "name": "tier",
+          "label": "Tier",
           "type": "UserTier"
         },
         {
           "name": "deposited",
+          "label": "Deposited amount",
           "type": "BigUint",
           "balance": true
         },
         {
           "name": "can_unstake",
-          "label": "can unstake",
+          "label": "Can unstake",
           "type": "bool"
         },
         {
           "name": "unbonding_epoch",
-          "label": "unbonding epoch",
           "type": "u64",
           "hidden": true
         },
         {
           "name": "age",
-          "type": "u64"
+          "type": "u64",
+          "hidden": true
         },
         {
           "name": "booster",
-          "label": "booster %",
+          "label": "Booster %",
           "type": "u64"
         }
       ]
@@ -259,8 +260,8 @@
         },
         {
           "name": "last_harvest_epoch",
-          "label": "Last Harvest Epoch",
-          "type": "u64"
+          "type": "u64",
+          "hidden": true
         },
         {
           "name": "orders_count",
@@ -300,13 +301,13 @@
         },
         {
           "name": "last_harvest_epoch",
-          "label": "Last Harvest Epoch",
-          "type": "u64"
+          "type": "u64",
+          "hidden": true
         },
         {
           "name": "last_deposited_epoch",
-          "label": "Last Deposited Epoch",
-          "type": "u64"
+          "type": "u64",
+          "hidden": true
         }
       ]
     }

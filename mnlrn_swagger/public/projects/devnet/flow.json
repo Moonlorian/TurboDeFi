@@ -1,0 +1,101 @@
+{
+  "project": {
+    "name": "flow-1",
+    "description": "Flow test",
+    "label": "Flow test"
+  },
+  "modules": [
+    {
+      "name": "flow",
+      "description": "flow description",
+      "label": "flow",
+      "endpoints": [
+        {
+          "docs": [
+            "Does not include the rewards of the current battle"
+          ],
+          "name": "getPendingRewardsForAddress",
+          "label": "Pending rewards",
+          "mutability": "readonly",
+          "readonly": true,
+          "token": "XGNG-04bd9e",
+          "address": "erd1qqqqqqqqqqqqqpgqunfdvkfvux3025m9kzsx6e7n5peg07lmm8qsj6sshf",
+          "inputs": [
+            {
+              "name": "address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "rewards",
+              "label": "Rewards",
+              "type": "BigUint",
+              "balance": true
+            }
+          ]
+        },
+        {
+          "name": "claimRewards",
+          "label": "Claim rewards",
+          "buttonLabel": "Claim",
+          "mutability": "mutable",
+          "token": "XGNG-04bd9e",
+          "address": "erd1qqqqqqqqqqqqqpgqunfdvkfvux3025m9kzsx6e7n5peg07lmm8qsj6sshf",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "wrapEgld",
+          "label": "Wrap EGLD",
+          "buttonLabel": "Wrap",
+          "mutability": "mutable",
+          "address": "erd1qqqqqqqqqqqqqpgqd77fnev2sthnczp2lnfx0y5jdycynjfhzzgq6p3rax",
+          "payableInTokens": [
+            "EGLD"
+          ],
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "EsdtTokenPayment"
+            }
+          ]
+        },
+        {
+          "name": "deposit",
+          "description": "Deposit sPROTEO in your Elite account",
+          "label": "Deposit sPROTEO",
+          "buttonLabel": "Deposit",
+          "mutability": "mutable",
+          "address": "erd1qqqqqqqqqqqqqpgq5dzmhfj43kh2kjj6exwc6ua4sadgyh4xznyq8k86my",
+          "payableInTokens": [
+            "SPROTEO-c75f56"
+          ],
+          "multipayment": "true/false ==> TODO Variable form",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    }
+  ],
+  "types": {
+    "EsdtTokenPayment": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "token_identifier",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "token_nonce",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "BigUint"
+        }
+      ]
+    }
+  }
+}

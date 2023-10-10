@@ -14,10 +14,10 @@ export const Card = (props: CardType) => {
 
   return (
     <div
-      className={`flex flex-col rounded-xl bg-white p-6 justify-center ${className}`}
+      className={`flex flex-col rounded-xl bg-white p-6 ${className}`}
       data-testid={props['data-testid']}
     >
-      <h2 className='flex text-xl font-medium group'>
+      <h2 className='flex text-xl font-medium group text-uppercase'>
         {title}
         {reference && (
           <a

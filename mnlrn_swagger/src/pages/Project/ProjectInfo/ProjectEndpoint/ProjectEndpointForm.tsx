@@ -106,10 +106,10 @@ export const ProjectEndpointForm = ({
         return new BigNumber(value)
           .multipliedBy(
             10 **
-              tokenInfo.get(
-                getTokenFromInputList(input.token || ''),
-                'decimals'
-              )
+            tokenInfo.get(
+              getTokenFromInputList(input.token || ''),
+              'decimals'
+            )
           )
           .toFixed();
       }
@@ -150,9 +150,10 @@ export const ProjectEndpointForm = ({
       if (
         input.type == 'EgldOrEsdtTokenIdentifier' ||
         input.type == 'TokenIdentifier'
-      ){
+      ) {
         if (Array.isArray(input.token)) return input.token[0];
-        return fieldValues[index] || input.token || endpoint.token || '';}
+        return fieldValues[index] || input.token || endpoint.token || '';
+      }
       return fieldValues[index];
     });
     //TODO ==> Get payable in tokens
@@ -169,7 +170,7 @@ export const ProjectEndpointForm = ({
 
   return (
     <Card
-      className='flex-2 border my-2'
+      className='flex-2 border h-100'
       key={'projectEndpoint_' + endpoint.name}
       title={endpoint.label || endpoint.name}
       description={endpoint.description}
@@ -193,8 +194,8 @@ export const ProjectEndpointForm = ({
                   <Form.Group className='mb-1'>
                     <Form.Label>{input.label || input.name}</Form.Label>
                     {(input.type == 'TokenIdentifier' ||
-                    input.type == 'EgldOrTokenIdentifier') 
-                    && !input.fixedValue? (
+                      input.type == 'EgldOrTokenIdentifier')
+                      && !input.fixedValue ? (
                       <TokenSelector
                         onChange={(tokenId: string) => {
                           updateValue(index, tokenId);
@@ -222,11 +223,10 @@ export const ProjectEndpointForm = ({
           <>
             {showExecuteBtn && (
               <Button disabled={!address} onClick={executeEndpoint}>
-                { endpoint.buttonLabel || 'Execute'}
+                {endpoint.buttonLabel || 'Execute'}
               </Button>
             )}
           </>
-          <br />
           {showOutput && (
             <OutputContainer isLoading={isLoading}>
               {response.length > 0 && (

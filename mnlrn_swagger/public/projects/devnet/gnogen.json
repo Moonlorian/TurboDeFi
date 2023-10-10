@@ -15,6 +15,38 @@
       "address": "erd1qqqqqqqqqqqqqpgqunfdvkfvux3025m9kzsx6e7n5peg07lmm8qsj6sshf",
       "endpoints": [
         {
+          "docs": [
+            "Does not include the rewards of the current battle"
+          ],
+          "name": "getPendingRewardsForAddress",
+          "label": "Pending rewards",
+          "mutability": "readonly",
+          "readonly": true,
+          "inputs": [
+            {
+              "name": "address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "rewards",
+              "label": "Rewards",
+              "type": "BigUint",
+              "balance": true
+            }
+          ]
+        },
+        {
+          "name": "claimRewards",
+          "label": "Claim rewards",
+          "buttonLabel": "Claim",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
           "name": "getGngTokenId",
           "label": "GNG Token Id",
           "mutability": "readonly",
@@ -55,30 +87,6 @@
           ]
         },
         {
-          "docs": [
-            "Does not include the rewards of the current battle"
-          ],
-          "name": "getPendingRewardsForAddress",
-          "label": "Get pending rewards for an address",
-          "mutability": "readonly",
-          "readonly": true,
-          "inputs": [
-            {
-              "name": "address",
-              "label": "Address",
-              "type": "Address"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "rewards",
-              "label": "Rewards",
-              "type": "BigUint",
-              "balance": true
-            }
-          ]
-        },
-        {
           "name": "getStakedForAddress",
           "mutability": "readonly",
           "inputs": [
@@ -104,12 +112,6 @@
           "payableInTokens": [
             "*"
           ],
-          "inputs": [],
-          "outputs": []
-        },
-        {
-          "name": "claimRewards",
-          "mutability": "mutable",
           "inputs": [],
           "outputs": []
         },

@@ -14,12 +14,23 @@
       "label": "NFT Staking",
       "token": "CTP-2bcda6",
       "address": "erd1qqqqqqqqqqqqqpgqarahd5ywlz2gz598mnn74xjwr4v6qm3m697qz7ra7k",
+      "groups": [
+        {
+          "name": "group-1",
+          "label": "elite single farm - EGLD"
+        },
+        {
+          "name": "group-2",
+          "label": "elite single farm - USDC"
+        }
+      ],
       "endpoints": [
         {
           "name": "my_staked_nfts",
           "description": "Get my staked NFT list",
           "label": "My staked NFTs",
           "mutability": "readonly",
+          "group": "group-1",
           "inputs": [
             {
               "name": "address",
@@ -32,43 +43,43 @@
               "type": "List<StakedNft>"
             }
           ]
+        },
+        {
+          "name": "valid_nft_collections",
+          "label": "Valid Collections",
+          "mutability": "readonly",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "variadic<TokenIdentifier>",
+              "multi_result": true
+            }
+          ]
+        },
+        {
+          "name": "my_pending_rewards",
+          "label": "Pending Rewards",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "UserRewardsData"
+            }
+          ]
+        },
+        {
+          "name": "claim_rewards",
+          "label": "Claim Rewards",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
         }
       ]
-    },
-    {
-      "name": "valid_nft_collections",
-      "label": "Valid Collections",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "variadic<TokenIdentifier>",
-          "multi_result": true
-        }
-      ]
-    },
-    {
-      "name": "my_pending_rewards",
-      "label": "Pending Rewards",
-      "mutability": "readonly",
-      "inputs": [
-        {
-          "name": "address",
-          "type": "Address"
-        }
-      ],
-      "outputs": [
-        {
-          "type": "UserRewardsData"
-        }
-      ]
-    },
-    {
-      "name": "claim_rewards",
-      "label": "Claim Rewards",
-      "mutability": "mutable",
-      "inputs": [],
-      "outputs": []
     }
   ],
   "types": {
