@@ -5,7 +5,7 @@
     "label": "Seed captain",
     "token": "CTP-2bcda6",
     "address": "",
-    "url":"https://seedcaptain.io/"
+    "url": "https://seedcaptain.io/"
   },
   "modules": [
     {
@@ -34,11 +34,46 @@
           ]
         }
       ]
+    },
+    {
+      "name": "valid_nft_collections",
+      "label": "Valid Collections",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "variadic<TokenIdentifier>",
+          "multi_result": true
+        }
+      ]
+    },
+    {
+      "name": "my_pending_rewards",
+      "label": "Pending Rewards",
+      "mutability": "readonly",
+      "inputs": [
+        {
+          "name": "address",
+          "type": "Address"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "UserRewardsData"
+        }
+      ]
+    },
+    {
+      "name": "claim_rewards",
+      "label": "Claim Rewards",
+      "mutability": "mutable",
+      "inputs": [],
+      "outputs": []
     }
   ],
   "types": {
     "StakedNft": {
-      "name":"staked_nfts",
+      "name": "staked_nfts",
       "label": "Staked NFTs",
       "type": "struct",
       "isNFT": true,
@@ -60,6 +95,15 @@
         {
           "name": "withdraw_in_epoch",
           "type": "u64"
+        }
+      ]
+    },
+    "UserRewardsData": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "pending_rewards",
+          "type": "BigUint"
         }
       ]
     }
