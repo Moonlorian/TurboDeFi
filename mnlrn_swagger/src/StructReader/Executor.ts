@@ -3,9 +3,11 @@ import {
   Address,
   AddressValue,
   BigUIntValue,
+  ITokenTransfer,
   ResultsParser,
   SmartContract,
   StringValue,
+  TokenTransfer,
   U16Value,
   U32Value,
   U64Value,
@@ -44,16 +46,21 @@ class Executor {
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {
-      endpoints: [{ ...endpointObject.toJson(), name: endpointObject.endpoint || endpointObject.name }],
+      endpoints: [
+        {
+          ...endpointObject.toJson(),
+          name: endpointObject.endpoint || endpointObject.name
+        }
+      ],
       types: structReader.getCustomFields(true)
     };
-    const legacyDelegationAbi = AbiRegistry.create(abiJson);
+    const abi = AbiRegistry.create(abiJson);
     if (endpointObject.address == '')
       throw new Error('A smart contract is needed');
 
     const contract = new SmartContract({
       address: new Address(endpointObject.address),
-      abi: legacyDelegationAbi
+      abi: abi
     });
 
     if (endpointObject.readonly) {
@@ -153,14 +160,24 @@ class Executor {
         gasLimit: 60000000,
         ...txInfo
       };
-      const transaction = contract.methods[
+
+      const interaction = contract.methods[
         endpointObject.endpoint || endpointObject.name
       ](this._endpointInputsToRustData(endpointObject, args))
         .withSender(new Address(txParams.address))
         .withGasLimit(txParams.gasLimit)
-        .withChainID('D')
-        .buildTransaction();
+        .withChainID('D');
 
+      //TODO, check if they are NFT or ESDT tokens
+      const payments = this._getEndpointPaymentData(endpointObject, args);
+      if (payments.length > 0) {
+        if (payments.length > 1) {
+          interaction.withMultiESDTNFTTransfer(payments);
+        } else {
+          interaction.withSingleESDTTransfer(payments[0]);
+        }
+      }
+      const transaction = interaction.buildTransaction();
       sendTransactions({ transactions: transaction });
 
       //todo
@@ -212,6 +229,30 @@ class Executor {
     return finalOutput;
   }
 
+  private static _getEndpointPaymentData(
+    endpoint: StructEndpoint,
+    args: any[]
+  ): ITokenTransfer[] {
+    const paymentData: ITokenTransfer[] = [];
+    console.log(args);
+
+    if (endpoint.payableInTokens?.length && endpoint.inputs.length > 0) {
+      for (let i = 0; i < endpoint.inputs?.length; i += 2) {
+        const endpointName = (endpoint.inputs[i].name ?? '').split('_')[0];
+        if (!['paymentToken', 'paymentAmount'].includes(endpointName)) break;
+        //TODO ==> CHeck if this input is fora a fungible or non fungible token, right now, only fungible tokens are accepted
+        console.log('Amount: ', args[i]);
+        console.log('Token: ', args[i + 1]);
+        //In Input goes, first the amount and second goes token field
+        paymentData.push(
+          TokenTransfer.fungibleFromAmount(args[i+ 1], args[i], 0)
+        );
+      }
+    }
+    console.log(paymentData);
+    return paymentData;
+  }
+
   private static _endpointInputsToRustData(
     endpoint: StructEndpoint,
     args: any[]
@@ -219,9 +260,18 @@ class Executor {
     const rustInputData: any[] = [];
     let argIndex = 0;
     endpoint.inputs?.map((input: DataType, index: number) => {
-      if (args[index]) {
-        rustInputData[index] = this._getFormattedField(args[index], input.type);
-        argIndex = args.length > argIndex + 1 ? 0 : argIndex + 1;
+      const endpointName = endpoint.name.split('_')[0];
+      if (
+        !endpoint.payableInTokens?.length &&
+        !['paymentToken', 'paymentAmount'].includes(endpointName)
+      ) {
+        if (args[index]) {
+          rustInputData[index] = this._getFormattedField(
+            args[index],
+            input.type
+          );
+          argIndex = args.length > argIndex + 1 ? 0 : argIndex + 1;
+        }
       }
     });
     return rustInputData;

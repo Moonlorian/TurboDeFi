@@ -1,20 +1,15 @@
 import StructEndpoint from 'StructReader/StructParts/StructEndpoint';
 import StructModule from 'StructReader/StructParts/StructModule';
-import {
-  Button,
-  Card,
-  TokenSelector,
-  Label,
-  OutputContainer
-} from 'components';
+import { Button, Card, TokenSelector, OutputContainer } from 'components';
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
-import { useGetAccountInfo, useGetNetworkConfig, useGetTokenInfo } from 'hooks';
+import { useGetAccountInfo, useGetTokenInfo } from 'hooks';
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
+import BigNumber from 'bignumber.js';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
@@ -42,34 +37,40 @@ export const ProjectEndpointForm = ({
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
 
   const executeEndpoint = () => {
     setResponse([]);
     setIsLoading(true);
 
-    //Alwais use endpoint name to exec it. internally, exec function uses endpoint instead
+    //Alwais use endpoint name to execute it. internally, the execcute function uses endpoint instead
     Executor.exec(
       structReader,
       module.name,
       endpoint.name,
       {
-        address: address,
+        address: address
       },
-      ...fieldValues
-    ).then((output: any) => {
-      const newResponse = Object.keys(output).map((field) => output[field]);
-      setIsLoading(false);
-      setResponse(newResponse);
-    }).catch((err) => {
-      setIsLoading(false);
-      setResponse([{
-          name: "error",
-          label: "Error",
-          value: "An error has occurred",
-          type: "bytes"
-      }]);
-    });
+      ...fieldValues.map((value, index) => formatInputField(value, index))
+    )
+      .then((output: any) => {
+        const newResponse = Object.keys(output).map((field) => output[field]);
+        setIsLoading(false);
+        setResponse(newResponse);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        setResponse([
+          {
+            name: 'error',
+            label: 'Error',
+            value: 'An error has occurred',
+            type: 'bytes'
+          }
+        ]);
+      });
   };
 
   const updateValue = useCallback(
@@ -81,6 +82,46 @@ export const ProjectEndpointForm = ({
     [fieldValues]
   );
 
+  const showField = useCallback(
+    (index: number) => {
+      if (endpoint.inputs[index].type == 'Address' && fieldValues[index])
+        return false;
+
+      //TODO ==> Right now, only address fields will be hidden to users
+      return true;
+    },
+    [fieldValues, endpoint.inputs]
+  );
+
+  const formatInputField = useCallback(
+    (value: any, index: number) => {
+      const input = endpoint.inputs[index];
+      if (input.type === 'BigUint' && input.token != '') {
+        return new BigNumber(value)
+          .multipliedBy(
+            10 **
+              tokenInfo.get(
+                getTokenFromInputList(input.token || ''),
+                'decimals'
+              )
+          )
+          .toFixed();
+      }
+
+      return value;
+    },
+    [fieldValues, endpoint.inputs]
+  );
+  const getTokenFromInputList = useCallback(
+    (tokenName: string) => {
+      for (let i = 0; i < endpoint.inputs.length; i++) {
+        if (endpoint.inputs[i].name === tokenName) return fieldValues[i];
+      }
+      return tokenName;
+    },
+    [fieldValues, endpoint.inputs]
+  );
+
   const showOutput = useMemo(() => {
     return response.length > 0 || isLoading;
   }, [response, isLoading]);
@@ -89,6 +130,7 @@ export const ProjectEndpointForm = ({
     () => structReader.getProject().projectUrl,
     [structReader]
   );
+
   useEffect(() => {
     if (!executeAction) return;
     executeEndpoint();
@@ -98,10 +140,14 @@ export const ProjectEndpointForm = ({
   useEffect(() => {
     const initialValues = (endpoint.inputs || []).map((input) => {
       if (input.type == 'Address') return address;
+      if (
+        input.type == 'EgldOrEsdtTokenIdentifier' ||
+        input.type == 'TokenIdentifier'
+      )
+        return input.token || endpoint.token || '';
       return '';
     });
     //TODO ==> Get payable in tokens
-
     setFieldValues(initialValues);
 
     if (
@@ -134,32 +180,30 @@ export const ProjectEndpointForm = ({
         <Form className='mb-3'>
           {endpoint.inputs?.map((input: DataType, index) => (
             <Fragment key={index}>
-              {fieldValues.filter((data) => !data).length > 0 && (
+              {showField(index) && (
                 <>
-                  {input.type != 'Address' && (
-                    <Form.Group className='mb-1'>
-                      <Form.Label>{input.label || input.name}</Form.Label>
-                      {input.type == 'TokenIdentifier' ||
-                      input.type == 'EgldOrTokenIdentifier' ? (
-                        <TokenSelector
-                          onChange={(tokenId: string) => {
-                            updateValue(index, tokenId);
-                          }}
-                          placeHolder='Token'
-                          defaultValue={input.token || endpoint.token}
-                        />
-                      ) : (
-                        <Form.Control
-                          type={PrettyPrinter.getFormInputType(input.type)}
-                          placeholder={input.label}
-                          value={fieldValues[index] ?? ''}
-                          onChange={(e: any) => {
-                            updateValue(index, e.target.value);
-                          }}
-                        />
-                      )}
-                    </Form.Group>
-                  )}
+                  <Form.Group className='mb-1'>
+                    <Form.Label>{input.label || input.name}</Form.Label>
+                    {input.type == 'TokenIdentifier' ||
+                    input.type == 'EgldOrTokenIdentifier' ? (
+                      <TokenSelector
+                        onChange={(tokenId: string) => {
+                          updateValue(index, tokenId);
+                        }}
+                        placeHolder='Token'
+                        defaultValue={input.token || endpoint.token}
+                      />
+                    ) : (
+                      <Form.Control
+                        type={PrettyPrinter.getFormInputType(input.type)}
+                        placeholder={input.label}
+                        value={fieldValues[index] ?? ''}
+                        onChange={(e: any) => {
+                          updateValue(index, e.target.value);
+                        }}
+                      />
+                    )}
+                  </Form.Group>
                 </>
               )}
             </Fragment>

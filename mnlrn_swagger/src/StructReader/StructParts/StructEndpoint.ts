@@ -48,7 +48,7 @@ class StructEndpoint extends StructBase {
     ) {
       currentInputs.unshift({
         name: 'paymentToken_0',
-        label: 'token',
+        label: 'Token',
         type: 'TokenIdentifier',
         value: undefined
       });
@@ -56,7 +56,8 @@ class StructEndpoint extends StructBase {
         name: 'paymentAmount_0',
         label: 'Amount',
         type: 'BigUint',
-        value: undefined
+        value: undefined,
+        token:"paymentToken_0",
       });
     }
     return currentInputs;
@@ -86,12 +87,18 @@ class StructEndpoint extends StructBase {
   get endpoint() {
     return this._endpoint;
   }
-
   /**
    * Get if this endpoint is not implemented
    */
   get notImplemented() {
     return this._notImplemented;
+  }
+
+  /**
+   * Is this endpoint a payable endpoint?
+   */
+  get payableInTokens() {
+    return this._payableInTokens;
   }
 
   _checkFields(): void {
