@@ -94,7 +94,7 @@ type DataType = {
   /**
    * Value of this data
    */
-  value:any;
+  value: any;
 };
 
 type EndpointType = BaseStructType & {
@@ -130,6 +130,10 @@ type EndpointType = BaseStructType & {
    * List of payable tokens for this endpoint
    */
   payableInTokens?: string[];
+  /**
+   * This the label to show in the front end button to execute this endpoint. If is empty, default will be used
+   */
+  buttonLabel?: string;
 };
 
 type ModuleType = BaseStructType & {
