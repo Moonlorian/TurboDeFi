@@ -39,9 +39,17 @@ export const useGetTokenInfo = () => {
    * Returns token list in array format instead an associative array (object)
    *
    */
-  const getList = useCallback(() => {
-    return Object.keys(tokenList).map((tokenId) => tokenList[tokenId]);
-  }, [tokenList]);
+  const getList = useCallback(
+    (filter: string[] = []) => {
+      const finalTokenList: any[] = [];
+      Object.keys(tokenList).map((tokenId) => {
+        if (filter.length == 0 || filter.includes(tokenId))
+          finalTokenList.push(tokenList[tokenId]);
+      });
+      return finalTokenList;
+    },
+    [tokenList]
+  );
 
   /**
    * Returns if a token exists
@@ -50,7 +58,10 @@ export const useGetTokenInfo = () => {
    * Return true if a token exists
    *
    */
-  const hasToken = useCallback((tokenId: string):boolean => tokenList[tokenId], [tokenList]);
+  const hasToken = useCallback(
+    (tokenId: string): boolean => tokenList[tokenId],
+    [tokenList]
+  );
 
-  return { get, getList, tokenList, hasToken};
+  return { get, getList, tokenList, hasToken };
 };

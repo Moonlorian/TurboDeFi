@@ -1,4 +1,11 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 
 import './TokenSelector.css';
 import { useGetTokenInfo } from 'hooks';
@@ -15,12 +22,14 @@ export const TokenSelector = ({
   onChange,
   placeHolder = '',
   isSearchable = true,
-  defaultValue = ''
+  defaultValue = '',
+  filter = []
 }: {
   onChange: any;
   placeHolder?: string;
   isSearchable?: boolean;
   defaultValue?: string;
+  filter?: string[];
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
@@ -31,10 +40,10 @@ export const TokenSelector = ({
   const wrapperRef = useRef(null);
 
   const handleInputClick = (e: any) => {
-    setShowMenu(!showMenu);
+    if (filter.length != 1) setShowMenu(!showMenu);
   };
 
-  const getDisplay = () => {
+  const getDisplay = useCallback(() => {
     if (!selectedValue) {
       return placeHolder;
     }
@@ -47,7 +56,7 @@ export const TokenSelector = ({
         {selectedValue}
       </>
     );
-  };
+  }, [selectedValue, searchValue]);
 
   const onItemClick = (option: any) => {
     let newValue = option;
@@ -61,7 +70,7 @@ export const TokenSelector = ({
   };
 
   const getOptions = useMemo(() => {
-    const tokenList = tokenInfo.getList();
+    const tokenList = tokenInfo.getList(filter);
 
     return tokenList.filter(
       (token: any) =>
@@ -71,7 +80,7 @@ export const TokenSelector = ({
           .toLowerCase()
           .includes(searchValue.toLowerCase())
     );
-  }, [tokenInfo.getList, searchValue]);
+  }, [tokenInfo.getList, searchValue, filter]);
 
   useEffect(() => {
     if (!showMenu) return;
@@ -97,8 +106,10 @@ export const TokenSelector = ({
   }, [wrapperRef, showMenu]);
 
   useEffect(() => {
-    setSelectedValue(defaultValue);
-  }, [defaultValue]);
+    setSelectedValue(
+      filter.includes(defaultValue) ? defaultValue : filter[0] ?? ''
+    );
+  }, []);
 
   return (
     <div className='token-selector-container' ref={wrapperRef}>
@@ -106,15 +117,17 @@ export const TokenSelector = ({
         <div className='token-selector-selected-value d-flex align-items-center w-100'>
           {getDisplay()}
         </div>
-        <div className='token-selector-tool'>
-          <Icon />
-        </div>
+        {filter.length != 1 && (
+          <div className='token-selector-tool'>
+            <Icon />
+          </div>
+        )}
       </div>
 
       <div
         className={`token-selector-floating-layer ${!showMenu ? 'd-none' : ''}`}
       >
-        {isSearchable && showMenu && (
+        {isSearchable && showMenu && filter.length != 1 && (
           <div className='search-box'>
             <input
               className='token-selector-input'

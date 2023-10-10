@@ -90,11 +90,19 @@ type DataType = {
   /**
    * Token to use
    */
-  token?: string;
+  token?: string | string[];
   /**
    * Value of this data
    */
-  value: any;
+  value:any;
+  /**
+   * Default value
+   */
+  defaultValue?:any;
+  /**
+   * Is this value fixed?
+   */
+  fixedValue?:boolean;
 };
 
 type EndpointType = BaseStructType & {

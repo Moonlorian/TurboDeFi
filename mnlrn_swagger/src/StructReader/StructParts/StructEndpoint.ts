@@ -52,7 +52,8 @@ class StructEndpoint extends StructBase {
         name: 'paymentToken_0',
         label: 'Token',
         type: 'TokenIdentifier',
-        value: undefined
+        value: undefined,
+        token: this._payableInTokens.filter((tokenId) => tokenId != '*' )
       });
       currentInputs.unshift({
         name: 'paymentAmount_0',

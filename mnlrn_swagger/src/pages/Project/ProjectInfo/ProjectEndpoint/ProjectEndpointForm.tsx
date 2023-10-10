@@ -101,7 +101,8 @@ export const ProjectEndpointForm = ({
   const formatInputField = useCallback(
     (value: any, index: number) => {
       const input = endpoint.inputs[index];
-      if (input.type === 'BigUint' && input.token != '') {
+      //When a field has an associated token, it can not be an array
+      if (input.type === 'BigUint' && !Array.isArray(input.token) && input.token != '') {
         return new BigNumber(value)
           .multipliedBy(
             10 **
@@ -144,12 +145,14 @@ export const ProjectEndpointForm = ({
 
   useEffect(() => {
     const initialValues = (endpoint.inputs || []).map((input, index) => {
+      if (input.defaultValue) return input.defaultValue;
       if (input.type == 'Address') return fieldValues[index] || address;
       if (
         input.type == 'EgldOrEsdtTokenIdentifier' ||
         input.type == 'TokenIdentifier'
-      )
-        return fieldValues[index] || input.token || endpoint.token || '';
+      ){
+        if (Array.isArray(input.token)) return input.token[0];
+        return fieldValues[index] || input.token || endpoint.token || '';}
       return fieldValues[index];
     });
     //TODO ==> Get payable in tokens
@@ -189,18 +192,21 @@ export const ProjectEndpointForm = ({
                 <>
                   <Form.Group className='mb-1'>
                     <Form.Label>{input.label || input.name}</Form.Label>
-                    {input.type == 'TokenIdentifier' ||
-                    input.type == 'EgldOrTokenIdentifier' ? (
+                    {(input.type == 'TokenIdentifier' ||
+                    input.type == 'EgldOrTokenIdentifier') 
+                    && !input.fixedValue? (
                       <TokenSelector
                         onChange={(tokenId: string) => {
                           updateValue(index, tokenId);
                         }}
                         placeHolder='Token'
-                        defaultValue={input.token || endpoint.token}
+                        defaultValue={input.defaultValue || input.token || endpoint.token}
+                        filter={input.token ? [input.token].flat() : []}
                       />
                     ) : (
                       <Form.Control
                         type={PrettyPrinter.getFormInputType(input.type)}
+                        readOnly={input.fixedValue}
                         placeholder={input.label}
                         value={fieldValues[index] ?? ''}
                         onChange={(e: any) => {
