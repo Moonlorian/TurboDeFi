@@ -17,16 +17,16 @@ export const useGetTokenInfo = () => {
    * If no property is passed, it returns all properties.
    *
    * @param tokenId - (string) Token id.
-   * 
-   * @param fieldName - (string, optional) If field exists this function will returns this property value. If not, return null. 
-   * If fieldname is not specified, this function returns al token properties 
+   *
+   * @param fieldName - (string, optional) If field exists this function will returns this property value. If not, return null.
+   * If fieldname is not specified, this function returns al token properties
    *
    */
   function get(tokenId: string, fieldName?: string) {
     if (fieldName) {
-      const defaultValue = fieldName == 'decimals' ? 18 : '';
+      const defaultValue = '';
       if (tokenList[tokenId]) return tokenList[tokenId][fieldName];
-      return defaultValue;
+      throw new Error('Token not found');
     } else {
       return tokenList[tokenId];
     }
