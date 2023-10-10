@@ -162,7 +162,6 @@ class StructReader {
    *
    */
   getModuleEndpoint(moduleName: string, endpointName: string): StructEndPoint {
-    console.log(endpointName);
     if (!this._project) throw new Error('Project is not defined');
     const module = this._getModule(moduleName);
     if (module.endpoints) {
@@ -181,7 +180,6 @@ class StructReader {
         }
       }
     }
-    console.log("NO ENCONTRADO");
     throw new Error('Endpoint not found');
   }
 

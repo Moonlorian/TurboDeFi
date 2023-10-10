@@ -43,18 +43,16 @@ export const ProjectEndpointForm = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { address } = useGetAccountInfo();
-  const nonce = useGetNetworkConfig();
 
   const executeEndpoint = () => {
-    const endpointName =
-      endpoint.endpoint != '' ? endpoint.endpoint : endpoint.name;
     setResponse([]);
     setIsLoading(true);
 
+    //Alwais use endpoint name to exec it. internally, exec function uses endpoint instead
     Executor.exec(
       structReader,
       module.name,
-      endpointName || '',
+      endpoint.name,
       {
         address: address,
       },
