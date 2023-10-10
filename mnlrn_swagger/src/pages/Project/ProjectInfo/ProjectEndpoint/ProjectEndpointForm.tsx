@@ -6,7 +6,11 @@ import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
-import { useGetAccountInfo, useGetTokenInfo } from 'hooks';
+import {
+  useGetAccountInfo,
+  useGetPendingTransactions,
+  useGetTokenInfo
+} from 'hooks';
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
@@ -39,6 +43,7 @@ export const ProjectEndpointForm = ({
 
   const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
+  const { pendingTransactions } = useGetPendingTransactions();
 
   const executeEndpoint = () => {
     setResponse([]);
@@ -138,6 +143,7 @@ export const ProjectEndpointForm = ({
   }, [executeAction]);
 
   useEffect(() => {
+    if (pendingTransactions) return;
     const initialValues = (endpoint.inputs || []).map((input) => {
       if (input.type == 'Address') return address;
       if (
@@ -157,7 +163,7 @@ export const ProjectEndpointForm = ({
       setExecuteAction(true);
       setShowExecuteBtn(false);
     }
-  }, []);
+  }, [pendingTransactions]);
 
   return (
     <Card
