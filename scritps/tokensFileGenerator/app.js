@@ -22,6 +22,13 @@ const getTokenList = async () => {
     };
   });
 
+  filteredTokenList.unshift({
+    name: "EGLD",
+    identifier: "EGLD",
+    ticker: "EGLD",
+    decimals: 18,
+    assets: { svgUrl: "https://raw.githubusercontent.com/ElrondNetwork/assets/master/tokens/WEGLD-bd4d79/logo.svg" },
+  });
   if (!tokenList) return;
 
   console.log("Saving token list to file");
