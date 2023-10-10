@@ -18,7 +18,7 @@ export const Header = () => {
     <header className='flex flex-row align-center justify-between pl-6 pr-6 pt-6'>
       <MxLink
         className='flex items-center justify-between'
-        to={isLoggedIn ? RouteNamesEnum.dashboard : RouteNamesEnum.home}
+        to={isLoggedIn ? RouteNamesEnum.project : RouteNamesEnum.home}
       >
         <MultiversXLogo className='w-full h-6' />
       </MxLink>
