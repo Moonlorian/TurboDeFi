@@ -165,9 +165,11 @@ class Executor {
         endpointObject.endpoint || endpointObject.name
       ](this._endpointInputsToRustData(endpointObject, args))
         .withSender(new Address(txParams.address))
+        .withValue(this._getEgldValueFromPaymentData(endpointObject, args).toString())
         .withGasLimit(txParams.gasLimit)
         .withChainID('D');
 
+      /*
       //TODO, check if they are NFT or ESDT tokens
       const payments = this._getEndpointPaymentData(endpointObject, args);
       if (payments.length > 0) {
@@ -177,6 +179,8 @@ class Executor {
           interaction.withSingleESDTTransfer(payments[0]);
         }
       }
+      */
+
       const transaction = interaction.buildTransaction();
       sendTransactions({ transactions: transaction });
 
@@ -229,6 +233,27 @@ class Executor {
     return finalOutput;
   }
 
+  private static _getEgldValueFromPaymentData(
+    endpoint: StructEndpoint,
+    args: any[]
+  ): number {
+    if (endpoint.payableInTokens?.length && endpoint.inputs.length > 0) {
+      for (let i = 0; i < endpoint.inputs?.length; i += 2) {
+        const endpointName = (endpoint.inputs[i].name ?? '').split('_')[0];
+        if (!['paymentToken', 'paymentAmount'].includes(endpointName)) break;
+        //In Input goes, first the amount and second goes token field
+        const tokenId = args[i + 1];
+        const amount = args[i];
+        console.log('amount: ', amount);
+        //If there are EGLD in the transaction, don't use as payment
+        if (tokenId != 'EGLD') {
+          return amount;
+        }
+      }
+    }
+    return 0;
+  }
+
   private static _getEndpointPaymentData(
     endpoint: StructEndpoint,
     args: any[]
@@ -241,9 +266,14 @@ class Executor {
         if (!['paymentToken', 'paymentAmount'].includes(endpointName)) break;
         //TODO ==> CHeck if this input is fora a fungible or non fungible token, right now, only fungible tokens are accepted
         //In Input goes, first the amount and second goes token field
-        paymentData.push(
-          TokenTransfer.fungibleFromAmount(args[i+ 1], args[i], 0)
-        );
+        const tokenId = args[i + 1];
+        const amount = args[i];
+        //If there are EGLD in the transaction, don't use as payment
+        if (tokenId != 'EGLD') {
+          paymentData.push(
+            TokenTransfer.fungibleFromAmount(tokenId, amount, 0)
+          );
+        }
       }
     }
     return paymentData;
