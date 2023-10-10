@@ -165,11 +165,12 @@ class Executor {
         endpointObject.endpoint || endpointObject.name
       ](this._endpointInputsToRustData(endpointObject, args))
         .withSender(new Address(txParams.address))
-        .withValue(this._getEgldValueFromPaymentData(endpointObject, args).toString())
+        .withValue(
+          this._getEgldValueFromPaymentData(endpointObject, args).toString()
+        )
         .withGasLimit(txParams.gasLimit)
         .withChainID('D');
 
-      /*
       //TODO, check if they are NFT or ESDT tokens
       const payments = this._getEndpointPaymentData(endpointObject, args);
       if (payments.length > 0) {
@@ -179,7 +180,6 @@ class Executor {
           interaction.withSingleESDTTransfer(payments[0]);
         }
       }
-      */
 
       const transaction = interaction.buildTransaction();
       sendTransactions({ transactions: transaction });
@@ -246,7 +246,7 @@ class Executor {
         const amount = args[i];
         console.log('amount: ', amount);
         //If there are EGLD in the transaction, don't use as payment
-        if (tokenId != 'EGLD') {
+        if (tokenId == 'EGLD') {
           return amount;
         }
       }
