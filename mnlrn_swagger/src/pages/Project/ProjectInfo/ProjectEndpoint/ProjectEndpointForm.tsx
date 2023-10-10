@@ -143,15 +143,14 @@ export const ProjectEndpointForm = ({
   }, [executeAction]);
 
   useEffect(() => {
-    if (pendingTransactions) return;
-    const initialValues = (endpoint.inputs || []).map((input) => {
-      if (input.type == 'Address') return address;
+    const initialValues = (endpoint.inputs || []).map((input, index) => {
+      if (input.type == 'Address') return fieldValues[index] || address;
       if (
         input.type == 'EgldOrEsdtTokenIdentifier' ||
         input.type == 'TokenIdentifier'
       )
-        return input.token || endpoint.token || '';
-      return '';
+        return fieldValues[index] || input.token || endpoint.token || '';
+      return fieldValues[index];
     });
     //TODO ==> Get payable in tokens
     setFieldValues(initialValues);
