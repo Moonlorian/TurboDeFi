@@ -244,7 +244,6 @@ class Executor {
         //In Input goes, first the amount and second goes token field
         const tokenId = args[i + 1];
         const amount = args[i];
-        console.log('amount: ', amount);
         //If there are EGLD in the transaction, don't use as payment
         if (tokenId == 'EGLD') {
           return amount;

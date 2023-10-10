@@ -12,8 +12,6 @@ export const FormatEndpointField = ({
 }) => {
   const tokenInfo = useGetTokenInfo();
 
-  console.log(field?.token);
-
   return (
     <div
       className={`${
