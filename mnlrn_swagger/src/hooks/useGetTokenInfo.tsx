@@ -43,5 +43,14 @@ export const useGetTokenInfo = () => {
     return Object.keys(tokenList).map((tokenId) => tokenList[tokenId]);
   }, [tokenList]);
 
-  return { get, getList, tokenList };
+  /**
+   * Returns if a token exists
+   *
+   * @remarks
+   * Return true if a token exists
+   *
+   */
+  const hasToken = useCallback((tokenId: string):boolean => tokenList[tokenId], [tokenList]);
+
+  return { get, getList, tokenList, hasToken};
 };
