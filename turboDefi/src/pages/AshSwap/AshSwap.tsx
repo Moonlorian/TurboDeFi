@@ -52,6 +52,7 @@ export const AshSwap = () => {
   };
 
   const swapTokenOrder = () => {
+    setAmountFrom(new BigNumber(0));
     setTokenFrom(tokenTo);
     setTokenTo(tokenFrom);
   };
