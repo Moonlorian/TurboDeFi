@@ -34,7 +34,7 @@ class Executor {
       { timeout: 5000 }
     );
 
-    const structReader = new StructReader(project);
+    const structReader = new StructReader(project.toLowerCase());
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {

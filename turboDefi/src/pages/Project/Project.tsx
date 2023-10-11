@@ -18,7 +18,7 @@ export const Project = () => {
 
   const selectProject = async (selectedProject: string) => {
     const newStructReader = new StructReader(
-      '/projects/' + environment + '/' + selectedProject
+      '/projects/' + environment + '/' + selectedProject.toLowerCase()
     );
     await newStructReader.load();
     return newStructReader;
