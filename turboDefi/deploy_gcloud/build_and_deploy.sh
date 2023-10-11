@@ -2,7 +2,7 @@
 
 # Constantes
 PROJECT_ID_DEVNET=turbodefi-devnet
-PROJECT_ID_MAINNET=turbodefi
+PROJECT_ID_MAINNET=turbodefi-mainnet
 
 YAML_FILE=app-devnet.yaml
 
