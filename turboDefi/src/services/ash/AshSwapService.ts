@@ -123,7 +123,7 @@ export const swap = async (
       token: tokenId,
       amount:
         index == tokenAddresses.length - 1
-          ? minOut.multipliedBy(100 - slippage / 100).decimalPlaces(0, 1)
+          ? minOut.multipliedBy(1 - slippage / 100).decimalPlaces(0, 1)
           : new BigNumber(0)
     };
     return listElement;
