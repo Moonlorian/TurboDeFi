@@ -9,7 +9,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { projectContractList } from 'config';
 
-const COLUMNS = ['Project', 'Smart Contract', 'Method', 'Age', 'Token', 'TxHash'];
+const COLUMNS = ['Project', 'Smart Contract', 'Action', 'Age', 'Asset', 'Tx-Hash'];
 
 export const Scanner = () => {
   const { address } = useGetAccountInfo();
