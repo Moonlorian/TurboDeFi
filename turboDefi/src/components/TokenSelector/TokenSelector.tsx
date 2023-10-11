@@ -91,7 +91,7 @@ export const TokenSelector = ({
           'token-selector-item',
           'token-selector-input',
           'token-selector-selected-value'
-        ].some((v) => event.target.className.includes(v))
+        ].some((v) => Array.isArray(event.target.className) && event.target.className.includes(v))
       ) {
         handleInputClick(event);
       }
