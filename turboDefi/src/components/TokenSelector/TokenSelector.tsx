@@ -109,7 +109,7 @@ export const TokenSelector = ({
     setSelectedValue(
       filter.includes(defaultValue) ? defaultValue : filter[0] ?? ''
     );
-  }, []);
+  }, [defaultValue]);
 
   return (
     <div className='token-selector-container' ref={wrapperRef}>
