@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import {
   TimeAgo,
   TransactionMethod,
-  TransactionReceiver,
   TransactionValue
 } from '@multiversx/sdk-dapp/UI';
 import {
@@ -10,11 +9,8 @@ import {
   WithTransactionType
 } from '@multiversx/sdk-dapp/UI/types';
 import { ScannerTransactionHash } from './ScannerTransactionHash';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { EXPLORER_URL, projectContractList } from 'config';
+import { projectContractList } from 'config';
 import { useNavigate } from 'react-router-dom';
-import { ScannerTransactionReceiver } from './ScannerTransactionReceiver';
 import { AccountName } from '@multiversx/sdk-dapp/UI/TransactionsTable/components/AccountName';
 
 export interface TransactionRowPropsType
