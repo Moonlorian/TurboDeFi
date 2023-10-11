@@ -1,0 +1,152 @@
+{
+  "project": {
+    "name": "cyberpunkcity",
+    "description": "cyberpunkcity",
+    "label": "CyberpunkCity",
+    "token": "CYBER-489c1c",
+    "address": ""
+  },
+  "modules": [
+    {
+      "name": "cyber_token",
+      "description": "Stake $CYBER",
+      "label": "Cyber",
+      "address": "erd1qqqqqqqqqqqqqpgqqgxy40dn5tx2dtg0z4jt0sl0zpqm0sca398sv4d50e",
+      "endpoints": [
+        {
+          "name": "getAccountState",
+          "label": "My Status",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "user_address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "AccountState"
+            }
+          ]
+        },
+        {
+          "name": "unstake",
+          "label": "Unstake",
+          "buttonLabel": "Unstake",
+          "mutability": "mutable",
+          "inputs": [
+            {
+              "name": "amount",
+              "label": "Amount",
+              "type": "BigUint",
+              "token": "CYBER-489c1c"
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "claim",
+          "label": "Claim rewards",
+          "buttonLabel": "Claim",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "reinvest",
+          "label": "Reinvest rewards",
+          "buttonLabel": "Reinvest",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "name": "city_nft",
+      "description": "CityNFT Dashboard",
+      "label": "CityNFT",
+      "address": "erd1qqqqqqqqqqqqqpgqsu2vxxx5l3tjgcnjl6mftlz5dtz5cp5s398syqw3gz",
+      "endpoints": [
+        {
+          "notImplemented": true,
+          "name": "getAccountState",
+          "label": "My Status",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "user_address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "AccountState"
+            }
+          ]
+        },
+        {
+          "name": "claimReward",
+          "label": "Claim rewards",
+          "buttonLabel": "Claim",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    }
+  ],
+  "types": {
+    "AccountState": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "deposited",
+          "label": "My Staked",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "rewards",
+          "label": "My Earned",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "unbonding",
+          "label": "My Unbonding",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "unclaimed",
+          "label": "Unclaimed",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "prop-1",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "prop-2",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "prop-3",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "prop-4",
+          "type": "u16",
+          "hidden": true
+        }
+      ]
+    }
+  }
+}

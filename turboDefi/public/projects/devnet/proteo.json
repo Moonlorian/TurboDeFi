@@ -110,48 +110,6 @@
           ]
         },
         {
-            "name": "can_claim-1",
-            "endpoint": "can_claim",
-            "label": "Can claim",
-            "address": "erd1qqqqqqqqqqqqqpgqhe7j4rvnv4kksuxqya3hy3d9dhj3s89xznyqveauma",
-            "mutability": "readonly",
-            "notImplemented": true,
-            "inputs": [
-                {
-                    "name": "claimer",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "can_claim",
-                    "label": "Can claim",
-                    "type": "bool"
-                }
-            ]
-        },
-        {
-            "name": "can_claim-2",
-            "endpoint": "can_claim",
-            "label": "Can claim",
-            "address": "erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a",
-            "mutability": "readonly",
-            "notImplemented": true,
-            "inputs": [
-                {
-                    "name": "claimer",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "can_claim",
-                    "label": "Can claim",
-                    "type": "bool"
-                }
-            ]
-        },
-        {
           "name": "stake_lp-1",
           "endpoint": "stake_lp",
           "label": "Elite Single Farm - EGLD stake",
