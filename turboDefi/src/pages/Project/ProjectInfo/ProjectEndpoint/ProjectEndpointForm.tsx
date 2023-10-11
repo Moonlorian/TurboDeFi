@@ -102,7 +102,7 @@ export const ProjectEndpointForm = ({
     (value: any, index: number) => {
       const input = endpoint.inputs[index];
       //When a field has an associated token, it can not be an array
-      if (input.type === 'BigUint' && !Array.isArray(input.token) && input.token != '') {
+      if (input.type === 'BigUint' && input.token && !Array.isArray(input.token)) {
         return new BigNumber(value)
           .multipliedBy(
             10 **
