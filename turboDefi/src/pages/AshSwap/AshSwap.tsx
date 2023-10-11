@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { aggregate, getTokenList, swap } from '../../services/ash/AshSwapService';
-import { FormatAmount, Label, TokenSelector } from 'components';
+import { Card, FormatAmount, Label, OutputContainer, TokenSelector } from 'components';
 import { getUserTokensBalance } from 'services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
 import { useGetTokenInfo } from 'hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { Button } from 'react-bootstrap';
+import { ProjectEndpointForm } from 'pages/Project/ProjectInfo';
 
 export const AshSwap = () => {
   const [tokenList, setTokenList] = useState<string[]>([]);
@@ -104,83 +105,99 @@ export const AshSwap = () => {
 
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
-      <div className=''>
-        <Label>From</Label>
-        <FormatAmount
-          value={balanceFrom.toFixed()}
-          token=''
-          decimals={
-            balanceFrom.isGreaterThan(0)
-              ? tokenInfo.get(tokenFrom, 'decimals')
-              : 0
-          }
-          digits={4}
-        />
-      </div>
-      <div className=''>
-        <TokenSelector
-          onChange={(tokenId: string) => changeToken('from', tokenId)}
-          isSearchable={true}
-          filter={getFilteredList(tokenTo)}
-          defaultValue={tokenFrom}
-        />
-        <input
-          className='text-end'
-          type='number'
-          placeholder='Amount'
-          value={amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''}
-          onChange={(e: any) => {
-            changeAmount('from', e.target.value);
-          }}
-        />
-      </div>
-      <a onClick={swapTokenOrder}>change</a>
-      <div className=''>
-        <Label>To </Label>
-        <FormatAmount
-          value={balanceTo.toFixed()}
-          egldLabel=''
-          token=''
-          decimals={
-            balanceTo.isGreaterThan(0) ? tokenInfo.get(tokenTo, 'decimals') : 0
-          }
-          digits={4}
-        />
-      </div>
-      <div className=''>
-        <TokenSelector
-          onChange={(tokenId: string) => changeToken('to', tokenId)}
-          isSearchable={true}
-          filter={getFilteredList(tokenFrom)}
-          defaultValue={tokenTo}
-        />
-        <span>
-          {tokenTo
-            ? formatAmount({
-                input: amountTo.toFixed(),
-                decimals: tokenInfo.get(tokenTo, 'decimals'),
-                digits: 4,
-                addCommas: true,
-                showLastNonZeroDecimal: false
-              })
-            : 0}
-        </span>
-      </div>
-      <Button
-        disabled={
-          !address ||
-          amountFrom.isEqualTo(0) ||
-          amountTo.isEqualTo(0) ||
-          tokenFrom === '' ||
-          tokenTo === '' ||
-          amountFrom
-            .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
-            .isGreaterThan(balanceFrom)
-        }
-        onClick={() => swap(address, swapData.swaps, swapData.tokenAddresses, 1, new BigNumber(swapData.returnAmountWithDecimal))}
+      <Card
+        className='flex-2'
+        key={'swap'}
+        title={'SWAP'}
+        description={'Powered by AshShawp'}
+        reference={''}
       >
-        Swap
-      </Button>
+        <Card
+          className='flex-2 border w-50'
+          key={''}
+          title={''}
+          description={''}
+          reference={''}
+        >
+          <div className=''>
+            <Label>From</Label>
+            <FormatAmount
+              value={balanceFrom.toFixed()}
+              token=''
+              decimals={
+                balanceFrom.isGreaterThan(0)
+                  ? tokenInfo.get(tokenFrom, 'decimals')
+                  : 0
+              }
+              digits={4}
+            />
+          </div>
+          <div className=''>
+            <TokenSelector
+              onChange={(tokenId: string) => changeToken('from', tokenId)}
+              isSearchable={true}
+              filter={getFilteredList(tokenTo)}
+              defaultValue={tokenFrom}
+            />
+            <input
+              className='text-end'
+              type='number'
+              placeholder='Amount'
+              value={amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''}
+              onChange={(e: any) => {
+                changeAmount('from', e.target.value);
+              }}
+            />
+          </div>
+          <a onClick={swapTokenOrder}>change</a>
+          <div className=''>
+            <Label>To </Label>
+            <FormatAmount
+              value={balanceTo.toFixed()}
+              egldLabel=''
+              token=''
+              decimals={
+                balanceTo.isGreaterThan(0) ? tokenInfo.get(tokenTo, 'decimals') : 0
+              }
+              digits={4}
+            />
+          </div>
+          <div className=''>
+            <TokenSelector
+              onChange={(tokenId: string) => changeToken('to', tokenId)}
+              isSearchable={true}
+              filter={getFilteredList(tokenFrom)}
+              defaultValue={tokenTo}
+            />
+            <span>
+              {tokenTo
+                ? formatAmount({
+                  input: amountTo.toFixed(),
+                  decimals: tokenInfo.get(tokenTo, 'decimals'),
+                  digits: 4,
+                  addCommas: true,
+                  showLastNonZeroDecimal: false
+                })
+                : 0}
+            </span>
+          </div>
+          <Button
+            disabled={
+              !address ||
+              amountFrom.isEqualTo(0) ||
+              amountTo.isEqualTo(0) ||
+              tokenFrom === '' ||
+              tokenTo === '' ||
+              amountFrom
+                .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
+                .isGreaterThan(balanceFrom)
+            }
+            onClick={() => swap(address, swapData.swaps, swapData.tokenAddresses, 1, new BigNumber(swapData.returnAmountWithDecimal))}
+          >
+            Swap
+          </Button>
+        </Card>
+      </Card>
     </div>
   );
 };
