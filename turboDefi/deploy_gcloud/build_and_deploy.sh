@@ -114,9 +114,9 @@ else
       FILE=package.json
       if  [ -f "$FILE" ]; then
         if [ "$PROJECT_ID" == "$PROJECT_ID_MAINNET" ]; then
-          cp src/config/config.mainnet.tsx src/config/index.tsx
+          cp src/config/config.mainnet.ts src/config/index.ts
         else
-          cp src/config/config.devnet.tsx src/config/index.tsx
+          cp src/config/config.devnet.ts src/config/index.ts
         fi
         yarn build
       fi
@@ -149,9 +149,9 @@ else
         FILE=package.json
         if  [ -f "$FILE" ]; then
           if [ "$PROJECT_ID" == "$PROJECT_ID_MAINNET" ]; then
-            cp src/config/config.mainnet.tsx src/config/config.tsx
+            cp src/config/config.mainnet.ts src/config/index.ts
           else
-            cp src/config/config.devnet.tsx src/config/config.tsx
+            cp src/config/config.devnet.ts src/config/index.ts
           fi
           yarn build
         fi
