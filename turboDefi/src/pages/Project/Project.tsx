@@ -1,10 +1,9 @@
 import { Card } from 'components';
-import { ProjectList } from 'localConstants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ProjectInfo } from './ProjectInfo';
-import { environment } from 'config';
+import { ProjectList, environment } from 'config';
 import StructReader from 'StructReader/StructReader';
 import StructModule from 'StructReader/StructParts/StructModule';
 import { ProjectModule } from './ProjectInfo';

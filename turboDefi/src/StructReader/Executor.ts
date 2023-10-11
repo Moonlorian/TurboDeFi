@@ -45,7 +45,6 @@ class Executor {
       providerUrl,
       { timeout: 5000 }
     );
-    console.log(provider);
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {

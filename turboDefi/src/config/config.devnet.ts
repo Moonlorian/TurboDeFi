@@ -19,3 +19,5 @@ export const projectContractList:{[key: string]: string} = {
   erd1qqqqqqqqqqqqqpgqnlvedtspz0cgls9l4dhcrwgqnr0lkkwsznyqsq7u9a: 'proteo',
   erd1qqqqqqqqqqqqqpgqarahd5ywlz2gz598mnn74xjwr4v6qm3m697qz7ra7k: 'seedCaptain'
 };
+
+export const ProjectList = ['proteo', 'seedCaptain', 'gnogen', 'xexchange', 'flow'];
