@@ -1,6 +1,6 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { API_URL } from '../config/index';
-import {Nonce} from '@multiversx/sdk-network-providers/out/primitives';
+import { Nonce } from '@multiversx/sdk-network-providers/out/primitives';
 
 type apiQueryOptions = {
   maxRetries?: number;
@@ -16,15 +16,50 @@ type apiQueryMandatoryOptions = {
   milisecondsBetweenCalls: number;
 };
 
-export const getNFT = async (
-  collection: string,
-  nonce: number
-) => {
+export const getNFT = async (collection: string, nonce: number) => {
   const provider = new ApiNetworkProvider(API_URL);
-  
-  //const NFT = await provider.getNonFungibleToken(collection, nonce );
-  const NFT = await provider.doGetGeneric('nfts/' + collection + '-' + new Nonce(nonce).hex());
-  return (NFT);
+  const NFT = await provider.doGetGeneric(
+    'nfts/' + collection + '-' + new Nonce(nonce).hex()
+  );
+  return NFT;
+};
+
+export const getUserTokensBalance = async (
+  address: string,
+  tokenList: string[]
+) => {
+  const balanceList: { [key: string]: any } = {};
+
+  const response = await getApiGeneric(
+    'accounts/' + address + '/tokens?identifiers=' + tokenList.join(',')
+  );
+  response.map((tokenData) => (balanceList[tokenData.identifier] = tokenData));
+
+  return balanceList;
+};
+
+export const getApiGeneric = async (
+  query: string,
+  userOptions?: apiQueryOptions
+) => {
+  const options: apiQueryMandatoryOptions = {
+    maxRetries: 10,
+    milisecondsToWaitBetweenRetries: 2000,
+    pageSize: 20,
+    milisecondsBetweenCalls: 400,
+    ...userOptions
+  };
+  const finalArray = [];
+
+  const provider = new ApiNetworkProvider(API_URL);
+  const list = await asyncRetry(
+    options.maxRetries,
+    options.milisecondsToWaitBetweenRetries,
+    () => provider.doGetGeneric(query)
+  );
+  finalArray.push(...list);
+
+  return finalArray;
 };
 
 export const getApiFullGeneric = async (
