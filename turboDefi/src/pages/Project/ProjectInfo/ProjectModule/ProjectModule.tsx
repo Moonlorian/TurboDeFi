@@ -21,7 +21,7 @@ export const ProjectModule = ({
       <div className='d-flex container'>
         <div className='row w-100'>
           {module.endpoints.map((endpoint, index) => (
-            <div className='col-lg-6 col-md-12 my-2'>
+            <div className='col-lg-6 col-md-12 my-2' key={index}>
               <ProjectEndpointForm
                 module={module}
                 endpoint={structReader.getModuleEndpoint(module.name, endpoint.name)}
