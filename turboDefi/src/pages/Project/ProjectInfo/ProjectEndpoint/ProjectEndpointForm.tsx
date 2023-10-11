@@ -14,6 +14,7 @@ import {
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
+import { CHAIN_ID, GATEWAY_URL } from 'config';
 
 //Wallet in proteo
 //erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
@@ -51,6 +52,8 @@ export const ProjectEndpointForm = ({
 
     //Alwais use endpoint name to execute it. internally, the execcute function uses endpoint instead
     Executor.exec(
+      GATEWAY_URL,
+      CHAIN_ID,
       structReader,
       module.name,
       endpoint.name,

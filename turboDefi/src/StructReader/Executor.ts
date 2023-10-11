@@ -33,6 +33,8 @@ class Executor {
    *
    */
   static async exec(
+    providerUrl: string,
+    chainId: string,
     structReader: StructReader,
     module: string,
     endpoint: string,
@@ -40,9 +42,10 @@ class Executor {
     ...args: any
   ): Promise<any> {
     const provider = new ProxyNetworkProvider(
-      'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a',
+      providerUrl,
       { timeout: 5000 }
     );
+    console.log(provider);
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {
@@ -169,7 +172,7 @@ class Executor {
           this._getEgldValueFromPaymentData(endpointObject, args).toString()
         )
         .withGasLimit(txParams.gasLimit)
-        .withChainID('D');
+        .withChainID(chainId);
 
       //TODO, check if they are NFT or ESDT tokens
       const payments = this._getEndpointPaymentData(endpointObject, args);

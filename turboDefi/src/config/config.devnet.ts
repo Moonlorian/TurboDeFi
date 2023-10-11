@@ -5,7 +5,10 @@ export * from './sharedConfig';
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
 export const API_URL = 'https://devnet-api.multiversx.com';
+//export const GATEWAY_URL = 'https://devnet-gateway.multiversx.com';
+export const GATEWAY_URL = 'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a';
 export const EXPLORER_URL = 'https://devnet-explorer.multiversx.com';
+export const CHAIN_ID = 'D';
 export const sampleAuthenticatedDomains = [API_URL];
 export const environment = EnvironmentsEnum.devnet;
 
