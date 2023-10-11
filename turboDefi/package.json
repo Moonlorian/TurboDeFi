@@ -34,6 +34,7 @@
     "build-mainnet": "yarn run copy-mainnet-config & vite build",
     "build-testnet": "yarn run copy-testnet-config & vite build",
     "build-devnet": "yarn run copy-devnet-config & vite build",
+    "build": "vite build",
     "test": "jest"
   },
   "browserslist": [

@@ -12,6 +12,7 @@ videos
 
 # production
 /build
+/deploy_gcloud/build
 
 # misc
 /src/config/index.ts
