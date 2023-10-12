@@ -2,10 +2,9 @@ import StructReader from "StructReader/StructReader";
 import { environment } from "config";
 import { FlowStepType } from "./Flow";
 import { useEffect, useState } from "react";
-import { ProjectEndpointForm, ProjectInfo } from "pages/Project/ProjectInfo";
-import { EndpointType, ModuleType } from "StructReader";
-import StructModule from "StructReader/StructParts/StructModule";
-import StructEndpoint from "StructReader/StructParts/StructEndpoint";
+import { EndpointStep } from "./EndpointStep";
+import { ComponentStep } from "./ComponentStep";
+import { Card } from "components";
 
 export const FlowStep = ({
     step
@@ -27,21 +26,24 @@ export const FlowStep = ({
         if (step.project) {
             selectProject(step.project).then((newStructReader: StructReader) => {
                 setStructReader(newStructReader);
-            }
-            );
+            });
         }
         return;
     }, []);
 
     return (
-        <>
-            {structReader?.isLoaded() && (
-                <ProjectEndpointForm
-                    module={structReader.getModule(step.module)}
-                    endpoint={structReader.getModuleEndpoint(step.module, step.endpoint)}
-                    structReader={structReader}
-                />
-            )}
-        </>
+        <Card
+            className='flex-2 border mb-2'
+            key={'flow'}
+            title={step.label}
+            description={step.description}
+            reference={''}
+        >
+            {step.project ?
+                <EndpointStep structReader={structReader} step={step} />
+                :
+                <ComponentStep step={step} />
+            }
+        </Card>
     );
 }

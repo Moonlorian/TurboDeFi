@@ -1,8 +1,4 @@
-import StructReader from "StructReader/StructReader";
 import { Card } from "components";
-import { environment } from "config";
-import { AshSwap } from 'pages/AshSwap';
-import React, { useEffect, useState } from "react";
 import { FlowStep } from "./FlowStep";
 
 type FlowType = {
@@ -23,25 +19,28 @@ export type FlowStepType = {
 
 export const Flow = () => {
 
-    const COMPONENTS = {
-        "AshSwap": AshSwap
-    }
-
     const flowInfo: FlowType = {
         "name": "flow-1",
         "label": "Flow 1",
         "description": "This flow will save a lot of time to the user",
         "steps": [
             {
-                "label": "Label of step 1",
-                "description": "Description of step 1",
-                "project": "xExchange",
-                "module": "wrap",
-                "endpoint": "wrapEgld"
+                "label": "step 1",
+                "description": "Claim pending rewards from $CYBER Stake",
+                "project": "cyberpunkcity",
+                "module": "cyber_token",
+                "endpoint": "claim"
             },
             {
-                "label": "Label of step 2",
-                "description": "Description of step 2",
+                "label": "step 2",
+                "description": "Claim pending rewards from CityNFT Stake",
+                "project": "cyberpunkcity",
+                "module": "city_nft",
+                "endpoint": "claimReward"
+            },
+            {
+                "label": "step 3",
+                "description": "Swap claimed $CYBER to whatever you want",
                 "component": "AshSwap"
             }
         ]
@@ -57,23 +56,7 @@ export const Flow = () => {
                 reference={''}
             >
                 {flowInfo.steps.map((step, index) => {
-                    if (step.project) {
-                        return (
-                            <FlowStep step={step} key={index} />
-                        );
-                    } else {
-                        return (
-                            <Card
-                                className='flex-2 border mb-3'
-                                key={'step_' + index}
-                                title={step.label}
-                                description={step.description}
-                                reference={''}
-                            >
-                                {React.createElement(COMPONENTS[step.component])}
-                            </Card>
-                        );
-                    }
+                    return <FlowStep step={step} key={index} />
                 })}
             </Card>
         </div>
