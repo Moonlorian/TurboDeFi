@@ -1,0 +1,273 @@
+{
+  "project": {
+    "name": "ProteoDefi",
+    "description": "Exclusive MultiversX DeFi Suite",
+    "label": "Proteo DEFI",
+    "token": "PROTEO-0c7311",
+    "address": "",
+    "url": "https://dapp.proteodefi.com/"
+  },
+  "modules": [
+    {
+      "name": "Elite",
+      "description": "Elite module",
+      "label": "Elite",
+      "token": "SPROTEO-c2dffe",
+      "address": "erd1qqqqqqqqqqqqqpgq3j97mjvu7vpn638ekcupcy4n0x6rdnleznyqn5faj9",
+      "endpoints": [
+        {
+          "name": "user_info",
+          "description": "Elite info of one Address",
+          "label": "User Info",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "user_address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "UserInfo"
+            }
+          ]
+        },
+        {
+          "name": "deposit",
+          "description": "Deposit sPROTEO in your Elite account",
+          "label": "Deposit sPROTEO",
+          "buttonLabel": "Deposit",
+          "mutability": "mutable",
+          "payableInTokens": [
+            "SPROTEO-c2dffe"
+          ],
+          "multipayment": "true/false ==> TODO Variable form",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "unstake",
+          "description": "Withdraw sPROTEO if no Elite product is used",
+          "label": "Withdraw sPROTEO",
+          "buttonLabel": "Withdraw",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "withdraw",
+          "description": "Unstake sPROTEO once the unbonding period has finished",
+          "label": "Unstake sPROTEO",
+          "buttonLabel": "Unstake",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "name": "Farms",
+      "description": "Proteo Farms Management",
+      "label": "Farms",
+      "endpoints": [
+        {
+          "name": "MyStakedInfo-1",
+          "endpoint": "MyStakedInfo",
+          "label": "Elite Single Farm - EGLD",
+          "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
+          "mutability": "readonly",
+          "token": "EGLD",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "WalletInfoV2"
+            }
+          ]
+        },
+        {
+          "name": "MyStakedInfo-2",
+          "endpoint": "MyStakedInfo",
+          "label": "Elite Single Farm - USDC",
+          "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
+          "mutability": "readonly",
+          "token": "USDC-c76f1f",
+          "inputs": [
+            {
+              "name": "address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "WalletInfoV2"
+            }
+          ]
+        },
+        {
+          "name": "stake_lp-1",
+          "endpoint": "stake_lp",
+          "label": "Elite Single Farm - EGLD stake",
+          "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "EGLD"
+          ],
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "stake_lp-2",
+          "endpoint": "stake_lp",
+          "label": "Elite Dual Farm - WEB/EGLD stake",
+          "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "USDC-c76f1f"
+          ],
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    }
+  ],
+  "types": {
+    "UserInfo": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "tier",
+          "label": "Tier",
+          "type": "UserTier"
+        },
+        {
+          "name": "deposited",
+          "label": "Deposited amount",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "can_unstake",
+          "label": "Can unstake",
+          "type": "bool"
+        },
+        {
+          "name": "unbonding_epoch",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "age",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "booster",
+          "label": "Booster %",
+          "type": "u64"
+        }
+      ]
+    },
+    "UserTier": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "Unregistered",
+          "discriminant": 0
+        },
+        {
+          "name": "Regular",
+          "discriminant": 1
+        },
+        {
+          "name": "Nominee",
+          "discriminant": 2
+        },
+        {
+          "name": "Elite",
+          "discriminant": 3
+        },
+        {
+          "name": "Ranked",
+          "discriminant": 4
+        }
+      ]
+    },
+    "WalletInfoV2": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "deposited_tokens",
+          "label": "Deposited",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "pending_rewards",
+          "label": "Pending Rewards",
+          "type": "BigUint",
+          "balance": true,
+          "token": "SPROTEO-c2dffe"
+        },
+        {
+          "name": "last_harvest_epoch",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "orders_count",
+          "label": "Number of orders",
+          "type": "u64"
+        },
+        {
+          "name": "orders_tokens",
+          "label": "Amount in orders",
+          "type": "BigUint",
+          "balance": true
+        }
+      ]
+    },
+    "WalletInfo": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "deposited_tokens",
+          "label": "Deposited",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "pending_rewards_token_a",
+          "label": "Pending Rewards A",
+          "type": "BigUint",
+          "balance": true,
+          "token": "SPROTEO-c2dffe"
+        },
+        {
+          "name": "pending_rewards_token_b",
+          "label": "Pending Rewards B",
+          "type": "BigUint",
+          "balance": true,
+          "token": "WEB-5d08be"
+        },
+        {
+          "name": "last_harvest_epoch",
+          "type": "u64",
+          "hidden": true
+        },
+        {
+          "name": "last_deposited_epoch",
+          "type": "u64",
+          "hidden": true
+        }
+      ]
+    }
+  }
+}
