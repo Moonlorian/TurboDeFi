@@ -181,7 +181,7 @@ export const ProjectEndpointForm = ({
     >
       {endpoint.notImplemented ? (
         <p>
-          Not implemented in this version.
+          Not integrated yet!
           {projectUrl && (
             <span>
               Visit <a href={projectUrl}>{projectUrl}</a> for more information

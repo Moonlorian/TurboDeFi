@@ -1,0 +1,235 @@
+{
+  "project": {
+    "name": "onedex",
+    "description": "The first permissionless DEX on MultiversX",
+    "label": "OneDex",
+    "url": "https://swap.onedex.com/"
+  },
+  "modules": [
+    {
+      "name": "staking",
+      "description": "Staking module of OneDex",
+      "label": "Staking",
+      "address": "erd1qqqqqqqqqqqqqpgql9z9vm8d599ya2r9seklpkcas6qmude4mvlsgrj7hv",
+      "endpoints": [
+        {
+          "name": "viewPools",
+          "label": "Tokens",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "List<StakingPool>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "farming",
+      "description": "Farming module of OneDex",
+      "label": "Farms",
+      "address": "erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla",
+      "endpoints": [
+        {
+          "name": "viewPools",
+          "label": "Farms",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "List<FarmingPool>"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "types": {
+    "StakingPool": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "pool_id",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "owner",
+          "type": "Address",
+          "hidden": true
+        },
+        {
+          "name": "paused",
+          "type": "bool",
+          "hidden": true
+        },
+        {
+          "name": "pool_paused",
+          "type": "bool",
+          "hidden": true
+        },
+        {
+          "name": "stake_token_id",
+          "label": "Token",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "stake_token_decimals",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "apr",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "total_stake_amount",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "reward_pool_size",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "staker_count",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "user_stake_amount",
+          "label": "Staked amount",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "user_reward_amount",
+          "label": "Pending rewards",
+          "type": "BigUint",
+          "balance": true
+        }
+      ]
+    },
+    "FarmingPool": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "pool_id",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "owner",
+          "type": "Address",
+          "hidden": true
+        },
+        {
+          "name": "paused",
+          "type": "bool",
+          "hidden": true
+        },
+        {
+          "name": "pool_paused",
+          "type": "bool",
+          "hidden": true
+        },
+        {
+          "name": "lp_token_id",
+          "label": "Token",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "lp_token_decimal",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "reward_token_id",
+          "label": "Rewards token",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "reward_token_decimal",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "second_reward_token_id",
+          "label": "Second rewards token",
+          "type": "TokenIdentifier"
+        },
+        {
+          "name": "second_reward_token_decimal",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "is_dual",
+          "label": "Is dual",
+          "type": "bool"
+        },
+        {
+          "name": "yearly_reward_amount",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "yearly_second_reward_amount",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "total_stake_amount",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "reward_pool_size",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "second_reward_pool_size",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "staker_count",
+          "type": "u32",
+          "hidden": true
+        },
+        {
+          "name": "user_stake_amount",
+          "label": "Staked amount",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "user_reward_amount",
+          "label": "Pending rewards",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "user_second_reward_amount",
+          "label": "Pending rewards second token",
+          "type": "BigUint",
+          "balance": true
+        }
+      ]
+    }
+  }
+}
