@@ -11,7 +11,7 @@ export const FlowStep = ({
 }: {
     step: FlowStepType
 }) => {
-
+/*
     const [structReader, setStructReader] = useState<StructReader>();
 
     const selectProject = async (selectedProject: string) => {
@@ -30,6 +30,7 @@ export const FlowStep = ({
         }
         return;
     }, []);
+    */
 
     return (
         <Card
@@ -39,8 +40,8 @@ export const FlowStep = ({
             description={step.description}
             reference={''}
         >
-            {step.project ?
-                <EndpointStep structReader={structReader} step={step} />
+            {step.endpoints ?
+                <EndpointStep step={step} />
                 :
                 <ComponentStep step={step} />
             }

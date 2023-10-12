@@ -10,8 +10,12 @@ type FlowType = {
 
 export type FlowStepType = {
     label: string,
-    description: string
+    description: string,
+    endpoints?: FlowEndpointType[]
     component?: string
+}
+
+export type FlowEndpointType = {
     project?: string
     module?: string
     endpoint?: string
@@ -27,16 +31,34 @@ export const Flow = () => {
             {
                 "label": "step 1",
                 "description": "Claim pending rewards from $CYBER Stake",
-                "project": "cyberpunkcity",
-                "module": "cyber_token",
-                "endpoint": "claim"
+                "endpoints": [
+                    {
+                        "project": "cyberpunkcity",
+                        "module": "cyber_token",
+                        "endpoint": "getAccountState"
+                    },
+                    {
+                        "project": "cyberpunkcity",
+                        "module": "cyber_token",
+                        "endpoint": "claim"
+                    }
+                ]
             },
             {
                 "label": "step 2",
                 "description": "Claim pending rewards from CityNFT Stake",
-                "project": "cyberpunkcity",
-                "module": "city_nft",
-                "endpoint": "claimReward"
+                "endpoints": [
+                    {
+                        "project": "cyberpunkcity",
+                        "module": "city_nft",
+                        "endpoint": "getAccountState"
+                    },
+                    {
+                        "project": "cyberpunkcity",
+                        "module": "city_nft",
+                        "endpoint": "claimReward"
+                    }
+                ]
             },
             {
                 "label": "step 3",
