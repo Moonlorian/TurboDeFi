@@ -16,4 +16,4 @@ export const projectContractList: { [key: string]: string } = {
     erd1qqqqqqqqqqqqqpgqhe8t5jewej70zupmh44jurgn29psua5l2jps3ntjj3: "xExchange"
 };
 
-export const ProjectList = ['CyberpunkCity', "xExchange"];
+export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo'];
