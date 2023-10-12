@@ -225,6 +225,17 @@ class StructReader {
     return this._modules;
   }
 
+  /**
+   * Get all modules
+   *
+   * @remarks
+   * Retuns a module with the name given
+   *
+   */
+  getModule(moduleName: string): StructModule {
+    return this._getModule(moduleName);
+  }
+
   //private methods
   private _loadProject(json: any) {
     this._project = new StructProject(json?.project);

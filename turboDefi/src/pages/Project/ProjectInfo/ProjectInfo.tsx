@@ -1,12 +1,12 @@
 import StructProject from 'StructReader/StructParts/StructProject';
-import { Card, Label, OutputContainer } from 'components';
+import { Card } from 'components';
 
 export const ProjectInfo = ({
   project
 }: {
   project: StructProject;
 }) => {
-  
+
   return (
     <Card
       className='flex-2'

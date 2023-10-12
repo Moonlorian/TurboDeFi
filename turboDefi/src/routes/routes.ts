@@ -3,6 +3,7 @@ import { Disclaimer, Home } from 'pages';
 import { Project } from 'pages/Project';
 import { Scanner } from 'pages/Scanner';
 import { AshSwap } from 'pages/AshSwap';
+import { Flow } from 'pages/Flow';
 import { RouteType } from 'types';
 
 interface RouteWithTitleType extends RouteType {
@@ -34,5 +35,10 @@ export const routes: RouteWithTitleType[] = [
     path: RouteNamesEnum.AshSwap,
     title: 'Ash swap',
     component: AshSwap
+  },
+  {
+    path: RouteNamesEnum.Flow,
+    title: 'Flow',
+    component: Flow
   }
 ];

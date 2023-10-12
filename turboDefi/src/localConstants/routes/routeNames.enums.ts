@@ -3,6 +3,7 @@ export enum RouteNamesEnum {
   unlock = '/unlock',
   disclaimer = '/disclaimer',
   scanner = '/scanner',
-  project= '/project/:projectName?',
-  AshSwap='/AshSwap'
+  project = '/project/:projectName?',
+  AshSwap = '/AshSwap',
+  Flow = "/flow"
 }
