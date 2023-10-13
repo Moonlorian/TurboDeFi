@@ -8,37 +8,44 @@ import { RouteType } from 'types';
 
 interface RouteWithTitleType extends RouteType {
   title: string;
+  visibleInHeader:boolean;
 }
 
 export const routes: RouteWithTitleType[] = [
   {
     path: RouteNamesEnum.home,
     title: 'Home',
-    component: Home
+    component: Home,
+    visibleInHeader: false
   },
   {
     path: RouteNamesEnum.disclaimer,
     title: 'Disclaimer',
-    component: Disclaimer
+    component: Disclaimer,
+    visibleInHeader: false
   },
   {
     path: RouteNamesEnum.scanner,
     title: 'Scanner',
-    component: Scanner
+    component: Scanner,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.project,
     title: 'Project',
-    component: Project
+    component: Project,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.AshSwap,
     title: 'Ash swap',
-    component: AshSwap
+    component: AshSwap,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.Flow,
     title: 'Flow',
-    component: Flow
+    component: Flow,
+    visibleInHeader: true
   }
 ];
