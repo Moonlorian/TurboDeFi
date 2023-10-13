@@ -1,6 +1,5 @@
 import { Button } from 'components/Button';
 import { MxLink } from 'components/MxLink';
-import { environment } from 'config';
 import { logout } from 'helpers';
 import { useGetAccountInfo, useGetIsLoggedIn } from 'hooks';
 import { RouteNamesEnum } from 'localConstants';
@@ -29,9 +28,6 @@ export const Header = () => {
           >
             <img src={DappLogo} />
           </MxLink>
-          <div className='text-sm flex gap-1 items-center'>
-            <p className='m-0 text-gray-600'>({environment})</p>
-          </div>
         </div>
         <nav className='h-full w-full text-sm sm:relative sm:left-auto sm:top-auto sm:flex sm:w-auto sm:flex-row sm:justify-end sm:bg-transparent'>
           <div className='flex no-wrap items-center'>
