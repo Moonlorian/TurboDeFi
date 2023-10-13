@@ -76,7 +76,7 @@ const aggregatorContract = {
   mainnet: 'erd1qqqqqqqqqqqqqpgqglgkaxm73j7mhw5u940fsmmncnayxj884fvs54lnr6'
 };
 
-export const getTokenList = async () => {
+export const getAshTokenList = async () => {
   return axios.get(aggregatorUrl[environment] + '/tokens').then((response) => {
     return response.data;
   });
@@ -129,18 +129,12 @@ export const swap = async (
     return listElement;
   });
 
-  //console.log(limits);
-
-  limits.map((limit) => {
-    console.log(limit.token, limit.amount.toFixed());
-  });
   const abi = AbiRegistry.create(ashAbi);
   const contract = new SmartContract({
     address: new Address(aggregatorContract[environment]),
     abi: abi
   });
 
-  console.log(limits);
   const interaction = contract.methods
     .aggregate([steps, ...limits])
     .withSender(new Address(sender))
@@ -153,7 +147,6 @@ export const swap = async (
   interaction.withMultiESDTNFTTransfer(payments);
   //TODO, check if they are NFT or ESDT tokens
   const transaction = interaction.buildTransaction();
-  console.log(transaction);
   sendTransactions({ transactions: transaction });
 
   //TODO: whe will use 100 - slippage

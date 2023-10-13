@@ -4,7 +4,9 @@ export * from './sharedConfig';
 
 export const contractAddress = '';
 export const API_URL = 'https://testnet-api.multiversx.com';
+export const GATEWAY_URL = 'https://testnet-gateway.multiversx.com';
 export const EXPLORER_URL = 'https://testnet-explorer.multiversx.com';
+export const GRAPHQL_URL = 'https://testnet-graph.xexchange.com/graphql';
 export const sampleAuthenticatedDomains = [API_URL];
 export const environment = EnvironmentsEnum.testnet;
 

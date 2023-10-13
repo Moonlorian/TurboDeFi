@@ -103,6 +103,10 @@ type DataType = {
    * Is this value fixed?
    */
   fixedValue?:boolean;
+  /**
+   * Is this field hidden?
+   */
+  hidden?:boolean;
 };
 
 type EndpointType = BaseStructType & {
