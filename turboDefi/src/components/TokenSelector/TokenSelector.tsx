@@ -23,13 +23,15 @@ export const TokenSelector = ({
   placeHolder = '',
   isSearchable = true,
   defaultValue = '',
-  filter = []
+  filter = [],
+  className = ''
 }: {
   onChange: any;
   placeHolder?: string;
   isSearchable?: boolean;
   defaultValue?: string;
   filter?: string[];
+  className?: string;
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
@@ -112,7 +114,7 @@ export const TokenSelector = ({
   }, [defaultValue]);
 
   return (
-    <div className='token-selector-container' ref={wrapperRef}>
+    <div className={`token-selector-container ${className}`} ref={wrapperRef}>
       <div onClick={handleInputClick} className='token-selector-input'>
         <div className='token-selector-selected-value d-flex align-items-center w-100'>
           {getDisplay()}
