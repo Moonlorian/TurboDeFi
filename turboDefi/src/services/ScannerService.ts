@@ -48,7 +48,6 @@ class ScannerService {
 
         const receiversList: string[] = [];
         const filteredList = list.filter((transaction) => {
-            console.log(transaction);
             const receiver = transaction.receiver;
             if (!receiver.includes('qqqqq') && receiver != address) {
                 return false;
