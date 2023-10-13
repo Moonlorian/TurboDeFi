@@ -33,7 +33,7 @@ export const ScannerTransactionRow = ({
       <td>
         {projectContractList[transaction.receiver] && (
           <a
-            href='#'
+            href=''
             onClick={() => {
               navigate('/project/' + projectContractList[transaction.receiver]);
             }}
@@ -45,7 +45,7 @@ export const ScannerTransactionRow = ({
       <td>
         <div className='d-flex align-items-center'>
           <a
-            href='#'
+            href=''
             onClick={() => {
               receiverDetails(transaction.receiver);
             }}
