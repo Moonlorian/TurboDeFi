@@ -3,3 +3,4 @@ export * from './GlobalDataLoad';
 export * from './apiQueries';
 export * from './ScannerService';
 export * from './tokenLoadService';
+export * from './ComponentLoader';

@@ -1,20 +1,12 @@
-import { FlowStepType } from "./Flow";
-import { AshSwap } from "pages/AshSwap";
-import React from "react";
+import { FlowStepType } from './Flow';
+import { AshSwap } from 'pages/AshSwap';
+import React from 'react';
+import { ComponentLoader } from 'services';
 
-export const ComponentStep = ({
-    step
-}: {
-    step: FlowStepType
-}) => {
-
-    const COMPONENTS = {
-        "AshSwap": AshSwap
-    }
-
-    return (
-        <div className="border">
-            {React.createElement(COMPONENTS[step.component])}
-        </div>
-    );
+export const ComponentStep = ({ step }: { step: FlowStepType }) => {
+  return (
+    <div className='border'>
+      <ComponentLoader componentName={step.component || ''} />
+    </div>
+  );
 };

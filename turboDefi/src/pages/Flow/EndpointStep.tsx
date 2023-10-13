@@ -22,7 +22,7 @@ export const EndpointStep = ({
 
     useEffect(() => {
         if (step.endpoints) {
-            selectProject(step.endpoints[0]?.project).then((newStructReader: StructReader) => {
+            selectProject(step.endpoints[0]?.project || '').then((newStructReader: StructReader) => {
                 setStructReader(newStructReader);
             });
         }
@@ -39,8 +39,8 @@ export const EndpointStep = ({
                         return (
                             <div className="col-lg-6">
                                 <ProjectEndpointForm
-                                    module={structReader.getModule(endpoint.module)}
-                                    endpoint={structReader.getModuleEndpoint(endpoint.module, endpoint.endpoint)}
+                                    module={structReader.getModule(endpoint.module || '')}
+                                    endpoint={structReader.getModuleEndpoint(endpoint.module || '', endpoint.endpoint || '')}
                                     structReader={structReader}
                                     key={`endpoint_${index}`}
                                 />
