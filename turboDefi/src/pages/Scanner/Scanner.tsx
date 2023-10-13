@@ -95,7 +95,7 @@ export const Scanner = () => {
         reference={''}
       >
         <div className='d-flex w-100 justify-content-between'>
-          <div className='w-100'>
+          <div className='w-100 mb-2'>
             <Form className='mb-2 d-flex w-75'>
               <Form.Group className='mr-3 w-100'>
                 <Form.Control
@@ -112,7 +112,7 @@ export const Scanner = () => {
             </Form>
             {receiverAddress && (
               <span className='w-50'>
-                <i>Contract scanner:</i> {receiverAddress}
+                <i>Smart Contract:</i> {receiverAddress}
                 <FontAwesomeIcon
                   icon={faClose}
                   className='ml-2 text-gray-700 pointer'
