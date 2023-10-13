@@ -15,7 +15,7 @@ export const routes: RouteWithTitleType[] = [
   {
     path: RouteNamesEnum.home,
     title: 'Home',
-    component: Home,
+    component: Scanner,
     visibleInHeader: false
   },
   {
