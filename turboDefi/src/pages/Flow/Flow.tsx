@@ -9,7 +9,7 @@ type FlowType = {
 }
 
 export type FlowStepType = {
-    label: string,
+    label?: string,
     description: string,
     endpoints?: FlowEndpointType[]
     component?: string
@@ -29,7 +29,6 @@ export const Flow = () => {
         "description": "This flow will save a lot of time to the user",
         "steps": [
             {
-                "label": "step 1",
                 "description": "Claim pending rewards from $CYBER Stake",
                 "endpoints": [
                     {
@@ -45,7 +44,6 @@ export const Flow = () => {
                 ]
             },
             {
-                "label": "step 2",
                 "description": "Claim pending rewards from CityNFT Stake",
                 "endpoints": [
                     {
@@ -61,7 +59,6 @@ export const Flow = () => {
                 ]
             },
             {
-                "label": "step 3",
                 "description": "Swap claimed $CYBER to whatever you want",
                 "component": "AshSwap"
             }
@@ -78,7 +75,7 @@ export const Flow = () => {
                 reference={''}
             >
                 {flowInfo.steps.map((step, index) => {
-                    return <FlowStep step={step} key={index} />
+                    return <FlowStep step={step} key={index} index={index + 1} />
                 })}
             </Card>
         </div>
