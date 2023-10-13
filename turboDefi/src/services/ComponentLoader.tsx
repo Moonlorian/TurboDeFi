@@ -1,4 +1,4 @@
-import { AshSwap } from 'components';
+import { AshSwap } from '../components/AshSwap';
 import React, { ReactNode } from 'react';
 
 
