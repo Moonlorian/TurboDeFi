@@ -1,8 +1,8 @@
-import { Card, OutputContainer } from 'components';
+import { Button, Card, OutputContainer } from 'components';
 import { useEffect, useState } from 'react';
 import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
-import { Button, Dropdown, Form } from 'react-bootstrap';
+import { Dropdown, Form } from 'react-bootstrap';
 import ScannerService from '../../services/ScannerService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
