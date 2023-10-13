@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons/faArrowsRotate';
 import {
   aggregate,
-  getTokenList,
+  getAshTokenList,
   swap
 } from '../../services/ash/AshSwapService';
 import {
@@ -12,7 +12,7 @@ import {
   OutputContainer,
   TokenSelector
 } from 'components';
-import { getUserTokensBalance } from 'services';
+import { getTokenListData, getUserTokensBalance } from 'services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
 import { useGetTokenInfo } from 'hooks';
@@ -31,12 +31,14 @@ export const AshSwap = () => {
   const [amountTo, setAmountTo] = useState<BigNumber>(new BigNumber(0));
   const [timeoutId, setTimeoutId] = useState<any>(0);
   const [swapData, setSwapData] = useState<any>();
+  const [priceFrom, setPriceFrom] = useState<BigNumber>(new BigNumber(0));
+  const [priceTo, setPriceTo] = useState<BigNumber>(new BigNumber(0));
 
   const { address } = useGetAccountInfo();
   const tokenInfo = useGetTokenInfo();
 
   const loadTokenList = async () => {
-    const currentTokenList = await getTokenList();
+    const currentTokenList = await getAshTokenList();
     setTokenList(currentTokenList.map((tokenData: any) => tokenData.id));
   };
 
@@ -51,7 +53,6 @@ export const AshSwap = () => {
         .toFixed()
     );
     setAmountTo(new BigNumber(path.returnAmountWithDecimal));
-    console.log(path);
     setSwapData(path);
   };
 
@@ -59,18 +60,38 @@ export const AshSwap = () => {
     const tokenList = [];
     if (tokenFrom) tokenList.push(tokenFrom);
     if (tokenTo) tokenList.push(tokenTo);
+    if (tokenList.length == 0) return;
     const finalBalances = await getUserTokensBalance(address, tokenList);
     setBalanceFrom(new BigNumber(finalBalances[tokenFrom]?.balance ?? 0));
     setBalanceTo(new BigNumber(finalBalances[tokenTo]?.balance ?? 0));
+  };
+
+  const loadTokensPrices = async () => {
+    const tokenList = [];
+    if (tokenFrom) tokenList.push(tokenFrom);
+    if (tokenTo) tokenList.push(tokenTo);
+    if (tokenList.length == 0) return;
+
+    const tokensData = await getTokenListData(tokenList);
+
+    setPriceFrom(new BigNumber(tokensData[tokenFrom]?.price ?? 0));
+    setPriceTo(new BigNumber(tokensData[tokenTo]?.price ?? 0));
+
+    /*
+    const finalBalances = await getUserTokensBalance(address, tokenList);
+    setBalanceFrom(new BigNumber(finalBalances[tokenFrom]?.balance ?? 0));
+    setBalanceTo(new BigNumber(finalBalances[tokenTo]?.balance ?? 0));
+    */
   };
 
   const swapTokenOrder = () => {
     if (tokenFrom == '') return;
     if (tokenTo == '') return;
 
-    setAmountFrom(new BigNumber(0));
     setTokenFrom(tokenTo);
     setTokenTo(tokenFrom);
+    setAmountTo(new BigNumber(0));
+    setAmountFrom(amountTo.dividedBy(10 ** tokenInfo.get(tokenTo, 'decimals')));
   };
 
   const changeToken = useCallback((direction: string, tokenId: string) => {
@@ -101,9 +122,11 @@ export const AshSwap = () => {
   );
 
   loadAggregate;
+
   useEffect(() => {
     loadUserBalances();
     loadAggregate();
+    loadTokensPrices();
   }, [tokenFrom, tokenTo]);
 
   useEffect(() => {
@@ -150,9 +173,11 @@ export const AshSwap = () => {
                 className='text-sm cursor-pointer rounded-md position-absolute top-[15%] text-white right-[40%] main-color-bg main-color-30-border p-1'
                 onClick={() => {
                   setAmountFrom(
-                    balanceFrom.dividedBy(
-                      10 ** tokenInfo.get(tokenFrom, 'decimals')
-                    )
+                    tokenFrom
+                      ? balanceFrom.dividedBy(
+                          10 ** tokenInfo.get(tokenFrom, 'decimals')
+                        )
+                      : new BigNumber(0)
                   );
                 }}
               >
@@ -182,7 +207,16 @@ export const AshSwap = () => {
                   digits={4}
                 />
               </Label>
-              <Label>≈ 0$</Label>
+              <Label>
+                ≈{' '}
+                <FormatAmount
+                  value={amountFrom.multipliedBy(priceFrom).toFixed()}
+                  token=''
+                  decimals={tokenFrom ? tokenInfo.get(tokenFrom, 'decimals') : 0}
+                  digits={4}
+                />
+                $
+              </Label>
             </div>
           </div>
           <div className='text-center'>
@@ -233,7 +267,16 @@ export const AshSwap = () => {
                   digits={4}
                 />
               </Label>
-              <Label>≈ 0$</Label>
+              <Label>
+                ≈{' '}
+                <FormatAmount
+                  value={amountTo.multipliedBy(priceTo).toFixed()}
+                  token=''
+                  decimals={tokenTo ? tokenInfo.get(tokenTo, 'decimals') : 0}
+                  digits={4}
+                />
+                $
+              </Label>
             </div>
           </div>
           <Button
