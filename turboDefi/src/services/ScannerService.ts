@@ -48,11 +48,12 @@ class ScannerService {
 
         const receiversList: string[] = [];
         const filteredList = list.filter((transaction) => {
+            console.log(transaction);
             const receiver = transaction.receiver;
-            if (!receiver.includes('qqqqq') || receiver == address) {
+            if (!receiver.includes('qqqqq') && receiver != address) {
                 return false;
             }
-            if (!receiversList.includes(receiver)) {
+            if (!receiversList.includes(receiver) || receiver == address) {
                 receiversList.push(receiver);
                 return true;
             }
