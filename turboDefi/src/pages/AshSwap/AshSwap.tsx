@@ -6,6 +6,7 @@ import {
   swap
 } from '../../services/ash/AshSwapService';
 import {
+  Button,
   Card,
   FormatAmount,
   Label,
@@ -17,8 +18,6 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAcco
 import BigNumber from 'bignumber.js';
 import { useGetTokenInfo } from 'hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
-import { Button } from 'react-bootstrap';
-import { ProjectEndpointForm } from 'pages/Project/ProjectInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const AshSwap = () => {
@@ -170,7 +169,7 @@ export const AshSwap = () => {
                 className='flex-1'
               />
               <span
-                className='text-sm cursor-pointer rounded-md position-absolute top-[15%] text-white right-[40%] main-color-bg main-color-30-border p-1'
+                className='text-sm cursor-pointer rounded-md position-absolute top-[15%] text-white right-[40%] bg-main-color hover:bg-main-color/70 p-1'
                 onClick={() => {
                   setAmountFrom(
                     tokenFrom
@@ -212,7 +211,9 @@ export const AshSwap = () => {
                 <FormatAmount
                   value={amountFrom.multipliedBy(priceFrom).toFixed()}
                   token=''
-                  decimals={tokenFrom ? tokenInfo.get(tokenFrom, 'decimals') : 0}
+                  decimals={
+                    tokenFrom ? tokenInfo.get(tokenFrom, 'decimals') : 0
+                  }
                   digits={4}
                 />
                 $
@@ -221,10 +222,13 @@ export const AshSwap = () => {
           </div>
           <div className='text-center'>
             <a className='cursor-pointer' onClick={swapTokenOrder}>
-              <FontAwesomeIcon icon={faArrowsRotate} className='main-color' />
+              <FontAwesomeIcon
+                icon={faArrowsRotate}
+                className='text-main-color'
+              />
             </a>
           </div>
-          <div className='bg-neutral-100 py-4 px-3'>
+          <div className='bg-neutral-100 py-4 px-3 mb-3'>
             <div className=''>
               <Label>To</Label>
             </div>
@@ -299,7 +303,6 @@ export const AshSwap = () => {
                 new BigNumber(swapData.returnAmountWithDecimal)
               )
             }
-            className='mt-3 main-color-bg main-color-30-border'
           >
             Swap
           </Button>

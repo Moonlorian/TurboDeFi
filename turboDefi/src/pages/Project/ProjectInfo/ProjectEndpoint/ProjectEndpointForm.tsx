@@ -234,7 +234,10 @@ export const ProjectEndpointForm = ({
           ))}
           <>
             {showExecuteBtn && (
-              <Button disabled={!address} onClick={executeEndpoint}>
+              <Button
+                disabled={!address}
+                onClick={executeEndpoint}
+              >
                 {endpoint.buttonLabel || 'Execute'}
               </Button>
             )}

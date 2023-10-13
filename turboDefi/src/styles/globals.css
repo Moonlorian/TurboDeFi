@@ -24,17 +24,6 @@
   @apply text-blue-600;
 }
 
-/* colors */
-:root {
-  /*  define here theme colors */
-  /*
-  --bs-link-color-rgb: #ff0080 !important;
-  --bs-body-color: #ff0080 !important;ç
-  */
-  --main-color: #ff0080;
-  --main-color-30: #ff008040;
-}
-
 .font-weight-bold {
   font-weight: bold;
 }
@@ -47,14 +36,6 @@ ul {
   list-style: initial;
 }
 
-.main-color {
-  color: var(--main-color) !important;
-}
-
-.main-color-bg {
-  background-color: var(--main-color) !important;
-}
-
-.main-color-30-border{
-  border-color: var(--main-color-30) !important;
+h1, h2, h3, h4, h5, h6{
+  @apply text-main-color !important;
 }

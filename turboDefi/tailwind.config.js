@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['"Manrope"', 'sans-serif']
+      },
+      colors:{
+        'main-color': '#ff0080'
       }
     },
     backgroundImage: {
