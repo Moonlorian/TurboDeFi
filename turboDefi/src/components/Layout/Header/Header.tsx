@@ -2,15 +2,17 @@ import { Button } from 'components/Button';
 import { MxLink } from 'components/MxLink';
 import { environment } from 'config';
 import { logout } from 'helpers';
-import { useGetIsLoggedIn } from 'hooks';
+import { useGetAccountInfo, useGetIsLoggedIn } from 'hooks';
 import { RouteNamesEnum } from 'localConstants';
 import DappLogo from '../../../assets/img/dapp-logo.png';
 import { routes } from 'routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
+import { FormatedAddress } from 'components/FormattedAddress';
 
 export const Header = () => {
   const isLoggedIn = useGetIsLoggedIn();
+  const { address } = useGetAccountInfo();
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -44,13 +46,15 @@ export const Header = () => {
               </MxLink>
             ))}
           {isLoggedIn ? (
-            <Button
-              onClick={handleLogout}
-              className='font-bold inline-block rounded-lg px-3 py-2 text-center hover:no-underline my-0 text-main-color hover:bg-main-color/70 ml-2 hover:text-white hover:rounded-lg'
-            >
-              Close{' '}
-              <FontAwesomeIcon icon={faRightFromBracket} />
-            </Button>
+            <div className='font-bold inline-block rounded-lg text-center hover:no-underline my-0 text-main-color'>
+              <FormatedAddress address={address} />
+              <Button
+                onClick={handleLogout}
+                className='px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg'
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </Button>
+            </div>
           ) : (
             <MxLink to={RouteNamesEnum.unlock}>Connect</MxLink>
           )}
