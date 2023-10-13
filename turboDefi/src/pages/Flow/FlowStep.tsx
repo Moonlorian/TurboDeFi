@@ -28,7 +28,7 @@ export const FlowStep = ({
                 {step.endpoints ?
                     <EndpointStep step={step} />
                     :
-                    <ComponentStep step={step} />
+                    <ComponentStep step={step} props={step.componentProps} />
                 }
             </Card>
         </span>

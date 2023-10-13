@@ -13,6 +13,10 @@ export type FlowStepType = {
     description: string,
     endpoints?: FlowEndpointType[]
     component?: string
+    componentProps?: {
+        defaultTokenFrom?: string,
+        defaultTokenTo?: string
+    }
 }
 
 export type FlowEndpointType = {
@@ -60,7 +64,10 @@ export const Flow = () => {
             },
             {
                 "description": "Swap claimed $CYBER to whatever you want",
-                "component": "AshSwap"
+                "component": "AshSwap",
+                "componentProps": {
+                    "defaultTokenFrom": "CYBER-489c1c"
+                }
             }
         ]
     }
