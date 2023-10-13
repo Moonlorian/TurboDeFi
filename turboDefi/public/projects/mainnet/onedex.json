@@ -7,15 +7,16 @@
   },
   "modules": [
     {
-      "name": "staking",
-      "description": "Staking module of OneDex",
-      "label": "Staking",
-      "address": "erd1qqqqqqqqqqqqqpgql9z9vm8d599ya2r9seklpkcas6qmude4mvlsgrj7hv",
+      "name": "boosted-staking",
+      "description": "Boosted staking module of OneDex",
+      "label": "SFT Boosted Staking",
+      "address": "erd1qqqqqqqqqqqqqpgq8nlmvjm8gum6y2kqe0v296kgu8cm4jlemvlsays3ku",
       "endpoints": [
         {
-          "name": "viewPools",
-          "label": "Tokens",
+          "name": "getUserStakingInfo",
+          "label": "$ONE Token",
           "mutability": "readonly",
+          "token": "ONE-f9954f",
           "inputs": [
             {
               "name": "opt_user_address",
@@ -24,9 +25,65 @@
           ],
           "outputs": [
             {
-              "type": "List<StakingPool>"
+              "type": "UserStaking"
             }
           ]
+        },
+        {
+          "name": "claim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    },
+    {
+      "name": "staking",
+      "description": "Staking module of OneDex",
+      "label": "Staking",
+      "address": "erd1qqqqqqqqqqqqqpgql9z9vm8d599ya2r9seklpkcas6qmude4mvlsgrj7hv",
+      "endpoints": [
+        {
+          "name": "viewPool",
+          "label": "$ONE Token",
+          "mutability": "readonly",
+          "token": "ONE-f9954f",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "1",
+              "fixedValue": true,
+              "hidden": true
+            },
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "StakingPool"
+            }
+          ]
+        },
+        {
+          "name": "claim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "1",
+              "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
         }
       ]
     },
@@ -37,10 +94,18 @@
       "address": "erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla",
       "endpoints": [
         {
-          "name": "viewPools",
-          "label": "Farms",
+          "name": "viewPool-1",
+          "endpoint": "viewPool",
+          "label": "ONE - EGLD",
           "mutability": "readonly",
           "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "6",
+              "fixedValue": true,
+              "hidden": true
+            },
             {
               "name": "opt_user_address",
               "type": "Address"
@@ -48,9 +113,149 @@
           ],
           "outputs": [
             {
-              "type": "List<FarmingPool>"
+              "type": "FarmingPool"
             }
           ]
+        },
+        {
+          "name": "claim-6",
+          "endpoint": "userClaim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "6",
+              "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "viewPool-23",
+          "endpoint": "viewPool",
+          "label": "LEGLD - EGLD",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "23",
+              "fixedValue": true,
+              "hidden": true
+            },
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "FarmingPool"
+            }
+          ]
+        },
+        {
+          "name": "claim-23",
+          "endpoint": "userClaim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "23",
+              "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "viewPool-31",
+          "endpoint": "viewPool",
+          "label": "ONE - LEGLD",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "31",
+              "fixedValue": true,
+              "hidden": true
+            },
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "FarmingPool"
+            }
+          ]
+        },
+        {
+          "name": "claim-31",
+          "endpoint": "userClaim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "31",
+              "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "viewPool-26",
+          "endpoint": "viewPool",
+          "label": "ONE - LEGLD",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "26",
+              "fixedValue": true,
+              "hidden": true
+            },
+            {
+              "name": "opt_user_address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "FarmingPool"
+            }
+          ]
+        },
+        {
+          "name": "claim-26",
+          "endpoint": "userClaim",
+          "label": "Claim pending rewards",
+          "mutability": "mutable",
+          "buttonLabel": "Claim",
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "26",
+              "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
         }
       ]
     }
@@ -228,6 +433,33 @@
           "label": "Pending rewards second token",
           "type": "BigUint",
           "balance": true
+        }
+      ]
+    },
+    "UserStaking": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "user_staking_amount",
+          "label": "Staked amount",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "user_reward_amount",
+          "label": "Pending rewards",
+          "type": "BigUint",
+          "balance": true
+        },
+        {
+          "name": "total_staking_amount",
+          "type": "BigUint",
+          "hidden": true
+        },
+        {
+          "name": "reward_deposit_amount",
+          "type": "BigUint",
+          "hidden": true
         }
       ]
     }
