@@ -38,7 +38,7 @@ export const routes: RouteWithTitleType[] = [
   },
   {
     path: RouteNamesEnum.AshSwap,
-    title: 'Ash swap',
+    title: 'Swap',
     component: AshSwapPage,
     visibleInHeader: true
   },
