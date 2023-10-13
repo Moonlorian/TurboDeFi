@@ -5,14 +5,7 @@ import {
   getAshTokenList,
   swap
 } from '../../services/ash/AshSwapService';
-import {
-  Button,
-  Card,
-  FormatAmount,
-  Label,
-  OutputContainer,
-  TokenSelector
-} from '../';
+import { Button, Card, FormatAmount, Label, TokenSelector } from '../';
 import { getTokenListData, getUserTokensBalance } from '../../services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
@@ -42,17 +35,21 @@ export const AshSwap = () => {
   };
 
   const loadAggregate = async () => {
-    if (!tokenFrom || !tokenTo || amountFrom.isEqualTo(0)) return;
-
-    const path = await aggregate(
-      tokenFrom,
-      tokenTo,
-      amountFrom
-        .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
-        .toFixed()
-    );
-    setAmountTo(new BigNumber(path.returnAmountWithDecimal));
-    setSwapData(path);
+    if (!tokenFrom || !tokenTo) return;
+    if (amountFrom.isEqualTo(0)) {
+      setAmountTo(new BigNumber(0));
+      setSwapData({});
+    } else {
+      const path = await aggregate(
+        tokenFrom,
+        tokenTo,
+        amountFrom
+          .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
+          .toFixed()
+      );
+      setAmountTo(new BigNumber(path.returnAmountWithDecimal));
+      setSwapData(path);
+    }
   };
 
   const loadUserBalances = async () => {
@@ -73,14 +70,12 @@ export const AshSwap = () => {
 
     const tokensData = await getTokenListData(tokenList);
 
-    setPriceFrom(new BigNumber(tokensData[tokenFrom]?.price ?? 0));
-    setPriceTo(new BigNumber(tokensData[tokenTo]?.price ?? 0));
-
-    /*
-    const finalBalances = await getUserTokensBalance(address, tokenList);
-    setBalanceFrom(new BigNumber(finalBalances[tokenFrom]?.balance ?? 0));
-    setBalanceTo(new BigNumber(finalBalances[tokenTo]?.balance ?? 0));
-    */
+    setPriceFrom(
+      new BigNumber(tokensData[tokenFrom]?.price ?? 0).decimalPlaces(18)
+    );
+    setPriceTo(
+      new BigNumber(tokensData[tokenTo]?.price ?? 0).decimalPlaces(18)
+    );
   };
 
   const swapTokenOrder = () => {
@@ -104,9 +99,11 @@ export const AshSwap = () => {
   const changeAmount = useCallback((direction: string, amount: any) => {
     const bigNumberAmount = new BigNumber(amount);
     if (direction === 'from') {
-      setAmountFrom(bigNumberAmount);
+      setAmountFrom(
+        bigNumberAmount.isNaN() ? new BigNumber(0) : bigNumberAmount
+      );
     } else if (direction === 'to') {
-      setAmountTo(bigNumberAmount);
+      setAmountTo(bigNumberAmount.isNaN() ? new BigNumber(0) : bigNumberAmount);
     }
   }, []);
 
@@ -208,15 +205,7 @@ export const AshSwap = () => {
               </Label>
               <Label>
                 ≈{' '}
-                <FormatAmount
-                  value={amountFrom.multipliedBy(priceFrom).toFixed()}
-                  token=''
-                  decimals={
-                    tokenFrom ? tokenInfo.get(tokenFrom, 'decimals') : 0
-                  }
-                  digits={4}
-                />
-                $
+                {amountFrom.multipliedBy(priceFrom).decimalPlaces(4).toFixed()}$
               </Label>
             </div>
           </div>
@@ -273,12 +262,13 @@ export const AshSwap = () => {
               </Label>
               <Label>
                 ≈{' '}
-                <FormatAmount
-                  value={amountTo.multipliedBy(priceTo).toFixed()}
-                  token=''
-                  decimals={tokenTo ? tokenInfo.get(tokenTo, 'decimals') : 0}
-                  digits={4}
-                />
+                {amountTo
+                  .multipliedBy(priceTo)
+                  .dividedBy(
+                    10 ** (tokenTo ? tokenInfo.get(tokenTo, 'decimals') : 0)
+                  )
+                  .decimalPlaces(4)
+                  .toFixed()}
                 $
               </Label>
             </div>
