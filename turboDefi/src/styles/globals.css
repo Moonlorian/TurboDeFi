@@ -36,14 +36,10 @@ ul {
   list-style: initial;
 }
 
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6, a, a span{
   @apply text-main-color !important;
 }
 
-a, a span{
-  @apply text-main-color !important;
-}
-
-a:hover, a:hover span{
-  @apply text-white !important;
+nav a:hover{
+  color:white !important;
 }
