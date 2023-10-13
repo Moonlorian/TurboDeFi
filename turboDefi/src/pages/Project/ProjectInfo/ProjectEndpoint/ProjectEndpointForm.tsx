@@ -185,6 +185,7 @@ export const ProjectEndpointForm = ({
       title={endpoint.label || endpoint.name}
       description={endpoint.description}
       reference={''}
+      address={endpoint.address}
     >
       {endpoint.notImplemented ? (
         <p>
