@@ -1,6 +1,4 @@
 import { FlowStepType } from './Flow';
-import { AshSwap } from 'pages/AshSwap';
-import React from 'react';
 import { ComponentLoader } from 'services';
 
 export const ComponentStep = ({ step }: { step: FlowStepType }) => {

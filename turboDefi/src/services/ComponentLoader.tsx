@@ -1,5 +1,6 @@
+import { AshSwap } from 'components';
 import React, { ReactNode } from 'react';
-import { AshSwap } from '../pages/AshSwap';
+
 
 const COMPONENTS: { [key: string]: any } = {
   ['AshSwap']: AshSwap

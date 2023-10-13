@@ -12,11 +12,11 @@ import {
   Label,
   OutputContainer,
   TokenSelector
-} from 'components';
-import { getTokenListData, getUserTokensBalance } from 'services';
+} from '../';
+import { getTokenListData, getUserTokensBalance } from '../../services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
-import { useGetTokenInfo } from 'hooks';
+import { useGetTokenInfo } from '../../hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
