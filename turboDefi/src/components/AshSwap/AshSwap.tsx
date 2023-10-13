@@ -91,7 +91,7 @@ export const AshSwap = ({
     setTokenFrom(tokenTo);
     setTokenTo(tokenFrom);
     setAmountTo(new BigNumber(0));
-    setAmountFrom(amountTo.dividedBy(10 ** tokenInfo.get(tokenTo, 'decimals')));
+    setAmountFrom(new BigNumber(0));
   };
 
   const changeToken = useCallback((direction: string, tokenId: string) => {
@@ -273,7 +273,10 @@ export const AshSwap = ({
                 {amountTo
                   .multipliedBy(priceTo)
                   .dividedBy(
-                    10 ** (tokenInfo.hasToken(tokenTo) ? tokenInfo.get(tokenTo, 'decimals') : 0)
+                    10 **
+                      (tokenInfo.hasToken(tokenTo)
+                        ? tokenInfo.get(tokenTo, 'decimals')
+                        : 0)
                   )
                   .decimalPlaces(4)
                   .toFixed()}
