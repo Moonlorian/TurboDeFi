@@ -4,7 +4,7 @@ import { environment } from 'config';
 import { logout } from 'helpers';
 import { useGetIsLoggedIn } from 'hooks';
 import { RouteNamesEnum } from 'localConstants';
-import MultiversXLogo from '../../../assets/img/multiversx-logo.svg?react';
+import DappLogo from '../../../assets/img/dapp-logo.png';
 
 export const Header = () => {
   const isLoggedIn = useGetIsLoggedIn();
@@ -20,7 +20,7 @@ export const Header = () => {
         className='flex items-center justify-between'
         to={isLoggedIn ? RouteNamesEnum.project : RouteNamesEnum.home}
       >
-        <MultiversXLogo className='w-full h-6' />
+        <img src={DappLogo} />
       </MxLink>
 
       <nav className='h-full w-full text-sm sm:relative sm:left-auto sm:top-auto sm:flex sm:w-auto sm:flex-row sm:justify-end sm:bg-transparent'>
