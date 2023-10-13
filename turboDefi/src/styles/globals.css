@@ -11,16 +11,16 @@
   }
 }
 
-.mx-transactions > td {
+.mx-transactions>td {
   @apply p-2;
 }
 
-.mx-transactions td > span,
-.mx-transactions td > div {
+.mx-transactions td>span,
+.mx-transactions td>div {
   @apply flex w-max;
 }
 
-.mx-transactions td > div > a {
+.mx-transactions td>div>a {
   @apply text-blue-600;
 }
 
@@ -36,16 +36,27 @@ ul {
   list-style: initial;
 }
 
-h1, h2, h3, h4, h5, h6, a, a span{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+a span {
   @apply text-main-color !important;
 }
 
-nav a:hover{
-  color:white !important;
+nav a:hover {
+  color: white !important;
 }
 
-.dapp-core-component__main__btn-primary{
+.dapp-core-component__main__btn-primary {
   background-color: #ff0080 !important;
   border: none !important;
   border-radius: 0.5rem !important;
+}
+
+.dapp-core-component__main__text-truncate.dapp-core-component__main__text-capitalize.dapp-core-component__main__text-white.dapp-core-component__main__p-1.dapp-core-component__transactionsTable-styles__transaction-cell-font-small {
+  max-width: 120px!important;
 }
