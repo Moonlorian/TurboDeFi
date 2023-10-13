@@ -26,7 +26,7 @@ export const Header = () => {
             className='flex items-center justify-between'
             to={isLoggedIn ? RouteNamesEnum.project : RouteNamesEnum.home}
           >
-            <img src={DappLogo} />
+            <img src={DappLogo} className='max-w-[250px]' />
           </MxLink>
         </div>
         <nav className='h-full w-full text-sm sm:relative sm:left-auto sm:top-auto sm:flex sm:w-auto sm:flex-row sm:justify-end sm:bg-transparent'>
