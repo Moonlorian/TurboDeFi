@@ -24,6 +24,17 @@
   @apply text-blue-600;
 }
 
+/* colors */
+:root {
+  /*  define here theme colors */
+  /*
+  --bs-link-color-rgb: #ff0080 !important;
+  --bs-body-color: #ff0080 !important;ç
+  */
+  --main-color: #ff0080;
+  --main-color-30: #ff008040;
+}
+
 .font-weight-bold {
   font-weight: bold;
 }
@@ -32,6 +43,18 @@
   cursor: pointer;
 }
 
-ul{
+ul {
   list-style: initial;
+}
+
+.main-color {
+  color: var(--main-color) !important;
+}
+
+.main-color-bg {
+  background-color: var(--main-color) !important;
+}
+
+.main-color-30-border{
+  border-color: var(--main-color-30) !important;
 }
