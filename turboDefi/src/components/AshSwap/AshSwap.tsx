@@ -13,10 +13,16 @@ import { useGetTokenInfo } from '../../hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const AshSwap = () => {
+export const AshSwap = ({
+  defaultTokenFrom = '',
+  defaultTokenTo = ''
+}: {
+  defaultTokenFrom?: string;
+  defaultTokenTo?: string;
+}) => {
   const [tokenList, setTokenList] = useState<string[]>([]);
-  const [tokenFrom, setTokenFrom] = useState('');
-  const [tokenTo, setTokenTo] = useState('');
+  const [tokenFrom, setTokenFrom] = useState(defaultTokenFrom);
+  const [tokenTo, setTokenTo] = useState(defaultTokenTo);
   const [balanceFrom, setBalanceFrom] = useState<BigNumber>(new BigNumber(0));
   const [balanceTo, setBalanceTo] = useState<BigNumber>(new BigNumber(0));
   const [amountFrom, setAmountFrom] = useState<BigNumber>(new BigNumber(0));
@@ -162,7 +168,7 @@ export const AshSwap = () => {
                 onChange={(tokenId: string) => changeToken('from', tokenId)}
                 isSearchable={true}
                 filter={getFilteredList(tokenTo)}
-                defaultValue={tokenFrom}
+                defaultValue={tokenList.includes(tokenFrom) ? tokenFrom : ''}
                 className='flex-1'
               />
               <span
@@ -226,7 +232,7 @@ export const AshSwap = () => {
                 onChange={(tokenId: string) => changeToken('to', tokenId)}
                 isSearchable={true}
                 filter={getFilteredList(tokenFrom)}
-                defaultValue={tokenTo}
+                defaultValue={tokenList.includes(tokenTo) ? tokenTo : ''}
                 className='flex-1'
               />
               <input
@@ -235,7 +241,9 @@ export const AshSwap = () => {
                   tokenTo
                     ? formatAmount({
                         input: amountTo.toFixed(),
-                        decimals: tokenInfo.get(tokenTo, 'decimals'),
+                        decimals: tokenInfo.hasToken(tokenTo)
+                          ? tokenInfo.get(tokenTo, 'decimals')
+                          : 0,
                         digits: 4,
                         addCommas: true,
                         showLastNonZeroDecimal: false
@@ -265,7 +273,7 @@ export const AshSwap = () => {
                 {amountTo
                   .multipliedBy(priceTo)
                   .dividedBy(
-                    10 ** (tokenTo ? tokenInfo.get(tokenTo, 'decimals') : 0)
+                    10 ** (tokenInfo.hasToken(tokenTo) ? tokenInfo.get(tokenTo, 'decimals') : 0)
                   )
                   .decimalPlaces(4)
                   .toFixed()}
