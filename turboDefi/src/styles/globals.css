@@ -43,3 +43,9 @@ h1, h2, h3, h4, h5, h6, a, a span{
 nav a:hover{
   color:white !important;
 }
+
+.dapp-core-component__main__btn-primary{
+  background-color: #ff0080 !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+}
