@@ -32,7 +32,7 @@ export const routes: RouteWithTitleType[] = [
   },
   {
     path: RouteNamesEnum.project,
-    title: 'Project',
+    title: 'Projects',
     component: Project,
     visibleInHeader: true
   },
