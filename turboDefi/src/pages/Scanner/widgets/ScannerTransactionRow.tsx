@@ -10,7 +10,7 @@ import {
 } from '@multiversx/sdk-dapp/UI/types';
 import { ScannerTransactionHash } from './ScannerTransactionHash';
 import { projectContractList } from 'config';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AccountName } from '@multiversx/sdk-dapp/UI/TransactionsTable/components/AccountName';
 
 export interface TransactionRowPropsType
@@ -32,29 +32,21 @@ export const ScannerTransactionRow = ({
     <tr className={classNames(className, { new: transaction.isNew })}>
       <td>
         {projectContractList[transaction.receiver] && (
-          <a
-            href=''
-            onClick={() => {
-              navigate('/project/' + projectContractList[transaction.receiver]);
-            }}
-          >
+          <Link to={'/project/' + projectContractList[transaction.receiver]} >
             {projectContractList[transaction.receiver]}
-          </a>
+          </Link>
         )}
       </td>
       <td>
-        <div className='d-flex align-items-center'>
-          <a
-            href=''
-            onClick={() => {
-              receiverDetails(transaction.receiver);
-            }}
-          >
-            <AccountName
-              address={transaction.receiver}
-              assets={transaction.receiverAssets}
-            />
-          </a>
+        <div
+          className='d-flex align-items-center pointer text-main-color underline'
+          onClick={() => {
+            receiverDetails(transaction.receiver);
+          }}>
+          <AccountName
+            address={transaction.receiver}
+            assets={transaction.receiverAssets}
+          />
         </div>
       </td>
 
@@ -73,6 +65,6 @@ export const ScannerTransactionRow = ({
       <td>
         <ScannerTransactionHash transaction={transaction} />
       </td>
-    </tr>
+    </tr >
   );
 };
