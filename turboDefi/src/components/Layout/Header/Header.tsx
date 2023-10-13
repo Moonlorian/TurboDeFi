@@ -6,6 +6,8 @@ import { useGetIsLoggedIn } from 'hooks';
 import { RouteNamesEnum } from 'localConstants';
 import DappLogo from '../../../assets/img/dapp-logo.png';
 import { routes } from 'routes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
 
 export const Header = () => {
   const isLoggedIn = useGetIsLoggedIn();
@@ -46,7 +48,8 @@ export const Header = () => {
               onClick={handleLogout}
               className='font-bold inline-block rounded-lg px-3 py-2 text-center hover:no-underline my-0 text-main-color hover:bg-main-color/70 ml-2 hover:text-white hover:rounded-lg'
             >
-              Close
+              Close{' '}
+              <FontAwesomeIcon icon={faRightFromBracket} />
             </Button>
           ) : (
             <MxLink to={RouteNamesEnum.unlock}>Connect</MxLink>
