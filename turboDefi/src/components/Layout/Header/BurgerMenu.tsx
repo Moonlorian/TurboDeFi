@@ -70,7 +70,7 @@ export const BurgerMenu = () => {
               </svg>
             </button>
           </div>
-          <div className='flex flex-column'>
+          <div className='flex flex-column' onClick={toggleMenu}>
             <OptionsMenu />
           </div>
         </nav>
