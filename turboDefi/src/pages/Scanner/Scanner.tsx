@@ -134,6 +134,7 @@ export const Scanner = () => {
                     key={index}
                     active={filterPeriod == index}
                     disabled={isLoading}
+                    className={`${filterPeriod == index ?  'text-white bg-main-color': 'text-black hover:bg-main-color/50 hover:text-white'}`}
                   >
                     {option}
                   </Dropdown.Item>
