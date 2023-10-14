@@ -31,11 +31,11 @@ export const OptionsMenu = () => {
           </MxLink>
         ))}
       {isLoggedIn ? (
-        <div className='py-4 lg:py-0 font-bold flex flex-column lg:inline-block rounded-lg text-center hover:no-underline my-0 text-main-color'>
+        <div className='font-bold flex content-center rounded-lg text-center hover:no-underline my-0 text-main-color items-center justify-center'>
           <FormatedAddress address={address} />
           <Button
             onClick={handleLogout}
-            className='mt-3 lg:mt-0 px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg'
+            className='px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg '
           >
             <FontAwesomeIcon className='py-3 lg:py-0 text-lg lg:text-sm' icon={faRightFromBracket} />
           </Button>
