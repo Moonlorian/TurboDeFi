@@ -1,0 +1,25 @@
+{
+    "name": "set operator address",
+    "steps": [
+        {
+            "step": "scCall",
+            "id": "set-operator",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:turbodefi",
+                "function": "setOperatorAddress",
+                "arguments": [
+                    "address:operator"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

@@ -1,0 +1,83 @@
+{
+    "name": "validate mandatory data",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "001-deploy-init.scen.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/001-set-operator.step.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing project",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "",
+                    "str:module",
+                    "str:endpoint"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:project parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "missing module",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project",
+                    "",
+                    "str:endpoint"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:module parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "missing endpoint",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project",
+                    "str:module",
+                    ""
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:endpoint parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

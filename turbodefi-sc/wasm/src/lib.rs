@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                            0
+// Endpoints:                            7
 // Async Callback (empty):               1
-// Total number of exported functions:   2
+// Total number of exported functions:   9
 
 #![no_std]
 
@@ -22,6 +22,13 @@ multiversx_sc_wasm_adapter::endpoints! {
     turbodefi_sc
     (
         init => init
+        getOperator => operator_address
+        setOperatorAddress => set_operator_address
+        clearOperatorAddress => clear_operator_address
+        addEndpoint => add_endpoint
+        getLastEndpointId => last_endpoint_id
+        getEndpointById => endpoint_by_id
+        getEndpointId => endpoint_id
     )
 }
 

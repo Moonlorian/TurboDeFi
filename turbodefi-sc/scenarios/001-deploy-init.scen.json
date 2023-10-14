@@ -31,15 +31,7 @@
                     "nonce": "1",
                     "balance": "0"
                 },
-                "address:user_1": {
-                    "nonce": "0",
-                    "balance": "0"
-                },
-                "address:user_2": {
-                    "nonce": "0",
-                    "balance": "0"
-                },
-                "address:user_3": {
+                "address:operator": {
                     "nonce": "0",
                     "balance": "0"
                 },

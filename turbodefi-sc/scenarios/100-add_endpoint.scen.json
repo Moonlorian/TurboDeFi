@@ -1,0 +1,61 @@
+{
+    "name": "add a new endpoint",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "001-deploy-init.scen.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/001-set-operator.step.json"
+        },
+        {
+            "step": "scCall",
+            "id": "add endpoint",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project-1",
+                    "str:module-1",
+                    "str:endpoint-1"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "2",
+                    "balance": "0"
+                },
+                "address:operator": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "sc:turbodefi": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:operator_address": "address:operator",
+                        "str:last_endpoint_id": "1",
+                        "str:endpoint_by_id|u64:1": "nested:str:project-1|nested:str:module-1|nested:str:endpoint-1",
+                        "str:endpoint_id|nested:str:project-1|nested:str:module-1|nested:str:endpoint-1": "1"
+                    },
+                    "code": "file:../output/turbodefi-sc.wasm"
+                }
+            }
+        }
+    ]
+}
