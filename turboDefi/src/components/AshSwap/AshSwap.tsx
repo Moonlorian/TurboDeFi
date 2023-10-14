@@ -153,7 +153,7 @@ export const AshSwap = ({
         reference={''}
       >
         <Card
-          className='flex-2 border w-50 position-relative'
+          className='flex-2 border max-w-[550px] position-relative'
           key={''}
           title={''}
           description={''}
@@ -172,7 +172,7 @@ export const AshSwap = ({
                 className='flex-1'
               />
               <span
-                className='text-sm cursor-pointer rounded-md position-absolute top-[15%] text-white right-[40%] bg-main-color hover:bg-main-color/70 p-1'
+                className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[50%] bg-main-color hover:bg-main-color/70 p-1'
                 onClick={() => {
                   setAmountFrom(
                     tokenFrom
@@ -186,7 +186,7 @@ export const AshSwap = ({
                 max
               </span>
               <input
-                className='ms-2 text-end flex-1'
+                className='ms-2 text-end flex-1 min-w-0'
                 type='number'
                 placeholder='Amount'
                 value={amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''}
@@ -236,7 +236,7 @@ export const AshSwap = ({
                 className='flex-1'
               />
               <input
-                className='ms-2 text-end flex-1 pe-2 bg-transparent'
+                className='ms-2 text-end flex-1 pe-2 bg-transparent min-w-0'
                 value={
                   tokenTo
                     ? formatAmount({
