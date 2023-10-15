@@ -1,3 +1,5 @@
 tokenList.json
 tokenList.*
 .~lock.*
+turbodefi-sc/interaction/env_devnet.sh
+turbodefi-sc/interaction/env_mainnet.sh
