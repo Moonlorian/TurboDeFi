@@ -41,10 +41,7 @@ class Executor {
     txInfo: TxInfo,
     ...args: any
   ): Promise<any> {
-    const provider = new ProxyNetworkProvider(
-      providerUrl,
-      { timeout: 5000 }
-    );
+    const provider = new ProxyNetworkProvider(providerUrl, { timeout: 5000 });
     const endpointObject = structReader.getModuleEndpoint(module, endpoint);
 
     const abiJson = {
@@ -147,11 +144,13 @@ class Executor {
             };
           } else {
             //Is a single field
-            finalOutput[output.name || output.label || ''] = {
+            const innerObject: { [key: string]: any } = {};
+            innerObject[output.name || output.label || ''] = {
               ...output,
               value: bundle?.valueOf(),
               token: output.balance ? endpointObject.token : ''
             };
+            finalOutput[output.name || output.label || ''] = innerObject;
           }
         }
       });
