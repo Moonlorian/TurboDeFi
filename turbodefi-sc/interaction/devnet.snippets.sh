@@ -65,3 +65,25 @@ getLastEndpointId() {
 }
 
 # ************************************* END ENDPOINTS *************************************
+
+# ************************************* FLOWS *************************************
+
+addFlow() {
+    mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
+        --function="addFlow" --arguments "str:$1" "str:$2" "str:$3"  \
+        --send --proxy=${PROXY} --chain=${CHAIN_ID}
+}
+
+getLastFlowId() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getLastFlowId" --proxy=${PROXY}
+}
+
+getFlowById() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getFlowById" --arguments $1 --proxy=${PROXY}
+}
+
+getAddressFlows() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getAddressFlows" --arguments $1 --proxy=${PROXY}
+}
+
+# ************************************* END FLOWS *************************************
