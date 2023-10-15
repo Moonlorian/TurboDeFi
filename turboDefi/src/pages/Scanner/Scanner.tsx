@@ -1,8 +1,8 @@
-import { Card, OutputContainer } from 'components';
+import { Button, Card, OutputContainer } from 'components';
 import { useEffect, useState } from 'react';
 import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
-import { Button, Dropdown, Form } from 'react-bootstrap';
+import { Dropdown, Form } from 'react-bootstrap';
 import ScannerService from '../../services/ScannerService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
@@ -95,7 +95,7 @@ export const Scanner = () => {
         reference={''}
       >
         <div className='d-flex w-100 justify-content-between'>
-          <div className='w-100'>
+          <div className='w-100 mb-2'>
             <Form className='mb-2 d-flex w-75'>
               <Form.Group className='mr-3 w-100'>
                 <Form.Control
@@ -112,7 +112,7 @@ export const Scanner = () => {
             </Form>
             {receiverAddress && (
               <span className='w-50'>
-                <i>Contract scanner:</i> {receiverAddress}
+                <i>Smart Contract:</i> {receiverAddress}
                 <FontAwesomeIcon
                   icon={faClose}
                   className='ml-2 text-gray-700 pointer'
@@ -134,6 +134,7 @@ export const Scanner = () => {
                     key={index}
                     active={filterPeriod == index}
                     disabled={isLoading}
+                    className={`${filterPeriod == index ?  'text-white bg-main-color': 'text-black hover:bg-main-color/50 hover:text-white'}`}
                   >
                     {option}
                   </Dropdown.Item>

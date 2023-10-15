@@ -9,3 +9,5 @@ export * from './ContractAddress';
 export * from './MissingNativeAuthError';
 export * from './Label';
 export * from './TokenSelector';
+export * from './AshSwap';
+export * from './FormattedAddress';

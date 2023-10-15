@@ -9,7 +9,7 @@ export const Home = () => {
           <div className='flex items-start sm:items-center h-full sm:w-1/2 sm:bg-center'>
             <div className='flex flex-col gap-2 max-w-[70sch] text-center sm:text-left text-xl font-medium md:text-2xl lg:text-3xl'>
               <div>
-                Template dApp <br />
+                Turbo DeFi <br />
                 <span className='text-gray-400'>
                   The sdk-dapp starter project for any dApp{' '}
                   <br className='hidden xl:block' />

@@ -1,1 +1,1 @@
-export * from './AshSwap';
+export * from './AshSwapPage';

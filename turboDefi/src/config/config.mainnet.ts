@@ -21,6 +21,7 @@ export const projectContractList: { [key: string]: string } = {
     erd1qqqqqqqqqqqqqpgql9z9vm8d599ya2r9seklpkcas6qmude4mvlsgrj7hv: "OneDex",
     erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla: "OneDex",
     erd1qqqqqqqqqqqqqpgq8nlmvjm8gum6y2kqe0v296kgu8cm4jlemvlsays3ku: "OneDex",
+    erd1qqqqqqqqqqqqqpgqfyks2llx45lczzz6htdpe09prxem4ad3mesqlgra36: "gnogen",
 };
 
-export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo'];
+export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo', 'gnogen'];

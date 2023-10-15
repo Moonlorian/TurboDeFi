@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  important: true,
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
         sans: ['"Manrope"', 'sans-serif']
+      },
+      colors:{
+        'main-color': '#ff0080'
       }
     },
     backgroundImage: {

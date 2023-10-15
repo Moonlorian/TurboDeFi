@@ -2,43 +2,50 @@ import { RouteNamesEnum } from 'localConstants';
 import { Disclaimer, Home } from 'pages';
 import { Project } from 'pages/Project';
 import { Scanner } from 'pages/Scanner';
-import { AshSwap } from 'pages/AshSwap';
 import { Flow } from 'pages/Flow';
 import { RouteType } from 'types';
+import { AshSwapPage } from 'pages/AshSwap';
 
 interface RouteWithTitleType extends RouteType {
   title: string;
+  visibleInHeader:boolean;
 }
 
 export const routes: RouteWithTitleType[] = [
   {
     path: RouteNamesEnum.home,
     title: 'Home',
-    component: Home
+    component: Scanner,
+    visibleInHeader: false
   },
   {
     path: RouteNamesEnum.disclaimer,
     title: 'Disclaimer',
-    component: Disclaimer
+    component: Disclaimer,
+    visibleInHeader: false
   },
   {
     path: RouteNamesEnum.scanner,
     title: 'Scanner',
-    component: Scanner
+    component: Scanner,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.project,
-    title: 'Project',
-    component: Project
+    title: 'Projects',
+    component: Project,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.AshSwap,
-    title: 'Ash swap',
-    component: AshSwap
+    title: 'Swap',
+    component: AshSwapPage,
+    visibleInHeader: true
   },
   {
     path: RouteNamesEnum.Flow,
     title: 'Flow',
-    component: Flow
+    component: Flow,
+    visibleInHeader: true
   }
 ];

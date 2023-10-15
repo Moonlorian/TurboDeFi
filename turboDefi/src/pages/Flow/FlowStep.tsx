@@ -1,50 +1,36 @@
-import StructReader from "StructReader/StructReader";
-import { environment } from "config";
 import { FlowStepType } from "./Flow";
-import { useEffect, useState } from "react";
 import { EndpointStep } from "./EndpointStep";
 import { ComponentStep } from "./ComponentStep";
 import { Card } from "components";
 
 export const FlowStep = ({
-    step
+    step,
+    index
 }: {
-    step: FlowStepType
+    step: FlowStepType,
+    index: number
 }) => {
-/*
-    const [structReader, setStructReader] = useState<StructReader>();
-
-    const selectProject = async (selectedProject: string) => {
-        const newStructReader = new StructReader(
-            '/projects/' + environment + '/' + selectedProject.toLowerCase()
-        );
-        await newStructReader.load();
-        return newStructReader;
-    };
-
-    useEffect(() => {
-        if (step.project) {
-            selectProject(step.project).then((newStructReader: StructReader) => {
-                setStructReader(newStructReader);
-            });
-        }
-        return;
-    }, []);
-    */
-
     return (
-        <Card
-            className='flex-2 border mb-2'
-            key={'flow'}
-            title={step.label}
-            description={step.description}
-            reference={''}
-        >
-            {step.endpoints ?
-                <EndpointStep step={step} />
-                :
-                <ComponentStep step={step} />
-            }
-        </Card>
+        <span className="flex flex-col rounded-xl p-6 border mb-2">
+            <h5 className="flex items-center">
+                <span className="rounded-full bg-main-color text-white w-[35px] h-[35px] flex items-center justify-center m-3">
+                    {index}
+                </span>
+                <p className='text-gray-400 m-0'>{step.description}</p>
+            </h5>
+            <Card
+                className='flex-2 p-1'
+                key={'flow'}
+                title={step.label || ''}
+                description={''}
+                reference={''}
+            >
+                {step.endpoints ?
+                    <EndpointStep step={step} />
+                    :
+                    <ComponentStep step={step} props={step.componentProps} />
+                }
+            </Card>
+        </span>
     );
 }

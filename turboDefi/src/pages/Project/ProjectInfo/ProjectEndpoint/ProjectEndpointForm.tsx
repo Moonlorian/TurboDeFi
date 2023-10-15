@@ -185,6 +185,7 @@ export const ProjectEndpointForm = ({
       title={endpoint.label || endpoint.name}
       description={endpoint.description}
       reference={''}
+      address={endpoint.address}
     >
       {endpoint.notImplemented ? (
         <p>
@@ -234,7 +235,10 @@ export const ProjectEndpointForm = ({
           ))}
           <>
             {showExecuteBtn && (
-              <Button disabled={!address} onClick={executeEndpoint}>
+              <Button
+                disabled={!address}
+                onClick={executeEndpoint}
+              >
                 {endpoint.buttonLabel || 'Execute'}
               </Button>
             )}

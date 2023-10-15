@@ -5,26 +5,24 @@ import {
   getAshTokenList,
   swap
 } from '../../services/ash/AshSwapService';
-import {
-  Card,
-  FormatAmount,
-  Label,
-  OutputContainer,
-  TokenSelector
-} from 'components';
-import { getTokenListData, getUserTokensBalance } from 'services';
+import { Button, Card, FormatAmount, Label, TokenSelector } from '../';
+import { getTokenListData, getUserTokensBalance } from '../../services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
-import { useGetTokenInfo } from 'hooks';
+import { useGetTokenInfo } from '../../hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
-import { Button } from 'react-bootstrap';
-import { ProjectEndpointForm } from 'pages/Project/ProjectInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const AshSwap = () => {
+export const AshSwap = ({
+  defaultTokenFrom = '',
+  defaultTokenTo = ''
+}: {
+  defaultTokenFrom?: string;
+  defaultTokenTo?: string;
+}) => {
   const [tokenList, setTokenList] = useState<string[]>([]);
-  const [tokenFrom, setTokenFrom] = useState('');
-  const [tokenTo, setTokenTo] = useState('');
+  const [tokenFrom, setTokenFrom] = useState(defaultTokenFrom);
+  const [tokenTo, setTokenTo] = useState(defaultTokenTo);
   const [balanceFrom, setBalanceFrom] = useState<BigNumber>(new BigNumber(0));
   const [balanceTo, setBalanceTo] = useState<BigNumber>(new BigNumber(0));
   const [amountFrom, setAmountFrom] = useState<BigNumber>(new BigNumber(0));
@@ -43,17 +41,21 @@ export const AshSwap = () => {
   };
 
   const loadAggregate = async () => {
-    if (!tokenFrom || !tokenTo || amountFrom.isEqualTo(0)) return;
-
-    const path = await aggregate(
-      tokenFrom,
-      tokenTo,
-      amountFrom
-        .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
-        .toFixed()
-    );
-    setAmountTo(new BigNumber(path.returnAmountWithDecimal));
-    setSwapData(path);
+    if (!tokenFrom || !tokenTo) return;
+    if (amountFrom.isEqualTo(0)) {
+      setAmountTo(new BigNumber(0));
+      setSwapData({});
+    } else {
+      const path = await aggregate(
+        tokenFrom,
+        tokenTo,
+        amountFrom
+          .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
+          .toFixed()
+      );
+      setAmountTo(new BigNumber(path.returnAmountWithDecimal));
+      setSwapData(path);
+    }
   };
 
   const loadUserBalances = async () => {
@@ -74,14 +76,12 @@ export const AshSwap = () => {
 
     const tokensData = await getTokenListData(tokenList);
 
-    setPriceFrom(new BigNumber(tokensData[tokenFrom]?.price ?? 0));
-    setPriceTo(new BigNumber(tokensData[tokenTo]?.price ?? 0));
-
-    /*
-    const finalBalances = await getUserTokensBalance(address, tokenList);
-    setBalanceFrom(new BigNumber(finalBalances[tokenFrom]?.balance ?? 0));
-    setBalanceTo(new BigNumber(finalBalances[tokenTo]?.balance ?? 0));
-    */
+    setPriceFrom(
+      new BigNumber(tokensData[tokenFrom]?.price ?? 0).decimalPlaces(18)
+    );
+    setPriceTo(
+      new BigNumber(tokensData[tokenTo]?.price ?? 0).decimalPlaces(18)
+    );
   };
 
   const swapTokenOrder = () => {
@@ -91,7 +91,7 @@ export const AshSwap = () => {
     setTokenFrom(tokenTo);
     setTokenTo(tokenFrom);
     setAmountTo(new BigNumber(0));
-    setAmountFrom(amountTo.dividedBy(10 ** tokenInfo.get(tokenTo, 'decimals')));
+    setAmountFrom(new BigNumber(0));
   };
 
   const changeToken = useCallback((direction: string, tokenId: string) => {
@@ -105,9 +105,11 @@ export const AshSwap = () => {
   const changeAmount = useCallback((direction: string, amount: any) => {
     const bigNumberAmount = new BigNumber(amount);
     if (direction === 'from') {
-      setAmountFrom(bigNumberAmount);
+      setAmountFrom(
+        bigNumberAmount.isNaN() ? new BigNumber(0) : bigNumberAmount
+      );
     } else if (direction === 'to') {
-      setAmountTo(bigNumberAmount);
+      setAmountTo(bigNumberAmount.isNaN() ? new BigNumber(0) : bigNumberAmount);
     }
   }, []);
 
@@ -151,7 +153,7 @@ export const AshSwap = () => {
         reference={''}
       >
         <Card
-          className='flex-2 border w-50 position-relative'
+          className='flex-2 border max-w-[550px] position-relative'
           key={''}
           title={''}
           description={''}
@@ -166,11 +168,11 @@ export const AshSwap = () => {
                 onChange={(tokenId: string) => changeToken('from', tokenId)}
                 isSearchable={true}
                 filter={getFilteredList(tokenTo)}
-                defaultValue={tokenFrom}
+                defaultValue={tokenList.includes(tokenFrom) ? tokenFrom : ''}
                 className='flex-1'
               />
               <span
-                className='text-sm cursor-pointer rounded-md position-absolute top-[15%] text-white right-[40%] main-color-bg main-color-30-border p-1'
+                className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[50%] bg-main-color hover:bg-main-color/70 p-1'
                 onClick={() => {
                   setAmountFrom(
                     tokenFrom
@@ -184,7 +186,7 @@ export const AshSwap = () => {
                 max
               </span>
               <input
-                className='ms-2 text-end flex-1'
+                className='ms-2 text-end flex-1 min-w-0'
                 type='number'
                 placeholder='Amount'
                 value={amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''}
@@ -209,22 +211,19 @@ export const AshSwap = () => {
               </Label>
               <Label>
                 ≈{' '}
-                <FormatAmount
-                  value={amountFrom.multipliedBy(priceFrom).toFixed()}
-                  token=''
-                  decimals={tokenFrom ? tokenInfo.get(tokenFrom, 'decimals') : 0}
-                  digits={4}
-                />
-                $
+                {amountFrom.multipliedBy(priceFrom).decimalPlaces(4).toFixed()}$
               </Label>
             </div>
           </div>
           <div className='text-center'>
             <a className='cursor-pointer' onClick={swapTokenOrder}>
-              <FontAwesomeIcon icon={faArrowsRotate} className='main-color' />
+              <FontAwesomeIcon
+                icon={faArrowsRotate}
+                className='text-main-color'
+              />
             </a>
           </div>
-          <div className='bg-neutral-100 py-4 px-3'>
+          <div className='bg-neutral-100 py-4 px-3 mb-3'>
             <div className=''>
               <Label>To</Label>
             </div>
@@ -233,16 +232,18 @@ export const AshSwap = () => {
                 onChange={(tokenId: string) => changeToken('to', tokenId)}
                 isSearchable={true}
                 filter={getFilteredList(tokenFrom)}
-                defaultValue={tokenTo}
+                defaultValue={tokenList.includes(tokenTo) ? tokenTo : ''}
                 className='flex-1'
               />
               <input
-                className='ms-2 text-end flex-1 pe-2 bg-transparent'
+                className='ms-2 text-end flex-1 pe-2 bg-transparent min-w-0'
                 value={
                   tokenTo
                     ? formatAmount({
                         input: amountTo.toFixed(),
-                        decimals: tokenInfo.get(tokenTo, 'decimals'),
+                        decimals: tokenInfo.hasToken(tokenTo)
+                          ? tokenInfo.get(tokenTo, 'decimals')
+                          : 0,
                         digits: 4,
                         addCommas: true,
                         showLastNonZeroDecimal: false
@@ -269,12 +270,16 @@ export const AshSwap = () => {
               </Label>
               <Label>
                 ≈{' '}
-                <FormatAmount
-                  value={amountTo.multipliedBy(priceTo).toFixed()}
-                  token=''
-                  decimals={tokenTo ? tokenInfo.get(tokenTo, 'decimals') : 0}
-                  digits={4}
-                />
+                {amountTo
+                  .multipliedBy(priceTo)
+                  .dividedBy(
+                    10 **
+                      (tokenInfo.hasToken(tokenTo)
+                        ? tokenInfo.get(tokenTo, 'decimals')
+                        : 0)
+                  )
+                  .decimalPlaces(4)
+                  .toFixed()}
                 $
               </Label>
             </div>
@@ -299,7 +304,6 @@ export const AshSwap = () => {
                 new BigNumber(swapData.returnAmountWithDecimal)
               )
             }
-            className='mt-3 main-color-bg main-color-30-border'
           >
             Swap
           </Button>

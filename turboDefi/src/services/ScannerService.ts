@@ -48,11 +48,11 @@ class ScannerService {
 
         const receiversList: string[] = [];
         const filteredList = list.filter((transaction) => {
-            const receiver = transaction.receiver;
-            if (!receiver.includes('qqqqq') || receiver == address) {
+            const receiver = this.getTransactionReceiver(transaction);
+            if (!receiver.includes('qqqqq') && receiver != address) {
                 return false;
             }
-            if (!receiversList.includes(receiver)) {
+            if (!receiversList.includes(receiver) || receiver == address) {
                 receiversList.push(receiver);
                 return true;
             }
@@ -77,6 +77,15 @@ class ScannerService {
             return 0
         }
     }
+
+    private getTransactionReceiver(transaction: Transaction) {
+        let receiver = transaction.receiver;
+        if (transaction.action?.arguments?.receiver) {
+          receiver = transaction.action.arguments.receiver;
+        }
+      
+        return receiver;
+      }
 }
 
 export default ScannerService;

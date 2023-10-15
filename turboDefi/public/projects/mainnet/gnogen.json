@@ -1,0 +1,62 @@
+{
+  "project": {
+    "name": "gnogen",
+    "description": "Gnogen",
+    "label": "Gnogen",
+    "token": "GNG-8735ae",
+    "address": "erd1qqqqqqqqqqqqqpgqfyks2llx45lczzz6htdpe09prxem4ad3mesqlgra36",
+    "url": "https://gng.gnogen.io/"
+  },
+  "modules": [
+    {
+      "name": "staking",
+      "description": "Staking",
+      "label": "Staking",
+      "endpoints": [
+        {
+          "name": "getPendingRewardsForAddress",
+          "label": "Pending rewards",
+          "mutability": "readonly",
+          "inputs": [
+            {
+              "name": "address",
+              "label": "Address",
+              "type": "Address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "rewards",
+              "label": "Rewards",
+              "type": "BigUint",
+              "balance": true
+            }
+          ]
+        },
+        {
+          "name": "claimRewards",
+          "label": "Claim rewards",
+          "buttonLabel": "Claim",
+          "mutability": "mutable",
+          "inputs": [],
+          "outputs": []
+        }
+      ]
+    }
+  ],
+  "types": {
+    "Rewards": {
+      "name": "rewards",
+      "label": "Rewards",
+      "type": "struct",
+      "fields": [
+        {
+          "name": "rewards",
+          "label": "Rewards",
+          "type": "BigUint",
+          "balance": true
+        }
+      ]
+    }
+  }
+}

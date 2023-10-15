@@ -61,6 +61,7 @@ export const Unlock = () => {
               loginButtonText='Web Wallet'
               data-testid='webWalletLoginBtn'
               {...commonProps}
+              className='bg-main-color'
             />
           </div>
         </div>
