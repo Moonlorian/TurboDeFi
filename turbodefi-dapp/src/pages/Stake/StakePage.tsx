@@ -1,9 +1,9 @@
-import { StakeInfo } from "components";
+import { StakeList } from "components";
 import React from "react";
 
 export const StakePage = () => {
 
     return(
-        <StakeInfo />
+        <StakeList />
     );
 };

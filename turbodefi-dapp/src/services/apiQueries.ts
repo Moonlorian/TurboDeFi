@@ -1,5 +1,5 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { API_URL } from '../config/index';
+import { API_URL } from '../config';
 import { Nonce } from '@multiversx/sdk-network-providers/out/primitives';
 import BigNumber from 'bignumber.js';
 
@@ -62,7 +62,6 @@ export const getDelegated = async (address: string) => {
     finalList.push(...legacyStaked);
   }
 
-  console.log(finalList);
   return finalList;
 };
 

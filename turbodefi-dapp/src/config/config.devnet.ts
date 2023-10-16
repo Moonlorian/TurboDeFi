@@ -9,6 +9,7 @@ export const API_URL = 'https://devnet-api.multiversx.com';
 export const GATEWAY_URL = 'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a';
 export const EXPLORER_URL = 'https://devnet-explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://devnet-graph.xexchange.com/graphql';
+export const DELEGATION_URL = 'https://devnet-delegation-api.multiversx.com/providers';
 export const CHAIN_ID = 'D';
 export const sampleAuthenticatedDomains = [API_URL];
 export const environment = EnvironmentsEnum.devnet;

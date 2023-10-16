@@ -52,7 +52,6 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const newTimer = setTimeout(() => {
       getUserBalance(address).then((tokenBalance: any) => {
-        console.log("update balance");
         updateBalance(tokenBalance);
       });
     }, 120000);

@@ -1,1 +1,1 @@
-export * from './StakeInfo';
+export * from './StakeList';

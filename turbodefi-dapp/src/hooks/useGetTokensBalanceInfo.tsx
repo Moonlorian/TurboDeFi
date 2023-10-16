@@ -7,7 +7,7 @@ export const useGetTokensBalanceInfo = () => {
   const [tokensBalance, setTokenSBalance] = useState<any>({});
 
   const { account } = useGetAccountInfo();
-  console.log(account);
+
   const globalDataContext = useContext(GlobalDataContext);
 
   useEffect(() => {
