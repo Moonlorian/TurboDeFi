@@ -146,6 +146,25 @@
             ]
         },
         {
+            "name": "getFlowByAddressAndName",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "flow_name",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Flow"
+                }
+            ]
+        },
+        {
             "name": "getLastFlowId",
             "mutability": "readonly",
             "inputs": [],

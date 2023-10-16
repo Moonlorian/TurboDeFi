@@ -1,4 +1,4 @@
-import { Address, AddressValue, ResultsParser, U64Value } from "@multiversx/sdk-core/out";
+import { Address, AddressValue, BytesType, BytesValue, ResultsParser, U64Value } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
 import { FlowEndpointType, FlowType } from "pages/Flow";
 import { smartContract } from "utils/smartContract";
@@ -60,7 +60,35 @@ class TurbodefiContractService {
             flows.push(newFlow);
         });
 
-        return [];
+        return flows;
+    }
+
+    async getFlowByAddressAndName(address: string, flowName: string): Promise<FlowType> {
+
+        const provider = new ProxyNetworkProvider(
+            this.gatewayUrl,
+            { timeout: 5000 }
+        );
+        const endpointDefinition = smartContract.getEndpoint("getFlowByAddressAndName");
+        const query = smartContract.createQuery({
+            func: "getFlowByAddressAndName",
+            args: [
+                new AddressValue(new Address(address)),
+                BytesValue.fromUTF8(flowName)
+            ]
+        })
+        const queryResponse = await provider.queryContract(query);
+        let { firstValue } = new ResultsParser().parseQueryResponse(queryResponse, endpointDefinition);
+
+        console.log("firstValue:", firstValue);
+
+        const flow: FlowType = {
+            name: firstValue?.valueOf().name.valueOf().toString(),
+            label: firstValue?.valueOf().label.valueOf().toString(),
+            description: firstValue?.valueOf().description.valueOf().toString(),
+            steps: firstValue?.valueOf().steps.valueOf().toString()
+        };
+        return flow;
     }
 
 }
