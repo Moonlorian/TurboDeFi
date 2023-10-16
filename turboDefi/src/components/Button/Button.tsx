@@ -18,8 +18,9 @@ export const Button = ({
   dataCy,
   type = 'button',
   id,
-  className = 'bg-main-color inline-block rounded-lg px-3 py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed'
+  className = ''
 }: ButtonType) => {
+  const defaultClassName = 'bg-main-color inline-block rounded-lg px-3 py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed';
   return (
     <button
       id={id}
@@ -27,7 +28,7 @@ export const Button = ({
       data-test-id={dataTestId}
       disabled={disabled}
       onClick={onClick}
-      className={className}
+      className={`${defaultClassName} ${className}`}
       type={type}
     >
       {children}
