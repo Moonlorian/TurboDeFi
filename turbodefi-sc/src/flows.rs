@@ -33,6 +33,22 @@ pub trait FlowsModule: operator::OperatorModule {
         return flows;
     }
 
+    #[view(getFlowByAddressAndName)]
+    fn get_flow_by_name(
+        &self,
+        address: &ManagedAddress,
+        flow_name: ManagedBuffer,
+    ) -> Flow<Self::Api> {
+        for flow_id in self.address_flows_ids(address).iter() {
+            let flow = self.flow_by_id(&flow_id).get();
+            if flow_name == flow.name {
+                return flow;
+            }
+        }
+
+        panic!("flow not found!");
+    }
+
     fn increase_last_flow_id(&self) {
         self.last_flow_id().update(|last_id| *last_id += 1);
     }

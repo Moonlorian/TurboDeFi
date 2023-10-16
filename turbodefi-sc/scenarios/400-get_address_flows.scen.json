@@ -1,0 +1,72 @@
+{
+    "name": "get address flows",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "201-add_flow-more.scen.json"
+        },
+        {
+            "step": "scQuery",
+            "txId": "get user_1 flows",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_1"
+                ],
+                "function": "getAddressFlows"
+            },
+            "expect": {
+                "out": [
+                    "address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
+                    "address:user_1|nested:str:flow-2|nested:str:Flow 2|nested:str:This is another flow|u32:0"
+                ],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "get user_2 flows",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_2"
+                ],
+                "function": "getAddressFlows"
+            },
+            "expect": {
+                "out": [
+                    "address:user_2|nested:str:my-flow|nested:str:My first flow|nested:str:This is the description of user_2 first flow|u32:0"
+                ],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "get user_3 flows",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_3"
+                ],
+                "function": "getAddressFlows"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

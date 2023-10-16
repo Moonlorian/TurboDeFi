@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                           12
+// Endpoints:                           13
 // Async Callback (empty):               1
-// Total number of exported functions:  14
+// Total number of exported functions:  15
 
 #![no_std]
 
@@ -31,6 +31,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         getEndpointId => endpoint_id
         addFlow => add_flow
         getAddressFlows => get_address_flows
+        getFlowByAddressAndName => get_flow_by_name
         getLastFlowId => last_flow_id
         getFlowById => flow_by_id
         getAddressFlowsIds => address_flows_ids
