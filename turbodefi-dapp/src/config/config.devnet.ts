@@ -3,7 +3,7 @@ import { EnvironmentsEnum } from 'types';
 export * from './sharedConfig';
 
 export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
+  'erd1qqqqqqqqqqqqqpgqwgqr6phfjdlh642yaept7et2gc8urux0am7q4m4hp9';
 export const API_URL = 'https://devnet-api.multiversx.com';
 //export const GATEWAY_URL = 'https://devnet-gateway.multiversx.com';
 export const GATEWAY_URL = 'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a';
