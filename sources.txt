@@ -1,3 +1,0 @@
-https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript
-https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html
-https://typedoc.org/guides/doccomments/
