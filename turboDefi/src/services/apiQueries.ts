@@ -16,8 +16,21 @@ type apiQueryMandatoryOptions = {
   milisecondsBetweenCalls: number;
 };
 
+export const getDelegated = async (address: string) => {
+  const finalList:any = [];
+  const stakedList = await getApiGeneric(`accounts/${address}/delegation`);
+  const legacyStaked = await getApiGeneric(
+    `accounts/${address}/delegation-legacy`
+  );
+  Array.isArray(stakedList)
+    ? finalList.push(...stakedList)
+    : finalList.push(stakedList);
+  stakedList.push(legacyStaked);
+  console.log(finalList);
+  return finalList;
+};
+
 export const getNFT = async (collection: string, nonce: number) => {
-  const provider = new ApiNetworkProvider(API_URL);
   const NFT = await getApiGeneric(
     'nfts/' + collection + '-' + new Nonce(nonce).hex()
   );
@@ -74,12 +87,9 @@ export const getApiGeneric = async (
     options.milisecondsToWaitBetweenRetries,
     () => provider.doGetGeneric(query)
   );
-  if (Array.isArray(list)){
-    finalArray.push(...list);
-  }else{
-    finalArray.push(list);
-  }
-  
+  Array.isArray(list)
+    ? finalArray.push(...list)
+    : finalArray.push(list);
 
   return finalArray;
 };

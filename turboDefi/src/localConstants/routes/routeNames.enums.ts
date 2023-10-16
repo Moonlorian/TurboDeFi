@@ -5,5 +5,6 @@ export enum RouteNamesEnum {
   scanner = '/scanner',
   project = '/project/:projectName?',
   AshSwap = '/AshSwap',
-  Flow = "/flow"
+  Flow = '/flow',
+  Staking = '/staking'
 }

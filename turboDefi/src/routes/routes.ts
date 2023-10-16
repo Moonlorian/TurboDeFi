@@ -1,5 +1,5 @@
 import { RouteNamesEnum } from 'localConstants';
-import { Disclaimer, Home } from 'pages';
+import { Disclaimer, Home, StakePage } from 'pages';
 import { Project } from 'pages/Project';
 import { Scanner } from 'pages/Scanner';
 import { Flow } from 'pages/Flow';
@@ -46,6 +46,12 @@ export const routes: RouteWithTitleType[] = [
     path: RouteNamesEnum.Flow,
     title: 'Flow',
     component: Flow,
+    visibleInHeader: true
+  },
+  {
+    path: RouteNamesEnum.Staking,
+    title: 'Staking',
+    component: StakePage,
     visibleInHeader: true
   }
 ];
