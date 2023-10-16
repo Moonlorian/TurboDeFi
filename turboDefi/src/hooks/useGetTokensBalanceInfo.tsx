@@ -1,10 +1,13 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { GlobalDataContext } from '../services';
 import BigNumber from 'bignumber.js';
+import { useGetAccountInfo } from './sdkDappHooks';
 
 export const useGetTokensBalanceInfo = () => {
   const [tokensBalance, setTokenSBalance] = useState<any>({});
 
+  const { account } = useGetAccountInfo();
+  console.log(account);
   const globalDataContext = useContext(GlobalDataContext);
 
   useEffect(() => {
@@ -22,8 +25,9 @@ export const useGetTokensBalanceInfo = () => {
    *
    */
   function getBalance(tokenId: string) {
-    const defaultValue = '';
-    if (tokensBalance[tokenId]) return new BigNumber(tokensBalance[tokenId]['balance']);
+    if (tokenId == 'EGLD') return new BigNumber(account.balance);
+    if (tokensBalance[tokenId])
+      return new BigNumber(tokensBalance[tokenId]['balance']);
     return new BigNumber(0);
   }
 

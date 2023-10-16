@@ -60,6 +60,7 @@ class StructEndpoint extends StructBase {
         label: 'Amount',
         type: 'BigUint',
         value: undefined,
+        balance: true,
         token:"paymentToken_0",
       });
     }
