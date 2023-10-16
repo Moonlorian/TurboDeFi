@@ -162,14 +162,18 @@ export const TokenSelector = ({
             ))}
           </div>
         </div>
+        <div className='text-gray-500 text-sm'>
+          {'Balance: '}
+          {tokenInfo.hasToken(selectedValue) &&
+            formatAmount({
+              input: balanceInfo.getBalance(selectedValue).toFixed(),
+              decimals: tokenInfo.get(selectedValue, 'decimals'),
+              digits: 5,
+              addCommas: true,
+              showLastNonZeroDecimal: false
+            })}
+        </div>
       </div>
-      <div className='text-gray-500 text-sm'>{"Balance: "}{tokenInfo.hasToken(selectedValue) &&  formatAmount({
-            input: balanceInfo.getBalance(selectedValue).toFixed(),
-            decimals: tokenInfo.get(selectedValue, 'decimals'),
-            digits: 5,
-            addCommas: true,
-            showLastNonZeroDecimal: false
-          })}</div>
     </>
   );
 };

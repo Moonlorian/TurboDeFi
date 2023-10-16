@@ -1,6 +1,5 @@
 .token-selector-container {
   text-align: left;
-  border: 1px solid #ccc;
   position: relative;
   border-radius: 5px;
   cursor: pointer;
@@ -10,6 +9,7 @@
   width: 100%;
 }
 .token-selector-input {
+  border: 1px solid #ccc;
   padding: 5px;
   display: flex;
   align-items: center;

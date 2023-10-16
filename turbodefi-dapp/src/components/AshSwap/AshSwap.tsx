@@ -23,8 +23,6 @@ export const AshSwap = ({
   const [tokenList, setTokenList] = useState<string[]>([]);
   const [tokenFrom, setTokenFrom] = useState(defaultTokenFrom);
   const [tokenTo, setTokenTo] = useState(defaultTokenTo);
-  const [balanceFrom, setBalanceFrom] = useState<BigNumber>(new BigNumber(0));
-  const [balanceTo, setBalanceTo] = useState<BigNumber>(new BigNumber(0));
   const [amountFrom, setAmountFrom] = useState<BigNumber>(new BigNumber(0));
   const [amountTo, setAmountTo] = useState<BigNumber>(new BigNumber(0));
   const [timeoutId, setTimeoutId] = useState<any>(0);
@@ -33,8 +31,8 @@ export const AshSwap = ({
   const [priceTo, setPriceTo] = useState<BigNumber>(new BigNumber(0));
 
   const { address } = useGetAccountInfo();
+  const balanceInfo = useGetTokensBalanceInfo();
   const tokenInfo = useGetTokenInfo();
-  const {getBalance, tokensBalance} = useGetTokensBalanceInfo();
 
   const loadTokenList = async () => {
     const currentTokenList = await getAshTokenList();
@@ -57,11 +55,6 @@ export const AshSwap = ({
       setAmountTo(new BigNumber(path.returnAmountWithDecimal));
       setSwapData(path);
     }
-  };
-
-  const loadUserBalances = async () => {
-    setBalanceFrom(getBalance(tokenFrom));
-    setBalanceTo(getBalance(tokenTo));
   };
 
   const loadTokensPrices = async () => {
@@ -122,10 +115,9 @@ export const AshSwap = ({
   loadAggregate;
 
   useEffect(() => {
-    loadUserBalances();
     loadAggregate();
     loadTokensPrices();
-  }, [tokenFrom, tokenTo, tokensBalance]);
+  }, [tokenFrom, tokenTo]);
 
   useEffect(() => {
     clearTimeout(timeoutId);
@@ -159,56 +151,54 @@ export const AshSwap = ({
             <div className=''>
               <Label>From</Label>
             </div>
-            <div className='position-relative flex flex-row'>
-              <TokenSelector
-                onChange={(tokenId: string) => changeToken('from', tokenId)}
-                isSearchable={true}
-                filter={getFilteredList(tokenTo)}
-                defaultValue={tokenList.includes(tokenFrom) ? tokenFrom : ''}
-                className='flex-1'
-              />
-              <span
-                className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[50%] bg-main-color hover:bg-main-color/70 p-1'
-                onClick={() => {
-                  setAmountFrom(
-                    tokenFrom
-                      ? balanceFrom.dividedBy(
-                          10 ** tokenInfo.get(tokenFrom, 'decimals')
-                        )
-                      : new BigNumber(0)
-                  );
-                }}
-              >
-                max
-              </span>
-              <input
-                className='ms-2 text-end flex-1 min-w-0'
-                type='number'
-                placeholder='Amount'
-                value={amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''}
-                onChange={(e: any) => {
-                  changeAmount('from', e.target.value);
-                }}
-              />
-            </div>
-            <div className='ms-2 flex justify-between me-2'>
-              <Label>
-                Balance:{' '}
-                <FormatAmount
-                  value={balanceFrom.toFixed()}
-                  token=''
-                  decimals={
-                    balanceFrom.isGreaterThan(0)
-                      ? tokenInfo.get(tokenFrom, 'decimals')
-                      : 0
-                  }
-                  digits={4}
+            <div className='position-relative flex flex-row gap-x-4'>
+              <div className='w-50 flex-1'>
+                <TokenSelector
+                  onChange={(tokenId: string) => changeToken('from', tokenId)}
+                  isSearchable={true}
+                  filter={getFilteredList(tokenTo)}
+                  defaultValue={tokenList.includes(tokenFrom) ? tokenFrom : ''}
                 />
-              </Label>
-              <Label>
-                ≈{' '}
-                {amountFrom.multipliedBy(priceFrom).decimalPlaces(4).toFixed()}$
-              </Label>
+              </div>
+              <div className='w-50 position-relative flex-1 flex items-end flex-column'>
+                <span
+                  className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[7%] left-[3%] bg-main-color hover:bg-main-color/70 p-1'
+                  onClick={() => {
+                    setAmountFrom(
+                      tokenFrom
+                        ? balanceInfo
+                            .getBalance(tokenFrom)
+                            .dividedBy(
+                              10 ** tokenInfo.get(tokenFrom, 'decimals')
+                            )
+                        : new BigNumber(0)
+                    );
+                  }}
+                >
+                  max
+                </span>
+                <input
+                  className='w-full h-[38px] text-right'
+                  type='number'
+                  placeholder='Amount'
+                  value={
+                    amountFrom.isGreaterThan(0) ? amountFrom.toFixed() : ''
+                  }
+                  onChange={(e: any) => {
+                    changeAmount('from', e.target.value);
+                  }}
+                />
+                <div className='text-gray-500 text-sm'>
+                  <Label>
+                    ≈{' '}
+                    {amountFrom
+                      .multipliedBy(priceFrom)
+                      .decimalPlaces(4)
+                      .toFixed()}
+                    $
+                  </Label>
+                </div>
+              </div>
             </div>
           </div>
           <div className='text-center'>
@@ -223,61 +213,50 @@ export const AshSwap = ({
             <div className=''>
               <Label>To</Label>
             </div>
-            <div className='flex flex-row'>
-              <TokenSelector
-                onChange={(tokenId: string) => changeToken('to', tokenId)}
-                isSearchable={true}
-                filter={getFilteredList(tokenFrom)}
-                defaultValue={tokenList.includes(tokenTo) ? tokenTo : ''}
-                className='flex-1'
-              />
-              <input
-                className='ms-2 text-end flex-1 pe-2 bg-transparent min-w-0'
-                value={
-                  tokenTo
-                    ? formatAmount({
-                        input: amountTo.toFixed(),
-                        decimals: tokenInfo.hasToken(tokenTo)
-                          ? tokenInfo.get(tokenTo, 'decimals')
-                          : 0,
-                        digits: 4,
-                        addCommas: true,
-                        showLastNonZeroDecimal: false
-                      })
-                    : 0
-                }
-                readOnly={true}
-              />
-            </div>
-            <div className='ms-2 flex justify-between me-2'>
-              <Label>
-                Balance:{' '}
-                <FormatAmount
-                  value={balanceTo.toFixed()}
-                  egldLabel=''
-                  token=''
-                  decimals={
-                    balanceTo.isGreaterThan(0)
-                      ? tokenInfo.get(tokenTo, 'decimals')
+            <div className='flex flex-row gap-4'>
+              <div className='w-50 flex-1'>
+                <TokenSelector
+                  onChange={(tokenId: string) => changeToken('to', tokenId)}
+                  isSearchable={true}
+                  filter={getFilteredList(tokenFrom)}
+                  defaultValue={tokenList.includes(tokenTo) ? tokenTo : ''}
+                />
+              </div>
+              <div className='w-50 position-relative flex-1 flex items-end flex-column'>
+                <input
+                  className='w-full h-[38px] text-end bg-transparent pe-2'
+                  value={
+                    tokenTo
+                      ? formatAmount({
+                          input: amountTo.toFixed(),
+                          decimals: tokenInfo.hasToken(tokenTo)
+                            ? tokenInfo.get(tokenTo, 'decimals')
+                            : 0,
+                          digits: 4,
+                          addCommas: true,
+                          showLastNonZeroDecimal: false
+                        })
                       : 0
                   }
-                  digits={4}
+                  readOnly={true}
                 />
-              </Label>
-              <Label>
-                ≈{' '}
-                {amountTo
-                  .multipliedBy(priceTo)
-                  .dividedBy(
-                    10 **
-                      (tokenInfo.hasToken(tokenTo)
-                        ? tokenInfo.get(tokenTo, 'decimals')
-                        : 0)
-                  )
-                  .decimalPlaces(4)
-                  .toFixed()}
-                $
-              </Label>
+                <div className='text-gray-500 text-sm'>
+                  <Label>
+                    ≈{' '}
+                    {amountTo
+                      .multipliedBy(priceTo)
+                      .dividedBy(
+                        10 **
+                          (tokenInfo.hasToken(tokenTo)
+                            ? tokenInfo.get(tokenTo, 'decimals')
+                            : 0)
+                      )
+                      .decimalPlaces(4)
+                      .toFixed()}
+                    $
+                  </Label>
+                </div>
+              </div>
             </div>
           </div>
           <Button
@@ -289,7 +268,7 @@ export const AshSwap = ({
               tokenTo === '' ||
               amountFrom
                 .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
-                .isGreaterThan(balanceFrom)
+                .isGreaterThan(balanceInfo.getBalance(tokenFrom))
             }
             onClick={() =>
               swap(
