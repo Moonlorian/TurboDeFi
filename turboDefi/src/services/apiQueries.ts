@@ -1,6 +1,7 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { API_URL } from '../config/index';
 import { Nonce } from '@multiversx/sdk-network-providers/out/primitives';
+import BigNumber from 'bignumber.js';
 
 type apiQueryOptions = {
   maxRetries?: number;
@@ -17,15 +18,50 @@ type apiQueryMandatoryOptions = {
 };
 
 export const getDelegated = async (address: string) => {
-  const finalList:any = [];
-  const stakedList = await getApiGeneric(`accounts/${address}/delegation`);
-  const legacyStaked = await getApiGeneric(
-    `accounts/${address}/delegation-legacy`
-  );
-  Array.isArray(stakedList)
-    ? finalList.push(...stakedList)
-    : finalList.push(stakedList);
-  stakedList.push(legacyStaked);
+  const finalList: any = [];
+
+  //First staked
+  const stakedList = (
+    await getApiGeneric(`accounts/${address}/delegation`)
+  ).map((staked: any) => {
+    return {
+      address: staked.address,
+      contract: staked.contract,
+      userUnBondable: new BigNumber(staked.userUnBondable),
+      userActiveStake: new BigNumber(staked.userActiveStake),
+      claimableRewards: new BigNumber(staked.claimableRewards),
+      userUndelegatedList: Array.isArray(staked.userUndelegatedList)
+        ? staked.userUndelegatedList.map((undelegated: any) => ({
+            amount: new BigNumber(undelegated.amount),
+            seconds: undelegated.seconds.toNumber()
+          }))
+        : []
+    };
+  });
+  //Second legacy
+  const legacyStaked = (
+    await getApiGeneric(`accounts/${address}/delegation-legacy`)
+  ).map((staked: any) => {
+    return {
+      address: staked.address,
+      contract: staked.contract,
+      userUnBondable: new BigNumber(staked.userUnBondable),
+      userActiveStake: new BigNumber(staked.userActiveStake),
+      claimableRewards: new BigNumber(staked.claimableRewards),
+      userUndelegatedList: Array.isArray(staked.userUndelegatedList)
+        ? staked.userUndelegatedList.map((undelegated: any) => ({
+            amount: new BigNumber(undelegated.amount),
+            seconds: undelegated.seconds.toNumber()
+          }))
+        : []
+    };
+  });
+
+  finalList.push(...stakedList);
+  if (legacyStaked.length > 0) {
+    finalList.push(...legacyStaked);
+  }
+
   console.log(finalList);
   return finalList;
 };
@@ -87,9 +123,7 @@ export const getApiGeneric = async (
     options.milisecondsToWaitBetweenRetries,
     () => provider.doGetGeneric(query)
   );
-  Array.isArray(list)
-    ? finalArray.push(...list)
-    : finalArray.push(list);
+  Array.isArray(list) ? finalArray.push(...list) : finalArray.push(list);
 
   return finalArray;
 };

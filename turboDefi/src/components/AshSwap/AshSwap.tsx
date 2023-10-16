@@ -6,7 +6,7 @@ import {
   swap
 } from '../../services/ash/AshSwapService';
 import { Button, Card, FormatAmount, Label, TokenSelector } from '../';
-import { getTokenListData, getUserTokensBalance } from '../../services';
+import { getTokenListData } from '../../services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
 import { useGetTokenInfo, useGetTokensBalanceInfo } from '../../hooks';
