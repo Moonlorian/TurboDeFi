@@ -13,8 +13,6 @@ export const CHAIN_ID = 'D';
 export const sampleAuthenticatedDomains = [API_URL];
 export const environment = EnvironmentsEnum.devnet;
 
-export const SC_ADDRESS = 'erd1qqqqqqqqqqqqqpgqwgqr6phfjdlh642yaept7et2gc8urux0am7q4m4hp9';
-
 export const projectContractList:{[key: string]: string} = {
   erd1qqqqqqqqqqqqqpgqmldpgqt7e67skh7e0dxfeeezwyf98jw5m8qsjuxcuk: 'gnogen',
   erd1qqqqqqqqqqqqqpgq5dzmhfj43kh2kjj6exwc6ua4sadgyh4xznyq8k86my: 'proteo',
