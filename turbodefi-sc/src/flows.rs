@@ -19,7 +19,18 @@ pub trait FlowsModule: operator::OperatorModule {
         self.increase_last_flow_id();
         let flow_id = &self.last_flow_id().get();
         self.flow_by_id(flow_id).set(flow);
-        self.address_flows(caller).push(flow_id);
+        self.address_flows_ids(caller).push(flow_id);
+    }
+
+    #[view(getAddressFlows)]
+    fn get_address_flows(&self, address: &ManagedAddress) -> MultiValueEncoded<Flow<Self::Api>> {
+        let mut flows = MultiValueEncoded::new();
+
+        for flow_id in self.address_flows_ids(address).iter() {
+            flows.push(self.flow_by_id(&flow_id).get());
+        }
+
+        return flows;
     }
 
     fn increase_last_flow_id(&self) {
@@ -34,7 +45,7 @@ pub trait FlowsModule: operator::OperatorModule {
     #[storage_mapper("flow_by_id")]
     fn flow_by_id(&self, id: &u64) -> SingleValueMapper<Flow<Self::Api>>;
 
-    #[view(getAddressFlows)]
+    #[view(getAddressFlowsIds)]
     #[storage_mapper("address_flows")]
-    fn address_flows(&self, address: &ManagedAddress) -> VecMapper<u64>;
+    fn address_flows_ids(&self, address: &ManagedAddress) -> VecMapper<u64>;
 }

@@ -86,4 +86,8 @@ getAddressFlows() {
     mxpy --verbose contract query "${ADDRESS}" --function="getAddressFlows" --arguments $1 --proxy=${PROXY}
 }
 
+getAddressFlowsIds() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getAddressFlowsIds" --arguments $1 --proxy=${PROXY}
+}
+
 # ************************************* END FLOWS *************************************

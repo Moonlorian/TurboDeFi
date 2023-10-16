@@ -12,23 +12,6 @@ class TurbodefiContractService {
     }
 
     async getEndpointById(id: number): Promise<FlowEndpointType> {
-        const decodeResponse = (data: any) => {
-            if (data == 1) {
-                return {
-                    id: data,
-                    project: "proteo".toLowerCase(),
-                    module: "Elite",
-                    endpoint: "user_info"
-                };
-            } else {
-                return {
-                    id: data,
-                    project: "proteo".toLowerCase(),
-                    module: "Elite",
-                    endpoint: "deposit"
-                };
-            }
-        }
 
         const abi = AbiRegistry.create({
             "endpoints": [
@@ -91,10 +74,8 @@ class TurbodefiContractService {
             module: firstValue?.valueOf().module.valueOf().toString(),
             endpoint: firstValue?.valueOf().endpoint.valueOf().toString()
         }
-        console.log("endpoint: ", endpoint);
 
         return endpoint;
-        //return decodeResponse(id);
     }
 }
 
