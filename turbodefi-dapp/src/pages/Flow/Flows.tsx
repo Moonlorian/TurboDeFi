@@ -8,14 +8,10 @@ export const Flows = {
                 "description": "Claim pending rewards from $CYBER Stake",
                 "endpoints": [
                     {
-                        "project": "cyberpunkcity",
-                        "module": "cyber_token",
-                        "endpoint": "getAccountState"
+                        "id": 5
                     },
                     {
-                        "project": "cyberpunkcity",
-                        "module": "cyber_token",
-                        "endpoint": "claim"
+                        "id": 6
                     }
                 ]
             },
@@ -23,11 +19,13 @@ export const Flows = {
                 "description": "Claim pending rewards from CityNFT Stake",
                 "endpoints": [
                     {
+                        "id": 5,
                         "project": "cyberpunkcity",
                         "module": "city_nft",
                         "endpoint": "getAccountState"
                     },
                     {
+                        "id": 7,
                         "project": "cyberpunkcity",
                         "module": "city_nft",
                         "endpoint": "claimReward"

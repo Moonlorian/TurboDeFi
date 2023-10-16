@@ -1,0 +1,32 @@
+{
+    "name": "validate that the creator of the flow is the caller",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "201-add_flow-more.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing flow_id",
+            "tx": {
+                "from": "address:user_2",
+                "to": "sc:turbodefi",
+                "function": "addFlowStep",
+                "arguments": [
+                    "u64:1",
+                    "str:description"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:address not allowed to modify flow!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

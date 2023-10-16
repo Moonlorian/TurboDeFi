@@ -1,0 +1,49 @@
+{
+    "name": "turbodefi-sc",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "steps/000-set-accounts.step.json"
+        },
+        {
+            "step": "scDeploy",
+            "id": "deploy",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../output/turbodefi-sc.wasm",
+                "arguments": [],
+                "gasLimit": "5,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "address:operator": {
+                    "nonce": "0",
+                    "balance": "0"
+                },
+                "sc:turbodefi": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        
+                    },
+                    "code": "file:../output/turbodefi-sc.wasm"
+                }
+            }
+        }
+    ]
+}

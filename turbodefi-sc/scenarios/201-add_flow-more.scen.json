@@ -1,0 +1,103 @@
+{
+    "name": "add more new flows",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "200-add_flow.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "add first flow for user_2",
+            "tx": {
+                "from": "address:user_2",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "str:my-flow",
+                    "str:My first flow",
+                    "str:This is the description of user_2 first flow"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "add second flow for user_1",
+            "tx": {
+                "from": "address:user_1",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "str:flow-2",
+                    "str:Flow 2",
+                    "str:This is another flow"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "2",
+                    "balance": "0"
+                },
+                "address:operator": {
+                    "nonce": "4",
+                    "balance": "0"
+                },
+                "address:user_1": {
+                    "nonce": "2",
+                    "balance": "0"
+                },
+                "address:user_2": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "sc:turbodefi": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:operator_address": "address:operator",
+                        "str:last_endpoint_id": "4",
+                        "str:endpoint_by_id|u64:1": "nested:str:project-1|nested:str:module-1|nested:str:endpoint-1",
+                        "str:endpoint_id|nested:str:project-1|nested:str:module-1|nested:str:endpoint-1": "1",
+                        "str:endpoint_by_id|u64:2": "nested:str:project-1|nested:str:module-2|nested:str:endpoint-1",
+                        "str:endpoint_id|nested:str:project-1|nested:str:module-2|nested:str:endpoint-1": "2",
+                        "str:endpoint_by_id|u64:3": "nested:str:project-2|nested:str:module-2|nested:str:endpoint-2",
+                        "str:endpoint_id|nested:str:project-2|nested:str:module-2|nested:str:endpoint-2": "3",
+                        "str:endpoint_by_id|u64:4": "nested:str:project-1|nested:str:module-2|nested:str:endpoint-4",
+                        "str:endpoint_id|nested:str:project-1|nested:str:module-2|nested:str:endpoint-4": "4",
+                        "str:last_flow_id": "3",
+                        "str:flow_by_id|u64:1": "address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
+                        "str:flow_by_id|u64:2": "address:user_2|nested:str:my-flow|nested:str:My first flow|nested:str:This is the description of user_2 first flow|u32:0",
+                        "str:flow_by_id|u64:3": "address:user_1|nested:str:flow-2|nested:str:Flow 2|nested:str:This is another flow|u32:0",
+                        "str:address_flows|address:user_1|str:.len": "2",
+                        "str:address_flows|address:user_1|str:.item|u32:1": "1",
+                        "str:address_flows|address:user_1|str:.item|u32:2": "3",
+                        "str:address_flows|address:user_2|str:.len": "1",
+                        "str:address_flows|address:user_2|str:.item|u32:1": "2"
+                    },
+                    "code": "file:../output/turbodefi-sc.wasm"
+                }
+            }
+        }
+    ]
+}

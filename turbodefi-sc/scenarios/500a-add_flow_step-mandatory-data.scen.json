@@ -1,0 +1,54 @@
+{
+    "name": "validate mandatory data",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "201-add_flow-more.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing flow_id",
+            "tx": {
+                "from": "address:user_1",
+                "to": "sc:turbodefi",
+                "function": "addFlowStep",
+                "arguments": [
+                    "",
+                    "str:description"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:flow_id parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "missing description",
+            "tx": {
+                "from": "address:user_1",
+                "to": "sc:turbodefi",
+                "function": "addFlowStep",
+                "arguments": [
+                    "u64:1",
+                    ""
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:description parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

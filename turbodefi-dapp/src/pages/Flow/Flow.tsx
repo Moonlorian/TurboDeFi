@@ -1,8 +1,7 @@
 import { Card } from "components";
 import { FlowStep } from "./FlowStep";
-import { Flows } from "./Flows";
 
-type FlowType = {
+export type FlowType = {
     name: string,
     label: string,
     description: string,
@@ -21,28 +20,30 @@ export type FlowStepType = {
 }
 
 export type FlowEndpointType = {
+    id: number
     project?: string
     module?: string
     endpoint?: string
 }
 
-export const Flow = () => {
-
-    const flow: FlowType = Flows['flow_2'];
-
+export const Flow = ({ flow }: { flow: FlowType }) => {
     return (
-        <div className='flex flex-col gap-6 max-w-7xl w-full'>
-            <Card
-                className='flex-2'
-                key={'flow'}
-                title={flow.label}
-                description={flow.description}
-                reference={''}
-            >
-                {flow.steps.map((step, index) => {
-                    return <FlowStep step={step} key={index} index={index + 1} />
-                })}
-            </Card>
-        </div>
+        <>
+            {flow && (
+                <div className='flex flex-col gap-6 max-w-7xl w-full'>
+                    <Card
+                        className='flex-2'
+                        key={'flow'}
+                        title={flow.label}
+                        description={flow.description}
+                        reference={''}
+                    >
+                        {flow.steps && flow.steps.map((step, index) => {
+                            return <FlowStep step={step} key={index} index={index + 1} />
+                        })}
+                    </Card>
+                </div>
+            )}
+        </>
     );
 }

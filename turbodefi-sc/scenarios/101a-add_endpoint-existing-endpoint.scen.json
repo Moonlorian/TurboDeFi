@@ -1,0 +1,33 @@
+{
+    "name": "try to add an existing endpoint",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "100-add_endpoint.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing project",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project-1",
+                    "str:module-1",
+                    "str:endpoint-1"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:enpoint already exists with id: 1!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

@@ -1,0 +1,79 @@
+{
+    "name": "validate mandatory data",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "101-add_endpoint-more.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing name",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "",
+                    "str:label",
+                    "str:description"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:name parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "missing label",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "str:name",
+                    "",
+                    "str:description"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:label parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "missing description",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "str:name",
+                    "str:label",
+                    ""
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:description parameter is mandatory!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

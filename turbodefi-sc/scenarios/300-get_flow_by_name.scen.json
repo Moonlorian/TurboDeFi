@@ -1,0 +1,74 @@
+{
+    "name": "get flow by address and name",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "201-add_flow-more.scen.json"
+        },
+        {
+            "step": "scQuery",
+            "txId": "user_1 find existing flow",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_1",
+                    "str:flow-2"
+                ],
+                "function": "getFlowByAddressAndName"
+            },
+            "expect": {
+                "out": [
+                    "address:user_1|nested:str:flow-2|nested:str:Flow 2|nested:str:This is another flow|u32:0"
+                ],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "user_2 find existing flow",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_2",
+                    "str:my-flow"
+                ],
+                "function": "getFlowByAddressAndName"
+            },
+            "expect": {
+                "out": [
+                    "address:user_2|nested:str:my-flow|nested:str:My first flow|nested:str:This is the description of user_2 first flow|u32:0"
+                ],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "user_1 find not existing flow",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_1",
+                    "str:flow-3"
+                ],
+                "function": "getFlowByAddressAndName"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:panic occurred",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

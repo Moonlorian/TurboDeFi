@@ -1,0 +1,92 @@
+{
+    "name": "validate users not allowed to add endpoints",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "001-deploy-init.scen.json"
+        },
+        {
+            "step": "setState",
+            "accounts": {
+                "address:user": {
+                    "nonce": "0",
+                    "balance": "0"
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "operator not allowed",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project",
+                    "str:module",
+                    "str:endpoint"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:action not allowed!",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "externalSteps",
+            "path": "steps/001-set-operator.step.json"
+        },
+        {
+            "step": "scCall",
+            "id": "operator allowed",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project",
+                    "str:module",
+                    "str:endpoint"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "user not allowed",
+            "tx": {
+                "from": "address:user",
+                "to": "sc:turbodefi",
+                "function": "addEndpoint",
+                "arguments": [
+                    "str:project",
+                    "str:module",
+                    "str:endpoint"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:action not allowed!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}
