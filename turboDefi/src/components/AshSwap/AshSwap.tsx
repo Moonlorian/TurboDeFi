@@ -9,7 +9,7 @@ import { Button, Card, FormatAmount, Label, TokenSelector } from '../';
 import { getTokenListData, getUserTokensBalance } from '../../services';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import BigNumber from 'bignumber.js';
-import { useGetTokenInfo } from '../../hooks';
+import { useGetTokenInfo, useGetTokensBalanceInfo } from '../../hooks';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -34,6 +34,7 @@ export const AshSwap = ({
 
   const { address } = useGetAccountInfo();
   const tokenInfo = useGetTokenInfo();
+  const {getBalance, tokensBalance} = useGetTokensBalanceInfo();
 
   const loadTokenList = async () => {
     const currentTokenList = await getAshTokenList();
@@ -59,13 +60,8 @@ export const AshSwap = ({
   };
 
   const loadUserBalances = async () => {
-    const tokenList = [];
-    if (tokenFrom) tokenList.push(tokenFrom);
-    if (tokenTo) tokenList.push(tokenTo);
-    if (tokenList.length == 0) return;
-    const finalBalances = await getUserTokensBalance(address, tokenList);
-    setBalanceFrom(new BigNumber(finalBalances[tokenFrom]?.balance ?? 0));
-    setBalanceTo(new BigNumber(finalBalances[tokenTo]?.balance ?? 0));
+    setBalanceFrom(getBalance(tokenFrom));
+    setBalanceTo(getBalance(tokenTo));
   };
 
   const loadTokensPrices = async () => {
@@ -129,7 +125,7 @@ export const AshSwap = ({
     loadUserBalances();
     loadAggregate();
     loadTokensPrices();
-  }, [tokenFrom, tokenTo]);
+  }, [tokenFrom, tokenTo, tokensBalance]);
 
   useEffect(() => {
     clearTimeout(timeoutId);
