@@ -8,7 +8,8 @@ import React, {
 } from 'react';
 
 import './TokenSelector.css';
-import { useGetTokenInfo } from 'hooks';
+import { useGetTokenInfo, useGetTokensBalanceInfo } from 'hooks';
+import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 
 const Icon = () => {
   return (
@@ -38,6 +39,7 @@ export const TokenSelector = ({
   const [searchValue, setSearchValue] = useState('');
 
   const tokenInfo = useGetTokenInfo();
+  const balanceInfo = useGetTokensBalanceInfo();
 
   const wrapperRef = useRef(null);
 
@@ -114,49 +116,60 @@ export const TokenSelector = ({
   }, [defaultValue]);
 
   return (
-    <div className={`token-selector-container ${className}`} ref={wrapperRef}>
-      <div onClick={handleInputClick} className='token-selector-input'>
-        <div className='token-selector-selected-value d-flex align-items-center w-100'>
-          {getDisplay()}
-        </div>
-        {filter.length != 1 && (
-          <div className='token-selector-tool'>
-            <Icon />
+    <>
+      <div className={`token-selector-container ${className}`} ref={wrapperRef}>
+        <div onClick={handleInputClick} className='token-selector-input'>
+          <div className='token-selector-selected-value d-flex align-items-center w-100'>
+            {getDisplay()}
           </div>
-        )}
-      </div>
-
-      <div
-        className={`token-selector-floating-layer ${!showMenu ? 'd-none' : ''}`}
-      >
-        {isSearchable && showMenu && filter.length != 1 && (
-          <div className='search-box'>
-            <input
-              className='token-selector-input'
-              autoFocus={true}
-              onChange={onSearch}
-              value={searchValue}
-            />
-          </div>
-        )}
-
-        <div className='token-selector-menu'>
-          {getOptions.map((token: any, index: number) => (
-            <div
-              onClick={() => onItemClick(token.identifier)}
-              key={index}
-              className={`token-selector-item ${
-                selectedValue === token.identifier && 'selected'
-              } d-flex align-items-center`}
-            >
-              {token.assets && token.assets['svgUrl'] && (
-                <img src={token.assets['svgUrl']} />
-              )}
-              {`${token.name} (${token.identifier})`}
+          {filter.length != 1 && (
+            <div className='token-selector-tool'>
+              <Icon />
             </div>
-          ))}
+          )}
+        </div>
+
+        <div
+          className={`token-selector-floating-layer ${
+            !showMenu ? 'd-none' : ''
+          }`}
+        >
+          {isSearchable && showMenu && filter.length != 1 && (
+            <div className='search-box'>
+              <input
+                className='token-selector-input'
+                autoFocus={true}
+                onChange={onSearch}
+                value={searchValue}
+              />
+            </div>
+          )}
+
+          <div className='token-selector-menu'>
+            {getOptions.map((token: any, index: number) => (
+              <div
+                onClick={() => onItemClick(token.identifier)}
+                key={index}
+                className={`token-selector-item ${
+                  selectedValue === token.identifier && 'selected'
+                } d-flex align-items-center`}
+              >
+                {token.assets && token.assets['svgUrl'] && (
+                  <img src={token.assets['svgUrl']} />
+                )}
+                {`${token.name} (${token.identifier})`}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+      <div className='text-gray-500 text-sm'>{"Balance: "}{tokenInfo.hasToken(selectedValue) &&  formatAmount({
+            input: balanceInfo.getBalance(selectedValue).toFixed(),
+            decimals: tokenInfo.get(selectedValue, 'decimals'),
+            digits: 5,
+            addCommas: true,
+            showLastNonZeroDecimal: false
+          })}</div>
+    </>
   );
 };

@@ -38,6 +38,23 @@ export const getUserTokensBalance = async (
   return balanceList;
 };
 
+export const getUserBalance = async (address: string) => {
+  const balanceList: { [key: string]: any } = {};
+
+  if (address) {
+    const response = await getApiFullGeneric(
+      'accounts/' + address + '/tokens',
+      {
+        pageSize: 1000
+      }
+    );
+    response.map(
+      (tokenData) => (balanceList[tokenData.identifier] = tokenData)
+    );
+  }
+  return balanceList;
+};
+
 export const getApiGeneric = async (
   query: string,
   userOptions?: apiQueryOptions
