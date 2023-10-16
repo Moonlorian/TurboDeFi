@@ -29,7 +29,7 @@ export const ShowEndpointNFT = ({ NFTOutputData }: { NFTOutputData: any }) => {
 
   const getNFTData = async () => {
     const NFTData = await getNFT(collection, nonce);
-    setNFTData(NFTData);
+    setNFTData(NFTData.length > 0 ? NFTData[0] : NFTData);
     return NFTData;
   };
 
