@@ -91,3 +91,13 @@ getAddressFlowsIds() {
 }
 
 # ************************************* END FLOWS *************************************
+
+# ************************************* FLOW STEPS *************************************
+
+addFlowStep() {
+    mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
+        --function="addFlowStep" --arguments "$1" "str:$2"  \
+        --send --proxy=${PROXY} --chain=${CHAIN_ID}
+}
+
+# ************************************* END FLOW STEPS *************************************

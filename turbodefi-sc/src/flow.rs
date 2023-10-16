@@ -13,7 +13,18 @@ pub struct FlowStep<M: ManagedTypeApi> {
     pub description: ManagedBuffer<M>,
     pub component: u64,
     pub component_props: ManagedVec<M, ComponentProp<M>>,
-    pub endpoints: ManagedVec<M, TdEndpointType<M>>
+    pub endpoints: ManagedVec<M, TdEndpointType<M>>,
+}
+
+impl<M: ManagedTypeApi> FlowStep<M> {
+    pub fn new(description: ManagedBuffer<M>) -> Self {
+        FlowStep {
+            description,
+            component: Default::default(),
+            component_props: Default::default(),
+            endpoints: Default::default(),
+        }
+    }
 }
 
 #[derive(ManagedVecItem, NestedEncode, NestedDecode, TopEncode, TopDecode, TypeAbi)]
@@ -22,7 +33,7 @@ pub struct Flow<M: ManagedTypeApi> {
     pub name: ManagedBuffer<M>,
     pub label: ManagedBuffer<M>,
     pub description: ManagedBuffer<M>,
-    pub steps: ManagedVec<M, FlowStep<M>>
+    pub steps: ManagedVec<M, FlowStep<M>>,
 }
 
 impl<M: ManagedTypeApi> Flow<M> {
@@ -37,7 +48,12 @@ impl<M: ManagedTypeApi> Flow<M> {
             name,
             label,
             description,
-            steps: ManagedVec::new()
+            steps: ManagedVec::new(),
         }
+    }
+
+    pub fn add_step(&mut self, description: ManagedBuffer<M>) {
+        let step = FlowStep::new(description);
+        self.steps.push(step);
     }
 }
