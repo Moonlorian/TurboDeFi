@@ -17,11 +17,10 @@ export const Flows = () => {
 
     const turbodefiContractService = new TurbodefiContractService(API_URL);
 
-    const selectFlow = (flowName: string) => {
-        turbodefiContractService.getFlowByAddressAndName(turbodefiAddress, flowName).then((flow) => {
-            console.log("flow:", flow);
-            setSelectedFlow(flow)
-        });
+    const selectSystemFlow = (index: number) => {
+        if (systemFlows) {
+            setSelectedFlow(systemFlows[index]);
+        }
     }
     useEffect(() => {
         turbodefiContractService.getAddressFlows(turbodefiAddress).then((flows) =>
@@ -68,7 +67,7 @@ export const Flows = () => {
                                 return (
                                     <div key={`systemFlow_${index}`}>
                                         <div className="flex items-center pointer" onClick={() => {
-                                            selectFlow(flow.name);
+                                            selectSystemFlow(index);
                                         }}>
                                             <FontAwesomeIcon
                                                 title={flow.name}

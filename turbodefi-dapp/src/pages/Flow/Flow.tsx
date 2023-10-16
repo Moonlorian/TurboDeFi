@@ -38,7 +38,7 @@ export const Flow = ({ flow }: { flow: FlowType }) => {
                         description={flow.description}
                         reference={''}
                     >
-                        {flow.steps && flow.steps.map((step, index) => {
+                        {flow.steps.map((step, index) => {
                             return <FlowStep step={step} key={index} index={index + 1} />
                         })}
                     </Card>

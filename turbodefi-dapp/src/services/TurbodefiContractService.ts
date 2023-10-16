@@ -1,6 +1,6 @@
 import { Address, AddressValue, BytesType, BytesValue, ResultsParser, U64Value } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
-import { FlowEndpointType, FlowType } from "pages/Flow";
+import { FlowEndpointType, FlowStepType, FlowType } from "pages/Flow";
 import { smartContract } from "utils/smartContract";
 
 class TurbodefiContractService {
@@ -55,8 +55,23 @@ class TurbodefiContractService {
                 name: flow.name.valueOf().toString(),
                 label: flow.label.valueOf().toString(),
                 description: flow.description.valueOf().toString(),
-                steps: flow.steps.valueOf().toString()
+                steps: []
             };
+
+            if (flow.steps.valueOf().length > 0) {
+                const steps: FlowStepType[] = []
+                flow.steps.valueOf().map((step: any) => {
+                    const newStep: FlowStepType = {
+                        description: step.description.toString(),
+                        component: "",
+                        componentProps: {},
+                        endpoints: []
+                    }
+                    steps.push(newStep);
+                });
+                newFlow.steps = steps;
+            }
+
             flows.push(newFlow);
         });
 
