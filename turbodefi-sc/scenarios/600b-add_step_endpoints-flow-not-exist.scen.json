@@ -1,0 +1,35 @@
+{
+    "name": "validate mandatory data",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "500-add_flow_step.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "flow_id doesn't exist",
+            "tx": {
+                "from": "address:user_1",
+                "to": "sc:turbodefi",
+                "function": "addStepEndpoint",
+                "arguments": [
+                    "u64:100",
+                    "1",
+                    [
+                        "u64:1"
+                    ]
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:doesn't exist flow with id: 100!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}
