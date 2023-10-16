@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import TurbodefiContractService from "services/TurbodefiContractService";
 import { API_URL } from "config";
 
-type FlowType = {
+export type FlowType = {
     name: string,
     label: string,
     description: string,
