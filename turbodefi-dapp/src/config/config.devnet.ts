@@ -14,6 +14,8 @@ export const CHAIN_ID = 'D';
 export const sampleAuthenticatedDomains = [API_URL];
 export const environment = EnvironmentsEnum.devnet;
 
+export const turbodefiAddress = 'erd1kxqyvfachg9v64lyh55j5ssecw46um4pdsl5vjcavd5jswf3am7qet69hm';
+
 export const projectContractList:{[key: string]: string} = {
   erd1qqqqqqqqqqqqqpgqmldpgqt7e67skh7e0dxfeeezwyf98jw5m8qsjuxcuk: 'gnogen',
   erd1qqqqqqqqqqqqqpgq5dzmhfj43kh2kjj6exwc6ua4sadgyh4xznyq8k86my: 'proteo',
