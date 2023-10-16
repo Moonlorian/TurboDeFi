@@ -53,6 +53,22 @@ pub trait FlowsModule: operator::OperatorModule {
         self.last_flow_id().update(|last_id| *last_id += 1);
     }
 
+    fn validate_flow_exists(&self, flow_id: &u64) {
+        require!(
+            !self.flow_by_id(flow_id).is_empty(),
+            "doesn't exist flow with id: {}!",
+            flow_id
+        );
+    }
+
+    fn validate_flow_creator(&self, flow: &Flow<Self::Api>) {
+        let caller = &self.blockchain().get_caller();
+        require!(
+            flow.creator == caller.clone(),
+            "address not allowed to modify flow!"
+        );
+    }
+
     #[view(getLastFlowId)]
     #[storage_mapper("last_flow_id")]
     fn last_flow_id(&self) -> SingleValueMapper<u64>;

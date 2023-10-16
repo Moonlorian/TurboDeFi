@@ -11,17 +11,10 @@ pub trait FlowStepModule: operator::OperatorModule + flows::FlowsModule {
             !description.is_empty(),
             "description parameter is mandatory!"
         );
-        require!(
-            !self.flow_by_id(flow_id).is_empty(),
-            "doesn't exist flow with id: {}!",
-            flow_id
-        );
-        let caller = &self.blockchain().get_caller();
+        self.validate_flow_exists(flow_id);
+
         let mut flow = self.flow_by_id(flow_id).get();
-        require!(
-            flow.creator == caller.clone(),
-            "address not allowed to modify flow!"
-        );
+        self.validate_flow_creator(&flow);
 
         flow.add_step(description);
         self.flow_by_id(flow_id).set(flow);

@@ -32,6 +32,14 @@ pub trait TdEndpointsModule: operator::OperatorModule {
         self.last_endpoint_id().update(|last_id| *last_id += 1);
     }
 
+    fn validate_endpoint_exists(&self, endpoint_id: u64) {
+        require!(
+            !self.endpoint_by_id(endpoint_id).is_empty(),
+            "endpoint_id {} doesn't exist!",
+            endpoint_id
+        );
+    }
+
     #[view(getLastEndpointId)]
     #[storage_mapper("last_endpoint_id")]
     fn last_endpoint_id(&self) -> SingleValueMapper<u64>;
