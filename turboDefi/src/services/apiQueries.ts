@@ -52,7 +52,6 @@ export const getUserBalance = async (address: string) => {
       (tokenData) => (balanceList[tokenData.identifier] = tokenData)
     );
   }
-  console.log("balanceList", balanceList);
   return balanceList;
 };
 
