@@ -1,0 +1,266 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
+            "channel": "Nightly",
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
+        },
+        "contractCrate": {
+            "name": "turbodefi-sc",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.43.4"
+        }
+    },
+    "name": "TurbodefiContract",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "getOperator",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "setOperatorAddress",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "clearOperatorAddress",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "addEndpoint",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project",
+                    "type": "bytes"
+                },
+                {
+                    "name": "module",
+                    "type": "bytes"
+                },
+                {
+                    "name": "endpoint",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getLastEndpointId",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getEndpointById",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TdEndpointType"
+                }
+            ]
+        },
+        {
+            "name": "getEndpointId",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "endpoint",
+                    "type": "TdEndpointType"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "addFlow",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "name",
+                    "type": "bytes"
+                },
+                {
+                    "name": "label",
+                    "type": "bytes"
+                },
+                {
+                    "name": "description",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getAddressFlows",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<Flow>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getLastFlowId",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getFlowById",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Flow"
+                }
+            ]
+        },
+        {
+            "name": "getAddressFlowsIds",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u64>",
+                    "multi_result": true
+                }
+            ]
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {
+        "ComponentProp": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "default_token_from",
+                    "type": "EgldOrEsdtTokenIdentifier"
+                }
+            ]
+        },
+        "Flow": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "Address"
+                },
+                {
+                    "name": "name",
+                    "type": "bytes"
+                },
+                {
+                    "name": "label",
+                    "type": "bytes"
+                },
+                {
+                    "name": "description",
+                    "type": "bytes"
+                },
+                {
+                    "name": "steps",
+                    "type": "List<FlowStep>"
+                }
+            ]
+        },
+        "FlowStep": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "description",
+                    "type": "bytes"
+                },
+                {
+                    "name": "component",
+                    "type": "u64"
+                },
+                {
+                    "name": "component_props",
+                    "type": "List<ComponentProp>"
+                },
+                {
+                    "name": "endpoints",
+                    "type": "List<TdEndpointType>"
+                }
+            ]
+        },
+        "TdEndpointType": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "project",
+                    "type": "bytes"
+                },
+                {
+                    "name": "module",
+                    "type": "bytes"
+                },
+                {
+                    "name": "endpoint",
+                    "type": "bytes"
+                }
+            ]
+        }
+    }
+}

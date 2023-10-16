@@ -1,7 +1,7 @@
-import { AbiRegistry, Address, ResultsParser, SmartContract, U64Value } from "@multiversx/sdk-core/out";
+import { ResultsParser, U64Value } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
-import { SC_ADDRESS } from "config";
 import { FlowEndpointType } from "pages/Flow";
+import { smartContract } from "utils/smartContract";
 
 class TurbodefiContractService {
 
@@ -13,55 +13,12 @@ class TurbodefiContractService {
 
     async getEndpointById(id: number): Promise<FlowEndpointType> {
 
-        const abi = AbiRegistry.create({
-            "endpoints": [
-                {
-                    "name": "getEndpointById",
-                    "mutability": "readonly",
-                    "inputs": [
-                        {
-                            "name": "id",
-                            "type": "u64"
-                        }
-                    ],
-                    "outputs": [
-                        {
-                            "type": "TdEndpointType"
-                        }
-                    ]
-                }
-            ],
-            "types": {
-                "TdEndpointType": {
-                    "type": "struct",
-                    "fields": [
-                        {
-                            "name": "project",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "module",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "endpoint",
-                            "type": "bytes"
-                        }
-                    ]
-                }
-            }
-        });
-
         const provider = new ProxyNetworkProvider(
             this.gatewayUrl,
             { timeout: 5000 }
         );
-        const endpointDefinition = abi.getEndpoint("getEndpointById");
-        const contract = new SmartContract({
-            address: new Address(SC_ADDRESS),
-            abi: abi
-        });
-        const query = contract.createQuery({
+        const endpointDefinition = smartContract.getEndpoint("getEndpointById");
+        const query = smartContract.createQuery({
             func: "getEndpointById",
             args: [new U64Value(id)]
         })
