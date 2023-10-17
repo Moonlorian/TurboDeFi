@@ -5,6 +5,7 @@ mod flow;
 mod flow_step;
 mod flows;
 mod operator;
+mod step_component;
 mod step_endpoint;
 mod td_endpoint;
 mod td_endpoints;
@@ -19,6 +20,7 @@ pub trait TurbodefiContract:
     + flow_step::FlowStepModule
     + step_endpoint::StepEndpointModule
     + components::ComponentsModule
+    + step_component::StepComponentModule
 {
     #[init]
     fn init(&self) {

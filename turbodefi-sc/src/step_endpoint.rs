@@ -18,6 +18,11 @@ pub trait StepEndpointModule:
         let flow = self.flow_by_id(flow_id).get();
         require!(step_index < flow.steps.len(), "invalid step_index!");
 
+        require!(
+            flow.steps.get(step_index).component == 0,
+            "step has component already!"
+        );
+
         for endpoint_id in endpoints_ids.iter() {
             self.validate_endpoint_not_exists(endpoint_id);
         }
