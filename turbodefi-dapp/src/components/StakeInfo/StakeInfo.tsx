@@ -1,10 +1,7 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
-import { getDelegated, stakingProvidersLoadService } from 'services';
 import { Label } from 'components/Label';
 import { FormatAmount } from '@multiversx/sdk-dapp/UI';
-import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
+import { useGetTokenInfo } from 'hooks';
 import { Card } from 'components/Card';
 import { Button } from 'components/Button';
 import { legacyContract } from 'services/staking/config';

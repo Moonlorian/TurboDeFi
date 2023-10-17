@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { getDelegated, stakingProvidersLoadService } from 'services';
+import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
 import { Card } from 'components/Card';
 import { StakeInfo } from './StakeInfo';
 
