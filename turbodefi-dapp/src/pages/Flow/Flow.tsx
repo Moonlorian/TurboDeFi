@@ -28,7 +28,6 @@ export type FlowEndpointType = {
 }
 
 export const Flow = ({ flow }: { flow: FlowType }) => {
-    console.log("flow:", flow);
     return (
         <>
             {flow && (

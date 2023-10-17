@@ -9,7 +9,7 @@ export const EndpointStep = ({ step }: { step: FlowStepType }) => {
 
   const selectProject = async (selectedProject: string) => {
     const newStructReader = new StructReader(
-      '/projects/' + environment + '/' + selectedProject.toLowerCase()
+      '/projects/' + environment + '/' + selectedProject
     );
     await newStructReader.load();
     return newStructReader;

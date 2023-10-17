@@ -68,6 +68,21 @@ class TurbodefiContractService {
                         componentProps: {},
                         endpoints: []
                     }
+
+                    if (step.endpoints.valueOf().length > 0) {
+                        const endpoints: FlowEndpointType[] = [];
+                        step.endpoints.valueOf().map((endpoint: any) => {
+                            const newEndpoint: FlowEndpointType = {
+                                id: 0,
+                                project: endpoint.project.toString(),
+                                module: endpoint.module.toString(),
+                                endpoint: endpoint.endpoint.toString(),
+                            }
+                            endpoints.push(newEndpoint);
+                        });
+                        newStep.endpoints = endpoints;
+                    }
+
                     steps.push(newStep);
                 });
                 newFlow.steps = steps;
