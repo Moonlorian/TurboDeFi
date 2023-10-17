@@ -1,14 +1,6 @@
-import { MxLink } from 'components/MxLink';
-import { logout } from 'helpers';
-import { useGetAccountInfo, useGetIsLoggedIn } from 'hooks';
-import { RouteNamesEnum } from 'localConstants';
-import { routes } from 'routes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
-import { FormatedAddress } from 'components/FormattedAddress';
+import { useGetIsLoggedIn } from 'hooks';
 import { OptionsMenu } from './OptionsMenu';
 import { useCallback, useState } from 'react';
-import DappLogo from '../../../assets/img/dapp-logo.png';
 import { Logo } from './Logo';
 
 export const BurgerMenu = () => {

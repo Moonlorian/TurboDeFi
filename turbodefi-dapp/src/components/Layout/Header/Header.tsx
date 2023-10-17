@@ -1,8 +1,5 @@
-import { MxLink } from 'components/MxLink';
 import { logout } from 'helpers';
 import { useGetIsLoggedIn } from 'hooks';
-import { RouteNamesEnum } from 'localConstants';
-import DappLogo from '../../../assets/img/dapp-logo.png';
 import { OptionsMenu } from './OptionsMenu';
 import { BurgerMenu } from './BurgerMenu';
 import { Logo } from './Logo';
