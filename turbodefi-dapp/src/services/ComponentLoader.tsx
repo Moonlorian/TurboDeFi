@@ -1,14 +1,16 @@
+import { StakeList } from 'components/StakeInfo';
 import { AshSwap } from '../components/AshSwap';
 import React, { ReactNode } from 'react';
 
 
 const COMPONENTS: { [key: string]: any } = {
-  ['AshSwap']: AshSwap
+  ['AshSwap']: AshSwap,
+  ['NativeStaking']: StakeList
 };
 
 export const ComponentLoader = ({
   componentName,
-  props, 
+  props,
   children
 }: {
   componentName: string;

@@ -8,17 +8,36 @@
         },
         {
             "step": "scCall",
+            "id": "add component",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addComponent",
+                "arguments": [
+                    "str:component-1"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
             "id": "address not allowed",
             "tx": {
                 "from": "address:user_2",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoints",
+                "function": "addStepComponent",
                 "arguments": [
                     "u64:1",
                     "1",
-                    [
-                        "u64:1"
-                    ]
+                    "u64:1"
                 ],
                 "gasLimit": "100,000,000",
                 "gasPrice": "0"

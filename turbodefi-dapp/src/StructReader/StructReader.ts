@@ -36,7 +36,7 @@ class StructReader {
    */
   async load() {
     return axios
-      .get(this._fileName)
+      .get(this._fileName.toLowerCase())
       .then((response) => {
         return response.data;
       })

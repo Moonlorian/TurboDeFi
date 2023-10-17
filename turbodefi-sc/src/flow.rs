@@ -31,6 +31,10 @@ impl<M: ManagedTypeApi> FlowStep<M> {
     pub fn add_endpoints_ids(&mut self, ids: ManagedVec<M, u64>) {
         self.endpoints_ids.append_vec(ids.into());
     }
+
+    pub fn set_component(&mut self, component_id: u64) {
+        self.component = component_id;
+    }
 }
 
 #[derive(ManagedVecItem, NestedEncode, NestedDecode, TopEncode, TopDecode, TypeAbi)]

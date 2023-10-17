@@ -4,21 +4,17 @@
     "steps": [
         {
             "step": "externalSteps",
-            "path": "500-add_flow_step.scen.json"
+            "path": "110-add_component.scen.json"
         },
         {
             "step": "scCall",
-            "id": "address not allowed",
+            "id": "missing name",
             "tx": {
-                "from": "address:user_2",
+                "from": "address:operator",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoints",
+                "function": "addComponent",
                 "arguments": [
-                    "u64:1",
-                    "1",
-                    [
-                        "u64:1"
-                    ]
+                    "str:component-1"
                 ],
                 "gasLimit": "100,000,000",
                 "gasPrice": "0"
@@ -26,7 +22,7 @@
             "expect": {
                 "out": [],
                 "status": "4",
-                "message": "str:address not allowed to modify flow!",
+                "message": "str:component already exists with id: 1!",
                 "gas": "*",
                 "refund": "*"
             }
