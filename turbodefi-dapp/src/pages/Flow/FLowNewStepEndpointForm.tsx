@@ -3,21 +3,24 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons/faFloppyDisk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { CreateFlowStep } from 'services';
-import { ProjectList, contractAddress, environment } from 'config';
+import { CreateFlowStep, addEndpoint } from 'services';
+import { API_URL, ProjectList, contractAddress, environment } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 import StructReader from 'StructReader/StructReader';
+import TurbodefiContractService from 'services/TurbodefiContractService';
 
 type creationStatusType = 'idle' | 'creating' | 'saving';
 
 export const FLowNewStepEndpointForm = ({
   onCancel,
   onFinish,
-  flowId
+  flowId,
+  stepIndex
 }: {
   onCancel: any;
   onFinish: any;
   flowId: number;
+  stepIndex:number;
 }) => {
   const [selectedProject, setSelectedProject] = useState('');
   const [structReader, setStructReader] = useState<StructReader>();
@@ -29,11 +32,11 @@ export const FLowNewStepEndpointForm = ({
   const [selectedEnpointId, setSelectedEndpointId] = useState(0);
   const [creationStatus, setStepEndpointCreationStatus] =
     useState<creationStatusType>('idle');
-  
+
   const { address } = useGetAccount();
 
   const saveEndpoint = () => {
-    //CreateFlowStep(contractAddress, address, flowId, endpointDescription);
+    addEndpoint(contractAddress, address, flowId, stepIndex, selectedEnpointId);
     //TODO. Make a transaction wathcer and set the 'creating' status to show spinner and wait
 
     //setStepEndpointCreationStatus('creating');
@@ -87,11 +90,16 @@ export const FLowNewStepEndpointForm = ({
       selectedModule != '' &&
       selectedEndpoint != ''
     ) {
-      
-    } else {
+      setSelectedEndpointId(0);
+      new TurbodefiContractService(API_URL)
+        .getEndpointId(selectedProject, selectedModule, selectedEndpoint)
+        .then((data:any) => {
+          setSelectedEndpointId(data);
+        });
+    }else if (selectedEnpointId > 0){
       setSelectedEndpointId(0);
     }
-  }, [selectedProject, selectedModule, selectedEnpointId]);
+  }, [selectedProject, selectedModule, selectedEndpoint]);
 
   return (
     <div className='ml-4 mb-6 relative min-h-[20px]'>
@@ -100,7 +108,7 @@ export const FLowNewStepEndpointForm = ({
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton action={saveEndpoint}>
+            <ActionButton disabled={selectedEnpointId <= 0} action={saveEndpoint}>
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
             <ActionButton action={onCancel}>
@@ -135,16 +143,11 @@ export const FLowNewStepEndpointForm = ({
               onChange={(e: any) => {
                 setSelectedModule(e.target.value);
               }}
+              defaultValue={selectedModule}
             >
-              <option value='' selected={selectedModule == ''}>
-                Select module
-              </option>
+              <option value=''>Select module</option>
               {structReader.getModules().map((module, index) => (
-                <option
-                  key={index}
-                  value={module.name}
-                  selected={selectedModule == module.name}
-                >
+                <option key={index} value={module.name}>
                   {module.label || module.name}
                 </option>
               ))}
@@ -158,16 +161,11 @@ export const FLowNewStepEndpointForm = ({
               onChange={(e: any) => {
                 setSelectedEndpoint(e.target.value);
               }}
+              defaultValue={selectedEndpoint}
             >
-              <option value='' selected={selectedEndpoint == ''}>
-                Select module
-              </option>
+              <option value=''>Select module</option>
               {selectedModuleEndpoints.map((endpointName, index) => (
-                <option
-                  key={index}
-                  value={endpointName}
-                  selected={selectedEndpoint == endpointName}
-                >
+                <option key={index} value={endpointName}>
                   {endpointName}
                 </option>
               ))}
