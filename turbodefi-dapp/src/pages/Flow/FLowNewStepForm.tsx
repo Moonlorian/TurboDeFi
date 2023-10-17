@@ -62,7 +62,7 @@ export const FLowNewStepForm = ({
         )}
       </ActionButtonList>
       <h2 className='flex text-xl font-medium group text-uppercase'>
-        Create new Step
+        Add Step
       </h2>
       <div className='pt-1'>
         <div className='mt-1 flex items-center pointer'>
