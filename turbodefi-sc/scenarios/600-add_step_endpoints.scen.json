@@ -12,7 +12,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -37,7 +37,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -102,7 +102,8 @@
                                     "0-description": "nested:str:first step",
                                     "1-component": "u64:0",
                                     "2-component_props": "u32:0",
-                                    "3-endpoints_ids": "u32:0"
+                                    "3-endpoints_ids": "u32:0",
+                                    "4-endpoints": "u32:0"
                                 },
                                 {
                                     "0-description": "nested:str:second step",
@@ -113,7 +114,8 @@
                                         "u64:2",
                                         "u64:1",
                                         "u64:4"
-                                    ]
+                                    ],
+                                    "4-endpoints": "u32:0"
                                 }
                             ]
                         },

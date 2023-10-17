@@ -91,8 +91,8 @@
                             "3-description": "nested:str:This flow will save a lot of time to the user",
                             "4-steps": [
                                 "u32:2",
-                                "nested:str:first step|u64:0|u32:0|u32:0",
-                                "nested:str:second step|u64:0|u32:0|u32:0"
+                                "nested:str:first step|u64:0|u32:0|u32:0|u32:0",
+                                "nested:str:second step|u64:0|u32:0|u32:0|u32:0"
                             ]
                         },
                         "str:address_flows|address:user_1|str:.len": "1",

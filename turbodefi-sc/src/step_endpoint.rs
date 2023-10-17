@@ -6,10 +6,9 @@ use crate::{flows, operator, td_endpoints};
 pub trait StepEndpointModule:
     operator::OperatorModule + flows::FlowsModule + td_endpoints::TdEndpointsModule
 {
-    #[endpoint(addStepEndpoint)]
+    #[endpoint(addStepEndpoints)]
     fn add_step_endpoints(&self, flow_id: &u64, step_index: usize, endpoints_ids: ManagedVec<u64>) {
         require!(flow_id.clone() != 0, "flow_id parameter is mandatory!");
-        require!(step_index != 0, "step_index parameter is mandatory!");
         require!(
             !endpoints_ids.is_empty(),
             "endpoints_ids parameter is mandatory!"

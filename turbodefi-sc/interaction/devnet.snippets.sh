@@ -1,4 +1,4 @@
-PROJECT_PATH="${HOME}/codigo/hackaton/turbodefi-sc"
+PROJECT_PATH="${HOME}/codigo/turbodefi/turbodefi-sc"
 
 ENVIRONMENT=devnet
 source "${PROJECT_PATH}/interaction/env_${ENVIRONMENT}.sh"
@@ -101,3 +101,13 @@ addFlowStep() {
 }
 
 # ************************************* END FLOW STEPS *************************************
+
+# ************************************* STEP ENDPOINTS *************************************
+
+addStepEndpoints() {
+    mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
+        --function="addStepEndpoints" --arguments "$1" "$2" "$3"  \
+        --send --proxy=${PROXY} --chain=${CHAIN_ID}
+}
+
+# ************************************* END STEP ENDPOINTS *************************************

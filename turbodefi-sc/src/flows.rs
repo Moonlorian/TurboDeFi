@@ -1,9 +1,10 @@
 multiversx_sc::imports!();
+multiversx_sc::derive_imports!();
 
-use crate::{flow::Flow, operator};
+use crate::{flow::Flow, operator, td_endpoints};
 
 #[multiversx_sc::module]
-pub trait FlowsModule: operator::OperatorModule {
+pub trait FlowsModule: operator::OperatorModule + td_endpoints::TdEndpointsModule {
     #[endpoint(addFlow)]
     fn add_flow(&self, name: ManagedBuffer, label: ManagedBuffer, description: ManagedBuffer) {
         require!(!name.is_empty(), "name parameter is mandatory!");
@@ -27,7 +28,13 @@ pub trait FlowsModule: operator::OperatorModule {
         let mut flows = MultiValueEncoded::new();
 
         for flow_id in self.address_flows_ids(address).iter() {
-            flows.push(self.flow_by_id(&flow_id).get());
+            let flow = self.flow_by_id(&flow_id).get();
+            for mut step in flow.steps.iter() {
+                for endpoint_id in step.endpoints_ids.iter() {
+                    step.endpoints.push(self.endpoint_by_id(endpoint_id).get());
+                }
+            }
+            flows.push(flow);
         }
 
         return flows;

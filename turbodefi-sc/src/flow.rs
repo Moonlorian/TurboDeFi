@@ -1,3 +1,5 @@
+use crate::td_endpoint::TdEndpointType;
+
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
@@ -12,6 +14,7 @@ pub struct FlowStep<M: ManagedTypeApi> {
     pub component: u64,
     pub component_props: ManagedVec<M, ComponentProp<M>>,
     pub endpoints_ids: ManagedVec<M, u64>,
+    pub endpoints: ManagedVec<M, TdEndpointType<M>>,
 }
 
 impl<M: ManagedTypeApi> FlowStep<M> {
@@ -21,6 +24,7 @@ impl<M: ManagedTypeApi> FlowStep<M> {
             component: Default::default(),
             component_props: Default::default(),
             endpoints_ids: Default::default(),
+            endpoints: Default::default(),
         }
     }
 
