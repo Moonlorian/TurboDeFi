@@ -1,6 +1,6 @@
 import { Address, AddressValue, BytesType, BytesValue, ResultsParser, U64Value } from "@multiversx/sdk-core/out";
 import { ProxyNetworkProvider } from "@multiversx/sdk-network-providers/out";
-import { FlowEndpointType, FlowStepType, FlowType } from "pages/Flow";
+import { FlowEndpointType, FlowStepType, FlowType } from "types";
 import { smartContract } from "utils/smartContract";
 
 class TurbodefiContractService {
@@ -25,7 +25,7 @@ class TurbodefiContractService {
         const queryResponse = await provider.queryContract(query);
         let { firstValue } = new ResultsParser().parseQueryResponse(queryResponse, endpointDefinition);
 
-        const endpoint = {
+        const endpoint:FlowEndpointType = {
             id,
             project: firstValue?.valueOf().project.valueOf().toString(),
             module: firstValue?.valueOf().module.valueOf().toString(),

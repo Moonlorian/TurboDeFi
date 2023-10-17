@@ -60,7 +60,7 @@ export const Flow = ({
           {flow.steps.map((step, index) => {
             return (
               <FlowStep
-                step={{ ...step, type: flow.type, index, flowId: flow.id }}
+                step={{ ...step, type: flow.type || 'system', index, flowId: flow.id }}
                 key={index}
                 index={index + 1}
               />

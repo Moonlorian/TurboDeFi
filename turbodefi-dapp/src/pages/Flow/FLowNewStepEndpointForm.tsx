@@ -19,15 +19,17 @@ export const FLowNewStepEndpointForm = ({
   onFinish: any;
   flowId: number;
 }) => {
-  const [structReader, setStructReader] = useState<StructReader>();
   const [selectedProject, setSelectedProject] = useState('');
+  const [structReader, setStructReader] = useState<StructReader>();
   const [selectedModule, setSelectedModule] = useState('');
+  const [selectedModuleEndpoints, setSelectedModuleEndpoints] = useState<
+    string[]
+  >([]);
   const [selectedEndpoint, setSelectedEndpoint] = useState('');
   const [selectedEnpointId, setSelectedEndpointId] = useState(0);
   const [creationStatus, setStepEndpointCreationStatus] =
     useState<creationStatusType>('idle');
-  const [error, setError] = useState('');
-
+  
   const { address } = useGetAccount();
 
   const saveEndpoint = () => {
@@ -53,12 +55,43 @@ export const FLowNewStepEndpointForm = ({
   }, [creationStatus]);
 
   useEffect(() => {
-    if (selectedProject === '') return;
-    if (!selectedProject.includes(selectedProject)) return;
-    selectProject(selectedProject).then((newStructReader: StructReader) =>
-      setStructReader(newStructReader)
-    );
+    setSelectedModule('');
+    setSelectedEndpoint('');
+    setSelectedModuleEndpoints([]);
+    if (selectedProject === '') {
+      setStructReader(undefined);
+    } else {
+      if (!selectedProject.includes(selectedProject)) return;
+      selectProject(selectedProject).then((newStructReader: StructReader) =>
+        setStructReader(newStructReader)
+      );
+    }
   }, [selectedProject]);
+
+  useEffect(() => {
+    setSelectedEndpoint('');
+    if (selectedModule === '') {
+      setSelectedModuleEndpoints([]);
+      return;
+    } else {
+      const endpointList = structReader?.getModuleEndpoints(selectedModule);
+      setSelectedModuleEndpoints(
+        endpointList?.map((endpoint) => endpoint.name) || []
+      );
+    }
+  }, [selectedModule]);
+
+  useEffect(() => {
+    if (
+      selectedProject != '' &&
+      selectedModule != '' &&
+      selectedEndpoint != ''
+    ) {
+      
+    } else {
+      setSelectedEndpointId(0);
+    }
+  }, [selectedProject, selectedModule, selectedEnpointId]);
 
   return (
     <div className='ml-4 mb-6 relative min-h-[20px]'>
@@ -80,7 +113,7 @@ export const FLowNewStepEndpointForm = ({
         Add Endpoint
       </h2>
       <div className='pt-1'>
-        <div className='mt-1 flex items-center pointer'>
+        <div className='mt-2 flex items-center pointer'>
           <select
             className='form-select p-1 rounded-lg'
             onChange={(e: any) => {
@@ -96,21 +129,50 @@ export const FLowNewStepEndpointForm = ({
           </select>
         </div>
         {structReader && (
-        <div className='mt-1 flex items-center pointer'>
-          <select
-            className='form-select p-1 rounded-lg'
-            onChange={(e: any) => {
-              console.log(e.target.value);
-            }}
-          >
-            <option value=''>Select module</option>
-          {structReader.getModules().map((module, index) => (
-            <option key={index} value={module.name}>
-                {module.label || module.name}
+          <div className='mt-2 flex items-center pointer'>
+            <select
+              className='form-select p-1 rounded-lg'
+              onChange={(e: any) => {
+                setSelectedModule(e.target.value);
+              }}
+            >
+              <option value='' selected={selectedModule == ''}>
+                Select module
               </option>
-          ))}
-          </select>
-        </div>
+              {structReader.getModules().map((module, index) => (
+                <option
+                  key={index}
+                  value={module.name}
+                  selected={selectedModule == module.name}
+                >
+                  {module.label || module.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {selectedModuleEndpoints.length > 0 && (
+          <div className='mt-2 flex items-center pointer'>
+            <select
+              className='form-select p-1 rounded-lg'
+              onChange={(e: any) => {
+                setSelectedEndpoint(e.target.value);
+              }}
+            >
+              <option value='' selected={selectedEndpoint == ''}>
+                Select module
+              </option>
+              {selectedModuleEndpoints.map((endpointName, index) => (
+                <option
+                  key={index}
+                  value={endpointName}
+                  selected={selectedEndpoint == endpointName}
+                >
+                  {endpointName}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
       </div>
     </div>

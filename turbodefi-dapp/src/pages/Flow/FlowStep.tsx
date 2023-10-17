@@ -56,7 +56,7 @@ export const FlowStep = ({
           <FLowNewStepEndpointForm
             onCancel={onCLoseCreatingEdpointStep}
             onFinish={onCLoseCreatingEdpointStep}
-            flowId={step.flowId}
+            flowId={step.flowId || 0}
           />
         )}
         {step.endpoints && step.endpoints?.length > 0 ? (
