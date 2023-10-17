@@ -7,7 +7,7 @@ export const ActionButtonList = ({
   children?: any;
   className?: string;
 }) => {
-  const finalClassName = ['absolute right-[1%]'];
+  const finalClassName = ['absolute', 'right-[1%]', 'flex', 'gap-1'];
   finalClassName.push(...className.split(' '));
 
   return (
