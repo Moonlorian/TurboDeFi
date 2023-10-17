@@ -1,5 +1,5 @@
-import { FlowStepType } from './Flow';
 import { ComponentLoader } from 'services';
+import { FlowStepType } from 'types';
 
 export const ComponentStep = (
   {

@@ -1,7 +1,7 @@
-import { FlowStepType } from "./Flow";
 import { EndpointStep } from "./EndpointStep";
 import { ComponentStep } from "./ComponentStep";
 import { Card } from "components";
+import { FlowStepType } from "types";
 
 export const FlowStep = ({
     step,

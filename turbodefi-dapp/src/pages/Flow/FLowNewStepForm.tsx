@@ -1,10 +1,9 @@
 import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons/faFloppyDisk';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { CreateFlow, CreateFlowStep } from 'services';
+import { CreateFlowStep } from 'services';
 import { contractAddress } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 

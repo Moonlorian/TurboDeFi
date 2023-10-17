@@ -1,14 +1,13 @@
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 import { Card } from 'components';
-import { API_URL, turbodefiAddress } from 'config';
-import { Flow, FlowType } from 'pages/Flow/Flow';
-import { useCallback, useEffect, useState } from 'react';
-import TurbodefiContractService from 'services/TurbodefiContractService';
+import { turbodefiAddress } from 'config';
+import { useState } from 'react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import { ActionButton, ActionButtonList } from 'components/ActionButton';
 import { FLowNewForm } from './FLowNewForm';
+import { FlowType } from 'types';
 
 export const FlowsList = ({
   flowsList,

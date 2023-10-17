@@ -1,8 +1,8 @@
 import StructReader from 'StructReader/StructReader';
 import { ProjectEndpointForm } from 'pages/Project/ProjectInfo';
-import { FlowStepType } from './Flow';
 import { useEffect, useState } from 'react';
 import { environment } from 'config';
+import { FlowStepType } from 'types';
 
 export const EndpointStep = ({ step }: { step: FlowStepType }) => {
   const [structReader, setStructReader] = useState<StructReader>();

@@ -1,10 +1,11 @@
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 import { API_URL, turbodefiAddress } from 'config';
-import { Flow, FlowType } from 'pages/Flow/Flow';
+import { Flow } from 'pages/Flow/Flow';
 import { useEffect, useState } from 'react';
 import TurbodefiContractService from 'services/TurbodefiContractService';
 import { FlowsList } from './FlowsList';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
+import { FlowType } from 'types';
 
 export const Flows = () => {
   const [systemFlows, setSystemFlows] = useState<FlowType[]>([]);
