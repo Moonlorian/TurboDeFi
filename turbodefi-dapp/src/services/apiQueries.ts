@@ -25,6 +25,7 @@ export const getDelegated = async (address: string) => {
     await getApiGeneric(`accounts/${address}/delegation`)
   ).map((staked: any) => {
     return {
+      type: "regular",
       address: staked.address,
       contract: staked.contract,
       userUnBondable: new BigNumber(staked.userUnBondable),
@@ -35,7 +36,8 @@ export const getDelegated = async (address: string) => {
             amount: new BigNumber(undelegated.amount),
             seconds: undelegated.seconds
           }))
-        : []
+        : [],
+      userWaitingStake: new BigNumber(0)
     };
   });
   //Second legacy
@@ -43,6 +45,7 @@ export const getDelegated = async (address: string) => {
     await getApiGeneric(`accounts/${address}/delegation-legacy`)
   ).map((staked: any) => {
     return {
+      type: "legacy",
       address: staked.address,
       contract: staked.contract,
       userUnBondable: new BigNumber(staked.userUnBondable),
@@ -53,7 +56,8 @@ export const getDelegated = async (address: string) => {
             amount: new BigNumber(undelegated.amount),
             seconds: undelegated.seconds.toNumber()
           }))
-        : []
+        : [],
+      userWaitingStake: new BigNumber(staked.userWaitingStake)
     };
   });
 

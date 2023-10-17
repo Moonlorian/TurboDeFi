@@ -13,6 +13,7 @@ import { claim, redelegate } from 'services/staking';
 import { StakeInfo } from './StakeInfo';
 
 export type stakedInfoType = {
+  type: "regular" | "legacy";
   address: string;
   contract: string;
   userUnBondable: BigNumber;
@@ -23,7 +24,8 @@ export type stakedInfoType = {
       amount: BigNumber;
       seconds: number;
     }
-  ];
+  ],
+  userWaitingStake:BigNumber;
 };
 
 export const StakeList = () => {
@@ -46,7 +48,7 @@ export const StakeList = () => {
     const delegatedList = await getDelegated(address);
     setStakedInfo(
       delegatedList.filter((staked: stakedInfoType) =>
-        staked.userActiveStake.isGreaterThan(0)
+        staked.userActiveStake.isGreaterThan(0) || staked.userWaitingStake.isGreaterThan(0)
       )
     );
   };

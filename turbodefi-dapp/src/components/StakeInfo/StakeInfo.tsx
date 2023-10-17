@@ -42,30 +42,34 @@ export const StakeInfo = ({
       description={''}
       reference={''}
     >
-      <div className='flex flex-row'>
-        {providerInfo.identity?.avatar && (
-          <div className='max-w-[75px] me-3'>
-            <img
-              className='w-full rounded-circle'
-              src={providerInfo.identity.avatar}
-            />
+      {stakeData.type == 'regular' ? (
+        <div className='flex flex-row'>
+          {providerInfo.identity?.avatar && (
+            <div className='max-w-[75px] me-3'>
+              <img
+                className='w-full rounded-circle'
+                src={providerInfo.identity.avatar}
+              />
+            </div>
+          )}
+          <div className='flex flex-col justify-between'>
+            {providerInfo.identity?.url ? (
+              <a href={providerInfo.identity.url}>
+                {providerInfo.identity.name || providerInfo.identity.key}
+              </a>
+            ) : (
+              <span>
+                {providerInfo.identity.name || providerInfo.identity.key}
+              </span>
+            )}
+            {providerInfo.identity?.description && (
+              <div className=''>{providerInfo.identity?.description}</div>
+            )}
           </div>
-        )}
-        <div className='flex flex-col justify-between'>
-          {providerInfo.identity?.url ? (
-            <a href={providerInfo.identity.url}>
-              {providerInfo.identity.name || providerInfo.identity.key}
-            </a>
-          ) : (
-            <span>
-              {providerInfo.identity.name || providerInfo.identity.key}
-            </span>
-          )}
-          {providerInfo.identity?.description && (
-            <div className=''>{providerInfo.identity?.description}</div>
-          )}
         </div>
-      </div>
+      ) : (
+        <h2>Legacy Delegation</h2>
+      )}
       <div className='flex mt-3'>
         <Label>Staked: </Label>
         <FormatAmount
@@ -77,6 +81,21 @@ export const StakeInfo = ({
           showLabel={true}
         />
       </div>
+      {stakeData.userWaitingStake.isGreaterThan(0) && (
+        <div className='flex'>
+          <Label>Waiting: </Label>
+          <FormatAmount
+            value={stakeData.userWaitingStake.toFixed()}
+            decimals={
+              tokenInfo.hasToken(egldId)
+                ? tokenInfo.get(egldId, 'decimals')
+                : 18
+            }
+            digits={4}
+            showLabel={true}
+          />
+        </div>
+      )}
       <div className='flex mb-3'>
         <Label>Pending rewards: </Label>
         <FormatAmount
