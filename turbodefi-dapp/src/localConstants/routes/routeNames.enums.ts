@@ -6,6 +6,5 @@ export enum RouteNamesEnum {
   project = '/project/:projectName?',
   AshSwap = '/AshSwap',
   Staking = '/staking',
-  Flows = '/flows',
-  Flow = '/flow/:flowName'
+  Flows = '/flows'
 }
