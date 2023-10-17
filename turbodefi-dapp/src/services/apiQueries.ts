@@ -33,7 +33,7 @@ export const getDelegated = async (address: string) => {
       userUndelegatedList: Array.isArray(staked.userUndelegatedList)
         ? staked.userUndelegatedList.map((undelegated: any) => ({
             amount: new BigNumber(undelegated.amount),
-            seconds: undelegated.seconds.toNumber()
+            seconds: undelegated.seconds
           }))
         : []
     };

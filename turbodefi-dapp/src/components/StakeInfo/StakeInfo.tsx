@@ -35,25 +35,35 @@ export const StakeInfo = ({
   };
 
   return (
-    <Fragment>
-      <div className='flex flex-col'>
+    <Card
+      className='flex-2 border max-w-[550px] position-relative'
+      key={''}
+      title={''}
+      description={''}
+      reference={''}
+    >
+      <div className='flex flex-row'>
         {providerInfo.identity?.avatar && (
-          <div className='max-w-[75px]'>
-            <img className='w-full' src={providerInfo.identity.avatar} />
+          <div className='max-w-[75px] me-3'>
+            <img className='w-full rounded-circle' src={providerInfo.identity.avatar} />
           </div>
         )}
-        {providerInfo.identity?.url ? (
-          <a href={providerInfo.identity.url}>
-            {providerInfo.identity.name || providerInfo.identity.key}
-          </a>
-        ) : (
-          <span>{providerInfo.identity.name || providerInfo.identity.key}</span>
-        )}
-        {providerInfo.identity?.description && (
-          <div className=''>{providerInfo.identity?.description}</div>
-        )}
+        <div className='flex flex-col justify-between'>
+          {providerInfo.identity?.url ? (
+            <a href={providerInfo.identity.url}>
+              {providerInfo.identity.name || providerInfo.identity.key}
+            </a>
+          ) : (
+            <span>
+              {providerInfo.identity.name || providerInfo.identity.key}
+            </span>
+          )}
+          {providerInfo.identity?.description && (
+            <div className=''>{providerInfo.identity?.description}</div>
+          )}
+        </div>
       </div>
-      <div className='flex'>
+      <div className='flex mt-3'>
         <Label>Staked: </Label>
         <FormatAmount
           value={stakeData.userActiveStake.toFixed()}
@@ -64,7 +74,7 @@ export const StakeInfo = ({
           showLabel={true}
         />
       </div>
-      <div className='flex'>
+      <div className='flex mb-3'>
         <Label>Pending rewards: </Label>
         <FormatAmount
           value={stakeData.claimableRewards.toFixed()}
@@ -83,6 +93,6 @@ export const StakeInfo = ({
           <Button onClick={stakeRedelegate}>Reinvest</Button>
         </div>
       )}
-    </Fragment>
+    </Card>
   );
 };
