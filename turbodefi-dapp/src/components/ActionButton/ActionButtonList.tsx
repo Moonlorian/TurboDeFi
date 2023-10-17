@@ -2,15 +2,14 @@ import { Button } from 'components/Button';
 
 export const ActionButtonList = ({
   children,
-  className
+  className = ''
 }: {
   children?: any;
   className?: string;
 }) => {
-  const finalClassName = ['absolute'];
-  if (className) {
-    finalClassName.push(...(className).split(' '));
-  }
+  const finalClassName = ['absolute right-[1%]'];
+  finalClassName.push(...className.split(' '));
+
   return (
     <div
       className={finalClassName

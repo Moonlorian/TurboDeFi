@@ -2,11 +2,13 @@ import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount'
 import { Card } from 'components';
 import { API_URL, turbodefiAddress } from 'config';
 import { Flow, FlowType } from 'pages/Flow/Flow';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import TurbodefiContractService from 'services/TurbodefiContractService';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ActionButtonList } from 'components/ActionButton';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
+import { ActionButton, ActionButtonList } from 'components/ActionButton';
+import { FLowNewForm } from './FLowNewForm';
 
 export const FlowsList = ({
   flowsList,
@@ -15,8 +17,18 @@ export const FlowsList = ({
   flowsList: FlowType[];
   listType: 'user' | 'system';
 }) => {
+  const [creatingFlow, setCreatingFlow] = useState(false);
   const { address } = useGetAccount();
 
+  const initCreatingFlow = () => setCreatingFlow(true);
+  const closeCratingFlow = () => setCreatingFlow(false);
+
+  const canShowCreateButton = () => {
+    if (listType === 'system') return false;
+    if (address == turbodefiAddress) return true;
+
+    return !creatingFlow;
+  };
   const turbodefiContractService = new TurbodefiContractService(API_URL);
 
   return (
@@ -24,15 +36,35 @@ export const FlowsList = ({
       <Card
         className='flex-2 w-100 position-relative'
         key={'flow'}
-        title={listType == 'user' ? 'User Flows' : 'TurboDeFi Flows'}
-        description={listType == 'user' ? 'Flows created by the user' : 'Flows created by TurboDeFi team'}
+        title={
+          listType == 'user' || address == turbodefiAddress
+            ? 'User Flows'
+            : 'TurboDeFi Flows'
+        }
+        description={
+          listType == 'user' || address == turbodefiAddress
+            ? 'Flows created by the user'
+            : 'Flows created by TurboDeFi team'
+        }
         reference={''}
       >
-        <ActionButtonList />
+        {canShowCreateButton() && (
+          <ActionButtonList>
+            <ActionButton action={initCreatingFlow}>
+              <FontAwesomeIcon icon={faPlusSquare} />
+            </ActionButton>
+          </ActionButtonList>
+        )}
+        {creatingFlow && (
+          <FLowNewForm
+            onCancel={closeCratingFlow}
+            onFinish={closeCratingFlow}
+          />
+        )}
         <div className='ml-4'>
           {flowsList.map((flow, index) => {
             return (
-              <div key={`systemFlow_${index}`}>
+              <div key={`${listType}Flow_${index}`}>
                 <div
                   className='flex items-center pointer'
                   onClick={() => {

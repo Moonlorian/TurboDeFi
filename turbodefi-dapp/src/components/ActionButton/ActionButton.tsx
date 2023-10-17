@@ -3,21 +3,22 @@ import { Button } from 'components/Button';
 export const ActionButton = ({
   action,
   children,
-  className
+  className = ''
 }: {
-  action: any;
-  children: any;
-  className: string;
+  action?: any;
+  children?: any;
+  className?: string;
 }) => {
-  const finalClassName = [];
+  const finalClassName = ['text-white'];
   finalClassName.push(...className.split(' '));
   return (
-    <div
+    <Button
+      onClick={action}
       className={finalClassName
         .filter((item, index, arr) => arr.indexOf(item) === index)
         .join(' ')}
     >
-      <Button onClick={action}>{children}</Button>
-    </div>
+      {children}
+    </Button>
   );
 };

@@ -7,14 +7,17 @@ import TurbodefiContractService from 'services/TurbodefiContractService';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FlowsList } from './FlowsList';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
 export const Flows = () => {
-  const { address } = useGetAccount();
-
   const [systemFlows, setSystemFlows] = useState<FlowType[]>([]);
   const [userFlows, setUserFlows] = useState<FlowType[]>([]);
   const [selectedFlow, setSelectedFlow] = useState<FlowType>();
 
+    const { address } = useGetAccount();
+    const {hasPendingTransactions} = useGetPendingTransactions();
+
+  
   const turbodefiContractService = new TurbodefiContractService(API_URL);
 
   const selectSystemFlow = (index: number) => {
@@ -29,10 +32,7 @@ export const Flows = () => {
     turbodefiContractService
       .getAddressFlows(address)
       .then((flows) => setUserFlows(flows));
-  }, []);
-
-  console.log('user flows: ', userFlows);
-  console.log('system flows: ', systemFlows);
+  }, [hasPendingTransactions]);
 
   if (selectedFlow) {
     return <Flow flow={selectedFlow} />;
@@ -40,7 +40,7 @@ export const Flows = () => {
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <FlowsList flowsList={userFlows} listType='user' />
-      {systemFlows && systemFlows.length > 0 && (
+      {address != turbodefiAddress && systemFlows && systemFlows.length > 0 && (
         <FlowsList flowsList={systemFlows} listType='system' />
       )}
     </div>
