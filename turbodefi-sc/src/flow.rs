@@ -35,6 +35,7 @@ impl<M: ManagedTypeApi> FlowStep<M> {
 
 #[derive(ManagedVecItem, NestedEncode, NestedDecode, TopEncode, TopDecode, TypeAbi)]
 pub struct Flow<M: ManagedTypeApi> {
+    pub id: u64,
     pub creator: ManagedAddress<M>,
     pub name: ManagedBuffer<M>,
     pub label: ManagedBuffer<M>,
@@ -44,12 +45,14 @@ pub struct Flow<M: ManagedTypeApi> {
 
 impl<M: ManagedTypeApi> Flow<M> {
     pub fn new(
+        id: u64,
         creator: ManagedAddress<M>,
         name: ManagedBuffer<M>,
         label: ManagedBuffer<M>,
         description: ManagedBuffer<M>,
     ) -> Self {
         Flow {
+            id,
             creator,
             name,
             label,

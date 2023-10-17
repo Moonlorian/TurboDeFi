@@ -18,8 +18,8 @@
             },
             "expect": {
                 "out": [
-                    "address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
-                    "address:user_1|nested:str:flow-2|nested:str:Flow 2|nested:str:This is another flow|u32:0"
+                    "u64:1|address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
+                    "u64:3|address:user_1|nested:str:flow-2|nested:str:Flow 2|nested:str:This is another flow|u32:0"
                 ],
                 "status": "0",
                 "message": "",
@@ -40,7 +40,7 @@
             },
             "expect": {
                 "out": [
-                    "address:user_2|nested:str:my-flow|nested:str:My first flow|nested:str:This is the description of user_2 first flow|u32:0"
+                    "u64:2|address:user_2|nested:str:my-flow|nested:str:My first flow|nested:str:This is the description of user_2 first flow|u32:0"
                 ],
                 "status": "0",
                 "message": "",

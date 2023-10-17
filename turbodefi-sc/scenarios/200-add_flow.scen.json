@@ -76,7 +76,7 @@
                         "str:endpoint_by_id|u64:4": "nested:str:project-1|nested:str:module-2|nested:str:endpoint-4",
                         "str:endpoint_id|nested:str:project-1|nested:str:module-2|nested:str:endpoint-4": "4",
                         "str:last_flow_id": "1",
-                        "str:flow_by_id|u64:1": "address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
+                        "str:flow_by_id|u64:1": "u64:1|address:user_1|nested:str:flow-1|nested:str:Flow 1|nested:str:This flow will save a lot of time to the user|u32:0",
                         "str:address_flows|address:user_1|str:.len": "1",
                         "str:address_flows|address:user_1|str:.item|u32:1": "1"
                     },
