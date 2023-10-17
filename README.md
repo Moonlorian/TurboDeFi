@@ -16,7 +16,7 @@ See the TurboDeFi-SC ([turbodefi-sc](https://github.com/Moonlorian/turbodefi/tre
 
 #### Developers
 
-See the TurboDeFi-dApp ([dapp](https://github.com/Moonlorian/turbodefi/tree/main/turbodefi-dapp)).
+See the TurboDeFi-dApp ([turbodefi-dapp](https://github.com/Moonlorian/turbodefi/tree/main/turbodefi-dapp)).
 
 #### Users
 
