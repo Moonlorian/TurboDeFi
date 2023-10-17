@@ -44,7 +44,6 @@ export const StakeList = () => {
 
   const loadStakedInfo = async () => {
     const delegatedList = await getDelegated(address);
-    console.log(delegatedList);
     setStakedInfo(
       delegatedList.filter((staked: stakedInfoType) =>
         staked.userActiveStake.isGreaterThan(0)
