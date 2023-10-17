@@ -25,7 +25,7 @@ export const FlowStep = ({
                 description={''}
                 reference={''}
             >
-                {step.endpoints ?
+                {step.endpoints && step.endpoints?.length > 0 ?
                     <EndpointStep step={step} />
                     :
                     <ComponentStep step={step} props={step.componentProps} />
