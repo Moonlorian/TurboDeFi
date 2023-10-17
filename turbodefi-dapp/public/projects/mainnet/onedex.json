@@ -94,7 +94,7 @@
       "address": "erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla",
       "endpoints": [
         {
-          "name": "viewPool-1",
+          "name": "viewPool-6",
           "endpoint": "viewPool",
           "label": "ONE - EGLD",
           "mutability": "readonly",
