@@ -55,7 +55,7 @@ export const TokenSelector = ({
     return (
       <>
         {token && token.assets && token.assets['svgUrl'] && (
-          <img src={token.assets['svgUrl']} />
+          <img className='me-1' src={token.assets['svgUrl']} />
         )}{' '}
         {selectedValue}
       </>
@@ -63,6 +63,7 @@ export const TokenSelector = ({
   }, [selectedValue, searchValue]);
 
   const onItemClick = (option: any) => {
+    console.log(option);
     let newValue = option;
     setSelectedValue(newValue);
     onChange(newValue);
@@ -89,12 +90,14 @@ export const TokenSelector = ({
   useEffect(() => {
     if (!showMenu) return;
     function handleClickOutside(event: any) {
+      console.log(event.target.className);
       if (
         showMenu &&
         ![
           'token-selector-item',
           'token-selector-input',
-          'token-selector-selected-value'
+          'token-selector-selected-value',
+          'no-selectable'
         ].some((v) => event.target.className.includes(v))
       ) {
         handleInputClick(event);
@@ -155,9 +158,9 @@ export const TokenSelector = ({
                 } d-flex align-items-center`}
               >
                 {token.assets && token.assets['svgUrl'] && (
-                  <img src={token.assets['svgUrl']} />
+                  <img className="pe-1 no-selectable" src={token.assets['svgUrl']} />
                 )}
-                {`${token.name} (${token.identifier})`}
+                <span className='no-selectable'>{`${token.name}`}</span><span className={`ps-1 text-sm ${selectedValue === token.identifier ? '' : 'text-gray-500 no-selectable'}`}>{`(${token.identifier})`}</span>
               </div>
             ))}
           </div>

@@ -28,6 +28,7 @@
   max-height: 150px;
   background-color: #fff;
   z-index: 99;
+  overflow-x: hidden;
 }
 
 .token-selector-item {
@@ -37,7 +38,6 @@
 .token-selector-selected-value img, .token-selector-item img {
   max-width: 28px;
   height: auto;
-  margin-right: 1rem;
 }
 
 .token-selector-item:hover {
