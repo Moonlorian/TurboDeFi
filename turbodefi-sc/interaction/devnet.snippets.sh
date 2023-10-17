@@ -106,7 +106,13 @@ addFlowStep() {
 
 addStepEndpoints() {
     mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
-        --function="addStepEndpoints" --arguments "$1" "$2" "$3"  \
+        --function="addStepEndpoints" --arguments $@  \
+        --send --proxy=${PROXY} --chain=${CHAIN_ID}
+}
+
+addStepEndpoint() {
+    mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
+        --function="addStepEndpoint" --arguments $1 $2 $3  \
         --send --proxy=${PROXY} --chain=${CHAIN_ID}
 }
 
