@@ -12,10 +12,12 @@ import { FLowNewForm } from './FLowNewForm';
 
 export const FlowsList = ({
   flowsList,
-  listType
+  listType,
+  selectionFLowCallback,
 }: {
   flowsList: FlowType[];
   listType: 'user' | 'system';
+  selectionFLowCallback: any;
 }) => {
   const [creatingFlow, setCreatingFlow] = useState(false);
   const { address } = useGetAccount();
@@ -29,8 +31,6 @@ export const FlowsList = ({
 
     return !creatingFlow;
   };
-  const turbodefiContractService = new TurbodefiContractService(API_URL);
-
   //TODO ==> Add tool tip to "add" button
 
   return (
@@ -70,7 +70,7 @@ export const FlowsList = ({
                 <div
                   className='flex items-center pointer'
                   onClick={() => {
-                    //selectSystemFlow(index);
+                    selectionFLowCallback(flow);
                   }}
                 >
                   <FontAwesomeIcon
