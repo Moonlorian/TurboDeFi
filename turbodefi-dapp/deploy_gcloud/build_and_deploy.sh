@@ -6,7 +6,7 @@ PROJECT_ID_MAINNET=turbodefi-mainnet
 
 YAML_FILE=app-devnet.yaml
 
-NON_STATIC_VERSION=burguer-menu
+NON_STATIC_VERSION=favicon
 STATIC_VERSION=maintenance
 VERSION=$NON_STATIC_VERSION
 
