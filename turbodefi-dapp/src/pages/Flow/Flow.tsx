@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { FLowNewStepForm } from './FLowNewStepForm';
 import { FlowType } from 'types';
 
-
 export const Flow = ({
   flow,
   backAction
@@ -39,16 +38,17 @@ export const Flow = ({
         description={flow.description}
         reference={''}
       >
-        {canShowCreateButton() && (
-          <ActionButtonList>
-            <ActionButton action={backAction}>
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </ActionButton>
+        <ActionButtonList>
+          <ActionButton action={backAction}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </ActionButton>
+          {canShowCreateButton() && (
             <ActionButton action={setCreatigStepAction}>
               <FontAwesomeIcon icon={faPlusSquare} />
             </ActionButton>
-          </ActionButtonList>
-        )}
+          )}
+        </ActionButtonList>
+
         {creatingStep && (
           <FLowNewStepForm
             onCancel={onCLoseCreatingStep}
@@ -58,7 +58,13 @@ export const Flow = ({
         )}
         <div className='ml-4'>
           {flow.steps.map((step, index) => {
-            return <FlowStep step={step} key={index} index={index + 1} />;
+            return (
+              <FlowStep
+                step={{ ...step, type: flow.type, index, flowId: flow.id }}
+                key={index}
+                index={index + 1}
+              />
+            );
           })}
         </div>
       </Card>
