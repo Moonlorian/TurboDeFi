@@ -8,7 +8,7 @@ import { turbodefiAddress } from 'config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
-import { FLowNewStepEndpointForm } from './FLowNewStepEndpointForm';
+import { FLowNewStepEndpointForm } from './FlowAddStepEndpointForm/FLowNewStepEndpointForm';
 
 export const FlowStep = ({
   step,
