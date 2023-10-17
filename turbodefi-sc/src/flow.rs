@@ -1,3 +1,5 @@
+use crate::td_endpoint::TdEndpointType;
+
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
@@ -12,6 +14,7 @@ pub struct FlowStep<M: ManagedTypeApi> {
     pub component: u64,
     pub component_props: ManagedVec<M, ComponentProp<M>>,
     pub endpoints_ids: ManagedVec<M, u64>,
+    pub endpoints: ManagedVec<M, TdEndpointType<M>>,
 }
 
 impl<M: ManagedTypeApi> FlowStep<M> {
@@ -21,6 +24,7 @@ impl<M: ManagedTypeApi> FlowStep<M> {
             component: Default::default(),
             component_props: Default::default(),
             endpoints_ids: Default::default(),
+            endpoints: Default::default(),
         }
     }
 
@@ -31,6 +35,7 @@ impl<M: ManagedTypeApi> FlowStep<M> {
 
 #[derive(ManagedVecItem, NestedEncode, NestedDecode, TopEncode, TopDecode, TypeAbi)]
 pub struct Flow<M: ManagedTypeApi> {
+    pub id: u64,
     pub creator: ManagedAddress<M>,
     pub name: ManagedBuffer<M>,
     pub label: ManagedBuffer<M>,
@@ -40,12 +45,14 @@ pub struct Flow<M: ManagedTypeApi> {
 
 impl<M: ManagedTypeApi> Flow<M> {
     pub fn new(
+        id: u64,
         creator: ManagedAddress<M>,
         name: ManagedBuffer<M>,
         label: ManagedBuffer<M>,
         description: ManagedBuffer<M>,
     ) -> Self {
         Flow {
+            id,
             creator,
             name,
             label,

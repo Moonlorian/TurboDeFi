@@ -36,7 +36,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         getFlowById => flow_by_id
         getAddressFlowsIds => address_flows_ids
         addFlowStep => add_flow_step
-        addStepEndpoint => add_step_endpoints
+        addStepEndpoints => add_step_endpoints
     )
 }
 

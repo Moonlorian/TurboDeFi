@@ -12,7 +12,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -37,7 +37,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -63,7 +63,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",

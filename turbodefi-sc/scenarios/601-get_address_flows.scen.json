@@ -1,0 +1,107 @@
+{
+    "name": "add step endpoints",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "600-add_step_endpoints.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "add second flow for user_1",
+            "tx": {
+                "from": "address:user_1",
+                "to": "sc:turbodefi",
+                "function": "addFlow",
+                "arguments": [
+                    "str:flow-2",
+                    "str:Flow 2",
+                    "str:This is another flow"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "get user_1 flows",
+            "tx": {
+                "to": "sc:turbodefi",
+                "arguments": [
+                    "address:user_1"
+                ],
+                "function": "getAddressFlows"
+            },
+            "expect": {
+                "out": [
+                    {
+                        "0-id": "u64:1",
+                        "1-creator": "address:user_1",
+                        "2-name": "nested:str:flow-1",
+                        "3-label": "nested:str:Flow 1",
+                        "4-description": "nested:str:This flow will save a lot of time to the user",
+                        "5-steps": [
+                            "u32:2",
+                            {
+                                "0-description": "nested:str:first step",
+                                "1-component": "u64:0",
+                                "2-component_props": "u32:0",
+                                "3-endpoints_ids": "u32:0",
+                                "4-endpoints": "u32:0"
+                            },
+                            {
+                                "0-description": "nested:str:second step",
+                                "1-component": "u64:0",
+                                "2-component_props": "u32:0",
+                                "3-endpoints_ids": [
+                                    "u32:3",
+                                    "u64:2",
+                                    "u64:1",
+                                    "u64:4"
+                                ],
+                                "4-endpoints": [
+                                    "u32:3",
+                                    {
+                                        "0-project": "nested:str:project-1",
+                                        "1-module": "nested:str:module-2",
+                                        "2-endpoint": "nested:str:endpoint-1"
+                                    },
+                                    {
+                                        "0-project": "nested:str:project-1",
+                                        "1-module": "nested:str:module-1",
+                                        "2-endpoint": "nested:str:endpoint-1"
+                                    },
+                                    {
+                                        "0-project": "nested:str:project-1",
+                                        "1-module": "nested:str:module-2",
+                                        "2-endpoint": "nested:str:endpoint-4"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "0-id": "u64:2",
+                        "1-creator": "address:user_1",
+                        "2-name": "nested:str:flow-2",
+                        "3-label": "nested:str:Flow 2",
+                        "4-description": "nested:str:This is another flow",
+                        "5-steps": "u32:0"
+                    }
+                ],
+                "status": "0",
+                "message": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

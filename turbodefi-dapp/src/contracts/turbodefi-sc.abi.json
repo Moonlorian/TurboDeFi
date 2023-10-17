@@ -204,6 +204,40 @@
                     "multi_result": true
                 }
             ]
+        },
+        {
+            "name": "addFlowStep",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "flow_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "description",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addStepEndpoints",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "flow_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "step_index",
+                    "type": "u32"
+                },
+                {
+                    "name": "endpoints_ids",
+                    "type": "List<u64>"
+                }
+            ],
+            "outputs": []
         }
     ],
     "events": [],
@@ -221,6 +255,10 @@
         "Flow": {
             "type": "struct",
             "fields": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                },
                 {
                     "name": "creator",
                     "type": "Address"
@@ -257,6 +295,10 @@
                 {
                     "name": "component_props",
                     "type": "List<ComponentProp>"
+                },
+                {
+                    "name": "endpoints_ids",
+                    "type": "List<u64>"
                 },
                 {
                     "name": "endpoints",

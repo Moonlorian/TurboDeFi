@@ -2,6 +2,7 @@ import { Card } from "components";
 import { FlowStep } from "./FlowStep";
 
 export type FlowType = {
+    id: number,
     name: string,
     label: string,
     description: string,
@@ -27,6 +28,7 @@ export type FlowEndpointType = {
 }
 
 export const Flow = ({ flow }: { flow: FlowType }) => {
+    console.log("flow:", flow);
     return (
         <>
             {flow && (

@@ -12,7 +12,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -37,7 +37,7 @@
             "tx": {
                 "from": "address:user_1",
                 "to": "sc:turbodefi",
-                "function": "addStepEndpoint",
+                "function": "addStepEndpoints",
                 "arguments": [
                     "u64:1",
                     "1",
@@ -92,17 +92,19 @@
                         "str:endpoint_id|nested:str:project-1|nested:str:module-2|nested:str:endpoint-4": "4",
                         "str:last_flow_id": "1",
                         "str:flow_by_id|u64:1": {
-                            "0-creator": "address:user_1",
-                            "1-name": "nested:str:flow-1",
-                            "2-label": "nested:str:Flow 1",
-                            "3-description": "nested:str:This flow will save a lot of time to the user",
-                            "4-steps": [
+                            "0-id": "u64:1",
+                            "1-creator": "address:user_1",
+                            "2-name": "nested:str:flow-1",
+                            "3-label": "nested:str:Flow 1",
+                            "4-description": "nested:str:This flow will save a lot of time to the user",
+                            "5-steps": [
                                 "u32:2",
                                 {
                                     "0-description": "nested:str:first step",
                                     "1-component": "u64:0",
                                     "2-component_props": "u32:0",
-                                    "3-endpoints_ids": "u32:0"
+                                    "3-endpoints_ids": "u32:0",
+                                    "4-endpoints": "u32:0"
                                 },
                                 {
                                     "0-description": "nested:str:second step",
@@ -113,7 +115,8 @@
                                         "u64:2",
                                         "u64:1",
                                         "u64:4"
-                                    ]
+                                    ],
+                                    "4-endpoints": "u32:0"
                                 }
                             ]
                         },

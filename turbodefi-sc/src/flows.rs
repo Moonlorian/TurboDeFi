@@ -1,9 +1,10 @@
 multiversx_sc::imports!();
+multiversx_sc::derive_imports!();
 
-use crate::{flow::Flow, operator};
+use crate::{flow::Flow, operator, td_endpoints};
 
 #[multiversx_sc::module]
-pub trait FlowsModule: operator::OperatorModule {
+pub trait FlowsModule: operator::OperatorModule + td_endpoints::TdEndpointsModule {
     #[endpoint(addFlow)]
     fn add_flow(&self, name: ManagedBuffer, label: ManagedBuffer, description: ManagedBuffer) {
         require!(!name.is_empty(), "name parameter is mandatory!");
@@ -13,11 +14,10 @@ pub trait FlowsModule: operator::OperatorModule {
             "description parameter is mandatory!"
         );
 
+        let flow_id = &self.increase_last_flow_id();
         let caller = &self.blockchain().get_caller();
-        let flow = Flow::new(caller.clone(), name, label, description);
+        let flow = Flow::new(flow_id.clone(), caller.clone(), name, label, description);
 
-        self.increase_last_flow_id();
-        let flow_id = &self.last_flow_id().get();
         self.flow_by_id(flow_id).set(flow);
         self.address_flows_ids(caller).push(flow_id);
     }
@@ -27,7 +27,13 @@ pub trait FlowsModule: operator::OperatorModule {
         let mut flows = MultiValueEncoded::new();
 
         for flow_id in self.address_flows_ids(address).iter() {
-            flows.push(self.flow_by_id(&flow_id).get());
+            let flow = self.flow_by_id(&flow_id).get();
+            for mut step in flow.steps.iter() {
+                for endpoint_id in step.endpoints_ids.iter() {
+                    step.endpoints.push(self.endpoint_by_id(endpoint_id).get());
+                }
+            }
+            flows.push(flow);
         }
 
         return flows;
@@ -49,8 +55,10 @@ pub trait FlowsModule: operator::OperatorModule {
         panic!("flow not found!");
     }
 
-    fn increase_last_flow_id(&self) {
+    fn increase_last_flow_id(&self) -> u64 {
         self.last_flow_id().update(|last_id| *last_id += 1);
+
+        self.last_flow_id().get()
     }
 
     fn validate_flow_exists(&self, flow_id: &u64) {
