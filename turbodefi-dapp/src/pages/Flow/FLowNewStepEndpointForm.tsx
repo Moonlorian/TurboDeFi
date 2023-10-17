@@ -20,14 +20,14 @@ export const FLowNewStepEndpointForm = ({
   onCancel: any;
   onFinish: any;
   flowId: number;
-  stepIndex:number;
+  stepIndex: number;
 }) => {
   const [selectedProject, setSelectedProject] = useState('');
   const [structReader, setStructReader] = useState<StructReader>();
   const [selectedModule, setSelectedModule] = useState('');
-  const [selectedModuleEndpoints, setSelectedModuleEndpoints] = useState<
-    string[]
-  >([]);
+  const [selectedModuleEndpoints, setSelectedModuleEndpoints] = useState<any[]>(
+    []
+  );
   const [selectedEndpoint, setSelectedEndpoint] = useState('');
   const [selectedEnpointId, setSelectedEndpointId] = useState(0);
   const [creationStatus, setStepEndpointCreationStatus] =
@@ -78,9 +78,7 @@ export const FLowNewStepEndpointForm = ({
       return;
     } else {
       const endpointList = structReader?.getModuleEndpoints(selectedModule);
-      setSelectedModuleEndpoints(
-        endpointList?.map((endpoint) => endpoint.label || endpoint.name) || []
-      );
+      setSelectedModuleEndpoints(endpointList || []);
     }
   }, [selectedModule]);
 
@@ -93,10 +91,10 @@ export const FLowNewStepEndpointForm = ({
       setSelectedEndpointId(0);
       new TurbodefiContractService(API_URL)
         .getEndpointId(selectedProject, selectedModule, selectedEndpoint)
-        .then((data:any) => {
+        .then((data: any) => {
           setSelectedEndpointId(data);
         });
-    }else if (selectedEnpointId > 0){
+    } else if (selectedEnpointId > 0) {
       setSelectedEndpointId(0);
     }
   }, [selectedProject, selectedModule, selectedEndpoint]);
@@ -108,7 +106,10 @@ export const FLowNewStepEndpointForm = ({
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton disabled={selectedEnpointId <= 0} action={saveEndpoint}>
+            <ActionButton
+              disabled={selectedEnpointId <= 0}
+              action={saveEndpoint}
+            >
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
             <ActionButton action={onCancel}>
@@ -164,9 +165,9 @@ export const FLowNewStepEndpointForm = ({
               defaultValue={selectedEndpoint}
             >
               <option value=''>Select module</option>
-              {selectedModuleEndpoints.map((endpointName, index) => (
-                <option key={index} value={endpointName}>
-                  {endpointName}
+              {selectedModuleEndpoints.map((endpoint, index) => (
+                <option key={index} value={endpoint.name}>
+                  {endpoint.label}
                 </option>
               ))}
             </select>
