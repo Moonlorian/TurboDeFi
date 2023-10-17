@@ -8,7 +8,9 @@ It is composed by a website with 4 pages: My wallet scanner + Custom dashboard +
 
 ### Smart Contract
 
-There is an smart contract to store all the projects flow possibilities and the user configuration on-chain. This is a non-custodial decentralised application using original smart contracts of the projects integrated, the smart contracts never have access to user funds.
+There is one smart contract to store all the projects/flows/users configuration on-chain.
+
+This is a non-custodial decentralised application using original smart contracts of the integrated projects, so the smart contract never have access to user assets.
 
 See the TurboDeFi-SC ([turbodefi-sc](https://github.com/Moonlorian/turbodefi/tree/main/turbodefi-sc)).
 
