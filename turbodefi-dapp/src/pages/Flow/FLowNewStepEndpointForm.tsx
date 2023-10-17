@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
 import { CreateFlowStep } from 'services';
-import { contractAddress } from 'config';
+import { ProjectList, contractAddress, environment } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
+import StructReader from 'StructReader/StructReader';
 
 type creationStatusType = 'idle' | 'creating' | 'saving';
 
@@ -18,41 +19,55 @@ export const FLowNewStepEndpointForm = ({
   onFinish: any;
   flowId: number;
 }) => {
-  const [creationStatus, setFlowCreationStatus] =
+  const [structReader, setStructReader] = useState<StructReader>();
+  const [selectedProject, setSelectedProject] = useState('');
+  const [selectedModule, setSelectedModule] = useState('');
+  const [selectedEndpoint, setSelectedEndpoint] = useState('');
+  const [selectedEnpointId, setSelectedEndpointId] = useState(0);
+  const [creationStatus, setStepEndpointCreationStatus] =
     useState<creationStatusType>('idle');
-  const [stepDescription, setFlowDescription] = useState('');
   const [error, setError] = useState('');
 
   const { address } = useGetAccount();
 
-  const saveFlow = () => {
-    if (stepDescription == '') {
-      setError('Step description is required');
-      return;
-    }
-    CreateFlowStep(contractAddress, address, flowId, stepDescription);
+  const saveEndpoint = () => {
+    //CreateFlowStep(contractAddress, address, flowId, endpointDescription);
     //TODO. Make a transaction wathcer and set the 'creating' status to show spinner and wait
 
-    //setFlowCreationStatus('creating');
-    setFlowCreationStatus('saving');
+    //setStepEndpointCreationStatus('creating');
+    setStepEndpointCreationStatus('saving');
   };
-
+  const selectProject = async (selectedProject: string) => {
+    const newStructReader = new StructReader(
+      '/projects/' + environment + '/' + selectedProject
+    );
+    await newStructReader.load();
+    return newStructReader;
+  };
   useEffect(() => {
     if (creationStatus == 'saving') {
       onFinish();
       //This function can be not neccesary
-      setFlowCreationStatus('idle');
+      setStepEndpointCreationStatus('idle');
     }
   }, [creationStatus]);
 
+  useEffect(() => {
+    if (selectedProject === '') return;
+    if (!selectedProject.includes(selectedProject)) return;
+    selectProject(selectedProject).then((newStructReader: StructReader) =>
+      setStructReader(newStructReader)
+    );
+  }, [selectedProject]);
+
   return (
-    <div className='ml-4 mb-6 relative'>
+    <div className='ml-4 mb-6 relative min-h-[20px]'>
       <ActionButtonList>
         {creationStatus == 'creating' ? (
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton action={saveFlow}>
+            <ActionButton action={saveEndpoint}>
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
             <ActionButton action={onCancel}>
@@ -62,19 +77,41 @@ export const FLowNewStepEndpointForm = ({
         )}
       </ActionButtonList>
       <h2 className='flex text-xl font-medium group text-uppercase'>
-        Create new Step
+        Add Endpoint
       </h2>
       <div className='pt-1'>
         <div className='mt-1 flex items-center pointer'>
-          <input
-            className='p-2 m-0 w-full border'
-            placeholder='Insert here step description'
-            value={stepDescription}
-            onChange={(e: any) => setFlowDescription(e.target.value)}
-            required
-          />
+          <select
+            className='form-select p-1 rounded-lg'
+            onChange={(e: any) => {
+              setSelectedProject(e.target.value);
+            }}
+          >
+            <option value=''>Select project</option>
+            {ProjectList.map((projectId: string, index) => (
+              <option key={index} value={projectId}>
+                {projectId}
+              </option>
+            ))}
+          </select>
         </div>
-        <p className='text-red-500'>{error}</p>
+        {structReader && (
+        <div className='mt-1 flex items-center pointer'>
+          <select
+            className='form-select p-1 rounded-lg'
+            onChange={(e: any) => {
+              console.log(e.target.value);
+            }}
+          >
+            <option value=''>Select module</option>
+          {structReader.getModules().map((module, index) => (
+            <option key={index} value={module.name}>
+                {module.label || module.name}
+              </option>
+          ))}
+          </select>
+        </div>
+        )}
       </div>
     </div>
   );
