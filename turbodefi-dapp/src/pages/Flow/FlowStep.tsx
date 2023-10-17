@@ -31,7 +31,7 @@ export const FlowStep = ({
   const onCLoseCreatingEdpointStep = () => setCreatingEndpointStep(false);
 
   return (
-    <span className='flex flex-col rounded-xl p-6 border mb-2'>
+    <span className='flex flex-col rounded-xl p-6 border mb-2 relative'>
       <h5 className='flex items-center'>
         <span className='rounded-full bg-main-color text-white w-[35px] h-[35px] flex items-center justify-center m-3'>
           {index}
@@ -46,7 +46,7 @@ export const FlowStep = ({
         reference={''}
       >
         {canShowCreateButton() && (
-          <ActionButtonList>
+          <ActionButtonList className='top-[3%] right-[1%]'>
             <ActionButton action={setCreatigEndpointStepAction}>
               <FontAwesomeIcon icon={faPlusSquare} />
             </ActionButton>
