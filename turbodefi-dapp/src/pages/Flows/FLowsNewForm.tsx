@@ -10,7 +10,7 @@ import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount'
 
 type flowStatusType = 'idle' | 'creating' | 'saving';
 
-export const FLowNewForm = ({
+export const FLowsNewForm = ({
   onCancel,
   onFinish
 }: {

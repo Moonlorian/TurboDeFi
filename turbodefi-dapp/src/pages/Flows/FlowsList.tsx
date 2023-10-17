@@ -6,7 +6,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import { ActionButton, ActionButtonList } from 'components/ActionButton';
-import { FLowNewForm } from './FLowNewForm';
+import { FLowsNewForm } from './FLowsNewForm';
 import { FlowType } from 'types';
 
 export const FlowsList = ({
@@ -57,7 +57,7 @@ export const FlowsList = ({
           </ActionButtonList>
         )}
         {creatingFlow && (
-          <FLowNewForm
+          <FLowsNewForm
             onCancel={closeCratingFlow}
             onFinish={closeCratingFlow}
           />
