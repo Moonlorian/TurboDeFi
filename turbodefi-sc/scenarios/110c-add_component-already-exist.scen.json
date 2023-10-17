@@ -1,0 +1,31 @@
+{
+    "name": "validate mandatory data",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "110-add_component.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "missing name",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addComponent",
+                "arguments": [
+                    "str:component-1"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:component already exists with id: 1!",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

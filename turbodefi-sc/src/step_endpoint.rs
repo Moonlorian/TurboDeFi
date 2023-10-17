@@ -19,7 +19,7 @@ pub trait StepEndpointModule:
         require!(step_index < flow.steps.len(), "invalid step_index!");
 
         for endpoint_id in endpoints_ids.iter() {
-            self.validate_endpoint_exists(endpoint_id);
+            self.validate_endpoint_not_exists(endpoint_id);
         }
         self.validate_flow_creator(&flow);
 

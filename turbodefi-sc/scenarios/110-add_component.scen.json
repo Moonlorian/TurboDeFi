@@ -1,0 +1,58 @@
+{
+    "name": "add a new component",
+    "gasSchedule": "dummy",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "100-add_endpoint.scen.json"
+        },
+        {
+            "step": "scCall",
+            "id": "add component",
+            "tx": {
+                "from": "address:operator",
+                "to": "sc:turbodefi",
+                "function": "addComponent",
+                "arguments": [
+                    "str:component-1"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "0",
+                "message": "",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "2",
+                    "balance": "0"
+                },
+                "address:operator": {
+                    "nonce": "2",
+                    "balance": "0"
+                },
+                "sc:turbodefi": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "storage": {
+                        "str:operator_address": "address:operator",
+                        "str:last_endpoint_id": "1",
+                        "str:endpoint_by_id|u64:1": "nested:str:project-1|nested:str:module-1|nested:str:endpoint-1",
+                        "str:endpoint_id|nested:str:project-1|nested:str:module-1|nested:str:endpoint-1": "1",
+                        "str:last_component_id": "1",
+                        "str:component_by_id|u64:1": "str:component-1",
+                        "str:component_id|nested:str:component-1": "1"
+                    },
+                    "code": "file:../output/turbodefi-sc.wasm"
+                }
+            }
+        }
+    ]
+}
