@@ -79,7 +79,7 @@ export const FLowNewStepEndpointForm = ({
     } else {
       const endpointList = structReader?.getModuleEndpoints(selectedModule);
       setSelectedModuleEndpoints(
-        endpointList?.map((endpoint) => endpoint.name) || []
+        endpointList?.map((endpoint) => endpoint.label || endpoint.name) || []
       );
     }
   }, [selectedModule]);
