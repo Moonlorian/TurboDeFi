@@ -158,7 +158,7 @@ class Executor {
       return finalOutput;
     } else {
       const txParams = {
-        gasLimit: 60000000,
+        gasLimit: 30000000,
         ...txInfo
       };
 
