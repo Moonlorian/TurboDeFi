@@ -66,6 +66,28 @@ getLastEndpointId() {
 
 # ************************************* END ENDPOINTS *************************************
 
+# ************************************* COMPONENTS *************************************
+
+addComponent() {
+    mxpy --verbose contract call "${ADDRESS}" --recall-nonce --pem="${OWNER}" --gas-limit=20000000 \
+        --function="addComponent" --arguments "str:$1"  \
+        --send --proxy=${PROXY} --chain=${CHAIN_ID}
+}
+
+getComponentById() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getComponentById" --arguments $1 --proxy=${PROXY}
+}
+
+getComponentId() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getComponentId" --arguments "str:$1" --proxy=${PROXY}
+}
+
+getLastComponentId() {
+    mxpy --verbose contract query "${ADDRESS}" --function="getLastComponentId" --proxy=${PROXY}
+}
+
+# ************************************* END COMPONENTS *************************************
+
 # ************************************* FLOWS *************************************
 
 addFlow() {
