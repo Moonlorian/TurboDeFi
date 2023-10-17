@@ -63,7 +63,6 @@ export const TokenSelector = ({
   }, [selectedValue, searchValue]);
 
   const onItemClick = (option: any) => {
-    console.log(option);
     let newValue = option;
     setSelectedValue(newValue);
     onChange(newValue);
@@ -90,7 +89,6 @@ export const TokenSelector = ({
   useEffect(() => {
     if (!showMenu) return;
     function handleClickOutside(event: any) {
-      console.log(event.target.className);
       if (
         showMenu &&
         ![
