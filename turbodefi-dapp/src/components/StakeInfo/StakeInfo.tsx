@@ -45,7 +45,10 @@ export const StakeInfo = ({
       <div className='flex flex-row'>
         {providerInfo.identity?.avatar && (
           <div className='max-w-[75px] me-3'>
-            <img className='w-full rounded-circle' src={providerInfo.identity.avatar} />
+            <img
+              className='w-full rounded-circle'
+              src={providerInfo.identity.avatar}
+            />
           </div>
         )}
         <div className='flex flex-col justify-between'>
@@ -85,14 +88,21 @@ export const StakeInfo = ({
           showLabel={true}
         />
       </div>
-      {stakeData.claimableRewards.isGreaterThan(0) && (
-        <div>
-          <Button className='me-2' onClick={stakeClaim}>
-            Claim
-          </Button>
-          <Button onClick={stakeRedelegate}>Reinvest</Button>
-        </div>
-      )}
+      <div>
+        <Button
+          disabled={stakeData.claimableRewards.isEqualTo(0)}
+          className='me-2'
+          onClick={stakeClaim}
+        >
+          Claim
+        </Button>
+        <Button
+          disabled={stakeData.claimableRewards.isEqualTo(0)}
+          onClick={stakeRedelegate}
+        >
+          Reinvest
+        </Button>
+      </div>
     </Card>
   );
 };
