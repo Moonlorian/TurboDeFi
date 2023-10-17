@@ -238,6 +238,95 @@
                 }
             ],
             "outputs": []
+        },
+        {
+            "name": "addStepEndpoint",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "flow_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "step_index",
+                    "type": "u32"
+                },
+                {
+                    "name": "endpoint_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addComponent",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "name",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getLastComponentId",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getComponentById",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "getComponentId",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "component_name",
+                    "type": "bytes"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "addStepComponent",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "flow_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "step_index",
+                    "type": "u32"
+                },
+                {
+                    "name": "component_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
         }
     ],
     "events": [],

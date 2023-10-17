@@ -2,7 +2,7 @@ multiversx_sc::imports!();
 
 use td_endpoint::TdEndpointType;
 
-use crate::{td_endpoint, operator};
+use crate::{operator, td_endpoint};
 
 #[multiversx_sc::module]
 pub trait TdEndpointsModule: operator::OperatorModule {
@@ -15,11 +15,7 @@ pub trait TdEndpointsModule: operator::OperatorModule {
 
         let endpoint = &TdEndpointType::new(project, module, endpoint);
         let endpoint_id = self.endpoint_id(endpoint).get();
-        require!(
-            endpoint_id == 0,
-            "enpoint already exists with id: {}!",
-            endpoint_id
-        );
+        self.validate_endpoint_exists(endpoint_id);
 
         self.increase_last_endpoint_id();
         self.endpoint_by_id(self.last_endpoint_id().get())
@@ -32,10 +28,18 @@ pub trait TdEndpointsModule: operator::OperatorModule {
         self.last_endpoint_id().update(|last_id| *last_id += 1);
     }
 
-    fn validate_endpoint_exists(&self, endpoint_id: u64) {
+    fn validate_endpoint_not_exists(&self, endpoint_id: u64) {
         require!(
             !self.endpoint_by_id(endpoint_id).is_empty(),
             "endpoint_id {} doesn't exist!",
+            endpoint_id
+        );
+    }
+
+    fn validate_endpoint_exists(&self, endpoint_id: u64) {
+        require!(
+            endpoint_id == 0,
+            "enpoint already exists with id: {}!",
             endpoint_id
         );
     }

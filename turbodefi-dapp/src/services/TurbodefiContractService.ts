@@ -81,17 +81,38 @@ class TurbodefiContractService {
                             endpoints.push(newEndpoint);
                         });
                         newStep.endpoints = endpoints;
+                    } else if (step.component.valueOf() != 0) {
+                        const component_id = step.component.valueOf().toString();
+                        this.getComponentName(component_id).then((componentName) =>
+                            newStep.component = componentName
+                        );
                     }
 
                     steps.push(newStep);
                 });
                 newFlow.steps = steps;
             }
-
             flows.push(newFlow);
         });
 
         return flows;
+    }
+
+    private async getComponentName(id: number): Promise<string> {
+
+        const provider = new ProxyNetworkProvider(
+            this.gatewayUrl,
+            { timeout: 5000 }
+        );
+        const endpointDefinition = smartContract.getEndpoint("getComponentById");
+        const query = smartContract.createQuery({
+            func: "getComponentById",
+            args: [new U64Value(id)]
+        })
+        const queryResponse = await provider.queryContract(query);
+        let { firstValue } = new ResultsParser().parseQueryResponse(queryResponse, endpointDefinition);
+
+        return firstValue?.valueOf().toString();
     }
 
 }
