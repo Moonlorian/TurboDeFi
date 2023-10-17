@@ -18,14 +18,14 @@ export const FLowNewStepForm = ({
   onFinish: any;
   flowId: number;
 }) => {
-  const [creationStatus, setFlowCreationStatus] =
+  const [creationStatus, setFlowStepCreationStatus] =
     useState<creationStatusType>('idle');
-  const [stepDescription, setFlowDescription] = useState('');
+  const [stepDescription, setStepDescription] = useState('');
   const [error, setError] = useState('');
 
   const { address } = useGetAccount();
 
-  const saveFlow = () => {
+  const saveFlowStep = () => {
     if (stepDescription == '') {
       setError('Step description is required');
       return;
@@ -33,15 +33,15 @@ export const FLowNewStepForm = ({
     CreateFlowStep(contractAddress, address, flowId, stepDescription);
     //TODO. Make a transaction wathcer and set the 'creating' status to show spinner and wait
 
-    //setFlowCreationStatus('creating');
-    setFlowCreationStatus('saving');
+    //setFlowStepCreationStatus('creating');
+    setFlowStepCreationStatus('saving');
   };
 
   useEffect(() => {
     if (creationStatus == 'saving') {
       onFinish();
       //This function can be not neccesary
-      setFlowCreationStatus('idle');
+      setFlowStepCreationStatus('idle');
     }
   }, [creationStatus]);
 
@@ -52,7 +52,7 @@ export const FLowNewStepForm = ({
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton action={saveFlow}>
+            <ActionButton action={saveFlowStep}>
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
             <ActionButton action={onCancel}>
@@ -70,7 +70,7 @@ export const FLowNewStepForm = ({
             className='p-2 m-0 w-full border'
             placeholder='Insert here step description'
             value={stepDescription}
-            onChange={(e: any) => setFlowDescription(e.target.value)}
+            onChange={(e: any) => setStepDescription(e.target.value)}
             required
           />
         </div>
