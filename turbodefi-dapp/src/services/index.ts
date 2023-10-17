@@ -9,3 +9,4 @@ export * from './graphql';
 export * from './ash';
 export * from './stakingProvidersLoadService';
 export * from './staking';
+export * from './FlowsCreationService';
