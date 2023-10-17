@@ -26,4 +26,11 @@ pub trait StepEndpointModule:
         flow.steps.get(step_index).add_endpoints_ids(endpoints_ids);
         self.flow_by_id(flow_id).set(flow);
     }
+
+    #[endpoint(addStepEndpoint)]
+    fn add_step_endpoint(&self, flow_id: &u64, step_index: usize, endpoint_id: u64) {
+        let mut endpoints_ids = ManagedVec::new();
+        endpoints_ids.push(endpoint_id);
+        self.add_step_endpoints(flow_id, step_index, endpoints_ids);
+    }
 }
