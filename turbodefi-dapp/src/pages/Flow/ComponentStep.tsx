@@ -9,12 +9,8 @@ export const ComponentStep = ({
   props: any;
 }) => {
   return (
-    <>
-      {step.component && (
-        <div className='border'>
-          <ComponentLoader componentName={step.component || ''} props={props} />
-        </div>
-      )}
-    </>
+    <div className='border'>
+      <ComponentLoader componentName={step.component || ''} props={props} />
+    </div>
   );
 };
