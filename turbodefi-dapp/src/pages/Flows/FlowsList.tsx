@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import TurbodefiContractService from 'services/TurbodefiContractService';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ActionButtonList } from 'components/Card/ActionButton';
+import { ActionButtonList } from 'components/ActionButton';
 
 export const FlowsList = ({
   flowsList,
