@@ -2,19 +2,21 @@
 
 This is the source code of **TurboDeFi.io**, built on MultiversX blockchain.
 
-It is composed by a website with 3 pages: My wallet scanner + Easy projects + Quick flows.
+It is composed by a website with 4 pages: My wallet scanner + Custom dashboard + Easy projects + Quick flows.
 
 ## Usage
 
 ### Smart Contract
 
-There is no Smart Contracts in this version, this is a non-custodial decentralised application using original smart contracts of the projects integrated.
+There is an smart contract to store all the projects flow possibilities and the user configuration on-chain. This is a non-custodial decentralised application using original smart contracts of the projects integrated, the smart contracts never have access to user funds.
+
+See the TurboDeFi-SC ([turbodefi-sc](https://github.com/Moonlorian/turbodefi/tree/main/turbodefi-sc)).
 
 ### dApp
 
 #### Developers
 
-See the dApp ([dapp](https://github.com/Moonlorian/turbodefi/tree/main/dapp)).
+See the TurboDeFi-dApp ([dapp](https://github.com/Moonlorian/turbodefi/tree/main/turbodefi-dapp)).
 
 #### Users
 
