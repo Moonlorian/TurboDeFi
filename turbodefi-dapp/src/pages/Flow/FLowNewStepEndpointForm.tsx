@@ -90,7 +90,7 @@ export const FLowNewStepEndpointForm = ({
     ) {
       setSelectedEndpointId(0);
       new TurbodefiContractService(API_URL)
-        .getEndpointId(selectedProject, selectedModule, selectedEndpoint)
+        .getEndpointId(selectedProject.toLocaleLowerCase(), selectedModule, selectedEndpoint)
         .then((data: any) => {
           setSelectedEndpointId(data);
         });
