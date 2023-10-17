@@ -31,6 +31,8 @@ export const FlowsList = ({
   };
   const turbodefiContractService = new TurbodefiContractService(API_URL);
 
+  //TODO ==> Add tool tip to "add" button
+
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <Card

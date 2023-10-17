@@ -19,7 +19,6 @@ export const FLowNewForm = ({
 }) => {
   const [flowCreationStatus, setFlowCreationStatus] =
     useState<flowStatusType>('idle');
-  const [flowName, setFlowName] = useState('');
   const [flowLabel, setFlowLabel] = useState('');
   const [flowDescription, setFlowDescription] = useState('');
   const [error, setError] = useState('');
@@ -27,22 +26,18 @@ export const FLowNewForm = ({
   const { address } = useGetAccount();
 
   const saveFlow = () => {
-    if (flowName == '') {
-      setError('You must speciy a flow name');
-      return;
-    }
     if (flowLabel == '') {
-      setError('You must speciy a flow label');
+      setError('Flow label is required');
       return;
     }
     if (flowDescription == '') {
-      setError('You must speciy a flow description');
+      setError('Flow description is required');
       return;
     }
     CreateFlow(
       contractAddress,
       address,
-      flowName,
+      flowLabel.replace(/\s+/g, '-').toLowerCase(),
       flowLabel,
       flowDescription
     );
@@ -76,7 +71,9 @@ export const FLowNewForm = ({
           </>
         )}
       </ActionButtonList>
-      <h2 className="flex text-xl font-medium group text-uppercase">Create new Flow</h2>
+      <h2 className='flex text-xl font-medium group text-uppercase'>
+        Create new Flow
+      </h2>
       <div className='pt-1'>
         <div className='mt-1 flex items-center pointer'>
           <FontAwesomeIcon
@@ -88,15 +85,6 @@ export const FLowNewForm = ({
             value={flowLabel}
             onChange={(e: any) => setFlowLabel(e.target.value)}
             placeholder='Insert Here flow Label'
-            required
-          />
-        </div>
-        <div className='mt-1 flex items-center pointer'>
-          <input
-            className='p-2 m-0 w-full border'
-            placeholder='Insert here flow name'
-            value={flowName}
-            onChange={(e: any) => setFlowName(e.target.value)}
             required
           />
         </div>
