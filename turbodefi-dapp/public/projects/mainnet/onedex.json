@@ -36,6 +36,17 @@
           "buttonLabel": "Claim",
           "inputs": [],
           "outputs": []
+        },
+        {
+          "name": "stake",
+          "label": "Stake $ONE tokens",
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "ONE-f9954f"
+          ],
+          "inputs": [],
+          "outputs": []
         }
       ]
     },
@@ -70,7 +81,7 @@
           ]
         },
         {
-          "name": "claim",
+          "name": "userClaim",
           "label": "Claim pending rewards",
           "mutability": "mutable",
           "buttonLabel": "Claim",
@@ -94,7 +105,7 @@
       "address": "erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla",
       "endpoints": [
         {
-          "name": "viewPool-1",
+          "name": "viewPool-6",
           "endpoint": "viewPool",
           "label": "ONE - EGLD",
           "mutability": "readonly",

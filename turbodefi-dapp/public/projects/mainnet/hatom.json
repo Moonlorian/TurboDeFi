@@ -1,0 +1,38 @@
+{
+    "project": {
+        "name": "hatom",
+        "description": "The First Liquidity Protocol on MultiversX",
+        "label": "Hatom",
+        "url": "https://app.hatom.com/"
+    },
+    "modules": [
+        {
+            "name": "rewards",
+            "description": "Claim your pending Rewards",
+            "label": "Rewards",
+            "endpoints": [
+                {
+                    "name": "pendingRewards",
+                    "label": "Pending Rewards",
+                    "notImplemented": true
+                },
+                {
+                    "name": "claimRewards",
+                    "label": "Claim All Pending Rewards",
+                    "description": "Claim holder accrued rewards coming from all markets.",
+                    "buttonLabel": "Claim",
+                    "mutability": "mutable",
+                    "address": "erd1qqqqqqqqqqqqqpgqxp28qpnv7rfcmk6qrgxgw5uf2fnp84ar78ssqdk6hr",
+                    "inputs": [
+                        {
+                            "name": "holder",
+                            "type": "Address"
+                        }
+                    ],
+                    "outputs": []
+                }
+            ]
+        }
+    ],
+    "types": {}
+}

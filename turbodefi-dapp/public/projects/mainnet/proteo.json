@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "ProteoDefi",
+    "name": "proteo",
     "description": "Exclusive MultiversX DeFi Suite",
     "label": "Proteo DEFI",
     "token": "PROTEO-0c7311",
@@ -108,6 +108,26 @@
               "type": "WalletInfoV2"
             }
           ]
+        },
+        {
+          "name": "harvest-1",
+          "endpoint": "claim_rewards",
+          "label": "Elite Single Farm - EGLD harvest",
+          "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
+          "mutability": "mutable",
+          "buttonLabel": "Harvest",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "harvest-2",
+          "endpoint": "claim_rewards",
+          "label": "Elite Single Farm - USDC harvest",
+          "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
+          "mutability": "mutable",
+          "buttonLabel": "Harvest",
+          "inputs": [],
+          "outputs": []
         },
         {
           "name": "stake_lp-1",

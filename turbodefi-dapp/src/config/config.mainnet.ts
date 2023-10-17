@@ -2,7 +2,7 @@ import { EnvironmentsEnum } from 'types';
 
 export * from './sharedConfig';
 
-export const contractAddress = '';
+export const contractAddress = 'erd1qqqqqqqqqqqqqpgqchgs4elfyup4yfkrd6yafnmkxaxjqq9lam7q8l5dja';
 export const API_URL = 'https://api.multiversx.com';
 export const GATEWAY_URL = 'https://api.multiversx.com';
 export const EXPLORER_URL = 'https://explorer.multiversx.com';
@@ -25,6 +25,7 @@ export const projectContractList: { [key: string]: string } = {
     erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla: "OneDex",
     erd1qqqqqqqqqqqqqpgq8nlmvjm8gum6y2kqe0v296kgu8cm4jlemvlsays3ku: "OneDex",
     erd1qqqqqqqqqqqqqpgqfyks2llx45lczzz6htdpe09prxem4ad3mesqlgra36: "gnogen",
+    erd1qqqqqqqqqqqqqpgqxp28qpnv7rfcmk6qrgxgw5uf2fnp84ar78ssqdk6hr: "Hatom",
 };
 
-export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo', 'gnogen'];
+export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo', 'gnogen', 'Hatom'];
