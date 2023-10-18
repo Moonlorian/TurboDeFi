@@ -21,7 +21,8 @@
 .token-selector-menu {
   position: absolute;
   transform: translateY(4px);
-  width: 100%;
+  width: auto;
+  min-width: 270px;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: auto;
@@ -35,7 +36,8 @@
   padding: 5px;
   cursor: pointer;
 }
-.token-selector-selected-value img, .token-selector-item img {
+.token-selector-selected-value img,
+.token-selector-item img {
   max-width: 28px;
   height: auto;
 }
@@ -79,4 +81,13 @@
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+@media screen and (max-width: 350px) {
+  .token-selector-menu {
+    min-width: 250px;
+    .text-sm {
+      font-size: 0.675rem !important;
+    }
+  }
 }
