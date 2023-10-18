@@ -1,9 +1,11 @@
 import { ModuleType } from '../types';
 import StructBase from './StructBase';
 import StructEndpoint from './StructEndpoint';
+import StructGroup from './StructGroup';
 
 class StructModule extends StructBase {
   _endpoints: StructEndpoint[] = [];
+  _groups: StructGroup[] = [];
   /**
    * Constructor
    *
@@ -23,6 +25,13 @@ class StructModule extends StructBase {
         (endpotintData) => new StructEndpoint(endpotintData)
       );
     }
+
+    const moduleGroups = moduleData?.groups;
+    if (moduleGroups) {
+      this._groups = moduleGroups.map(
+        (groupData) => new StructGroup(groupData)
+      );
+    }
   }
 
   /**
@@ -30,6 +39,13 @@ class StructModule extends StructBase {
    */
   get endpoints(): StructEndpoint[] {
     return this._endpoints;
+  }
+
+  /**
+   * Get all module groups
+   */
+  get groups(): StructGroup[] {
+    return this._groups;
   }
 }
 

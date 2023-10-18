@@ -148,11 +148,17 @@ type EndpointType = BaseStructType & {
   buttonLabel?: string;
 };
 
+type GroupType = BaseStructType;
+
 type ModuleType = BaseStructType & {
   /**
    * List of endpoints to execute
    */
   endpoints?: EndpointType[];
+  /**
+   * List of groups
+   */
+  groups?: GroupType[];
 };
 
 type TxInfo = {
