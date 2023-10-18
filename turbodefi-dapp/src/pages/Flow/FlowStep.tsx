@@ -36,7 +36,7 @@ export const FlowStep = ({
   const onCLoseCreatingComponentStep = () => setCreatingComponentStep(false);
 
   return (
-    <span className='flex flex-col rounded-xl p-6 border mb-2 relative'>
+    <div className='flex flex-col rounded-xl py-6 px-[0px] md:px-6 border mb-2 relative'>
       <h5 className='flex items-center'>
         <span className='rounded-full bg-main-color text-white w-[35px] h-[35px] flex items-center justify-center m-3'>
           {index}
@@ -50,46 +50,48 @@ export const FlowStep = ({
         description={''}
         reference={''}
       >
-        {canShowCreateButton() && (
-          <ActionButtonList className='top-[3%] right-[1%]'>
-            <ActionButton action={setCreatigEndpointStepAction}>
-              <FontAwesomeIcon icon={faPlusSquare} />
-              <span className='ms-2 font-bold'>Add endpoint</span>
-            </ActionButton>
-            {step.endpoints?.length == 0 && (
-              <ActionButton action={setCreatigComponentStepAction}>
+        <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-fr'>
+          {canShowCreateButton() && (
+            <ActionButtonList className='top-[0.3%] sm:top-[3%] right-[1%]'>
+              <ActionButton action={setCreatigEndpointStepAction}>
                 <FontAwesomeIcon icon={faPlusSquare} />
-                <span className='ms-2 font-bold'>Add component</span>
+                <span className='ms-2 font-bold'>Add endpoint</span>
               </ActionButton>
-            )}
-          </ActionButtonList>
-        )}
-        {creatingEndpointStep && (
-          <FLowNewStepEndpointForm
-            onCancel={onCLoseCreatingEdpointStep}
-            onFinish={onCLoseCreatingEdpointStep}
-            flowId={step.flowId || 0}
-            stepIndex={step.index || 0}
-          />
-        )}
-        {creatingComponentStep && (
-          <FLowNewStepComponentForm
-            onCancel={onCLoseCreatingComponentStep}
-            onFinish={onCLoseCreatingComponentStep}
-            flowId={step.flowId || 0}
-            stepIndex={step.index || 0}
-          />
-        )}
-        {step.endpoints && step.endpoints?.length > 0 ? (
-          <EndpointStep step={step} />
-        ) : (
-          <>
-            {step.component && (
-              <ComponentStep step={step} props={step.componentProps} />
-            )}
-          </>
-        )}
+              {step.endpoints?.length == 0 && (
+                <ActionButton action={setCreatigComponentStepAction}>
+                  <FontAwesomeIcon icon={faPlusSquare} />
+                  <span className='ms-2 font-bold'>Add component</span>
+                </ActionButton>
+              )}
+            </ActionButtonList>
+          )}
+          {creatingEndpointStep && (
+            <FLowNewStepEndpointForm
+              onCancel={onCLoseCreatingEdpointStep}
+              onFinish={onCLoseCreatingEdpointStep}
+              flowId={step.flowId || 0}
+              stepIndex={step.index || 0}
+            />
+          )}
+          {creatingComponentStep && (
+            <FLowNewStepComponentForm
+              onCancel={onCLoseCreatingComponentStep}
+              onFinish={onCLoseCreatingComponentStep}
+              flowId={step.flowId || 0}
+              stepIndex={step.index || 0}
+            />
+          )}
+          {step.endpoints && step.endpoints?.length > 0 ? (
+            <EndpointStep step={step} />
+          ) : (
+            <>
+              {step.component && (
+                <ComponentStep step={step} props={step.componentProps} />
+              )}
+            </>
+          )}
+        </div>
       </Card>
-    </span>
+    </div>
   );
 };

@@ -8,9 +8,5 @@ export const ComponentStep = ({
   step: FlowStepType;
   props: any;
 }) => {
-  return (
-    <div className='border'>
-      <ComponentLoader componentName={step.component || ''} props={props} />
-    </div>
-  );
+  return <ComponentLoader componentName={step.component || ''} props={props} />;
 };

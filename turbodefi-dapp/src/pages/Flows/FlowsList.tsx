@@ -36,7 +36,7 @@ export const FlowsList = ({
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <Card
-        className='flex-2 w-100 position-relative'
+        className='flex-2 w-full position-relative'
         key={'flow'}
         title={
           listType == 'user' || address == turbodefiAddress
@@ -63,7 +63,7 @@ export const FlowsList = ({
             onFinish={closeCratingFlow}
           />
         )}
-        <div className='ml-4'>
+        <div>
           {flowsList.map((flow, index) => {
             return (
               <div key={`${listType}Flow_${index}`}>

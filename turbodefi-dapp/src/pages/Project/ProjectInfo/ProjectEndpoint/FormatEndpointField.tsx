@@ -16,47 +16,53 @@ export const FormatEndpointField = ({
     <div
       className={`${
         field.balance ? 'font-weight-bold' : ''
-      } d-flex align-items-center`}
+      } flex align-items-center flex-wrap sm:flex-nowrap`}
     >
       {(field?.label || field?.name) && (
-        <Label>{field?.label || field?.name}: </Label>
+        <Label className='whitespace-nowrap'>
+          {field?.label || field?.name}:{' '}
+        </Label>
       )}
-      {field.balance && tokenInfo.hasToken(field.token) ? (
-        <div>
-          {formatAmount({
-            input: (field.value ?? field).toFixed(),
-            decimals: tokenInfo.get(field?.token || '', 'decimals'),
-            digits: 5,
-            addCommas: true,
-            showLastNonZeroDecimal: false
-          })}
-        </div>
-      ) : (
-        <>{(field.value ?? field).toString()}</>
-      )}
-      {field.token != '' && tokenInfo.hasToken(field.token) && (
-        <>
-          {tokenInfo.get(field?.token || '', 'assets').svgUrl ? (
-            <OverlayTrigger
-              overlay={
-                <Tooltip>{tokenInfo.get(field?.token || '', 'ticker')}</Tooltip>
-              }
-              placement='top'
-              delay={150}
-            >
-              <img
-                className='ms-2 max-h-6'
-                src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
-                alt={tokenInfo.get(field?.token || '', 'ticker')}
-              />
-            </OverlayTrigger>
-          ) : (
-            <div className='ms-2 max-h-6'>
-              {tokenInfo.get(field?.token || '', 'ticker')}
-            </div>
-          )}
-        </>
-      )}
+      <div className='flex whitespace-nowrap'>
+        {field.balance && tokenInfo.hasToken(field.token) ? (
+          <div className='whitespace-nowrap'>
+            {formatAmount({
+              input: (field.value ?? field).toFixed(),
+              decimals: tokenInfo.get(field?.token || '', 'decimals'),
+              digits: 5,
+              addCommas: true,
+              showLastNonZeroDecimal: false
+            })}
+          </div>
+        ) : (
+          <>{(field.value ?? field).toString()}</>
+        )}
+        {field.token != '' && tokenInfo.hasToken(field.token) && (
+          <>
+            {tokenInfo.get(field?.token || '', 'assets').svgUrl ? (
+              <OverlayTrigger
+                overlay={
+                  <Tooltip>
+                    {tokenInfo.get(field?.token || '', 'ticker')}
+                  </Tooltip>
+                }
+                placement='top'
+                delay={150}
+              >
+                <img
+                  className='ms-2 max-h-6'
+                  src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
+                  alt={tokenInfo.get(field?.token || '', 'ticker')}
+                />
+              </OverlayTrigger>
+            ) : (
+              <div className='ms-2 max-h-6'>
+                {tokenInfo.get(field?.token || '', 'ticker')}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

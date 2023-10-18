@@ -7,7 +7,7 @@ import { Card } from 'components/Card';
 import { StakeInfo } from './StakeInfo';
 
 export type stakedInfoType = {
-  type: "regular" | "legacy";
+  type: 'regular' | 'legacy';
   address: string;
   contract: string;
   userUnBondable: BigNumber;
@@ -18,12 +18,11 @@ export type stakedInfoType = {
       amount: BigNumber;
       seconds: number;
     }
-  ],
-  userWaitingStake:BigNumber;
+  ];
+  userWaitingStake: BigNumber;
 };
 
 export const StakeList = () => {
-
   const [stakedInfo, setStakedInfo] = useState<stakedInfoType[]>([]);
   const [delegationProviders, setDelegationProviders] = useState<any[]>([]);
 
@@ -31,18 +30,24 @@ export const StakeList = () => {
   const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
 
-
-  const getDelegationProvider = useCallback((contract:string) => {
-    const filteredList = delegationProviders.filter((delegator) => delegator?.contract === contract);
-    if (filteredList.length > 0) return filteredList[0];
-    return {};
-  }, [delegationProviders]);
+  const getDelegationProvider = useCallback(
+    (contract: string) => {
+      const filteredList = delegationProviders.filter(
+        (delegator) => delegator?.contract === contract
+      );
+      if (filteredList.length > 0) return filteredList[0];
+      return {};
+    },
+    [delegationProviders]
+  );
 
   const loadStakedInfo = async () => {
     const delegatedList = await getDelegated(address);
     setStakedInfo(
-      delegatedList.filter((staked: stakedInfoType) =>
-        staked.userActiveStake.isGreaterThan(0) || staked.userWaitingStake.isGreaterThan(0)
+      delegatedList.filter(
+        (staked: stakedInfoType) =>
+          staked.userActiveStake.isGreaterThan(0) ||
+          staked.userWaitingStake.isGreaterThan(0)
       )
     );
   };
@@ -61,16 +66,14 @@ export const StakeList = () => {
   }, []);
 
   return (
-    <Card
-      className='flex flex-col gap-6 max-w-7xl w-full'
-      key={'staked'}
-      title={'Staked'}
-      description={'EGLDs staked'}
-      reference={''}
-    >
+    <>
       {stakedInfo.map((staked, index) => (
-        <StakeInfo key={index} stakeData={staked} providerInfo={getDelegationProvider(staked.contract)}/>
+        <StakeInfo
+          key={index}
+          stakeData={staked}
+          providerInfo={getDelegationProvider(staked.contract)}
+        />
       ))}
-    </Card>
+    </>
   );
 };

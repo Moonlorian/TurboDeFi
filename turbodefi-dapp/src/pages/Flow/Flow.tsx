@@ -57,7 +57,7 @@ export const Flow = ({
             flowId={flow.id}
           />
         )}
-        <div className='ml-4'>
+        <div >
           {flow.steps.map((step, index) => {
             return (
               <FlowStep

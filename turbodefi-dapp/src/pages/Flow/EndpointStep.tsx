@@ -28,23 +28,21 @@ export const EndpointStep = ({ step }: { step: FlowStepType }) => {
 
   if (!structReader) return;
   return structReader?.isLoaded() ? (
-    <div className='d-flex container'>
-      <div className='row w-100'>
-        {step.endpoints?.map((endpoint, index) => (
-          <div className='col-lg-6' key={index}>
-            <ProjectEndpointForm
-              module={structReader.getModule(endpoint.module || '')}
-              endpoint={structReader.getModuleEndpoint(
-                endpoint.module || '',
-                endpoint.endpoint || ''
-              )}
-              structReader={structReader}
-              key={`endpoint_${index}`}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      {step.endpoints?.map((endpoint, index) => (
+        <div className='object-fit w-full border rounded-lg' key={index}>
+          <ProjectEndpointForm
+            module={structReader.getModule(endpoint.module || '')}
+            endpoint={structReader.getModuleEndpoint(
+              endpoint.module || '',
+              endpoint.endpoint || ''
+            )}
+            structReader={structReader}
+            key={`endpoint_${index}`}
+          />
+        </div>
+      ))}
+    </>
   ) : (
     <></>
   );

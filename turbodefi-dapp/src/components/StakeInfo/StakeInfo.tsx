@@ -33,7 +33,7 @@ export const StakeInfo = ({
 
   return (
     <Card
-      className='flex-2 border max-w-[550px] position-relative'
+      className='flex-2 border position-relative'
       key={''}
       title={''}
       description={''}

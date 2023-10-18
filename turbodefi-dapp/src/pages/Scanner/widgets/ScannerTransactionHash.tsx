@@ -32,7 +32,7 @@ export const ScannerTransactionHash = ({
       <ExplorerLink
         page={transactionHashLink}
         data-testid={DataTestIdsEnum.transactionLink}
-        className="w-100 transaction-cell-margin transaction-cell-overflow transaction-cell-link"
+        className="w-full transaction-cell-margin transaction-cell-overflow transaction-cell-link"
       >
         <FontAwesomeIcon
           title={transaction.txHash}

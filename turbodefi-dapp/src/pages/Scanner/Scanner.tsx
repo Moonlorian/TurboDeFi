@@ -94,10 +94,10 @@ export const Scanner = () => {
         }
         reference={''}
       >
-        <div className='d-flex w-100 justify-content-between'>
-          <div className='w-100 mb-2'>
+        <div className='d-flex w-full justify-content-between'>
+          <div className='w-full mb-2'>
             <Form className='mb-2 d-flex w-75'>
-              <Form.Group className='mr-3 w-100'>
+              <Form.Group className='mr-3 w-full'>
                 <Form.Control
                   placeholder='Address to scan'
                   value={`${filterAddress}`}

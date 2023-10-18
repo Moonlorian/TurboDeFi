@@ -17,7 +17,7 @@ export const Card = (props: CardType) => {
 
   return (
     <div
-      className={`flex flex-col rounded-xl bg-white p-6 ${className}`}
+      className={`flex flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
       data-testid={props['data-testid']}
     >
       <span className='flex items-center'>
@@ -33,11 +33,8 @@ export const Card = (props: CardType) => {
             </a>
           )}
         </h2>
-        {address &&
-          <ExplorerLink
-            page={`/address/${address}`}
-            className="mb-2 pointer"
-          >
+        {address && (
+          <ExplorerLink page={`/address/${address}`} className='mb-2 pointer'>
             <FontAwesomeIcon
               title='Smart Contract'
               icon={faFileAlt}
@@ -45,7 +42,7 @@ export const Card = (props: CardType) => {
               className='text-secondary'
             />
           </ExplorerLink>
-        }
+        )}
       </span>
       {description && <p className='text-gray-400 mb-6'>{description}</p>}
       {children}

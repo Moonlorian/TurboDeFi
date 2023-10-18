@@ -120,7 +120,7 @@ export const TokenSelector = ({
     <>
       <div className={`token-selector-container ${className}`} ref={wrapperRef}>
         <div onClick={handleInputClick} className='token-selector-input'>
-          <div className='token-selector-selected-value d-flex align-items-center w-100'>
+          <div className='token-selector-selected-value d-flex align-items-center w-full'>
             {getDisplay()}
           </div>
           {filter.length != 1 && (

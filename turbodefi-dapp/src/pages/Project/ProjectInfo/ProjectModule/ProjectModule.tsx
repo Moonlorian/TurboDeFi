@@ -20,7 +20,7 @@ export const ProjectModule = ({
       reference={''}
     >
       <div className='d-flex container'>
-        <div className='row w-100 justify-center'>
+        <div className='row w-full justify-center'>
           {module.groups.map((group, index) => (
             <div className='col-xs-12 my-2' key={index}>
               <div className='border rounded-xl flex'>
@@ -51,7 +51,7 @@ export const ProjectModule = ({
                   )}
                   structReader={structReader}
                   key={index}
-                  className='border h-100'
+                  className='border h-full'
                 />
               </div>
             ))}
