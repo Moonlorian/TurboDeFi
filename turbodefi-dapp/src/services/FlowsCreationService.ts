@@ -39,3 +39,16 @@ export const addEndpoint = async (contract: string, address:string, flowId: numb
         ]
     });
 };
+
+export const addComponent = async (contract: string, address:string, flowId: number, step_index: number, componentId: number) => {
+    await sendTransaction({
+        contractAddress: contract,
+        functionName: new ContractFunction('addStepComponent'),
+        sender: address,
+        args: [
+            new U64Value(flowId),
+            new U32Value(step_index),
+            new U64Value(componentId),
+        ]
+    });
+};

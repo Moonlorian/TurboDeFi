@@ -1,11 +1,15 @@
 import { StakeList } from 'components/StakeInfo';
 import { AshSwap } from '../components/AshSwap';
-import React, { ReactNode } from 'react';
+import React, { ComponentClass, FunctionComponent, ReactNode } from 'react';
 
+type componentType = {
+  label: string;
+  component: string | FunctionComponent<any> | ComponentClass<any, any>
+};
 
-const COMPONENTS: { [key: string]: any } = {
-  ['AshSwap']: AshSwap,
-  ['NativeStaking']: StakeList
+export const COMPONENTS: { [key: string]: componentType } = {
+  ['AshSwap']: { label: 'Ash swap', component: AshSwap },
+  ['NativeStaking']: { label: 'Native staking', component: StakeList }
 };
 
 export const ComponentLoader = ({
@@ -19,5 +23,5 @@ export const ComponentLoader = ({
 }) => {
   if (!COMPONENTS[componentName]) return <></>;
 
-  return React.createElement(COMPONENTS[componentName], props, children);
+  return React.createElement(COMPONENTS[componentName].component, props, children);
 };

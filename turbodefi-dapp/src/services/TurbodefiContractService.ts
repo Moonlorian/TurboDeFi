@@ -167,6 +167,27 @@ class TurbodefiContractService {
 
     return firstValue?.valueOf().toString();
   }
+
+  public async getComponentId(
+    componentName: string,
+  ): Promise<number> {
+    const provider = new ProxyNetworkProvider(this.gatewayUrl, {
+      timeout: 5000
+    });
+
+    const endpointDefinition = smartContract.getEndpoint('getComponentId');
+    const query = smartContract.createQuery({
+      func: 'getComponentId',
+      args: [new StringValue(componentName)]
+    });
+    const queryResponse = await provider.queryContract(query);
+    let { firstValue } = new ResultsParser().parseQueryResponse(
+      queryResponse,
+      endpointDefinition
+    );
+
+    return firstValue?.valueOf().toString();
+  }
 }
 
 export default TurbodefiContractService;
