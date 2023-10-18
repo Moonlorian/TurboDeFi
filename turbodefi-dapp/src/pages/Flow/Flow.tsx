@@ -20,6 +20,7 @@ export const Flow = ({
   const { address } = useGetAccount();
 
   const canShowCreateButton = () => {
+    if (!address) return false;
     if (flow.type === 'system') return false;
     if (address == turbodefiAddress) return true;
 

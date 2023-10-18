@@ -25,6 +25,7 @@ export const FlowsList = ({
   const closeCratingFlow = () => setCreatingFlow(false);
 
   const canShowCreateButton = () => {
+    if (!address) return false;
     if (listType === 'system') return false;
     if (address == turbodefiAddress) return true;
 

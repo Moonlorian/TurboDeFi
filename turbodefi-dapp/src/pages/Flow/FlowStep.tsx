@@ -22,6 +22,7 @@ export const FlowStep = ({
   const { address } = useGetAccount();
 
   const canShowCreateButton = () => {
+    if (!address) return false;
     if (step.type === 'system') return false;
     if (address == turbodefiAddress) return true;
     if (step.component) return false;
