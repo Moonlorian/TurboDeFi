@@ -140,7 +140,7 @@ export const AshSwap = ({
         description={'Powered by AshShawp'}
         reference={''}
       >
-        <div className='bg-neutral-100 py-4 px-3'>
+        <div className='rounded-lg bg-neutral-100 py-4 px-3'>
           <div className=''>
             <Label>From</Label>
           </div>
@@ -198,7 +198,7 @@ export const AshSwap = ({
             />
           </a>
         </div>
-        <div className='bg-neutral-100 py-4 px-3 mb-3'>
+        <div className='rounded-lg bg-neutral-100 py-4 px-3 mb-3'>
           <div className=''>
             <Label>To</Label>
           </div>

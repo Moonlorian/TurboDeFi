@@ -1,5 +1,9 @@
 import { AshSwap } from 'components';
 
 export const AshSwapPage = () => {
-  return <AshSwap />;
+  return (
+    <div className='m-auto mw-50'>
+      <AshSwap />
+    </div>
+  );
 };
