@@ -30,11 +30,13 @@ import { CHAIN_ID, GATEWAY_URL } from 'config';
 export const ProjectEndpointForm = ({
   module,
   endpoint,
-  structReader
+  structReader,
+  className =''
 }: {
   module: StructModule;
   endpoint: StructEndpoint;
   structReader: StructReader;
+  className?: string
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
@@ -180,7 +182,7 @@ export const ProjectEndpointForm = ({
 
   return (
     <Card
-      className='flex-2 border h-100'
+      className={`flex-2 ${className}`}
       key={'projectEndpoint_' + endpoint.name}
       title={endpoint.label || endpoint.name}
       description={endpoint.description}

@@ -10,6 +10,7 @@ class StructEndpoint extends StructBase {
   private _notImplemented: EndpointType['notImplemented'] = false;
   private _payableInTokens: EndpointType['payableInTokens'] = [];
   private _buttonLabel: EndpointType['buttonLabel'] = '';
+  private _gruop: EndpointType['group'] = '';
   /**
    * Constructor
    *
@@ -33,6 +34,7 @@ class StructEndpoint extends StructBase {
     this._payableInTokens =
       endpointData.payableInTokens ?? this._payableInTokens;
     this._buttonLabel = endpointData.buttonLabel ?? this._buttonLabel;
+    this._gruop = endpointData.group ?? this._gruop;
 
     this._checkFields();
   }
@@ -110,6 +112,13 @@ class StructEndpoint extends StructBase {
    */
   get buttonLabel() {
     return this._buttonLabel;
+  }
+
+  /**
+   * Get the endpoint's group
+   */
+  get group() {
+    return this._gruop;
   }
 
   _checkFields(): void {

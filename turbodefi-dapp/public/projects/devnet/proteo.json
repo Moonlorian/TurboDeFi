@@ -14,12 +14,19 @@
       "label": "Elite",
       "token": "SPROTEO-c75f56",
       "address": "erd1qqqqqqqqqqqqqpgq5dzmhfj43kh2kjj6exwc6ua4sadgyh4xznyq8k86my",
+      "groups": [
+        {
+          "name": "elite-group",
+          "label": "Elte options in a group"
+        }
+      ],
       "endpoints": [
         {
           "name": "user_info",
           "description": "Elite info of one Address",
           "label": "User Info",
           "mutability": "readonly",
+          "group": "elite-group",
           "inputs": [
             {
               "name": "user_address",
@@ -43,6 +50,7 @@
             "SPROTEO-c75f56"
           ],
           "multipayment": "true/false ==> TODO Variable form",
+          "group": "elite-group",
           "inputs": [],
           "outputs": []
         },

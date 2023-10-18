@@ -47,6 +47,18 @@ class StructModule extends StructBase {
   get groups(): StructGroup[] {
     return this._groups;
   }
+
+  /**
+   * Get all group endpoints
+   */
+  public getGroupEndpoints(groupName: string): StructEndpoint[] {
+    const endpointList: StructEndpoint[] = [];
+    this._endpoints.map((endpoint) => {
+      if (endpoint.group == groupName) endpointList.push(endpoint);
+    });
+
+    return endpointList;
+  }
 }
 
 export default StructModule;

@@ -146,6 +146,10 @@ type EndpointType = BaseStructType & {
    * This the label to show in the front end button to execute this endpoint. If is empty, default will be used
    */
   buttonLabel?: string;
+  /**
+   * If this endpoints belongs to a group, this is the group name
+   */
+  group?: string;
 };
 
 type GroupType = BaseStructType;
