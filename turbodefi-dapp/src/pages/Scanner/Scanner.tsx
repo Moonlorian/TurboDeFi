@@ -1,15 +1,24 @@
 import { Button, Card, OutputContainer } from 'components';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
 import { Dropdown, Form } from 'react-bootstrap';
 import ScannerService from '../../services/ScannerService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { projectContractList } from 'config';
+import { Menu, Transition } from '@headlessui/react';
+import classNames from 'classnames';
 
-const COLUMNS = ['Project', 'Smart Contract', 'Action', 'Age', 'Asset', 'Tx-Hash'];
+const COLUMNS = [
+  'Project',
+  'Smart Contract',
+  'Action',
+  'Age',
+  'Asset',
+  'Tx-Hash'
+];
 
 export const Scanner = () => {
   const { address } = useGetAccountInfo();
@@ -122,25 +131,54 @@ export const Scanner = () => {
             )}
           </div>
           <div className='text-end mb-2'>
-            <Dropdown onSelect={handleFilterSelect}>
-              <Dropdown.Toggle variant='secondary' id='dropdown-basic'>
-                {filterOptions[filterPeriod]}
-              </Dropdown.Toggle>
+            <Menu as='div' className='relative inline-block text-left'>
+              <div>
+                <Menu.Button className='inline-flex w-full justify-center rounded-md bg-gray gap-1 px-2.5 py-2 text-md text-white shadow-sm bg-gray-500 hover:bg-gray-600 items-center whitespace-nowrap'>
+                  {filterOptions[filterPeriod]}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className='text-gray-white text-sm'
+                    onClick={() => setReceiverAddress('')}
+                  />
+                </Menu.Button>
+              </div>
 
-              <Dropdown.Menu>
-                {filterOptions.map((option, index) => (
-                  <Dropdown.Item
-                    eventKey={index}
-                    key={index}
-                    active={filterPeriod == index}
-                    disabled={isLoading}
-                    className={`${filterPeriod == index ?  'text-white bg-main-color': 'text-black hover:bg-main-color/50 hover:text-white'}`}
-                  >
-                    {option}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
+              <Transition
+                as={Fragment}
+                enter='transition ease-out duration-100'
+                enterFrom='transform opacity-0 scale-95'
+                enterTo='transform opacity-100 scale-100'
+                leave='transition ease-in duration-75'
+                leaveFrom='transform opacity-100 scale-100'
+                leaveTo='transform opacity-0 scale-95'
+              >
+                <Menu.Items className='absolute right-0 z-10 mt-2 w-56 origin-top-right border rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none '>
+                  <div className='py-1'>
+                    {filterOptions.map((option, index) => (
+                      <Menu.Item key={index} disabled={isLoading}>
+                        {({ active }) => (
+                          <span
+                            onClick={() => {
+                              handleFilterSelect(index);
+                            }}
+                            className={classNames(
+                              active ? 'hover:text-white' : '',
+                              filterPeriod == index
+                                ? 'text-white bg-main-color'
+                                : 'text-black hover:bg-main-color/50 ',
+
+                              'block px-4 py-2 text-decoration-none cursor-pointer'
+                            )}
+                          >
+                            {option}
+                          </span>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
           </div>
         </div>
         <OutputContainer isLoading={isLoading} className='p-0'>
@@ -169,7 +207,9 @@ export const Scanner = () => {
                       explorerAddress: '',
                       transaction
                     })}
-                    receiverDetails={(receiverAddress === '') ? seeContractTransactions : null}
+                    receiverDetails={
+                      receiverAddress === '' ? seeContractTransactions : null
+                    }
                   />
                 ))}
               </tbody>
