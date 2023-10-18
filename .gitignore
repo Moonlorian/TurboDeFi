@@ -1,5 +1,6 @@
 tokenList.json
 tokenList.*
+delegators.*
 .~lock.*
 turbodefi-sc/interaction/env_devnet.sh
 turbodefi-sc/interaction/env_mainnet.sh
