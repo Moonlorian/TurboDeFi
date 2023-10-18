@@ -166,9 +166,7 @@ class StructReader {
     const module = this._getModule(moduleName);
     if (module.endpoints) {
       for (let i = 0; i < module.endpoints.length; i++) {
-        if (
-          module.endpoints[i].name == endpointName
-        ) {
+        if (module.endpoints[i].name == endpointName) {
           const currentEndPoint = module.endpoints[i];
           const sc = this._getSC(this._project, module, currentEndPoint);
           const token = this._getToken(this._project, module, currentEndPoint);
@@ -267,10 +265,14 @@ class StructReader {
   private _loadCustomFields(json: any) {
     const typesList = json?.types;
 
-    const typeNames = Object.keys(typesList);
-    typeNames.map((typeName) => {
-      this._customFields[typeName] = new StructCustomField(typesList[typeName]);
-    });
+    if (typesList) {
+      const typeNames = Object.keys(typesList);
+      typeNames.map((typeName) => {
+        this._customFields[typeName] = new StructCustomField(
+          typesList[typeName]
+        );
+      });
+    }
   }
 
   private _getSC(
