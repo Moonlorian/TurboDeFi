@@ -39,9 +39,7 @@
           "label": "Deposit sPROTEO",
           "buttonLabel": "Deposit",
           "mutability": "mutable",
-          "payableInTokens": [
-            "SPROTEO-c2dffe"
-          ],
+          "payableInTokens": ["SPROTEO-c2dffe"],
           "multipayment": "true/false ==> TODO Variable form",
           "inputs": [],
           "outputs": []
@@ -70,6 +68,16 @@
       "name": "Farms",
       "description": "Proteo Farms Management",
       "label": "Farms",
+      "groups": [
+        {
+          "name": "elite-egld-single-farm",
+          "label": "Elite EGLD single farm"
+        },
+        {
+          "name": "elite-usdc-single-farm",
+          "label": "Elite USDC single farm"
+        }
+      ],
       "endpoints": [
         {
           "name": "MyStakedInfo-1",
@@ -78,6 +86,7 @@
           "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
           "mutability": "readonly",
           "token": "EGLD",
+          "group": "elite-egld-single-farm",
           "inputs": [
             {
               "name": "address",
@@ -97,6 +106,7 @@
           "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
           "mutability": "readonly",
           "token": "USDC-c76f1f",
+          "group": "elite-usdc-single-farm",
           "inputs": [
             {
               "name": "address",
@@ -116,6 +126,7 @@
           "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
           "mutability": "mutable",
           "buttonLabel": "Harvest",
+          "group": "elite-egld-single-farm",
           "inputs": [],
           "outputs": []
         },
@@ -126,6 +137,7 @@
           "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
           "mutability": "mutable",
           "buttonLabel": "Harvest",
+          "group": "elite-usdc-single-farm",
           "inputs": [],
           "outputs": []
         },
@@ -136,9 +148,7 @@
           "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
           "mutability": "mutable",
           "buttonLabel": "Stake",
-          "payableInTokens": [
-            "EGLD"
-          ],
+          "payableInTokens": ["EGLD"],
           "inputs": [],
           "outputs": []
         },
@@ -149,9 +159,7 @@
           "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
           "mutability": "mutable",
           "buttonLabel": "Stake",
-          "payableInTokens": [
-            "USDC-c76f1f"
-          ],
+          "payableInTokens": ["USDC-c76f1f"],
           "inputs": [],
           "outputs": []
         }

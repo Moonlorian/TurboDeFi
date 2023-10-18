@@ -30,7 +30,7 @@ export const EndpointStep = ({ step }: { step: FlowStepType }) => {
   return structReader?.isLoaded() ? (
     <>
       {step.endpoints?.map((endpoint, index) => (
-        <div className='object-fit w-full border rounded-lg' key={index}>
+        <div className='w-full border rounded-lg' key={index}>
           <ProjectEndpointForm
             module={structReader.getModule(endpoint.module || '')}
             endpoint={structReader.getModuleEndpoint(

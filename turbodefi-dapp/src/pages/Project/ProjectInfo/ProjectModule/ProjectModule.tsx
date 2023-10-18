@@ -19,43 +19,39 @@ export const ProjectModule = ({
       description={module.description}
       reference={''}
     >
-      <div className='d-flex container'>
-        <div className='row w-full justify-center'>
-          {module.groups.map((group, index) => (
-            <div className='col-xs-12 my-2' key={index}>
-              <div className='border rounded-xl flex'>
-                {module.getGroupEndpoints(group.name).map((endpoint, index) => (
-                  <ProjectEndpointForm
-                    module={module}
-                    endpoint={structReader.getModuleEndpoint(
-                      module.name,
-                      endpoint.name
-                    )}
-                    structReader={structReader}
-                    key={index}
-                    className='col-sm-12 col-lg-6'
-                  />
-                ))}
-              </div>
+      <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+        {module.groups.map((group, index) => (
+          <div className='w-full border rounded-lg' key={index}>
+            {module.getGroupEndpoints(group.name).map((endpoint, index) => (
+              <ProjectEndpointForm
+                module={module}
+                endpoint={structReader.getModuleEndpoint(
+                  module.name,
+                  endpoint.name
+                )}
+                structReader={structReader}
+                key={index}
+                className='w-full'
+              />
+            ))}
+          </div>
+        ))}
+        {module.endpoints
+          .filter((endpoint) => !endpoint.group)
+          .map((endpoint, index) => (
+            <div className='w-full' key={index}>
+              <ProjectEndpointForm
+                module={module}
+                endpoint={structReader.getModuleEndpoint(
+                  module.name,
+                  endpoint.name
+                )}
+                structReader={structReader}
+                key={index}
+                className='border h-full'
+              />
             </div>
           ))}
-          {module.endpoints
-            .filter((endpoint) => !endpoint.group)
-            .map((endpoint, index) => (
-              <div className='col-lg-6 col-md-12 my-2' key={index}>
-                <ProjectEndpointForm
-                  module={module}
-                  endpoint={structReader.getModuleEndpoint(
-                    module.name,
-                    endpoint.name
-                  )}
-                  structReader={structReader}
-                  key={index}
-                  className='border h-full'
-                />
-              </div>
-            ))}
-        </div>
       </div>
     </Card>
   );
