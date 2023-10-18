@@ -15,3 +15,21 @@ To get more information about interactions with an specific smart contract, just
 
 ## Swap && Stake
 Some applications are essential. One example are swap tokens and stake them in a delegator provider. This components can be used outside a flow because they don't belong to a specific proyect and they are very usefull.
+
+## Configure DAPP
+
+The dapp config files are stored in the src/config folder. Dapp uses index.ts file to load configuration. To deploy the dapp in mainnet, devnet or testnet, just copy the right file content to index.ts
+
+This are config fields:
+
+- contractAddress ==> Address to the contract where flows and project data are stored
+- API_URL ==> URL to multiversx API
+- GATEWAY_URL ==> URL to multiversx gateway
+- EXPLORER_URL ==> URL to multiversx explorer
+- GRAPHQL_URL ==> URL to multiversx graphql instance
+- CHAIN_ID ==> Chain ID depending on the environment
+- sampleAuthenticatedDomains ==> Domains used to authenticate the dapp in the Axios interceptor component 
+- environment ==> Environment where dapp are going to be executed
+- turbodefiAddress ==> Addres of the turbodefi owner. Used to configure new flows and other dapp data 
+- projectContractList ==> A list of smart contract with aproject name associated to be used in the scanner section
+- ProjectList ==> Project availables in this environment. 
