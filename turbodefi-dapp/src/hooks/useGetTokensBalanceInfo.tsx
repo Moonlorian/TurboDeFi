@@ -25,9 +25,11 @@ export const useGetTokensBalanceInfo = () => {
    *
    */
   function getBalance(tokenId: string) {
-    if (tokenId == 'EGLD') return new BigNumber(account.balance);
-    if (tokensBalance[tokenId])
-      return new BigNumber(tokensBalance[tokenId]['balance']);
+    if (account.address) {
+      if (tokenId == 'EGLD') return new BigNumber(account.balance);
+      if (tokensBalance[tokenId])
+        return new BigNumber(tokensBalance[tokenId]['balance']);
+    }
     return new BigNumber(0);
   }
 

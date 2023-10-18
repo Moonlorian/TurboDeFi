@@ -156,9 +156,19 @@ export const TokenSelector = ({
                 } d-flex align-items-center`}
               >
                 {token.assets && token.assets['svgUrl'] && (
-                  <img className="pe-1 no-selectable" src={token.assets['svgUrl']} />
+                  <img
+                    className='pe-1 no-selectable'
+                    src={token.assets['svgUrl']}
+                  />
                 )}
-                <span className='no-selectable'>{`${token.name}`}</span><span className={`ps-1 text-sm ${selectedValue === token.identifier ? '' : 'text-gray-500 no-selectable'}`}>{`(${token.identifier})`}</span>
+                <span className='no-selectable'>{`${token.name}`}</span>
+                <span
+                  className={`ps-1 text-sm ${
+                    selectedValue === token.identifier
+                      ? ''
+                      : 'text-gray-500 no-selectable'
+                  }`}
+                >{`(${token.identifier})`}</span>
               </div>
             ))}
           </div>
