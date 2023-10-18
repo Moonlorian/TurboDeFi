@@ -6,7 +6,7 @@ PROJECT_ID_MAINNET=turbodefi-mainnet
 
 YAML_FILE=app-devnet.yaml
 
-NON_STATIC_VERSION=create-flow
+NON_STATIC_VERSION=mobile-dapp
 STATIC_VERSION=maintenance
 VERSION=$NON_STATIC_VERSION
 

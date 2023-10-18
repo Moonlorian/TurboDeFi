@@ -86,8 +86,8 @@
 @media screen and (max-width: 350px) {
   .token-selector-menu {
     min-width: 250px;
-    .text-sm {
-      font-size: 0.675rem !important;
-    }
+  }
+  .text-sm {
+    font-size: 0.675rem !important;
   }
 }
