@@ -4,6 +4,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAcco
 import { getDelegated, stakingProvidersLoadService } from 'services';
 import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
 import { StakeInfo } from './StakeInfo';
+import { Card } from 'components/Card';
 
 export type stakedInfoType = {
   type: 'regular' | 'legacy';
@@ -65,13 +66,27 @@ export const StakeList = () => {
 
   return (
     <>
-      {stakedInfo.map((staked, index) => (
-        <StakeInfo
-          key={index}
-          stakeData={staked}
-          providerInfo={getDelegationProvider(staked.contract)}
-        />
-      ))}
+      {stakedInfo.length ? (
+        <>
+          {stakedInfo.map((staked, index) => (
+            <StakeInfo
+              key={index}
+              stakeData={staked}
+              providerInfo={getDelegationProvider(staked.contract)}
+            />
+          ))}
+        </>
+      ) : (
+        <Card
+          className='flex-2 border position-relative'
+          key={''}
+          title={''}
+          description={''}
+          reference={''}
+        >
+          <p>You have no staked amount</p>
+        </Card>
+      )}
     </>
   );
 };
