@@ -53,7 +53,11 @@ export const Flow = () => {
     new TurbodefiContractService(API_URL)
       .getFlowById(address, flowId)
       .then((data: any) => {
-        setFlow(data);
+        if (data && data.type != 'forbidden') {
+          setFlow(data);
+        } else {
+          navigate('/FLows');
+        }
       });
   }, [flowId, hasPendingTransactions]);
 
@@ -102,7 +106,10 @@ export const Flow = () => {
                 <Spinner color={'main-color'} msg='Adding a step endpoint...' />
               </TransactionWatcher>
               <TransactionWatcher functionName='addStepComponent'>
-                <Spinner color={'main-color'} msg='Adding a step component...' />
+                <Spinner
+                  color={'main-color'}
+                  msg='Adding a step component...'
+                />
               </TransactionWatcher>
             </>
           )}

@@ -14,6 +14,7 @@ import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { FlowEndpointType, FlowStepType, FlowType } from 'types';
 import { smartContract } from 'utils/smartContract';
 import BigNumber from 'bignumber.js';
+import { turbodefiAddress } from 'config';
 
 class TurbodefiContractService {
   private gatewayUrl: string;
@@ -157,12 +158,20 @@ class TurbodefiContractService {
       queryResponse,
       endpointDefinition
     );
-    const flow = await this.getFlowFromScData(firstValue?.valueOf());
-    const userFlows = await this.getAddressFlowsIds(address);
-
-    flow.type = userFlows.includes(Number(flow.id)) ? 'user' : 'system';
-
-    return flow;
+    if (firstValue) {
+      const flow = await this.getFlowFromScData(firstValue?.valueOf());
+      const userFlows = await this.getAddressFlowsIds(address);
+      const systemFlows = await this.getAddressFlowsIds(turbodefiAddress);
+      if (userFlows.includes(Number(flow.id))){
+        flow.type = 'user';
+      }else if (systemFlows.includes(Number(flow.id))){
+        flow.type = 'system';
+      }else{
+        flow.type = 'forbidden';
+      }
+      return flow;
+    }
+    return null;
   }
 
   public async getAddressFlowsIds(address: string): Promise<number[]> {

@@ -1,5 +1,5 @@
 export type FlowType = {
-  type?: 'user' | 'system';
+  type?: 'user' | 'system' | 'forbidden';
   id: number;
   name: string;
   label: string;
@@ -9,7 +9,7 @@ export type FlowType = {
 
 export type FlowStepType = {
   flowId?: number;
-  type?: 'user' | 'system';
+  type?: 'user' | 'system' | 'forbidden';
   index?: number;
   label?: string;
   description: string;
@@ -22,7 +22,7 @@ export type FlowStepType = {
 };
 
 export type FlowEndpointType = {
-  type?: 'user' | 'system';
+  type?: 'user' | 'system' | 'forbidden';
   id: number;
   project?: string;
   module?: string;
