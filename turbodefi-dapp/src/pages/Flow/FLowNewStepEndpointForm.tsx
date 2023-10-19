@@ -3,7 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons/faFloppyDisk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { CreateFlowStep, addEndpoint } from 'services';
+import { createFlowStep, addEndpoint } from 'services';
 import { API_URL, ProjectList, contractAddress, environment } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 import StructReader from 'StructReader/StructReader';

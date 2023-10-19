@@ -2,7 +2,7 @@ import { ContractFunction, StringValue, U32Value, U64Value } from "@multiversx/s
 import { sendTransaction } from "./contractInteractions";
 
 
-export const CreateFlow = async (contract: string, address:string, flowName: string, flowLabel: string, flowDescription: string) => {
+export const createFlow = async (contract: string, address:string, flowName: string, flowLabel: string, flowDescription: string) => {
     await sendTransaction({
         contractAddress: contract,
         functionName: new ContractFunction('addFlow'),
@@ -15,7 +15,7 @@ export const CreateFlow = async (contract: string, address:string, flowName: str
     });
 };
 
-export const CreateFlowStep = async (contract: string, address:string, flowId: number, flowDescription: string) => {
+export const createFlowStep = async (contract: string, address:string, flowId: number, flowDescription: string) => {
     await sendTransaction({
         contractAddress: contract,
         functionName: new ContractFunction('addFlowStep'),

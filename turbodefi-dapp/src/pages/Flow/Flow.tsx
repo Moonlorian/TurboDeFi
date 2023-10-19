@@ -1,4 +1,10 @@
-import { ActionButton, ActionButtonList, Card, Loader } from 'components';
+import {
+  ActionButton,
+  ActionButtonList,
+  Card,
+  Loader,
+  Spinner
+} from 'components';
 import { FlowStep } from './FlowStep';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -11,6 +17,7 @@ import { FlowType } from 'types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TurbodefiContractService from 'services/TurbodefiContractService';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
+import TransactionWatcher from 'components/TransactionWatcher/TransactionWatcher';
 
 export const Flow = () => {
   const [creatingStep, setCreatingStep] = useState(false);
@@ -70,7 +77,10 @@ export const Flow = () => {
                 <FontAwesomeIcon icon={faArrowLeft} />
               </ActionButton>
               {canShowCreateButton() && (
-                <ActionButton action={setCreatigStepAction}>
+                <ActionButton
+                  action={setCreatigStepAction}
+                  disabled={hasPendingTransactions}
+                >
                   <FontAwesomeIcon icon={faPlusSquare} />
                 </ActionButton>
               )}
@@ -82,6 +92,19 @@ export const Flow = () => {
               onFinish={onCLoseCreatingStep}
               flowId={flow?.id || 0}
             />
+          )}
+          {hasPendingTransactions && flow?.type !== 'system' && (
+            <>
+              <TransactionWatcher functionName='addFlowStep'>
+                <Spinner color={'main-color'} msg='Creating step...' />
+              </TransactionWatcher>
+              <TransactionWatcher functionName='addStepEndpoint'>
+                <Spinner color={'main-color'} msg='Adding a step endpoint...' />
+              </TransactionWatcher>
+              <TransactionWatcher functionName='addStepComponent'>
+                <Spinner color={'main-color'} msg='Adding a step component...' />
+              </TransactionWatcher>
+            </>
           )}
           <div>
             {flow?.steps.map((step, index) => {
@@ -98,9 +121,7 @@ export const Flow = () => {
                 />
               );
             })}
-            {!flow && (
-              <Loader />
-            )}
+            {!flow && <Loader />}
           </div>
         </Card>
       </div>

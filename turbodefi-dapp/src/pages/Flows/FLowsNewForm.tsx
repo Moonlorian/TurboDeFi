@@ -4,7 +4,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { CreateFlow } from 'services';
+import { createFlow } from 'services';
 import { contractAddress } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 
@@ -34,7 +34,7 @@ export const FLowsNewForm = ({
       setError('Flow description is required');
       return;
     }
-    CreateFlow(
+    createFlow(
       contractAddress,
       address,
       flowLabel.replace(/\s+/g, '-').toLowerCase(),

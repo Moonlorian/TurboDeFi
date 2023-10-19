@@ -3,7 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons/faFloppyDisk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { COMPONENTS, CreateFlowStep, addComponent, addEndpoint } from 'services';
+import { COMPONENTS, createFlowStep, addComponent, addEndpoint } from 'services';
 import { API_URL, ProjectList, contractAddress, environment } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 import StructReader from 'StructReader/StructReader';
@@ -36,13 +36,7 @@ export const FLowNewStepComponentForm = ({
     //setStepEndpointCreationStatus('creating');
     setStepEndpointCreationStatus('saving');
   };
-  const selectProject = async (selectedProject: string) => {
-    const newStructReader = new StructReader(
-      '/projects/' + environment + '/' + selectedProject
-    );
-    await newStructReader.load();
-    return newStructReader;
-  };
+
   useEffect(() => {
     if (creationStatus == 'saving') {
       onFinish();

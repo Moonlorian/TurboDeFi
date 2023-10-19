@@ -3,7 +3,7 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons/faFloppyDisk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ActionButton, ActionButtonList } from 'components';
 import { useEffect, useState } from 'react';
-import { CreateFlowStep } from 'services';
+import { createFlowStep } from 'services';
 import { contractAddress } from 'config';
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
 
@@ -30,7 +30,7 @@ export const FLowNewStepForm = ({
       setError('Step description is required');
       return;
     }
-    CreateFlowStep(contractAddress, address, flowId, stepDescription);
+    createFlowStep(contractAddress, address, flowId, stepDescription);
     //TODO. Make a transaction wathcer and set the 'creating' status to show spinner and wait
 
     //setFlowStepCreationStatus('creating');

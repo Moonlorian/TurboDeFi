@@ -1,5 +1,5 @@
 import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
-import { Card } from 'components';
+import { Card, Loader, Spinner } from 'components';
 import { turbodefiAddress } from 'config';
 import { useState } from 'react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
@@ -8,6 +8,9 @@ import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import { ActionButton, ActionButtonList } from 'components/ActionButton';
 import { FLowsNewForm } from './FLowsNewForm';
 import { FlowType } from 'types';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
+import TransactionWatcher from 'components/TransactionWatcher/TransactionWatcher';
+
 
 export const FlowsList = ({
   flowsList,
@@ -20,6 +23,7 @@ export const FlowsList = ({
 }) => {
   const [creatingFlow, setCreatingFlow] = useState(false);
   const { address } = useGetAccount();
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const initCreatingFlow = () => setCreatingFlow(true);
   const closeCratingFlow = () => setCreatingFlow(false);
@@ -52,7 +56,7 @@ export const FlowsList = ({
       >
         {canShowCreateButton() && (
           <ActionButtonList>
-            <ActionButton action={initCreatingFlow}>
+            <ActionButton disabled={hasPendingTransactions} action={initCreatingFlow}>
               <FontAwesomeIcon icon={faPlusSquare} />
             </ActionButton>
           </ActionButtonList>
@@ -63,6 +67,11 @@ export const FlowsList = ({
             onFinish={closeCratingFlow}
           />
         )}
+        {hasPendingTransactions && listType !== 'system' &&  (
+            <TransactionWatcher functionName='addFlow'>
+              <Spinner color={'main-color'} msg="Creating flow..."/>
+            </TransactionWatcher>
+          )}
         <div>
           {flowsList.map((flow, index) => {
             return (

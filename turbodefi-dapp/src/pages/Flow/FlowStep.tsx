@@ -12,6 +12,7 @@ import { FLowNewStepComponentForm } from './FLowNewStepComponentForm';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { Disclosure } from '@headlessui/react';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 
 export const FlowStep = ({
   step,
@@ -23,6 +24,7 @@ export const FlowStep = ({
   const [creatingEndpointStep, setCreatingEndpointStep] = useState(false);
   const [creatingComponentStep, setCreatingComponentStep] = useState(false);
   const { address } = useGetAccount();
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const canShowCreateButton = () => {
     if (!address) return false;
@@ -80,6 +82,7 @@ export const FlowStep = ({
                     <ActionButton
                       action={setCreatigEndpointStepAction}
                       className='text-xs sm:text-base'
+                      disabled={hasPendingTransactions}
                     >
                       <FontAwesomeIcon icon={faPlusSquare} />
                       <span className='ms-2 font-bold'>Endpoint</span>
@@ -88,6 +91,7 @@ export const FlowStep = ({
                       <ActionButton
                         action={setCreatigComponentStepAction}
                         className='text-xs md:text-base'
+                        disabled={hasPendingTransactions}
                       >
                         <FontAwesomeIcon icon={faPlusSquare} />
                         <span className='ms-2 font-bold'>Component</span>
