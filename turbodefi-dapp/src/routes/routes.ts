@@ -53,5 +53,11 @@ export const routes: RouteWithTitleType[] = [
     title: 'Staking',
     component: StakePage,
     visibleInHeader: true
+  },
+  {
+    path: RouteNamesEnum.flow,
+    title: 'Flow',
+    component: Flow,
+    visibleInHeader: false
   }
 ];

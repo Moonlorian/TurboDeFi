@@ -105,8 +105,6 @@ export const swap = async (
   slippage: number,
   minOut: BigNumber
 ) => {
-  //console.log('Do swap: ', swapData);
-
   const steps: AggregatorStep[] = swapData.map((s) => {
     const step: AggregatorStep = {
       token_in: s.assetIn,

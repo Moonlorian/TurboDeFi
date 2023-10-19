@@ -6,6 +6,7 @@ import TurbodefiContractService from 'services/TurbodefiContractService';
 import { FlowsList } from './FlowsList';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 import { FlowType } from 'types';
+import { useNavigate } from 'react-router-dom';
 
 export const Flows = () => {
   const [systemFlows, setSystemFlows] = useState<FlowType[]>([]);
@@ -14,6 +15,7 @@ export const Flows = () => {
 
   const { address } = useGetAccount();
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const navigate = useNavigate();
 
   const turbodefiContractService = new TurbodefiContractService(API_URL);
 
@@ -43,9 +45,12 @@ export const Flows = () => {
     }
   }, [systemFlows, userFlows]);
 
-  if (selectedFlow) {
-    return <Flow flow={selectedFlow} backAction={backAction} />;
-  }
+  useEffect(() => {
+    if (selectedFlow) {
+      navigate('/flow/' + selectedFlow.id);
+    }
+  }, [selectedFlow]);
+  
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <FlowsList
