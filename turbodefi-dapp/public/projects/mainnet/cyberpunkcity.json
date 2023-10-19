@@ -12,10 +12,17 @@
       "description": "Stake $CYBER",
       "label": "Cyber",
       "address": "erd1qqqqqqqqqqqqqpgqqgxy40dn5tx2dtg0z4jt0sl0zpqm0sca398sv4d50e",
+      "groups": [
+        {
+          "name": "staking-status",
+          "label": "My Status"
+        }
+      ],
       "endpoints": [
         {
           "name": "getAccountState",
           "label": "My Status",
+          "group": "staking-status",
           "mutability": "readonly",
           "inputs": [
             {
@@ -48,6 +55,7 @@
         {
           "name": "claim",
           "label": "Claim rewards",
+          "group": "staking-status",
           "buttonLabel": "Claim",
           "mutability": "mutable",
           "inputs": [],
@@ -56,6 +64,7 @@
         {
           "name": "reinvest",
           "label": "Reinvest rewards",
+          "group": "staking-status",
           "buttonLabel": "Reinvest",
           "mutability": "mutable",
           "inputs": [],

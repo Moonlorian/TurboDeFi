@@ -148,6 +148,7 @@
           "address": "erd1qqqqqqqqqqqqqpgqwqxfv48h9ssns5cc69yudvph297veqeeznyqr4l930",
           "mutability": "mutable",
           "buttonLabel": "Stake",
+          "group": "elite-egld-single-farm",
           "payableInTokens": ["EGLD"],
           "inputs": [],
           "outputs": []
@@ -155,10 +156,11 @@
         {
           "name": "stake_lp-2",
           "endpoint": "stake_lp",
-          "label": "Elite Dual Farm - WEB/EGLD stake",
+          "label": "Elite Single Farm - USDC stake",
           "address": "erd1qqqqqqqqqqqqqpgq3lh80a92d49am3t2pfzheapdxtykzt5kznyqsjhfrx",
           "mutability": "mutable",
           "buttonLabel": "Stake",
+          "group": "elite-usdc-single-farm",
           "payableInTokens": ["USDC-c76f1f"],
           "inputs": [],
           "outputs": []

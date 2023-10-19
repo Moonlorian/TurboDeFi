@@ -103,11 +103,30 @@
       "description": "Farming module of OneDex",
       "label": "Farms",
       "address": "erd1qqqqqqqqqqqqqpgq5774jcntdqkzv62tlvvhfn2y7eevpty6mvlszk3dla",
+      "groups": [
+        {
+          "name": "one-egld",
+          "label": "ONE - EGLD"
+        },
+        {
+          "name": "egld-legld",
+          "label": "EGLD - LEGLD"
+        },
+        {
+          "name": "one-legld",
+          "label": "ONE - LEGLD"
+        },
+        {
+          "name": "one-btc",
+          "label": "ONE - WBTC"
+        }
+      ],
       "endpoints": [
         {
           "name": "viewPool-6",
           "endpoint": "viewPool",
           "label": "ONE - EGLD",
+          "group": "one-egld",
           "mutability": "readonly",
           "inputs": [
             {
@@ -132,6 +151,7 @@
           "name": "claim-6",
           "endpoint": "userClaim",
           "label": "Claim pending rewards",
+          "group": "one-egld",
           "mutability": "mutable",
           "buttonLabel": "Claim",
           "inputs": [
@@ -149,6 +169,7 @@
           "name": "viewPool-23",
           "endpoint": "viewPool",
           "label": "LEGLD - EGLD",
+          "group": "egld-legld",
           "mutability": "readonly",
           "inputs": [
             {
@@ -173,6 +194,7 @@
           "name": "claim-23",
           "endpoint": "userClaim",
           "label": "Claim pending rewards",
+          "group": "egld-legld",
           "mutability": "mutable",
           "buttonLabel": "Claim",
           "inputs": [
@@ -190,6 +212,7 @@
           "name": "viewPool-31",
           "endpoint": "viewPool",
           "label": "ONE - LEGLD",
+          "group": "one-legld",
           "mutability": "readonly",
           "inputs": [
             {
@@ -214,6 +237,7 @@
           "name": "claim-31",
           "endpoint": "userClaim",
           "label": "Claim pending rewards",
+          "group": "one-legld",
           "mutability": "mutable",
           "buttonLabel": "Claim",
           "inputs": [
@@ -230,7 +254,8 @@
         {
           "name": "viewPool-26",
           "endpoint": "viewPool",
-          "label": "ONE - LEGLD",
+          "label": "ONE - WBTC",
+          "group": "one-btc",
           "mutability": "readonly",
           "inputs": [
             {
@@ -255,6 +280,7 @@
           "name": "claim-26",
           "endpoint": "userClaim",
           "label": "Claim pending rewards",
+          "group": "one-btc",
           "mutability": "mutable",
           "buttonLabel": "Claim",
           "inputs": [
