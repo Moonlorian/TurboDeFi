@@ -56,53 +56,53 @@ export const FlowStep = ({
         <Disclosure>
           {({ open }) => (
             <>
-              <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
-                <ActionButtonList className='top-[0.3%] sm:top-[10px] right-[0.5%]'>
-                  {canShowCreateButton() && (
-                    <>
+              <div className='w-[100%] lg:w-[50%] m-auto'>
+                {creatingEndpointStep && (
+                  <FLowNewStepEndpointForm
+                    onCancel={onCLoseCreatingEdpointStep}
+                    onFinish={onCLoseCreatingEdpointStep}
+                    flowId={step.flowId || 0}
+                    stepIndex={step.index || 0}
+                  />
+                )}
+                {creatingComponentStep && (
+                  <FLowNewStepComponentForm
+                    onCancel={onCLoseCreatingComponentStep}
+                    onFinish={onCLoseCreatingComponentStep}
+                    flowId={step.flowId || 0}
+                    stepIndex={step.index || 0}
+                  />
+                )}
+              </div>
+              <ActionButtonList className='top-[0.3%] sm:top-[10px] right-[0.5%]'>
+                {canShowCreateButton() && (
+                  <>
+                    <ActionButton
+                      action={setCreatigEndpointStepAction}
+                      className='text-xs sm:text-base'
+                    >
+                      <FontAwesomeIcon icon={faPlusSquare} />
+                      <span className='ms-2 font-bold'>Endpoint</span>
+                    </ActionButton>
+                    {step.endpoints?.length == 0 && (
                       <ActionButton
-                        action={setCreatigEndpointStepAction}
-                        className='text-xs sm:text-base'
+                        action={setCreatigComponentStepAction}
+                        className='text-xs md:text-base'
                       >
                         <FontAwesomeIcon icon={faPlusSquare} />
-                        <span className='ms-2 font-bold'>Endpoint</span>
+                        <span className='ms-2 font-bold'>Component</span>
                       </ActionButton>
-                      {step.endpoints?.length == 0 && (
-                        <ActionButton
-                          action={setCreatigComponentStepAction}
-                          className='text-xs md:text-base'
-                        >
-                          <FontAwesomeIcon icon={faPlusSquare} />
-                          <span className='ms-2 font-bold'>Component</span>
-                        </ActionButton>
-                      )}
-                    </>
-                  )}
-                  <Disclosure.Button
-                    className={`bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
-                  >
-                    <FontAwesomeIcon
-                      icon={open ? faChevronUp : faChevronDown}
-                    />
-                  </Disclosure.Button>
-                </ActionButtonList>
-                <Disclosure.Panel>
-                  {creatingEndpointStep && (
-                    <FLowNewStepEndpointForm
-                      onCancel={onCLoseCreatingEdpointStep}
-                      onFinish={onCLoseCreatingEdpointStep}
-                      flowId={step.flowId || 0}
-                      stepIndex={step.index || 0}
-                    />
-                  )}
-                  {creatingComponentStep && (
-                    <FLowNewStepComponentForm
-                      onCancel={onCLoseCreatingComponentStep}
-                      onFinish={onCLoseCreatingComponentStep}
-                      flowId={step.flowId || 0}
-                      stepIndex={step.index || 0}
-                    />
-                  )}
+                    )}
+                  </>
+                )}
+                <Disclosure.Button
+                  className={`bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
+                >
+                  <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
+                </Disclosure.Button>
+              </ActionButtonList>
+              <Disclosure.Panel className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
+                <>
                   {step.endpoints && step.endpoints?.length > 0 ? (
                     <EndpointStep step={step} />
                   ) : (
@@ -115,8 +115,8 @@ export const FlowStep = ({
                       )}
                     </>
                   )}
-                </Disclosure.Panel>
-              </div>
+                </>
+              </Disclosure.Panel>
             </>
           )}
         </Disclosure>
