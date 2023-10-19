@@ -3,8 +3,8 @@ import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { getDelegated, stakingProvidersLoadService } from 'services';
 import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
-import { Card } from 'components/Card';
 import { StakeInfo } from './StakeInfo';
+import { StakeAmount } from './StakeAmount';
 
 export type stakedInfoType = {
   type: 'regular' | 'legacy';
@@ -27,7 +27,6 @@ export const StakeList = () => {
   const [delegationProviders, setDelegationProviders] = useState<any[]>([]);
 
   const { hasPendingTransactions } = useGetPendingTransactions();
-  const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
 
   const getDelegationProvider = useCallback(
@@ -67,6 +66,7 @@ export const StakeList = () => {
 
   return (
     <>
+      <StakeAmount providerInfo={delegationProviders}/>
       {stakedInfo.map((staked, index) => (
         <StakeInfo
           key={index}

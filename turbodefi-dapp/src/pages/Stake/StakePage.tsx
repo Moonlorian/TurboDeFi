@@ -1,9 +1,21 @@
-import { StakeList } from "components";
-import React from "react";
+import { Card, StakeList } from 'components';
+import React from 'react';
 
 export const StakePage = () => {
-
-    return(
-        <StakeList />
-    );
+  return (
+    <div className='flex flex-col gap-6 max-w-7xl w-full'>
+      <div className='flex flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 flex-2'>
+        <Card
+          className='flex-2 w-full position-relative'
+          title='Staking providers'
+          description='Manage your staked tokens'
+          reference={''}
+        >
+          <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+            <StakeList />
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
 };

@@ -104,21 +104,23 @@ export const StakeInfo = ({
           showLabel={true}
         />
       </div>
-      <div>
-        <Button
-          disabled={stakeData.claimableRewards.isEqualTo(0)}
-          className='me-2'
-          onClick={stakeClaim}
-        >
-          Claim
-        </Button>
-        <Button
-          disabled={stakeData.claimableRewards.isEqualTo(0)}
-          onClick={stakeRedelegate}
-        >
-          Reinvest
-        </Button>
-      </div>
+      {stakeData.type == 'regular' && (
+        <div>
+          <Button
+            disabled={stakeData.claimableRewards.isEqualTo(0)}
+            className='me-2'
+            onClick={stakeClaim}
+          >
+            Claim
+          </Button>
+          <Button
+            disabled={stakeData.claimableRewards.isEqualTo(0)}
+            onClick={stakeRedelegate}
+          >
+            Reinvest
+          </Button>
+        </div>
+      )}
     </Card>
   );
 };

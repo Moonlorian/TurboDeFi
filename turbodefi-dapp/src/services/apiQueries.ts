@@ -1,7 +1,9 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
-import { API_URL } from '../config';
+import { API_URL, environment } from '../config';
 import { Nonce } from '@multiversx/sdk-network-providers/out/primitives';
 import BigNumber from 'bignumber.js';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+import axios from 'axios';
 
 type apiQueryOptions = {
   maxRetries?: number;
@@ -17,6 +19,15 @@ type apiQueryMandatoryOptions = {
   milisecondsBetweenCalls: number;
 };
 
+export const getEgldPrice = async () => {
+  const url = `https://${
+    environment != EnvironmentsEnum.mainnet ? environment + '-' : ''
+  }api.multiversx.com/economics`;
+  return axios
+    .get(url)
+    .then((response: any) => new BigNumber(response?.data?.price ?? '0'));
+};
+
 export const getDelegated = async (address: string) => {
   const finalList: any = [];
 
@@ -25,7 +36,7 @@ export const getDelegated = async (address: string) => {
     await getApiGeneric(`accounts/${address}/delegation`)
   ).map((staked: any) => {
     return {
-      type: "regular",
+      type: 'regular',
       address: staked.address,
       contract: staked.contract,
       userUnBondable: new BigNumber(staked.userUnBondable),
@@ -45,7 +56,7 @@ export const getDelegated = async (address: string) => {
     await getApiGeneric(`accounts/${address}/delegation-legacy`)
   ).map((staked: any) => {
     return {
-      type: "legacy",
+      type: 'legacy',
       address: staked.address,
       contract: staked.contract,
       userUnBondable: new BigNumber(staked.userUnBondable),
