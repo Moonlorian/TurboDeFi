@@ -15,23 +15,16 @@ interface CardType extends PropsWithChildren, WithClassnameType {
 export const Card = (props: CardType) => {
   const { title, children, description, reference, className, address } = props;
 
+  console.log(title, reference);
+
   return (
     <div
-      className={`flex flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
+      className={`flex flex-wrap flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
       data-testid={props['data-testid']}
     >
-      <span className='flex items-center'>
-        <h2 className='flex text-xl font-medium group text-uppercase'>
+      <span className='flex flex-column'>
+        <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
           {title}
-          {reference && (
-            <a
-              href={reference}
-              target='_blank'
-              className='hidden group-hover:block ml-2 text-blue-600'
-            >
-              <FontAwesomeIcon icon={faInfoCircle} size='sm' />
-            </a>
-          )}
         </h2>
         {address && (
           <ExplorerLink page={`/address/${address}`} className='mb-2 pointer'>
@@ -42,6 +35,15 @@ export const Card = (props: CardType) => {
               className='text-secondary'
             />
           </ExplorerLink>
+        )}
+        {reference != '' && (
+          <a
+            href={reference}
+            target='_blank'
+            className='group-hover:block text-secondary text-lowercase md:text-lg text-base'
+          >
+            {reference}
+          </a>
         )}
       </span>
       {description && <p className='text-gray-400 mb-6'>{description}</p>}

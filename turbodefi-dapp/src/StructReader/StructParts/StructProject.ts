@@ -15,7 +15,6 @@ class StructProject extends StructBase {
   constructor(projectData: ProjectType) {
     super(projectData);
     this._url = projectData.url ?? this._url;
-
     this._checkFields();
   }
   /**

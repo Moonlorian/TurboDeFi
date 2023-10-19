@@ -13,7 +13,7 @@ export const ProjectInfo = ({
       key={'project_' + project.name}
       title={project.label || project.name}
       description={project.description}
-      reference={''}
+      reference={project.url}
     >
     </Card>
   );
