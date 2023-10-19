@@ -7,6 +7,7 @@
 .stakingProvider-selector-floating-layer {
   position: absolute;
   width: 100%;
+  z-index: 1;
 }
 .stakingProvider-selector-input {
   border: 1px solid #ccc;
@@ -21,8 +22,7 @@
 .stakingProvider-selector-menu {
   position: absolute;
   transform: translateY(4px);
-  width: auto;
-  min-width: 270px;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: auto;
@@ -84,9 +84,6 @@
 }
 
 @media screen and (max-width: 350px) {
-  .stakingProvider-selector-menu {
-    min-width: 250px;
-  }
   .text-sm {
     font-size: 0.675rem !important;
   }

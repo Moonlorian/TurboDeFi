@@ -4,7 +4,6 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAcco
 import { getDelegated, stakingProvidersLoadService } from 'services';
 import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
 import { StakeInfo } from './StakeInfo';
-import { StakeAmount } from './StakeAmount';
 
 export type stakedInfoType = {
   type: 'regular' | 'legacy';
@@ -66,7 +65,6 @@ export const StakeList = () => {
 
   return (
     <>
-      <StakeAmount providerInfo={delegationProviders}/>
       {stakedInfo.map((staked, index) => (
         <StakeInfo
           key={index}

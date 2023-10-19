@@ -1,4 +1,4 @@
-import { Card, StakeList } from 'components';
+import { Card, StakeAmount, StakeList } from 'components';
 import React from 'react';
 
 export const StakePage = () => {
@@ -12,6 +12,7 @@ export const StakePage = () => {
           reference={''}
         >
           <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+            <StakeAmount />
             <StakeList />
           </div>
         </Card>

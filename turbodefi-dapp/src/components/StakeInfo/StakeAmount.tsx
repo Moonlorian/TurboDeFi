@@ -12,9 +12,14 @@ import {
 } from 'hooks';
 import BigNumber from 'bignumber.js';
 import { Label } from 'components/Label';
-import { delegate, getEgldPrice, getTokenListData } from 'services';
+import {
+  delegate,
+  getEgldPrice,
+  getTokenListData,
+  stakingProvidersLoadService
+} from 'services';
 
-export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
+export const StakeAmount = () => {
   const [selectedProvider, setSelectedProvider] = useState('');
   const [providersList, setProvidersList] = useState<any[]>([]);
   const [selectedAmount, setSelectedAmount] = useState<BigNumber>(
@@ -22,14 +27,19 @@ export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
   );
   const [egldPrice, setEgldPrice] = useState<BigNumber>(new BigNumber(0));
   const [selectedAmountInput, setSelectedAmountInput] = useState('');
-
+  
   const balanceInfo = useGetTokensBalanceInfo();
   const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
 
   const egldToken = 'EGLD';
 
-  const loadTokensPrices = async () => {
+  const loadDelegationProviders = async () => {
+    const delegationProvidersList = await stakingProvidersLoadService();
+    setProvidersList(delegationProvidersList);
+  };
+
+  const loadEgldPrice = async () => {
     const elgldPrice = await getEgldPrice();
     setEgldPrice(elgldPrice);
   };
@@ -48,10 +58,6 @@ export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
   };
 
   useEffect(() => {
-    setProvidersList(providerInfo);
-  }, [providerInfo]);
-
-  useEffect(() => {
     setSelectedAmount(
       new BigNumber(selectedAmountInput ? selectedAmountInput : 0).multipliedBy(
         10 **
@@ -63,7 +69,8 @@ export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
   }, [selectedAmountInput]);
 
   useEffect(() => {
-    loadTokensPrices();
+    loadDelegationProviders();
+    loadEgldPrice();
   }, []);
 
   return (
