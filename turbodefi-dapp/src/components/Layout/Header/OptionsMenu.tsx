@@ -15,7 +15,6 @@ export const OptionsMenu = () => {
 
   const location = useLocation();
   const cleanLocation = location.pathname.split('/').filter((data) => data)[0];
-  console.log(cleanLocation);
 
   const handleLogout = () => {
     sessionStorage.clear();

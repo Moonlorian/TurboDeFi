@@ -54,7 +54,6 @@ export const FLowNewStepComponentForm = ({
   useEffect(() => {
     setSelecteComponentId(0);
     if (selectedComponent != '') {
-      console.log('Let`s get component ID');
       new TurbodefiContractService(API_URL)
         .getComponentId(selectedComponent)
         .then((data: any) => {
