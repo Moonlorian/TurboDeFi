@@ -11,7 +11,7 @@ export const StakePage = () => {
           description='Manage your staked tokens'
           reference={''}
         >
-          <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+          <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
             <StakeAmount />
             <StakeList />
           </div>

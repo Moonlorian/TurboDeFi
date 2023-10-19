@@ -50,7 +50,7 @@ export const FlowStep = ({
         description={''}
         reference={''}
       >
-        <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+        <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
           {canShowCreateButton() && (
             <ActionButtonList className='top-[0.3%] sm:top-[3%] right-[1%]'>
               <ActionButton action={setCreatigEndpointStepAction} className='text-xs sm:text-base'>

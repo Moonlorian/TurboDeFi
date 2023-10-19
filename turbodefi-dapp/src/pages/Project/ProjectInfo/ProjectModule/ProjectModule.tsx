@@ -19,7 +19,7 @@ export const ProjectModule = ({
       description={module.description}
       reference={''}
     >
-      <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
+      <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
         {module.groups.map((group, index) => (
           <div className='w-full border rounded-lg' key={index}>
             {module.getGroupEndpoints(group.name).map((endpoint, index) => (

@@ -15,8 +15,6 @@ interface CardType extends PropsWithChildren, WithClassnameType {
 export const Card = (props: CardType) => {
   const { title, children, description, reference, className, address } = props;
 
-  console.log(title, reference);
-
   return (
     <div
       className={`flex flex-wrap flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
@@ -36,17 +34,17 @@ export const Card = (props: CardType) => {
             />
           </ExplorerLink>
         )}
-        {reference != '' && (
-          <a
-            href={reference}
-            target='_blank'
-            className='group-hover:block text-secondary text-lowercase md:text-lg text-base'
-          >
-            {reference}
-          </a>
-        )}
       </span>
-      {description && <p className='text-gray-400 mb-6'>{description}</p>}
+      {description && <p className='text-gray-400 pb-0 mb-0'>{description}</p>}
+      {reference != '' && (
+        <a
+          href={reference}
+          target='_blank'
+          className='group-hover:block text-main-color/70 text-lowercase md:text-lg text-base mb-6'
+        >
+          {reference}
+        </a>
+      )}
       {children}
     </div>
   );
