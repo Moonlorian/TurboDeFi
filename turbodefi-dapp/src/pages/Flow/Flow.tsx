@@ -1,4 +1,4 @@
-import { ActionButton, ActionButtonList, Card } from 'components';
+import { ActionButton, ActionButtonList, Card, Loader } from 'components';
 import { FlowStep } from './FlowStep';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -34,30 +34,31 @@ export const Flow = () => {
   useEffect(() => {
     const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
     const currentFlowId = path.slice(-1)[0];
-    setFlowId(Number.isNaN(parseInt(currentFlowId)) ? 0 : parseInt(currentFlowId));
+    setFlowId(
+      Number.isNaN(parseInt(currentFlowId)) ? 0 : parseInt(currentFlowId)
+    );
   }, [location]);
 
   useEffect(() => {
-    
     if (flowId == 0) return;
     new TurbodefiContractService(API_URL)
-        .getFlowById(address, flowId)
-        .then((data: any) => {
-          setFlow(data)
-        });
+      .getFlowById(address, flowId)
+      .then((data: any) => {
+        setFlow(data);
+      });
   }, [flowId]);
 
   return (
     <>
-      {flow && (
-        <div className='flex flex-col gap-6 max-w-7xl w-full relative'>
-          <Card
-            className='flex-2'
-            key={'flow'}
-            title={flow?.label}
-            description={flow?.description}
-            reference={''}
-          >
+      <div className='flex flex-col gap-6 max-w-7xl w-full relative'>
+        <Card
+          className='flex-2'
+          key={'flow'}
+          title={flow?.label || ''}
+          description={flow?.description}
+          reference={''}
+        >
+          {flow && (
             <ActionButtonList>
               <ActionButton
                 action={() => {
@@ -72,33 +73,35 @@ export const Flow = () => {
                 </ActionButton>
               )}
             </ActionButtonList>
-
-            {creatingStep && (
-              <FLowNewStepForm
-                onCancel={onCLoseCreatingStep}
-                onFinish={onCLoseCreatingStep}
-                flowId={flow.id}
-              />
+          )}
+          {creatingStep && (
+            <FLowNewStepForm
+              onCancel={onCLoseCreatingStep}
+              onFinish={onCLoseCreatingStep}
+              flowId={flow?.id || 0}
+            />
+          )}
+          <div>
+            {flow?.steps.map((step, index) => {
+              return (
+                <FlowStep
+                  step={{
+                    ...step,
+                    type: flow.type || 'system',
+                    index,
+                    flowId: flow.id
+                  }}
+                  key={index}
+                  index={index + 1}
+                />
+              );
+            })}
+            {!flow && (
+              <Loader />
             )}
-            <div>
-              {flow.steps.map((step, index) => {
-                return (
-                  <FlowStep
-                    step={{
-                      ...step,
-                      type: flow.type || 'system',
-                      index,
-                      flowId: flow.id
-                    }}
-                    key={index}
-                    index={index + 1}
-                  />
-                );
-              })}
-            </div>
-          </Card>
-        </div>
-      )}
+          </div>
+        </Card>
+      </div>
     </>
   );
 };
