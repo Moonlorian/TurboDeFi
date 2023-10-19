@@ -10,6 +10,7 @@ import { FLowNewStepForm } from './FLowNewStepForm';
 import { FlowType } from 'types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TurbodefiContractService from 'services/TurbodefiContractService';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
 
 export const Flow = () => {
   const [creatingStep, setCreatingStep] = useState(false);
@@ -19,6 +20,7 @@ export const Flow = () => {
   const { address } = useGetAccount();
   const location = useLocation();
   const navigate = useNavigate();
+  const { hasPendingTransactions } = useGetPendingTransactions();
 
   const canShowCreateButton = () => {
     if (!address) return false;
@@ -46,7 +48,7 @@ export const Flow = () => {
       .then((data: any) => {
         setFlow(data);
       });
-  }, [flowId]);
+  }, [flowId, hasPendingTransactions]);
 
   return (
     <>
