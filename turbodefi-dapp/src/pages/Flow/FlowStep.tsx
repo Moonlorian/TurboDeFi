@@ -95,11 +95,16 @@ export const FlowStep = ({
                     )}
                   </>
                 )}
-                <Disclosure.Button
-                  className={`bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
-                >
-                  <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
-                </Disclosure.Button>
+                {((step.endpoints && step.endpoints?.length) ||
+                  step.component) && (
+                  <Disclosure.Button
+                    className={`bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
+                  >
+                    <FontAwesomeIcon
+                      icon={open ? faChevronUp : faChevronDown}
+                    />
+                  </Disclosure.Button>
+                )}
               </ActionButtonList>
               <Disclosure.Panel className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
                 <>

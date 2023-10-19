@@ -19,8 +19,6 @@ export const Flows = () => {
 
   const turbodefiContractService = new TurbodefiContractService(API_URL);
 
-  const backAction = () => setSelectedFlow(undefined);
-
   const selectSystemFlow = (userSelectedFlow: FlowType) =>
     setSelectedFlow(userSelectedFlow);
 
