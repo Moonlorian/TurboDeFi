@@ -14,7 +14,7 @@ export const AuthRedirectWrapper = ({
   const isLoggedIn = useGetIsLoggedIn();
 
   if (isLoggedIn && !requireAuth) {
-    return <Navigate to='/project' />;
+    return <Navigate to='/scanner' />;
   }
 
   if (!isLoggedIn && requireAuth) {
