@@ -75,7 +75,7 @@ export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
       reference={''}
     >
       {providersList.length > 0 && (
-        <div className='flex flex-row'>
+        <div className='flex flex-col lg:flex-row'>
           <div className='flex-1'>
             <StakingProviderSelector
               className='w-full'
@@ -97,7 +97,7 @@ export const StakeAmount = ({ providerInfo }: { providerInfo: any[] }) => {
               </Label>
             </div>
           </div>
-          <div className='w-50 position-relative flex-1 flex items-end flex-column'>
+          <div className='position-relative flex-1 flex items-end flex-column flex-1'>
             <span
               className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[8%] left-[3%] bg-main-color hover:bg-main-color/70 p-1'
               onClick={() => {
