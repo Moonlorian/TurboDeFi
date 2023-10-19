@@ -10,7 +10,7 @@ import {
 } from '@multiversx/sdk-dapp/UI/types';
 import { ScannerTransactionHash } from './ScannerTransactionHash';
 import { projectContractList } from 'config';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AccountName } from '@multiversx/sdk-dapp/UI/TransactionsTable/components/AccountName';
 
 export interface TransactionRowPropsType
@@ -27,7 +27,7 @@ export const ScannerTransactionRow = ({
   showLockedAccounts,
   receiverDetails
 }: TransactionRowPropsType) => {
-  const navigate = useNavigate();
+  
   return (
     <tr className={classNames(className, { new: transaction.isNew })}>
       <td>
