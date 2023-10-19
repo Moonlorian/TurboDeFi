@@ -21,9 +21,11 @@ export const Card = (props: CardType) => {
       data-testid={props['data-testid']}
     >
       <span className='flex'>
-        <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
-          {title}
-        </h2>
+        {title && (
+          <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
+            {title}
+          </h2>
+        )}
         {address && (
           <ExplorerLink page={`/address/${address}`} className='mb-2 pointer'>
             <FontAwesomeIcon
