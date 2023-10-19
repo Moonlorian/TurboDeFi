@@ -28,13 +28,13 @@ export const OptionsMenu = () => {
         .filter((element) => element.visibleInHeader)
         .map((routeElement, index) => (
           <MxLink
-            className={`py-4 lg:py-1 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color ${
+            className={`py-[1.5rem] md:py-4 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color ${
               cleanLocation ==
               routeElement.path
                 .split(':')[0]
                 .split('/')
                 .filter((data) => data)[0]
-                ? 'bg-main-color/70 text-white rounded-lg'
+                ? 'bg-main-color text-white rounded-lg'
                 : 'hover:bg-main-color/70 hover:text-white hover:rounded-lg'
             }`}
             key={index}
@@ -44,14 +44,15 @@ export const OptionsMenu = () => {
           </MxLink>
         ))}
       {isLoggedIn ? (
-        <div className='font-bold flex content-center rounded-lg text-center hover:no-underline my-0 text-main-color items-center justify-center'>
+        <div className='font-bold flex content-center rounded-lg text-center hover:no-underline my-0 text-main-color items-center justify-center ms-2'>
           <FormatedAddress address={address} />
           <Button
             onClick={handleLogout}
-            className='px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg '
+            className='px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg bg-transparent px-2'
+            color='main-color'
           >
             <FontAwesomeIcon
-              className='py-3 lg:py-0 text-lg lg:text-sm'
+              className='py-[1.5rem] lg:py-0 text-lg lg:text-sm'
               icon={faRightFromBracket}
             />
           </Button>

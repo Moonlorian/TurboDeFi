@@ -8,12 +8,12 @@ export const FormatedAddress = ({ address }: { address: string }) => {
     '...' +
     wallet.substring(wallet.length - 8, wallet.length);
   return (
-    <span data-testid='accountAddress'>
+    <span data-testid='accountAddress' className='me-1'>
       {' '}
       {cutWallet(address)}{' '}
       <CopyButton
         text={address}
-        className="className='d-block p-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg"
+        className="className='d-block p-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg px-[0.5rem] py-2"
       />{' '}
     </span>
   );
