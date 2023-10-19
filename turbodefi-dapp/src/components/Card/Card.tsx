@@ -20,7 +20,7 @@ export const Card = (props: CardType) => {
       className={`flex flex-wrap flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
       data-testid={props['data-testid']}
     >
-      <span className='flex flex-column'>
+      <span className='flex'>
         <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
           {title}
         </h2>
