@@ -7,10 +7,15 @@ import { routes } from 'routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
 import { FormatedAddress } from 'components/FormattedAddress';
+import { useLocation } from 'react-router-dom';
 
 export const OptionsMenu = () => {
   const isLoggedIn = useGetIsLoggedIn();
   const { address } = useGetAccountInfo();
+
+  const location = useLocation();
+  const cleanLocation = location.pathname.split('/').filter((data) => data)[0];
+  console.log(cleanLocation);
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -23,9 +28,17 @@ export const OptionsMenu = () => {
         .filter((element) => element.visibleInHeader)
         .map((routeElement, index) => (
           <MxLink
-            className='py-4 lg:py-1 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color hover:bg-main-color/70 hover:text-white hover:rounded-lg'
+            className={`py-4 lg:py-1 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color ${
+              cleanLocation ==
+              routeElement.path
+                .split(':')[0]
+                .split('/')
+                .filter((data) => data)[0]
+                ? 'bg-main-color/70 text-white rounded-lg'
+                : 'hover:bg-main-color/70 hover:text-white hover:rounded-lg'
+            }`}
             key={index}
-            to={routeElement.path}
+            to={routeElement.path.split(':')[0]}
           >
             {routeElement.title}
           </MxLink>
@@ -37,7 +50,10 @@ export const OptionsMenu = () => {
             onClick={handleLogout}
             className='px-1 hover:bg-main-color/70 hover:text-white hover:rounded-lg '
           >
-            <FontAwesomeIcon className='py-3 lg:py-0 text-lg lg:text-sm' icon={faRightFromBracket} />
+            <FontAwesomeIcon
+              className='py-3 lg:py-0 text-lg lg:text-sm'
+              icon={faRightFromBracket}
+            />
           </Button>
         </div>
       ) : (
