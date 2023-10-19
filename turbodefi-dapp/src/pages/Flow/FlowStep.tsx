@@ -53,14 +53,14 @@ export const FlowStep = ({
         <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min sm:auto-rows-fr'>
           {canShowCreateButton() && (
             <ActionButtonList className='top-[0.3%] sm:top-[3%] right-[1%]'>
-              <ActionButton action={setCreatigEndpointStepAction}>
+              <ActionButton action={setCreatigEndpointStepAction} className='text-xs sm:text-base'>
                 <FontAwesomeIcon icon={faPlusSquare} />
-                <span className='ms-2 font-bold'>Add endpoint</span>
+                <span className='ms-2 font-bold'>Endpoint</span>
               </ActionButton>
               {step.endpoints?.length == 0 && (
-                <ActionButton action={setCreatigComponentStepAction}>
+                <ActionButton action={setCreatigComponentStepAction} className='text-xs md:text-base'>
                   <FontAwesomeIcon icon={faPlusSquare} />
-                  <span className='ms-2 font-bold'>Add component</span>
+                  <span className='ms-2 font-bold'>Component</span>
                 </ActionButton>
               )}
             </ActionButtonList>
