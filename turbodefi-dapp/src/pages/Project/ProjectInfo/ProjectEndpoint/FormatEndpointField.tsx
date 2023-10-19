@@ -50,7 +50,7 @@ export const FormatEndpointField = ({
                 delay={150}
               >
                 <img
-                  className='ms-2 max-h-6'
+                  className='ms-2 w-[24px]'
                   src={tokenInfo.get(field?.token || '', 'assets').svgUrl}
                   alt={tokenInfo.get(field?.token || '', 'ticker')}
                 />
