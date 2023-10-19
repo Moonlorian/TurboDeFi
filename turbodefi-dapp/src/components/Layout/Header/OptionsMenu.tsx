@@ -28,7 +28,7 @@ export const OptionsMenu = () => {
         .filter((element) => element.visibleInHeader)
         .map((routeElement, index) => (
           <MxLink
-            className={`py-[1.5rem] md:py-4 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color ${
+            className={`py-[1.5rem] lg:py-4 font-bold min-w-fit inline-block px-3 text-center no-underline my-0 mr-0 ml-2 text-main-color ${
               cleanLocation ==
               routeElement.path
                 .split(':')[0]
