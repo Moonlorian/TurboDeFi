@@ -65,5 +65,5 @@ Users can explore this projects or add them to a flow.
 With this utility, users can see their last interactions with any smart contract. Each smart contract appears only once and information is only from last week from the begining. But users can change this period and see older transactions.
 To get more information about interactions with an specific smart contract, just click on it and all transactions will appear
 
-## Swap && Stake
+## Swap & Stake
 Some applications are essential. One example are swap tokens and stake them in a delegator provider. This components can be used outside a flow because they don't belong to a specific proyect and they are very usefull.
