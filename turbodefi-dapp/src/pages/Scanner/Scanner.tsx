@@ -2,7 +2,6 @@ import { Button, Card, OutputContainer } from 'components';
 import { Fragment, useEffect, useState } from 'react';
 import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
-import { Dropdown, Form } from 'react-bootstrap';
 import ScannerService from '../../services/ScannerService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
@@ -105,20 +104,21 @@ export const Scanner = () => {
       >
         <div className='d-flex w-full justify-content-between'>
           <div className='w-full mb-2'>
-            <Form className='mb-2 d-flex w-75'>
-              <Form.Group className='mr-3 w-full'>
-                <Form.Control
+            <div className='mb-2 d-flex w-75'>
+              <div className='mr-3 w-full'>
+                <input
+                  className='w-full py-[0.375rem] px-[0.75rem] text-base border rounded focus:border-blue-300 focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,.25)] focus-visible:border-0'
                   placeholder='Address to scan'
                   value={`${filterAddress}`}
                   onChange={(e: any) => {
                     updateAddress(e.target.value);
                   }}
                 />
-              </Form.Group>
+              </div>
               <Button onClick={scanAddress} disabled={isLoading}>
                 Scan
               </Button>
-            </Form>
+            </div>
             {receiverAddress && (
               <span className='w-50'>
                 <i>Smart Contract:</i> {receiverAddress}
