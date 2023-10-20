@@ -19,20 +19,17 @@ export const BalancePanel = () => {
   console.log(tokensBalance.tokensBalance);
 
   useEffect(() => {
-    setLoadingTokens(
-      !Object.keys(tokensBalance.tokensBalance).length &&
-        !!Object.keys(tokenInfo.tokenList).length
-    );
-  }, [hasPendingTransactions, tokensBalance.tokensBalance]);
+    setLoadingTokens(!Object.keys(tokenInfo.tokenList).length);
+  }, [hasPendingTransactions, tokensBalance.tokensBalance, tokenInfo.tokenList]);
 
   return (
     <Card className='border' title='Balances' reference=''>
       {loadingTokens ? (
         <Spinner color={'main-color'} msg='Loading balance...' />
       ) : (
-        <>
+        <div className="grid auto-rows-min lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
           {Object.keys(tokensBalance.tokensBalance).map((token, index) => (
-            <div key={index} className='flex flex-row items-center mb-1'>
+            <div key={index} className='flex flex-row items-center mb-1 shrink-1 grow-0 basics-0 flex-nowrap'>
               <span className='shrink text-gray-500 text-sm'>
                 {token}{' '}
                 <span className='font-bold text-black-500 text-base'>
@@ -48,7 +45,7 @@ export const BalancePanel = () => {
               />
             </div>
           ))}
-        </>
+        </div>
       )}
     </Card>
   );

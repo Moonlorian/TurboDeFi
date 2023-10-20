@@ -21,7 +21,7 @@ export const Dashboard = () => {
                     />
                   </Disclosure.Button>
                 </ActionButtonList>
-                <Disclosure.Panel className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
+                <Disclosure.Panel className=''>
                     {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */ }
                   <BalancePanel />
                 </Disclosure.Panel>
