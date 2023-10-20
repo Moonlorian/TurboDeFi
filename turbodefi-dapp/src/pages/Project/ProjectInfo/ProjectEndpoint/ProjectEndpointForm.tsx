@@ -16,17 +16,6 @@ import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID, GATEWAY_URL } from 'config';
 
-//Wallet in proteo
-//erd1kx38h2euvsgm8elhxttluwn4lm9mcua0vuuyv4heqmfa7xgg3smqkr3yaz
-
-//wallet in seed captain
-//erd1lwtuygl44xqlydzhmpcczsu2g2r53ptg52d02htn52vryd2zs8nquv0ahq
-
-//wallet for test gnogen
-//erd1jl3sunvv58tplcke6y0qg0zrr5tnwpg54ql9ngs8jad89tm2u8hqehey5y
-
-//erd1hrh4gdjc506v5mhd74lv44mmwha66a4tk4mnjse48ka20ddatmyq42n5jy
-
 export const ProjectEndpointForm = ({
   module,
   endpoint,

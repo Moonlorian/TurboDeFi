@@ -249,6 +249,19 @@ class TurbodefiContractService {
 
     return newFlow;
   }
+
+  //TODO
+  async getUserSelectedTokens(address: string): Promise<string[]> {
+    const provider = new ProxyNetworkProvider(this.gatewayUrl, {
+      timeout: 5000
+    });
+
+    const tokenList:string[] = []
+    //TODO, load from smart contract user selected tokens
+
+
+    return tokenList;
+  }
 }
 
 export default TurbodefiContractService;

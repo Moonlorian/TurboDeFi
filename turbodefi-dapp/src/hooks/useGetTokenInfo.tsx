@@ -26,7 +26,7 @@ export const useGetTokenInfo = () => {
     if (fieldName) {
       const defaultValue = '';
       if (tokenList[tokenId]) return tokenList[tokenId][fieldName];
-      throw new Error('Token not found');
+      throw new Error(`Token ${tokenId} not found`);
     } else {
       return tokenList[tokenId];
     }

@@ -28,7 +28,7 @@ export const ProjectModule = ({
           <>
             <ActionButtonList>
               <Disclosure.Button
-                className={`bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-white hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
+                className={`bg-transparent inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-main-color hover:bg-main-color/80 hover:text-white mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
               >
                 <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown} />
               </Disclosure.Button>

@@ -4,8 +4,9 @@ export enum RouteNamesEnum {
   disclaimer = '/disclaimer',
   scanner = '/scanner',
   project = '/project/:projectName?',
-  AshSwap = '/AshSwap',
-  Staking = '/staking',
-  Flows = '/flows',
+  ashSwap = '/ashSwap',
+  staking = '/staking',
+  flows = '/flows',
   flow = '/flow/:flowId?',
+  dshboard = '/dashboard'
 }

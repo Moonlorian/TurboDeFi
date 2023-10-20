@@ -5,3 +5,4 @@ export * from './Disclaimer';
 export * from './Project';
 export * from './Stake';
 export * from './Flows';
+export * from './Dashboard';
