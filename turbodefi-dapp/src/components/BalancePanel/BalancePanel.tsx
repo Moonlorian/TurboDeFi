@@ -27,7 +27,7 @@ export const BalancePanel = () => {
   ]);
 
   return (
-    <Card className='border' title='Balances' reference=''>
+    <Card className='border' title='Wallet Balances' reference=''>
       {loadingTokens ? (
         <Spinner color={'main-color'} msg='Loading balance...' />
       ) : (
