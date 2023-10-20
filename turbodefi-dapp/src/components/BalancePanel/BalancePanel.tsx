@@ -17,7 +17,6 @@ export const BalancePanel = () => {
   const { hasPendingTransactions } = useGetPendingTransactions();
   const tokensBalance = useGetTokensBalanceInfo();
   const tokenInfo = useGetTokenInfo();
-  console.log(tokensBalance.tokensBalance);
 
   useEffect(() => {
     setLoadingTokens(!Object.keys(tokenInfo.tokenList).length);
