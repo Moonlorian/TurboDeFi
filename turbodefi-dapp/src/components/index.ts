@@ -17,3 +17,4 @@ export * from './StakingProviderSelector';
 export * from './TransactionWatcher';
 export * from './Spinner';
 export * from './BalancePanel';
+export * from './Input';

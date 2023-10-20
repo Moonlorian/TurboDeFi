@@ -1,4 +1,4 @@
-import { Button, Card, OutputContainer } from 'components';
+import { Button, Card, Input, OutputContainer } from 'components';
 import { Fragment, useEffect, useState } from 'react';
 import { ScannerTransactionRow } from './widgets';
 import { getInterpretedTransaction } from '@multiversx/sdk-dapp/utils/transactions/getInterpretedTransaction';
@@ -106,8 +106,7 @@ export const Scanner = () => {
           <div className='w-full mb-2'>
             <div className='mb-2 d-flex w-75'>
               <div className='mr-3 w-full'>
-                <input
-                  className='w-full py-[0.375rem] px-[0.75rem] text-base border rounded focus:border-blue-300 focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,.25)] focus-visible:border-0'
+                <Input
                   placeholder='Address to scan'
                   value={`${filterAddress}`}
                   onChange={(e: any) => {

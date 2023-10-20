@@ -1,8 +1,13 @@
 import StructEndpoint from 'StructReader/StructParts/StructEndpoint';
 import StructModule from 'StructReader/StructParts/StructModule';
-import { Button, Card, TokenSelector, OutputContainer } from 'components';
+import {
+  Button,
+  Card,
+  TokenSelector,
+  OutputContainer,
+  Input
+} from 'components';
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
-import { Form } from 'react-bootstrap';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
@@ -20,12 +25,12 @@ export const ProjectEndpointForm = ({
   module,
   endpoint,
   structReader,
-  className =''
+  className = ''
 }: {
   module: StructModule;
   endpoint: StructEndpoint;
   structReader: StructReader;
-  className?: string
+  className?: string;
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
@@ -193,8 +198,10 @@ export const ProjectEndpointForm = ({
             <Fragment key={index}>
               {showField(index) && (
                 <>
-                  <Form.Group className='mb-1'>
-                    <Form.Label>{input.label || input.name}</Form.Label>
+                  <div className='mb-1'>
+                    <label className='mb-[0.5rem]'>
+                      {input.label || input.name}
+                    </label>
                     {(input.type == 'TokenIdentifier' ||
                       input.type == 'EgldOrTokenIdentifier') &&
                     !input.fixedValue ? (
@@ -209,7 +216,7 @@ export const ProjectEndpointForm = ({
                         filter={input.token ? [input.token].flat() : []}
                       />
                     ) : (
-                      <Form.Control
+                      <Input
                         type={PrettyPrinter.getFormInputType(input.type)}
                         readOnly={input.fixedValue}
                         placeholder={input.label}
@@ -219,17 +226,14 @@ export const ProjectEndpointForm = ({
                         }}
                       />
                     )}
-                  </Form.Group>
+                  </div>
                 </>
               )}
             </Fragment>
           ))}
           <>
             {showExecuteBtn && (
-              <Button
-                disabled={!address}
-                onClick={executeEndpoint}
-              >
+              <Button disabled={!address} onClick={executeEndpoint}>
                 {endpoint.buttonLabel || 'Execute'}
               </Button>
             )}
