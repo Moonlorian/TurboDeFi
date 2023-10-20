@@ -188,7 +188,7 @@ export const ProjectEndpointForm = ({
           )}
         </p>
       ) : (
-        <Form className='mb-3'>
+        <div className='mb-3'>
           {endpoint.inputs?.map((input: DataType, index) => (
             <Fragment key={index}>
               {showField(index) && (
@@ -244,7 +244,7 @@ export const ProjectEndpointForm = ({
               )}
             </OutputContainer>
           )}
-        </Form>
+        </div>
       )}
     </Card>
   );
