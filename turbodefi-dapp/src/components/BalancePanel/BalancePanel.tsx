@@ -2,6 +2,7 @@ import {
   useGetAccountInfo,
   useGetPendingTransactions
 } from '@multiversx/sdk-dapp/hooks';
+import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { Card } from 'components/Card';
 import { Spinner } from 'components/Spinner';
 import { API_URL, defaultBalanceTokens } from 'config';
@@ -20,23 +21,36 @@ export const BalancePanel = () => {
 
   useEffect(() => {
     setLoadingTokens(!Object.keys(tokenInfo.tokenList).length);
-  }, [hasPendingTransactions, tokensBalance.tokensBalance, tokenInfo.tokenList]);
+  }, [
+    hasPendingTransactions,
+    tokensBalance.tokensBalance,
+    tokenInfo.tokenList
+  ]);
 
   return (
     <Card className='border' title='Balances' reference=''>
       {loadingTokens ? (
         <Spinner color={'main-color'} msg='Loading balance...' />
       ) : (
-        <div className="grid auto-rows-min lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+        <div className='grid auto-rows-min lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1'>
           {Object.keys(tokensBalance.tokensBalance).map((token, index) => (
-            <div key={index} className='flex flex-row items-center mb-1 shrink-1 grow-0 basics-0 flex-nowrap'>
+            <div
+              key={index}
+              className='flex flex-row items-center mb-1 shrink-1 grow-0 basics-0 flex-nowrap'
+            >
               <span className='shrink text-gray-500 text-sm'>
-                {token}{' '}
+                {tokenInfo.get(token, 'name')}{' '}
                 <span className='font-bold text-black-500 text-base'>
-                  {tokensBalance
-                    .getBalance(token)
-                    .dividedBy(10 ** tokenInfo.get(token, 'decimals'))
-                    .toFixed(4)}
+                  {formatAmount({
+                    input: tokensBalance
+                      .getBalance(token)
+                      .toFixed(0),
+                    decimals: tokenInfo.get(token, 'decimals'),
+                    digits: 4,
+                    showIsLessThanDecimalsLabel: true,
+                    addCommas: true,
+                    showLastNonZeroDecimal: false
+                  })}
                 </span>
               </span>
               <img
