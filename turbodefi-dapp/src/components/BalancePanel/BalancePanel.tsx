@@ -41,10 +41,12 @@ export const BalancePanel = () => {
                 {tokenInfo.get(token, 'name')}{' '}
                 <span className='font-bold text-black-500 text-base'>
                   {formatAmount({
-                    input: tokensBalance
-                      .getBalance(token)
-                      .toFixed(0),
-                    decimals: tokenInfo.get(token, 'decimals'),
+                    input: tokensBalance.getBalance(token).toFixed(0),
+                    decimals: Number.isNaN(
+                      parseInt(tokenInfo.get(token, 'decimals'))
+                    )
+                      ? 0
+                      : parseInt(tokenInfo.get(token, 'decimals')),
                     digits: 4,
                     showIsLessThanDecimalsLabel: true,
                     addCommas: true,
