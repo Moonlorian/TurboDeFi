@@ -79,7 +79,6 @@
       "address": "erd1qqqqqqqqqqqqqpgqsu2vxxx5l3tjgcnjl6mftlz5dtz5cp5s398syqw3gz",
       "endpoints": [
         {
-          "notImplemented": true,
           "name": "getAccountState",
           "label": "My Status",
           "mutability": "readonly",
@@ -92,7 +91,7 @@
           ],
           "outputs": [
             {
-              "type": "AccountState"
+              "type": "NFTAccountState"
             }
           ]
         },
@@ -156,6 +155,62 @@
           "hidden": true
         }
       ]
-    }
+    },
+    "NFTAccountState": {
+      "type": "struct",
+      "fields": [
+          {
+              "name": "user_staked_nft_balance",
+              "label": "My Staked CityNFT",
+              "type": "BigUint"
+          },
+          {
+              "name": "user_pool_score",
+              "label": "Score",
+              "type": "BigUint"
+          },
+          {
+              "name": "user_rewards",
+              "label": "My Earned",
+              "type": "BigUint",
+              "balance": true
+          },
+          {
+              "name": "nft_nonce",
+              "type": "u64",
+              "hidden": true
+          },
+          {
+              "name": "user_staked_amount_per_nonce",
+              "type": "BigUint",
+              "hidden": true
+          },
+          {
+              "name": "user_unbonding_amount_per_nonce",
+              "type": "BigUint",
+              "hidden": true
+          },
+          {
+              "name": "user_unbonded_amount_per_nonce",
+              "type": "BigUint",
+              "hidden": true
+          },
+          {
+              "name": "user_unbonding_start_timestamp_per_nonce",
+              "type": "u64",
+              "hidden": true
+          },
+          {
+              "name": "user_unbonding_end_timestamp_per_nonce",
+              "type": "u64",
+              "hidden": true
+          },
+          {
+              "name": "apr",
+              "type": "BigUint",
+              "hidden": true
+          }
+      ]
+  }
   }
 }
