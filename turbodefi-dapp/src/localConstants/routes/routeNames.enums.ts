@@ -8,5 +8,5 @@ export enum RouteNamesEnum {
   staking = '/staking',
   flows = '/flows',
   flow = '/flow/:flowId?',
-  dshboard = '/dashboard'
+  dashboard = '/dashboard'
 }

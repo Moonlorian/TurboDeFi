@@ -61,7 +61,7 @@ export const routes: RouteWithTitleType[] = [
     visibleInHeader: false
   },
   {
-    path: RouteNamesEnum.dshboard,
+    path: RouteNamesEnum.dashboard,
     title: 'Dashboard',
     component: Dashboard,
     visibleInHeader: true
