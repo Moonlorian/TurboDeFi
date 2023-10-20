@@ -11,7 +11,7 @@ export const EXPLORER_URL = 'https://devnet-explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://devnet-graph.xexchange.com/graphql';
 export const CHAIN_ID = 'D';
 export const sampleAuthenticatedDomains = [API_URL];
-export const environment = EnvironmentsEnum.devnet;
+export const environment:EnvironmentsEnum = EnvironmentsEnum.devnet;
 
 export const turbodefiAddress = 'erd1kxqyvfachg9v64lyh55j5ssecw46um4pdsl5vjcavd5jswf3am7qet69hm';
 
@@ -24,3 +24,5 @@ export const projectContractList:{[key: string]: string} = {
 };
 
 export const ProjectList = ['proteo', 'seedCaptain', 'gnogen', 'xexchange', 'flow'];
+
+export const defaultBalanceTokens = ['EGLD', 'WEGLD-d7c6bb', 'USDC-8d4068'];

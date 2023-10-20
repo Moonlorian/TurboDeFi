@@ -8,7 +8,7 @@ export const GATEWAY_URL = 'https://testnet-gateway.multiversx.com';
 export const EXPLORER_URL = 'https://testnet-explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://testnet-graph.xexchange.com/graphql';
 export const sampleAuthenticatedDomains = [API_URL];
-export const environment = EnvironmentsEnum.testnet;
+export const environment:EnvironmentsEnum = EnvironmentsEnum.testnet;
 
 
 export const projectContractList:{[key: string]: string} = {
@@ -19,3 +19,5 @@ export const projectContractList:{[key: string]: string} = {
     erd1qqqqqqqqqqqqqpgqarahd5ywlz2gz598mnn74xjwr4v6qm3m697qz7ra7k: 'seedCaptain'
   };
   
+
+  export const defaultBalanceTokens = [];

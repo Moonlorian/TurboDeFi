@@ -1,5 +1,5 @@
 import { RouteNamesEnum } from 'localConstants';
-import { Disclaimer, Home, StakePage, Flows } from 'pages';
+import { Disclaimer, Home, StakePage, Flows, Dashboard } from 'pages';
 import { Project } from 'pages/Project';
 import { Scanner } from 'pages/Scanner';
 import { Flow } from 'pages/Flow';
@@ -37,19 +37,19 @@ export const routes: RouteWithTitleType[] = [
     visibleInHeader: true
   },
   {
-    path: RouteNamesEnum.AshSwap,
+    path: RouteNamesEnum.ashSwap,
     title: 'Swap',
     component: AshSwapPage,
     visibleInHeader: true
   },
   {
-    path: RouteNamesEnum.Flows,
+    path: RouteNamesEnum.flows,
     title: 'Flows',
     component: Flows,
     visibleInHeader: true
   },
   {
-    path: RouteNamesEnum.Staking,
+    path: RouteNamesEnum.staking,
     title: 'Staking',
     component: StakePage,
     visibleInHeader: true
@@ -59,5 +59,11 @@ export const routes: RouteWithTitleType[] = [
     title: 'Flow',
     component: Flow,
     visibleInHeader: false
+  },
+  {
+    path: RouteNamesEnum.dshboard,
+    title: 'Dashboard',
+    component: Dashboard,
+    visibleInHeader: true
   }
 ];

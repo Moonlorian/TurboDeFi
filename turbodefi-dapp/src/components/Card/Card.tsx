@@ -8,7 +8,7 @@ import { ExplorerLink } from '@multiversx/sdk-dapp/UI';
 interface CardType extends PropsWithChildren, WithClassnameType {
   title: string;
   description?: string;
-  reference: string;
+  reference?: string;
   address?: string;
 }
 

@@ -21,7 +21,7 @@ type apiQueryMandatoryOptions = {
 
 export const getEgldPrice = async () => {
   const url = `https://${
-    environment != EnvironmentsEnum.mainnet ? environment + '-' : ''
+    (environment != EnvironmentsEnum.mainnet) ? environment + '-' : ''
   }api.multiversx.com/economics`;
   return axios
     .get(url)

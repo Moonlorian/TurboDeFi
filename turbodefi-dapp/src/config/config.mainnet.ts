@@ -9,7 +9,7 @@ export const EXPLORER_URL = 'https://explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://graph.xexchange.com/graphql';
 export const CHAIN_ID = '1';
 export const sampleAuthenticatedDomains = [API_URL];
-export const environment = EnvironmentsEnum.mainnet;
+export const environment:EnvironmentsEnum = EnvironmentsEnum.mainnet;
 
 export const turbodefiAddress = 'erd1kxqyvfachg9v64lyh55j5ssecw46um4pdsl5vjcavd5jswf3am7qet69hm';
 
@@ -28,3 +28,5 @@ export const projectContractList: { [key: string]: string } = {
 };
 
 export const ProjectList = ['CyberpunkCity', "xExchange", 'OneDex', 'Proteo', 'gnogen'];
+
+export const defaultBalanceTokens = ['EGLD', 'WEGLD-bd4d79', 'USDC-c76f1f'];
