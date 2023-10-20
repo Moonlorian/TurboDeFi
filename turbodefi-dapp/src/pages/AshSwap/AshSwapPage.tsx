@@ -6,8 +6,8 @@ export const AshSwapPage = () => {
       <div className='flex flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 flex-2'>
         <Card
           className='flex-2 w-full position-relative'
-          title='Staking providers'
-          description='Manage your staked tokens'
+          title='Swap'
+          description='Swap your tokens'
           reference={''}
         >
           <div className='w-[100%] lg:w-[50%] m-auto'>
