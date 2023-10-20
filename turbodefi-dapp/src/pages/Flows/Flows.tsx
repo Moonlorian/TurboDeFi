@@ -13,9 +13,7 @@ export const Flows = () => {
   const [userFlows, setUserFlows] = useState<FlowType[]>([]);
   const [selectedFlow, setSelectedFlow] = useState<FlowType>();
 
-  //const { address } = useGetAccount();
-  const address: string =
-    'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
+  const { address } = useGetAccount();
   const { hasPendingTransactions } = useGetPendingTransactions();
   const navigate = useNavigate();
 

@@ -24,8 +24,7 @@ export const Flow = () => {
   const [flowId, setFlowId] = useState(0);
   const [flow, setFlow] = useState<FlowType>();
 
-  //const { address } = useGetAccount();
-  const address:string = 'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
+  const { address } = useGetAccount();
   const location = useLocation();
   const navigate = useNavigate();
   const { hasPendingTransactions } = useGetPendingTransactions();

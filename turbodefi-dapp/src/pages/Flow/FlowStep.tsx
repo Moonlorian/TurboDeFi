@@ -23,9 +23,7 @@ export const FlowStep = ({
 }) => {
   const [creatingEndpointStep, setCreatingEndpointStep] = useState(false);
   const [creatingComponentStep, setCreatingComponentStep] = useState(false);
-  //const { address } = useGetAccount();
-  const address: string =
-    'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
+  const { address } = useGetAccount();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const canShowCreateButton = () => {

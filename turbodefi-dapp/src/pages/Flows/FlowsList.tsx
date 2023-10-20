@@ -22,8 +22,7 @@ export const FlowsList = ({
   selectionFLowCallback: any;
 }) => {
   const [creatingFlow, setCreatingFlow] = useState(false);
-  //const { address } = useGetAccount();
-  const address:string = 'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
+  const { address } = useGetAccount();
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const initCreatingFlow = () => setCreatingFlow(true);
