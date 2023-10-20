@@ -302,7 +302,7 @@ class StructReader {
         return this._modules[i];
       }
     }
-    throw new Error('Module not found');
+    throw new Error(`Module ${moduleName} not found`);
   }
 
   //TODO Load file from a folder

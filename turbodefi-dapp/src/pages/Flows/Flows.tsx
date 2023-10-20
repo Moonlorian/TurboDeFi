@@ -13,7 +13,9 @@ export const Flows = () => {
   const [userFlows, setUserFlows] = useState<FlowType[]>([]);
   const [selectedFlow, setSelectedFlow] = useState<FlowType>();
 
-  const { address } = useGetAccount();
+  //const { address } = useGetAccount();
+  const address: string =
+    'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
   const { hasPendingTransactions } = useGetPendingTransactions();
   const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ export const Flows = () => {
       navigate('/flow/' + selectedFlow.id);
     }
   }, [selectedFlow]);
-  
+
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <FlowsList

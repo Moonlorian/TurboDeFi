@@ -22,7 +22,8 @@ export const FlowsList = ({
   selectionFLowCallback: any;
 }) => {
   const [creatingFlow, setCreatingFlow] = useState(false);
-  const { address } = useGetAccount();
+  //const { address } = useGetAccount();
+  const address:string = 'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const initCreatingFlow = () => setCreatingFlow(true);
@@ -31,7 +32,7 @@ export const FlowsList = ({
   const canShowCreateButton = () => {
     if (!address) return false;
     if (listType === 'system') return false;
-    if (address == turbodefiAddress) return true;
+    //if (address == turbodefiAddress) return true;
 
     return !creatingFlow;
   };

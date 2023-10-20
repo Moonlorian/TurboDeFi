@@ -1,4 +1,3 @@
-import { EndpointStep } from './EndpointStep';
 import { ComponentStep } from './ComponentStep';
 import { ActionButton, ActionButtonList, Card } from 'components';
 import { FlowStepType } from 'types';
@@ -13,6 +12,7 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { Disclosure } from '@headlessui/react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
+import { EndpointsFromStep } from './EndpointsFromStep';
 
 export const FlowStep = ({
   step,
@@ -23,7 +23,9 @@ export const FlowStep = ({
 }) => {
   const [creatingEndpointStep, setCreatingEndpointStep] = useState(false);
   const [creatingComponentStep, setCreatingComponentStep] = useState(false);
-  const { address } = useGetAccount();
+  //const { address } = useGetAccount();
+  const address: string =
+    'erd1szgkssak7g8s6rlyhehaauykurheuatxvksxme4pclmexxyhhvcsg8vczd';
   const { hasPendingTransactions } = useGetPendingTransactions();
 
   const canShowCreateButton = () => {
@@ -113,7 +115,7 @@ export const FlowStep = ({
               <Disclosure.Panel className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
                 <>
                   {step.endpoints && step.endpoints?.length > 0 ? (
-                    <EndpointStep step={step} />
+                    <EndpointsFromStep step={step} />
                   ) : (
                     <>
                       {step.component && (
