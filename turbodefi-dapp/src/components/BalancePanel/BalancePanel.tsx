@@ -11,17 +11,19 @@ import {
   useGetTokensBalanceInfo
 } from 'hooks';
 import React, { useEffect, useMemo, useState } from 'react';
+import BigNumber from 'bignumber.js';
 
 export const BalancePanel = () => {
   const [loadingTokens, setLoadingTokens] = useState(true);
 
-  const { address } = useGetAccountInfo();
+  const [maxElements, setMaxElements] = useState(6);
+
   const { hasPendingTransactions } = useGetPendingTransactions();
   const tokensBalance = useGetTokensBalanceInfo();
   const tokenInfo = useGetTokenInfo();
   const tokensPrice = useGetTokenUSDPrices();
 
-  const maxElements = 6;
+  const usdDecimals = 6;
 
   const balanceList = useMemo(
     () =>
@@ -33,8 +35,31 @@ export const BalancePanel = () => {
     [tokensBalance.tokensBalance, tokensPrice.tokensPrice]
   );
 
+  const totalUsd: BigNumber = useMemo(
+    () =>
+      balanceList.reduce((previous, current, index, fullList) => {
+        return previous.plus(
+          current.balance
+            .multipliedBy(current.price)
+            .dividedBy(
+              10 **
+                (Number.isNaN(
+                  parseInt(tokenInfo.get(fullList[index].token, 'decimals'))
+                )
+                  ? 0
+                  : parseInt(tokenInfo.get(fullList[index].token, 'decimals')))
+            )
+            .multipliedBy(10 ** usdDecimals)
+        );
+      }, new BigNumber(0)),
+    [balanceList]
+  );
+
   useEffect(() => {
-    setLoadingTokens(!Object.keys(tokenInfo.tokenList).length || !Object.keys(tokensPrice.tokensPrice).length);
+    setLoadingTokens(
+      !Object.keys(tokenInfo.tokenList).length ||
+        !Object.keys(tokensPrice.tokensPrice).length
+    );
   }, [
     hasPendingTransactions,
     tokensBalance.tokensBalance,
@@ -42,9 +67,20 @@ export const BalancePanel = () => {
     tokensPrice.tokensPrice
   ]);
 
-
   return (
     <Card className='border' title='Wallet Balances' reference=''>
+      <p>
+        ($
+        {formatAmount({
+          input: totalUsd.toFixed(0),
+          decimals: usdDecimals,
+          digits: 2,
+          showIsLessThanDecimalsLabel: true,
+          addCommas: true,
+          showLastNonZeroDecimal: false
+        })}
+        )
+      </p>
       {loadingTokens ? (
         <Spinner color={'main-color'} msg='Loading balance...' />
       ) : (
@@ -78,8 +114,7 @@ export const BalancePanel = () => {
                       addCommas: true,
                       showLastNonZeroDecimal: false
                     })}
-                  </span>
-                  {' '}
+                  </span>{' '}
                   <span className='font-normal text-sm'>
                     ($
                     {formatAmount({
@@ -104,6 +139,25 @@ export const BalancePanel = () => {
               </div>
             ))}
         </div>
+      )}
+      {maxElements < balanceList.length ? (
+        <a
+          className='cursor-pointer'
+          onClick={(e) => {
+            setMaxElements(balanceList.length);
+          }}
+        >
+          Show all
+        </a>
+      ) : (
+        <a
+          className='cursor-pointer'
+          onClick={(e) => {
+            setMaxElements(6);
+          }}
+        >
+          Show less
+        </a>
       )}
     </Card>
   );
