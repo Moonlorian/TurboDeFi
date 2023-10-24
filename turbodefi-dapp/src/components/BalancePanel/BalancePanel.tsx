@@ -34,16 +34,14 @@ export const BalancePanel = () => {
   );
 
   useEffect(() => {
-    setLoadingTokens(!Object.keys(tokenInfo.tokenList).length);
+    setLoadingTokens(!Object.keys(tokenInfo.tokenList).length || !Object.keys(tokensPrice.tokensPrice).length);
   }, [
     hasPendingTransactions,
     tokensBalance.tokensBalance,
-    tokenInfo.tokenList
+    tokenInfo.tokenList,
+    tokensPrice.tokensPrice
   ]);
 
-  useEffect(() => {
-    tokensPrice.loadPrices(Object.keys(tokensBalance.tokensBalance));
-  }, [hasPendingTransactions, tokensBalance.tokensBalance]);
 
   return (
     <Card className='border' title='Wallet Balances' reference=''>

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { GlobalDataContext, getTokenListData } from '../services';
+import {  PricesDataContext, getTokenListData } from '../services';
 import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from './sdkDappHooks';
 
@@ -7,6 +7,8 @@ export const useGetTokenUSDPrices = () => {
   const [tokensPrice, setTokensPrice] = useState<{
     [index: string]: BigNumber;
   }>({});
+
+  const priceDataContext = useContext(PricesDataContext);
 
   /**
    * Load tokens price in USD
@@ -18,16 +20,9 @@ export const useGetTokenUSDPrices = () => {
    *
    *
    */
-  async function loadPrices(tokenList: string[]) {
-    const tokenData = await getTokenListData(tokenList);
-    const finalTokenList: { [index: string]: BigNumber } = {};
-
-    Object.keys(tokenData).map((token: any) => {
-      finalTokenList[token] = new BigNumber(tokenData[token]?.price ?? 0);
-    });
-
-    setTokensPrice(finalTokenList);
-  }
+  const loadPrices = (tokenList: string[]) => {
+    priceDataContext.updatePrices(tokenList);
+  };
 
   /**
    * Get an specific token price un USD
@@ -42,5 +37,9 @@ export const useGetTokenUSDPrices = () => {
   function getPrice(tokenID: string) {
     return tokensPrice[tokenID] ? tokensPrice[tokenID] : new BigNumber(0);
   }
-  return { loadPrices, tokensPrice, getPrice};
+  useEffect(() => {
+    setTokensPrice(priceDataContext.prices);
+  }, [priceDataContext.prices]);
+
+  return { loadPrices, tokensPrice, getPrice };
 };

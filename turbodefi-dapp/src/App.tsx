@@ -21,7 +21,7 @@ import { RouteNamesEnum } from 'localConstants';
 import { PageNotFound, Unlock } from 'pages';
 import { routes } from 'routes';
 import { BatchTransactionsContextProvider } from 'wrappers';
-import { GlobalDataComponent } from 'services/GlobalDataLoad';
+import { GlobalDataComponent, TokenPricesLoader } from 'services';
 
 const AppContent = () => {
   return (
@@ -53,22 +53,24 @@ const AppContent = () => {
     >
       <AxiosInterceptorContext.Listener>
         <GlobalDataComponent>
-          <Layout>
-            <TransactionsToastList />
-            <NotificationModal />
-            <SignTransactionsModals />
-            <Routes>
-              <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
-              {routes.map((route) => (
-                <Route
-                  path={route.path}
-                  key={`route-key-'${route.path}`}
-                  element={<route.component />}
-                />
-              ))}
-              <Route path='*' element={<PageNotFound />} />
-            </Routes>
-          </Layout>
+          <TokenPricesLoader>
+            <Layout>
+              <TransactionsToastList />
+              <NotificationModal />
+              <SignTransactionsModals />
+              <Routes>
+                <Route path={RouteNamesEnum.unlock} element={<Unlock />} />
+                {routes.map((route) => (
+                  <Route
+                    path={route.path}
+                    key={`route-key-'${route.path}`}
+                    element={<route.component />}
+                  />
+                ))}
+                <Route path='*' element={<PageNotFound />} />
+              </Routes>
+            </Layout>
+          </TokenPricesLoader>
         </GlobalDataComponent>
       </AxiosInterceptorContext.Listener>
     </DappProvider>
