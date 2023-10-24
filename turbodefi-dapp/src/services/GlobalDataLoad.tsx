@@ -12,7 +12,7 @@ import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactio
 
 const globalData = {
   tokenList: {} as { [key: string]: any },
-  tokenBalance: {} as { [key: string]: any }z
+  tokenBalance: {} as { [key: string]: any }
 };
 
 export type GlobalDataTYpe = typeof globalData;
