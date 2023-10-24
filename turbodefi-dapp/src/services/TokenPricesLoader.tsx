@@ -29,22 +29,18 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
 
   const loadPrices = useCallback(async (tokenList: string[]) => {
     const currentTokenList = Object.keys(pricesList);
-    console.log("currentTokenList: ", currentTokenList);
     const finalTokenIdList = tokenList.filter(
       (tokenId: string) => !currentTokenList.includes(tokenId)
     );
-    console.log("finaltokenIDlist: ", finalTokenIdList);
 
     if (finalTokenIdList.length == 0) return;
     const tokenData = await getTokenListData(finalTokenIdList);
-    console.log("tokenData: ", tokenData);
 
     const finalTokenList: { [key: string]: BigNumber } = { ...pricesList };
     Object.keys(tokenData).map((token: any) => {
       finalTokenList[token] = new BigNumber(tokenData[token]?.price ?? 0);
     });
 
-    console.log("finalTokenList: ", finalTokenList);
     setPricesList(finalTokenList);
   }, [pricesList]);
 
