@@ -3,8 +3,19 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { Disclosure } from '@headlessui/react';
 import { ActionButtonList, BalancePanel, Card } from 'components';
+import { useEffect } from 'react';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
+import { useGetTokenUSDPrices, useGetTokensBalanceInfo } from 'hooks';
 
 export const Dashboard = () => {
+  const { hasPendingTransactions } = useGetPendingTransactions();
+  const tokensBalance = useGetTokensBalanceInfo();
+  const tokensPrice = useGetTokenUSDPrices();
+
+  useEffect(() => {
+    if (Object.keys(tokensBalance.tokensBalance).length === 0) return;
+    tokensPrice.loadPrices(Object.keys(tokensBalance.tokensBalance));
+  }, [hasPendingTransactions, tokensBalance.tokensBalance]);
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <div className='flex flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 flex-2'>
@@ -22,7 +33,7 @@ export const Dashboard = () => {
                   </Disclosure.Button>
                 </ActionButtonList>
                 <Disclosure.Panel className=''>
-                    {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */ }
+                  {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */}
                   <BalancePanel />
                 </Disclosure.Panel>
               </>

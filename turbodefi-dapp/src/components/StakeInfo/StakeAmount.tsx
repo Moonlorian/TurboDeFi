@@ -15,7 +15,6 @@ import { Label } from 'components/Label';
 import {
   delegate,
   getEgldPrice,
-  getTokenListData,
   stakingProvidersLoadService
 } from 'services';
 
