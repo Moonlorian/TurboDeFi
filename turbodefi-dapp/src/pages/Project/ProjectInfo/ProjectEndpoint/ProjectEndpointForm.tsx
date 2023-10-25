@@ -175,7 +175,6 @@ export const ProjectEndpointForm = ({
       setShowExecuteBtn(false);
     }
   }, [pendingTransactions]);
-  console.log(endpoint.inputs);
   return (
     <Card
       className={`flex-2 ${className}`}
@@ -235,6 +234,12 @@ export const ProjectEndpointForm = ({
                                             'decimals'
                                           )
                                       )
+                                      .toFixed(
+                                        tokenInfo.get(
+                                          input.token.toString(),
+                                          'decimals'
+                                        )
+                                      )
                                   : new BigNumber(0)
                               );
                             }}
@@ -243,11 +248,12 @@ export const ProjectEndpointForm = ({
                           </span>
                         )}
                         <Input
-                          type={PrettyPrinter.getFormInputType(input.type)}
                           readOnly={input.fixedValue}
                           placeholder={input.label}
                           value={fieldValues[index] ?? ''}
-                          className={`w-full ${input.type == 'BigUint' ? 'text-right' : ''}`}
+                          className={`w-full ${
+                            input.type == 'BigUint' ? 'text-right' : ''
+                          }`}
                           onChange={(e: any) => {
                             updateValue(index, e.target.value);
                           }}
