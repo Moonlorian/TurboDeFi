@@ -1,9 +1,10 @@
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { Label } from 'components';
 import { useGetTokenInfo, useGetTokenUSDPrices } from 'hooks';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BigNumber from 'bignumber.js';
+import UsdValueContext from './UsdValueContext';
 
 export const FormatEndpointField = ({
   output,
@@ -17,17 +18,40 @@ export const FormatEndpointField = ({
   const tokenInfo = useGetTokenInfo();
   const priceInfo = useGetTokenUSDPrices();
 
+  const { totalUsdValue, handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+
   useEffect(() => {
     if (field.balance && field?.token) {
       priceInfo.loadPrices([field.token]);
     }
   }, [field.balance, field.token]);
 
+  useEffect(() => {
+    if (
+      field.token &&
+      field.balance &&
+      priceInfo.tokensPrice[field.token] &&
+      priceInfo.tokensPrice[field.token].isGreaterThan(0) &&
+      priceInUsd.isZero()
+    ) {
+      const newPrice = priceInfo
+        .getPrice(field?.token)
+        .multipliedBy(field.value ?? field)
+        .dividedBy(10 ** tokenInfo.get(field.token, 'decimals'));
+      setPriceInUsd(newPrice);
+    }
+  }, [priceInfo.tokensPrice[field.token]]);
+
+  useEffect(() => {
+    if (priceInUsd.isGreaterThan(0)) {
+      handleUpdateTotalUsdValue(priceInUsd);
+    }
+  }, [priceInUsd]);
+
   return (
     <div
-      className={`${
-        field.balance ? 'font-weight-bold' : ''
-      } flex align-items-center flex-wrap sm:flex-nowrap`}
+      className={`${field.balance ? 'font-weight-bold' : ''
+        } flex align-items-center flex-wrap sm:flex-nowrap`}
     >
       {(field?.label || field?.name) && (
         <Label className='whitespace-nowrap'>

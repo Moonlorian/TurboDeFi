@@ -7,7 +7,7 @@ import {
   OutputContainer,
   Input
 } from 'components';
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
@@ -21,6 +21,7 @@ import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID, GATEWAY_URL } from 'config';
+import UsdValueContext from './UsdValueContext';
 
 export const ProjectEndpointForm = ({
   module,
@@ -38,6 +39,8 @@ export const ProjectEndpointForm = ({
   const [executeAction, setExecuteAction] = useState(false);
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(new BigNumber(0));
 
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
@@ -114,10 +117,10 @@ export const ProjectEndpointForm = ({
         return new BigNumber(value)
           .multipliedBy(
             10 **
-              tokenInfo.get(
-                getTokenFromInputList(input.token || ''),
-                'decimals'
-              )
+            tokenInfo.get(
+              getTokenFromInputList(input.token || ''),
+              'decimals'
+            )
           )
           .toFixed();
       }
@@ -175,64 +178,73 @@ export const ProjectEndpointForm = ({
       setShowExecuteBtn(false);
     }
   }, [pendingTransactions]);
+
+  const handleUpdateTotalUsdValue = (valueToAdd: BigNumber) => {
+    setTotalUsdValue((total) => {
+      return total.plus(valueToAdd);
+    })
+  };
+
   return (
-    <Card
-      className={`flex-2 ${className}`}
-      key={'projectEndpoint_' + endpoint.name}
-      title={endpoint.label || endpoint.name}
-      description={endpoint.description}
-      reference={''}
-      address={endpoint.address}
-    >
-      {endpoint.notImplemented ? (
-        <p>
-          Not integrated yet!
-          {projectUrl && (
-            <span>
-              Visit <a href={projectUrl}>{projectUrl}</a> for more information
-            </span>
-          )}
-        </p>
-      ) : (
-        <div className='mb-3'>
-          {endpoint.inputs?.map((input: DataType, index) => (
-            <Fragment key={index}>
-              {showField(index) && (
-                <>
-                  <div className='mb-1'>
-                    <label className='mb-[0.5rem]'>
-                      {input.label || input.name}
-                    </label>
-                    {(input.type == 'TokenIdentifier' ||
-                      input.type == 'EgldOrTokenIdentifier') &&
-                    !input.fixedValue ? (
-                      <TokenSelector
-                        onChange={(tokenId: string) => {
-                          updateValue(index, tokenId);
-                        }}
-                        placeHolder='Token'
-                        defaultValue={
-                          input.defaultValue || input.token || endpoint.token
-                        }
-                        filter={input.token ? [input.token].flat() : []}
-                      />
-                    ) : (
-                      <div className='w-full position-relative flex-1 flex items-end flex-column'>
-                        {input.token && input.type == 'BigUint' && (
-                          <span
-                            className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[1%] bg-main-color hover:bg-main-color/70 p-1 px-2'
-                            onClick={() => {
-                              updateValue(
-                                index,
-                                input?.token
-                                  ? balanceInfo
+    <UsdValueContext.Provider value={{ totalUsdValue, handleUpdateTotalUsdValue }}>
+      <Card
+        className={`flex-2 ${className}`}
+        key={'projectEndpoint_' + endpoint.name}
+        title={endpoint.label || endpoint.name}
+        description={endpoint.description}
+        reference={''}
+        address={endpoint.address}
+        subtitle={totalUsdValue?.toFixed()}
+      >
+        {endpoint.notImplemented ? (
+          <p>
+            Not integrated yet!
+            {projectUrl && (
+              <span>
+                Visit <a href={projectUrl}>{projectUrl}</a> for more information
+              </span>
+            )}
+          </p>
+        ) : (
+          <div className='mb-3'>
+            {endpoint.inputs?.map((input: DataType, index) => (
+              <Fragment key={index}>
+                {showField(index) && (
+                  <>
+                    <div className='mb-1'>
+                      <label className='mb-[0.5rem]'>
+                        {input.label || input.name}
+                      </label>
+                      {(input.type == 'TokenIdentifier' ||
+                        input.type == 'EgldOrTokenIdentifier') &&
+                        !input.fixedValue ? (
+                        <TokenSelector
+                          onChange={(tokenId: string) => {
+                            updateValue(index, tokenId);
+                          }}
+                          placeHolder='Token'
+                          defaultValue={
+                            input.defaultValue || input.token || endpoint.token
+                          }
+                          filter={input.token ? [input.token].flat() : []}
+                        />
+                      ) : (
+                        <div className='w-full position-relative flex-1 flex items-end flex-column'>
+                          {input.token && input.type == 'BigUint' && (
+                            <span
+                              className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[1%] bg-main-color hover:bg-main-color/70 p-1 px-2'
+                              onClick={() => {
+                                updateValue(
+                                  index,
+                                  input?.token
+                                    ? balanceInfo
                                       .getBalance(input.token.toString())
                                       .dividedBy(
                                         10 **
-                                          tokenInfo.get(
-                                            input.token.toString(),
-                                            'decimals'
-                                          )
+                                        tokenInfo.get(
+                                          input.token.toString(),
+                                          'decimals'
+                                        )
                                       )
                                       .toFixed(
                                         tokenInfo.get(
@@ -240,50 +252,50 @@ export const ProjectEndpointForm = ({
                                           'decimals'
                                         )
                                       )
-                                  : new BigNumber(0)
-                              );
+                                    : new BigNumber(0)
+                                );
+                              }}
+                            >
+                              max
+                            </span>
+                          )}
+                          <Input
+                            readOnly={input.fixedValue}
+                            placeholder={input.label}
+                            value={fieldValues[index] ?? ''}
+                            className={`w-full ${input.type == 'BigUint' ? 'text-right' : ''
+                              }`}
+                            onChange={(e: any) => {
+                              updateValue(index, e.target.value);
                             }}
-                          >
-                            max
-                          </span>
-                        )}
-                        <Input
-                          readOnly={input.fixedValue}
-                          placeholder={input.label}
-                          value={fieldValues[index] ?? ''}
-                          className={`w-full ${
-                            input.type == 'BigUint' ? 'text-right' : ''
-                          }`}
-                          onChange={(e: any) => {
-                            updateValue(index, e.target.value);
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </>
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </Fragment>
+            ))}
+            <>
+              {showExecuteBtn && (
+                <Button disabled={!address} onClick={executeEndpoint}>
+                  {endpoint.buttonLabel || 'Execute'}
+                </Button>
               )}
-            </Fragment>
-          ))}
-          <>
-            {showExecuteBtn && (
-              <Button disabled={!address} onClick={executeEndpoint}>
-                {endpoint.buttonLabel || 'Execute'}
-              </Button>
+            </>
+            {showOutput && (
+              <OutputContainer isLoading={isLoading}>
+                {response.length > 0 && (
+                  <ShowEndpointData
+                    output={response.length == 1 ? response[0] : response}
+                    endpoint={endpoint}
+                  />
+                )}
+              </OutputContainer>
             )}
-          </>
-          {showOutput && (
-            <OutputContainer isLoading={isLoading}>
-              {response.length > 0 && (
-                <ShowEndpointData
-                  output={response.length == 1 ? response[0] : response}
-                  endpoint={endpoint}
-                />
-              )}
-            </OutputContainer>
-          )}
-        </div>
-      )}
-    </Card>
+          </div>
+        )}
+      </Card>
+    </UsdValueContext.Provider>
   );
 };
