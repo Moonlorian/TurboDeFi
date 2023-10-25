@@ -68,19 +68,19 @@ export const BalancePanel = () => {
   ]);
 
   return (
-    <Card className='border' title='Wallet Balances' reference=''>
-      <p>
-        ($
-        {formatAmount({
-          input: totalUsd.toFixed(0),
-          decimals: usdDecimals,
-          digits: 2,
-          showIsLessThanDecimalsLabel: true,
-          addCommas: true,
-          showLastNonZeroDecimal: false
-        })}
-        )
-      </p>
+    <Card
+      className='border'
+      title='Wallet Balances'
+      reference=''
+      subtitle={`($${formatAmount({
+        input: totalUsd.toFixed(0),
+        decimals: usdDecimals,
+        digits: 2,
+        showIsLessThanDecimalsLabel: true,
+        addCommas: true,
+        showLastNonZeroDecimal: false
+      })})`}
+    >
       {loadingTokens ? (
         <Spinner color={'main-color'} msg='Loading balance...' />
       ) : (
