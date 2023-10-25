@@ -27,22 +27,26 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
 
   const { hasPendingTransactions } = useGetPendingTransactions();
 
-  const loadPrices = useCallback(async (tokenList: string[]) => {
-    const currentTokenList = Object.keys(pricesList);
-    const finalTokenIdList = tokenList.filter(
-      (tokenId: string) => !currentTokenList.includes(tokenId)
-    );
+  const loadPrices = useCallback(
+    async (tokenList: string[]) => {
+      const currentTokenList = Object.keys(pricesList);
+      const finalTokenIdList = tokenList.filter(
+        (tokenId: string) => !currentTokenList.includes(tokenId)
+      );
 
-    if (finalTokenIdList.length == 0) return;
-    const tokenData = await getTokenListData(finalTokenIdList);
+      if (finalTokenIdList.length == 0) return;
+      const tokenData = await getTokenListData(finalTokenIdList);
 
-    const finalTokenList: { [key: string]: BigNumber } = { ...pricesList };
-    Object.keys(tokenData).map((token: any) => {
-      finalTokenList[token] = new BigNumber(tokenData[token]?.price ?? 0);
-    });
+      const finalTokenList: { [key: string]: BigNumber } = { ...pricesList };
+      Object.keys(tokenData).map((token: any) => {
+        finalTokenList[token] = new BigNumber(tokenData[token]?.price ?? 0);
+      });
 
-    setPricesList(finalTokenList);
-  }, [pricesList]);
+      setPricesList(finalTokenList);
+      return finalTokenList;
+    },
+    [pricesList]
+  );
 
   useEffect(() => {
     loadPrices(Object.keys(pricesList));

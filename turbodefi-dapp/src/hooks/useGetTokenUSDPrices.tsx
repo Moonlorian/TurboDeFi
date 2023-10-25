@@ -20,8 +20,8 @@ export const useGetTokenUSDPrices = () => {
    *
    *
    */
-  const loadPrices = (tokenList: string[]) => {
-    priceDataContext.updatePrices(tokenList);
+  const loadPrices = async (tokenList: string[]) => {
+    return(priceDataContext.updatePrices(tokenList));
   };
 
   /**
