@@ -4,7 +4,7 @@ import { useGetTokenInfo, useGetTokenUSDPrices } from 'hooks';
 import { useContext, useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BigNumber from 'bignumber.js';
-import UsdValueContext from './UsdValueContext';
+import { UsdValueContext } from 'services';
 
 export const FormatEndpointField = ({
   output,
@@ -14,11 +14,12 @@ export const FormatEndpointField = ({
   field: any;
 }) => {
   const [priceInUsd, setPriceInUsd] = useState<BigNumber>(new BigNumber(0));
+  const [priceUpdated, setPriceUpdated] = useState(false);
 
   const tokenInfo = useGetTokenInfo();
   const priceInfo = useGetTokenUSDPrices();
 
-  const { totalUsdValue, handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
 
   useEffect(() => {
     if (field.balance && field?.token) {
@@ -43,8 +44,9 @@ export const FormatEndpointField = ({
   }, [priceInfo.tokensPrice[field.token]]);
 
   useEffect(() => {
-    if (priceInUsd.isGreaterThan(0)) {
+    if (!priceUpdated && priceInUsd.isGreaterThan(0)) {
       handleUpdateTotalUsdValue(priceInUsd);
+      setPriceUpdated(true);
     }
   }, [priceInUsd]);
 

@@ -7,7 +7,14 @@ import {
   OutputContainer,
   Input
 } from 'components';
-import { Fragment, createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Fragment,
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
 import PrettyPrinter from 'StructReader/PrettyPrinter';
@@ -21,7 +28,7 @@ import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID, GATEWAY_URL } from 'config';
-import UsdValueContext from './UsdValueContext';
+import { UsdValueContainer, UsdValueProvider } from 'services';
 
 export const ProjectEndpointForm = ({
   module,
@@ -40,7 +47,9 @@ export const ProjectEndpointForm = ({
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(new BigNumber(0));
+  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(
+    new BigNumber(0)
+  );
 
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
@@ -117,10 +126,10 @@ export const ProjectEndpointForm = ({
         return new BigNumber(value)
           .multipliedBy(
             10 **
-            tokenInfo.get(
-              getTokenFromInputList(input.token || ''),
-              'decimals'
-            )
+              tokenInfo.get(
+                getTokenFromInputList(input.token || ''),
+                'decimals'
+              )
           )
           .toFixed();
       }
@@ -179,14 +188,8 @@ export const ProjectEndpointForm = ({
     }
   }, [pendingTransactions]);
 
-  const handleUpdateTotalUsdValue = (valueToAdd: BigNumber) => {
-    setTotalUsdValue((total) => {
-      return total.plus(valueToAdd);
-    })
-  };
-
   return (
-    <UsdValueContext.Provider value={{ totalUsdValue, handleUpdateTotalUsdValue }}>
+    <UsdValueProvider>
       <Card
         className={`flex-2 ${className}`}
         key={'projectEndpoint_' + endpoint.name}
@@ -194,7 +197,7 @@ export const ProjectEndpointForm = ({
         description={endpoint.description}
         reference={''}
         address={endpoint.address}
-        subtitle={totalUsdValue?.toFixed()}
+        subtitle={<UsdValueContainer/>}
       >
         {endpoint.notImplemented ? (
           <p>
@@ -217,7 +220,7 @@ export const ProjectEndpointForm = ({
                       </label>
                       {(input.type == 'TokenIdentifier' ||
                         input.type == 'EgldOrTokenIdentifier') &&
-                        !input.fixedValue ? (
+                      !input.fixedValue ? (
                         <TokenSelector
                           onChange={(tokenId: string) => {
                             updateValue(index, tokenId);
@@ -238,20 +241,20 @@ export const ProjectEndpointForm = ({
                                   index,
                                   input?.token
                                     ? balanceInfo
-                                      .getBalance(input.token.toString())
-                                      .dividedBy(
-                                        10 **
-                                        tokenInfo.get(
-                                          input.token.toString(),
-                                          'decimals'
+                                        .getBalance(input.token.toString())
+                                        .dividedBy(
+                                          10 **
+                                            tokenInfo.get(
+                                              input.token.toString(),
+                                              'decimals'
+                                            )
                                         )
-                                      )
-                                      .toFixed(
-                                        tokenInfo.get(
-                                          input.token.toString(),
-                                          'decimals'
+                                        .toFixed(
+                                          tokenInfo.get(
+                                            input.token.toString(),
+                                            'decimals'
+                                          )
                                         )
-                                      )
                                     : new BigNumber(0)
                                 );
                               }}
@@ -263,8 +266,9 @@ export const ProjectEndpointForm = ({
                             readOnly={input.fixedValue}
                             placeholder={input.label}
                             value={fieldValues[index] ?? ''}
-                            className={`w-full ${input.type == 'BigUint' ? 'text-right' : ''
-                              }`}
+                            className={`w-full ${
+                              input.type == 'BigUint' ? 'text-right' : ''
+                            }`}
                             onChange={(e: any) => {
                               updateValue(index, e.target.value);
                             }}
@@ -296,6 +300,6 @@ export const ProjectEndpointForm = ({
           </div>
         )}
       </Card>
-    </UsdValueContext.Provider>
+    </UsdValueProvider>
   );
 };

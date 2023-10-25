@@ -10,26 +10,33 @@ interface CardType extends PropsWithChildren, WithClassnameType {
   description?: string;
   reference?: string;
   address?: string;
-  subtitle?: string;
+  subtitle?: string | React.ReactNode;
 }
 
 export const Card = (props: CardType) => {
-  const { title, children, description, reference, className, address, subtitle} = props;
+  const {
+    title,
+    children,
+    description,
+    reference,
+    className,
+    address,
+    subtitle
+  } = props;
 
   return (
     <div
       className={`flex flex-wrap flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
       data-testid={props['data-testid']}
     >
-      <span className='flex'>
+      <span className='flex mb-2 items-center'>
         {title && (
-          <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
+          <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2 mb-0'>
             {title}
-            {subtitle && <span className="text-gray-500 text-base">{subtitle}</span>}
           </h2>
         )}
         {address && (
-          <ExplorerLink page={`/address/${address}`} className='mb-2 pointer'>
+          <ExplorerLink page={`/address/${address}`} className='pointer'>
             <FontAwesomeIcon
               title='Smart Contract'
               icon={faFileAlt}
@@ -37,6 +44,9 @@ export const Card = (props: CardType) => {
               className='text-secondary'
             />
           </ExplorerLink>
+        )}
+        {subtitle && (
+          <span className='text-gray-500 text-base ms-2'>{subtitle}</span>
         )}
       </span>
       {description && <p className='text-gray-400 pb-0 mb-0'>{description}</p>}
