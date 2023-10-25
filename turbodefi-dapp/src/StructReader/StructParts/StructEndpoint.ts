@@ -55,7 +55,7 @@ class StructEndpoint extends StructBase {
         label: 'Token',
         type: 'TokenIdentifier',
         value: undefined,
-        token: this._payableInTokens.filter((tokenId) => tokenId != '*' )
+        token: this._payableInTokens.filter((tokenId) => tokenId != '*')
       });
       currentInputs.unshift({
         name: 'paymentAmount_0',
@@ -63,7 +63,10 @@ class StructEndpoint extends StructBase {
         type: 'BigUint',
         value: undefined,
         balance: true,
-        token:"paymentToken_0",
+        token:
+          this._payableInTokens.length == 1 && this._payableInTokens[0] != '*'
+            ? this._payableInTokens[0]
+            : undefined
       });
     }
     return currentInputs;

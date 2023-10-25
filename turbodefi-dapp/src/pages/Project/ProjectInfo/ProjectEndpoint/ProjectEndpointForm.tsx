@@ -14,7 +14,8 @@ import PrettyPrinter from 'StructReader/PrettyPrinter';
 import {
   useGetAccountInfo,
   useGetPendingTransactions,
-  useGetTokenInfo
+  useGetTokenInfo,
+  useGetTokensBalanceInfo
 } from 'hooks';
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
@@ -39,6 +40,7 @@ export const ProjectEndpointForm = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const tokenInfo = useGetTokenInfo();
+  const balanceInfo = useGetTokensBalanceInfo();
   const { address } = useGetAccountInfo();
   const { pendingTransactions } = useGetPendingTransactions();
 
@@ -173,7 +175,7 @@ export const ProjectEndpointForm = ({
       setShowExecuteBtn(false);
     }
   }, [pendingTransactions]);
-
+  console.log(endpoint.inputs);
   return (
     <Card
       className={`flex-2 ${className}`}
@@ -216,15 +218,41 @@ export const ProjectEndpointForm = ({
                         filter={input.token ? [input.token].flat() : []}
                       />
                     ) : (
-                      <Input
-                        type={PrettyPrinter.getFormInputType(input.type)}
-                        readOnly={input.fixedValue}
-                        placeholder={input.label}
-                        value={fieldValues[index] ?? ''}
-                        onChange={(e: any) => {
-                          updateValue(index, e.target.value);
-                        }}
-                      />
+                      <div className='w-full position-relative flex-1 flex items-end flex-column'>
+                        {input.token && input.type == 'BigUint' && (
+                          <span
+                            className='flex-0 text-sm cursor-pointer rounded-md text-white position-absolute top-[15%] left-[1%] bg-main-color hover:bg-main-color/70 p-1 px-2'
+                            onClick={() => {
+                              updateValue(
+                                index,
+                                input?.token
+                                  ? balanceInfo
+                                      .getBalance(input.token.toString())
+                                      .dividedBy(
+                                        10 **
+                                          tokenInfo.get(
+                                            input.token.toString(),
+                                            'decimals'
+                                          )
+                                      )
+                                  : new BigNumber(0)
+                              );
+                            }}
+                          >
+                            max
+                          </span>
+                        )}
+                        <Input
+                          type={PrettyPrinter.getFormInputType(input.type)}
+                          readOnly={input.fixedValue}
+                          placeholder={input.label}
+                          value={fieldValues[index] ?? ''}
+                          className={`w-full ${input.type == 'BigUint' ? 'text-right' : ''}`}
+                          onChange={(e: any) => {
+                            updateValue(index, e.target.value);
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 </>
