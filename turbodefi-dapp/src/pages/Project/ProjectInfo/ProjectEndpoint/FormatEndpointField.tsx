@@ -1,7 +1,9 @@
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { Label } from 'components';
-import { useGetTokenInfo } from 'hooks';
+import { useGetTokenInfo, useGetTokenUSDPrices } from 'hooks';
+import { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import BigNumber from 'bignumber.js';
 
 export const FormatEndpointField = ({
   output,
@@ -10,7 +12,16 @@ export const FormatEndpointField = ({
   output: any;
   field: any;
 }) => {
+  const [priceInUsd, setPriceInUsd] = useState<BigNumber>(new BigNumber(0));
+
   const tokenInfo = useGetTokenInfo();
+  const priceInfo = useGetTokenUSDPrices();
+
+  useEffect(() => {
+    if (field.balance && field?.token) {
+      priceInfo.loadPrices([field.token]);
+    }
+  }, [field.balance, field.token]);
 
   return (
     <div
@@ -23,7 +34,7 @@ export const FormatEndpointField = ({
           {field?.label || field?.name}:{' '}
         </Label>
       )}
-      <div className='flex whitespace-nowrap'>
+      <div className='flex whitespace-nowrap items-center'>
         {field.balance && tokenInfo.hasToken(field.token) ? (
           <div className='whitespace-nowrap'>
             {formatAmount({
@@ -61,6 +72,16 @@ export const FormatEndpointField = ({
               </div>
             )}
           </>
+        )}
+        {priceInfo.getPrice(field?.token).isGreaterThan(0) && (
+          <span className='text-gray-500 text-sm pt-[0.5px]'>{`($${formatAmount({
+            input: priceInfo.getPrice(field?.token).multipliedBy(field.value ?? field).toFixed(0),
+            decimals: tokenInfo.get(field?.token || '', 'decimals'),
+            digits: 2,
+            showIsLessThanDecimalsLabel: true,
+            addCommas: true,
+            showLastNonZeroDecimal: false
+          })})`}</span>
         )}
       </div>
     </div>

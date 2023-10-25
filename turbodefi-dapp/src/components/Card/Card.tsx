@@ -10,10 +10,11 @@ interface CardType extends PropsWithChildren, WithClassnameType {
   description?: string;
   reference?: string;
   address?: string;
+  subtitle?: string;
 }
 
 export const Card = (props: CardType) => {
-  const { title, children, description, reference, className, address } = props;
+  const { title, children, description, reference, className, address, subtitle} = props;
 
   return (
     <div
@@ -24,6 +25,7 @@ export const Card = (props: CardType) => {
         {title && (
           <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2'>
             {title}
+            {subtitle && <span className="text-gray-500 text-base">{subtitle}</span>}
           </h2>
         )}
         {address && (

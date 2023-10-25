@@ -117,6 +117,9 @@ export const getTokenListData = async (tokenList: string[]) => {
   };
   const tokensData = await request(params, queryName, responseStructure);
   const response: {[key:string]:any} = {};
+  tokenList.map((tokenName) => {
+    response[tokenName] = {};
+  })
   tokensData.data.data.tokens.map((tokenData: any) => {
     response[tokenData.identifier] = tokenData;
   })
