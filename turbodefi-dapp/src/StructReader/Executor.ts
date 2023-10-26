@@ -98,16 +98,13 @@ class Executor {
             const elementList = bundle.valueOf();
             finalOutput[fullName] = {
               ...output,
-              token: output.token || output.balance ? endpointObject.token : '',
+              token: this._getTokenFromData(output, endpointObject),
               value: elementList.map((values: any, index: number) => {
                 if (customFieldsIndex.includes(fullName)) {
                   return {
                     ...customFields[fullName].toJson(),
                     ...output,
-                    token:
-                      output.token || output.balance
-                        ? endpointObject.token
-                        : '',
+                    token: this._getTokenFromData(output, endpointObject),
 
                     value: this._getDataFromStruct(
                       customFields[fullName].fields || [],
@@ -119,8 +116,7 @@ class Executor {
                 } else {
                   return {
                     value: values,
-                    token:
-                      output.token || output.balance ? endpointObject.token : ''
+                    token: this._getTokenFromData(output, endpointObject)
                   };
                 }
               })
@@ -140,7 +136,7 @@ class Executor {
                       output
                     )
                   : values.name,
-              token: output.balance ? endpointObject.token : ''
+              token: this._getTokenFromData(output, endpointObject)
             };
           } else {
             //Is a single field
@@ -148,7 +144,7 @@ class Executor {
             innerObject[output.name || output.label || ''] = {
               ...output,
               value: bundle?.valueOf(),
-              token: output.balance ? endpointObject.token : ''
+              token: this._getTokenFromData(output, endpointObject)
             };
             finalOutput[output.name || output.label || ''] = innerObject;
           }
@@ -213,6 +209,25 @@ class Executor {
     return '';
   }
 
+  private static _getTokenFromData(
+    output: DataType,
+    endpointObject: StructEndpoint
+  ): string | string[] {
+    if (output.token) {
+      if (output.token.toString().startsWith('$')) {
+        const index: number = parseInt(output.token.toString().substring(1));
+        if (endpointObject.vars && endpointObject.vars.length > index) {
+          return endpointObject.vars[index];
+        }
+      } else {
+        return output.token;
+      }
+    } else if (output.balance) {
+      return endpointObject.token || '';
+    }
+    return '';
+  }
+
   private static _getDataFromStruct(
     fields: any[], // ==> List Fields object defined in the output. each field object has its owns properties and must be included
     values: any, // ==> Values of this fields, obtained from query trough abi format
@@ -225,10 +240,7 @@ class Executor {
       finalOutput[fieldData.name] = {
         ...fieldData,
         value: value.name ?? value,
-        token:
-          fieldData.token || fieldData.balance
-            ? fieldData.token || output.token || endpointObject.token
-            : ''
+        token: this._getTokenFromData(fieldData, endpointObject)
       };
     });
     return finalOutput;

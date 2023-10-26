@@ -52,15 +52,6 @@ export const FormatEndpointField = ({
     }
   }, [priceInUsd]);
 
-  if (field.balance && field?.token) {
-    if (field.token.startsWith("$")) {
-      const index = field.token.substring(1)
-      if (endpointVars && endpointVars.length > index) {
-        field.token = endpointVars[index];
-      }
-    }
-  }
-
   return (
     <div
       className={`${field.balance ? 'font-weight-bold' : ''
