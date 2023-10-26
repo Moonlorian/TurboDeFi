@@ -101,7 +101,7 @@ export const FormatEndpointField = ({
             )}
           </>
         )}
-        {priceInfo.getPrice(field?.token).isGreaterThan(0) && (
+        {priceInfo.getPrice(field?.token).isGreaterThan(0) && new BigNumber(field.value ?? field).isGreaterThan(0) &&  (
           <span className='text-gray-500 text-sm pt-[0.5px]'>{`($${formatAmount({
             input: priceInfo.getPrice(field?.token).multipliedBy(field.value ?? field).toFixed(0),
             decimals: tokenInfo.get(field?.token || '', 'decimals'),
