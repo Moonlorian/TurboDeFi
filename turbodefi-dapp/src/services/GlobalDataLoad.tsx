@@ -9,6 +9,7 @@ import { getApiFullGeneric, getUserBalance } from './apiQueries';
 import { getTokenList } from './tokenLoadService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
+import { useGetAccount } from '@multiversx/sdk-dapp/hooks';
 
 const globalData = {
   tokenList: {} as { [key: string]: any },
@@ -26,6 +27,7 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
 
   const { address } = useGetAccountInfo();
   const { hasPendingTransactions } = useGetPendingTransactions();
+  const { balance } = useGetAccount();
 
   const loadTokens = async () => {
     //const tokenList = await getApiFullGeneric('tokens', { pageSize: 1000 });
@@ -46,12 +48,23 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
         tokenBalance: tokenBalance
       });
     },
-    [componentGlobalData.tokenList]
+    [componentGlobalData.tokenList, balance]
   );
+
+  const getFullUserBalance = useCallback(async () => {
+    const fullBalance = await getUserBalance(address);
+    fullBalance['EGLD'] = {
+      balance,
+      name: 'Egld',
+      ticker: 'EGLD',
+      identifier: 'EGLD'
+    };
+    return(fullBalance);
+  }, [address, balance]);
 
   useEffect(() => {
     const newTimer = setTimeout(() => {
-      getUserBalance(address).then((tokenBalance: any) => {
+      getFullUserBalance().then((tokenBalance: any) => {
         updateBalance(tokenBalance);
       });
     }, 120000);
@@ -68,7 +81,7 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
     ) {
       clearTimeout(timer);
       //Here we load global data that depends on user
-      getUserBalance(address).then((tokenBalance: any) => {
+      getFullUserBalance().then((tokenBalance: any) => {
         updateBalance(tokenBalance);
       });
     }

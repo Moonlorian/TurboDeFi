@@ -5,7 +5,7 @@ import {
   useEffect,
   useState
 } from 'react';
-import { getApiFullGeneric, getUserBalance } from './apiQueries';
+import { getApiFullGeneric, getEgldPrice, getUserBalance } from './apiQueries';
 import { getTokenList } from './tokenLoadService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
@@ -41,6 +41,10 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
       Object.keys(tokenData).map((token: any) => {
         finalTokenList[token] = new BigNumber(tokenData[token]?.price ?? 0);
       });
+
+      if (tokenList.includes('EGLD')){
+        finalTokenList['EGLD'] = await getEgldPrice();
+      }
 
       setPricesList(finalTokenList);
       return finalTokenList;
