@@ -128,6 +128,11 @@
           "label": "ONE - EGLD",
           "group": "one-egld",
           "mutability": "readonly",
+          "token": "ONEWEGLD-892244",
+          "vars": [
+            "ONE-f9954f",
+            "EGLD"
+          ],
           "inputs": [
             {
               "name": "pool_id",
@@ -171,6 +176,11 @@
           "label": "LEGLD - EGLD",
           "group": "egld-legld",
           "mutability": "readonly",
+          "token": "LEGLDWEGLD-6e9848",
+          "vars": [
+            "ONE-f9954f",
+            "EGLD"
+          ],
           "inputs": [
             {
               "name": "pool_id",
@@ -214,6 +224,11 @@
           "label": "ONE - LEGLD",
           "group": "one-legld",
           "mutability": "readonly",
+          "token": "ONELEGLD-f18564",
+          "vars": [
+            "ONE-f9954f",
+            "EGLD"
+          ],
           "inputs": [
             {
               "name": "pool_id",
@@ -257,6 +272,11 @@
           "label": "ONE - WBTC",
           "group": "one-btc",
           "mutability": "readonly",
+          "token": "ONEWBTC-043206",
+          "vars": [
+            "ONE-f9954f",
+            "EGLD"
+          ],
           "inputs": [
             {
               "name": "pool_id",
@@ -463,13 +483,15 @@
           "name": "user_reward_amount",
           "label": "Pending rewards",
           "type": "BigUint",
-          "balance": true
+          "balance": true,
+          "token": "$0"
         },
         {
           "name": "user_second_reward_amount",
           "label": "Pending rewards second token",
           "type": "BigUint",
-          "balance": true
+          "balance": true,
+          "token": "$1"
         }
       ]
     },

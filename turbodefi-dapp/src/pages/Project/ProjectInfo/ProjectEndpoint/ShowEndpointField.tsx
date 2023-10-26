@@ -20,13 +20,13 @@ export const ShowEndpointField = ({
         {fieldList.map((newOutput: any, index) => (
           <Fragment key={index}>
             {!newOutput.hidden && (
-              <FormatEndpointField output={output} field={newOutput} />
+              <FormatEndpointField output={output} field={newOutput} endpointVars={endpoint.vars} />
             )}
           </Fragment>
         ))}
       </div>
     );
   } else {
-    return <FormatEndpointField output={output} field={output} />;
+    return <FormatEndpointField output={output} field={output} endpointVars={endpoint.vars} />;
   }
 };

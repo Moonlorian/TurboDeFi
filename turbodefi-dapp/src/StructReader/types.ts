@@ -150,6 +150,10 @@ type EndpointType = BaseStructType & {
    * If this endpoints belongs to a group, this is the group name
    */
   group?: string;
+  /**
+   * List of variables that can be used in the endpoint definition
+   */
+  vars?: string[];
 };
 
 type GroupType = BaseStructType;

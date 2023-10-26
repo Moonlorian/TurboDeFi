@@ -8,10 +8,12 @@ import { UsdValueContext } from 'services';
 
 export const FormatEndpointField = ({
   output,
-  field
+  field,
+  endpointVars
 }: {
   output: any;
   field: any;
+  endpointVars?: string[]
 }) => {
   const [priceInUsd, setPriceInUsd] = useState<BigNumber>(new BigNumber(0));
   const [priceUpdated, setPriceUpdated] = useState(false);
@@ -49,6 +51,15 @@ export const FormatEndpointField = ({
       setPriceUpdated(true);
     }
   }, [priceInUsd]);
+
+  if (field.balance && field?.token) {
+    if (field.token.startsWith("$")) {
+      const index = field.token.substring(1)
+      if (endpointVars && endpointVars.length > index) {
+        field.token = endpointVars[index];
+      }
+    }
+  }
 
   return (
     <div
