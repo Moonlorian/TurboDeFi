@@ -89,7 +89,16 @@ export const BalancePanel = () => {
             .sort((previuos: any, last: any) =>
               previuos.balance
                 .multipliedBy(previuos.price)
-                .isLessThan(last.balance.multipliedBy(last.price))
+                .dividedBy(
+                  10 ** parseInt(tokenInfo.get(previuos.token, 'decimals'))
+                )
+                .isLessThan(
+                  last.balance
+                    .multipliedBy(last.price)
+                    .dividedBy(
+                      10 ** parseInt(tokenInfo.get(last.token, 'decimals'))
+                    )
+                )
                 ? 1
                 : -1
             )
