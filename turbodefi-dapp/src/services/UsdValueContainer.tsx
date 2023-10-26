@@ -38,7 +38,7 @@ export const UsdValueContainer = () => {
   useEffect(() => {
     setTotalUsdValue(usdValueContext.totalUsdValue);
   }, [usdValueContext.totalUsdValue]);
-  console.log(totalUsdValue.toFixed());
+
   return (
     <>
       {totalUsdValue.isZero() ? (
