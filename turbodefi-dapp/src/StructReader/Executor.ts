@@ -276,7 +276,7 @@ class Executor {
       for (let i = 0; i < endpoint.inputs?.length; i += 2) {
         const endpointName = (endpoint.inputs[i].name ?? '').split('_')[0];
         if (!['paymentToken', 'paymentAmount'].includes(endpointName)) break;
-        //TODO ==> CHeck if this input is fora a fungible or non fungible token, right now, only fungible tokens are accepted
+        //TODO ==> CHeck if this input is for a fungible or non fungible token, right now, only fungible tokens are accepted
         //In Input goes, first the amount and second goes token field
         const tokenId = args[i + 1];
         const amount = args[i];
@@ -298,16 +298,13 @@ class Executor {
     const rustInputData: any[] = [];
     let argIndex = 0;
     endpoint.inputs?.map((input: DataType, index: number) => {
-      const endpointName = endpoint.name.split('_')[0];
+      const endpointName = (input?.name || '').split('_')[0];
       if (
-        !endpoint.payableInTokens?.length &&
+        !endpoint.payableInTokens?.length ||
         !['paymentToken', 'paymentAmount'].includes(endpointName)
       ) {
         if (args[index]) {
-          rustInputData[index] = this._getFormattedField(
-            args[index],
-            input.type
-          );
+          rustInputData.push(this._getFormattedField(args[index], input.type));
           argIndex = args.length > argIndex + 1 ? 0 : argIndex + 1;
         }
       }

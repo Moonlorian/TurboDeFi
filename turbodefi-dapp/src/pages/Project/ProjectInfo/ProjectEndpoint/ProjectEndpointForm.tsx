@@ -47,10 +47,6 @@ export const ProjectEndpointForm = ({
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(
-    new BigNumber(0)
-  );
-
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
   const { address } = useGetAccountInfo();
@@ -60,7 +56,6 @@ export const ProjectEndpointForm = ({
     setResponse([]);
     setIsLoading(true);
 
-    //Alwais use endpoint name to execute it. internally, the execcute function uses endpoint instead
     Executor.exec(
       GATEWAY_URL,
       CHAIN_ID,
@@ -197,7 +192,7 @@ export const ProjectEndpointForm = ({
         description={endpoint.description}
         reference={''}
         address={endpoint.address}
-        subtitle={<UsdValueContainer/>}
+        subtitle={<UsdValueContainer />}
       >
         {endpoint.notImplemented ? (
           <p>
