@@ -34,7 +34,7 @@ export const Dashboard = () => {
   };
 
   const loadProjects = async () => {
-    const endpointsIds = [1, 4, 11, 13, 15, 17, 19, 21, 27, 28];
+    const endpointsIds = [1, 4, 11, 13, 15, 17, 19, 21, 27, 28, 23];
     const endpointsList = [];
     const structReaders: { [key: string]: StructReader } = {};
     for (let i = 0; i < endpointsIds.length; i++) {
