@@ -15,7 +15,8 @@ import {
 import {
   useGetPendingTransactions,
   useGetTokenInfo,
-  useGetTokenUSDPrices
+  useGetTokenUSDPrices,
+  usePriceUpdater
 } from 'hooks';
 import { StakeInfo } from './StakeInfo';
 import { Card } from 'components/Card';
@@ -42,7 +43,7 @@ export const StakeList = () => {
   const [stakedInfo, setStakedInfo] = useState<stakedInfoType[]>([]);
   const [delegationProviders, setDelegationProviders] = useState<any[]>([]);
 
-  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+  const { updatePrice } = usePriceUpdater();
 
   const { hasPendingTransactions } = useGetPendingTransactions();
   const { address } = useGetAccountInfo();
@@ -79,7 +80,7 @@ export const StakeList = () => {
   useEffect(() => {
     if (!tokenInfo.hasToken(egldId)) return;
     console.log(stakedInfo);
-    handleUpdateTotalUsdValue(
+    updatePrice(
       stakedInfo.reduce(
         (previous: BigNumber, current: stakedInfoType): BigNumber =>
           previous.plus(

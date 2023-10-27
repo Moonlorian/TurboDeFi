@@ -4,3 +4,4 @@ export * from './transactions';
 export * from './useGetTokenInfo';
 export * from './useGetTokensBalanceInfo';
 export * from './useGetTokenUSDPrices';
+export * from './priceUpdater';

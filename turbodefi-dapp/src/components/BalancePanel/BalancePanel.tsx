@@ -8,19 +8,18 @@ import { Spinner } from 'components/Spinner';
 import {
   useGetTokenInfo,
   useGetTokenUSDPrices,
-  useGetTokensBalanceInfo
+  useGetTokensBalanceInfo,
+  usePriceUpdater
 } from 'hooks';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
-import { UsdValueContext } from 'services';
 
 export const BalancePanel = () => {
   const [loadingTokens, setLoadingTokens] = useState(true);
   const [maxElements, setMaxElements] = useState(6);
   const [totalUsd, setTotalUsd] = useState<BigNumber>(new BigNumber(0));
-  const [previousUsd, setPreviousUsd] = useState<BigNumber>(new BigNumber(0));
 
-  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+  const { updatePrice } = usePriceUpdater();
 
   const { hasPendingTransactions } = useGetPendingTransactions();
   const tokensBalance = useGetTokensBalanceInfo();
@@ -71,8 +70,7 @@ export const BalancePanel = () => {
   }, [balanceList]);
 
   useEffect(() => {
-    handleUpdateTotalUsdValue(totalUsd.minus(previousUsd));
-    setPreviousUsd(totalUsd);
+    updatePrice(totalUsd);
   }, [totalUsd]);
   return (
     <Card

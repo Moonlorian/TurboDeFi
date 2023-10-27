@@ -1,10 +1,9 @@
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 import { Label } from 'components';
-import { useGetTokenInfo, useGetTokenUSDPrices } from 'hooks';
+import { useGetTokenInfo, useGetTokenUSDPrices, usePriceUpdater } from 'hooks';
 import { useContext, useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import BigNumber from 'bignumber.js';
-import { UsdValueContext } from 'services';
 
 export const FormatEndpointField = ({
   output,
@@ -16,12 +15,10 @@ export const FormatEndpointField = ({
   endpointVars?: string[]
 }) => {
   const [priceInUsd, setPriceInUsd] = useState<BigNumber>(new BigNumber(0));
-  const [priceUpdated, setPriceUpdated] = useState(false);
-
   const tokenInfo = useGetTokenInfo();
   const priceInfo = useGetTokenUSDPrices();
 
-  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+  const {updatePrice} = usePriceUpdater();
 
   useEffect(() => {
     if (field.balance && field?.token) {
@@ -46,10 +43,7 @@ export const FormatEndpointField = ({
   }, [priceInfo.tokensPrice[field.token]]);
 
   useEffect(() => {
-    if (!priceUpdated && priceInUsd.isGreaterThan(0)) {
-      handleUpdateTotalUsdValue(priceInUsd);
-      setPriceUpdated(true);
-    }
+    updatePrice(priceInUsd);
   }, [priceInUsd]);
 
   return (

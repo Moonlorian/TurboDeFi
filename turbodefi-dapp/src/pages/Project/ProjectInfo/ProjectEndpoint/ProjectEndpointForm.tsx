@@ -23,7 +23,8 @@ import {
   useGetAccountInfo,
   useGetPendingTransactions,
   useGetTokenInfo,
-  useGetTokensBalanceInfo
+  useGetTokensBalanceInfo,
+  usePriceUpdater
 } from 'hooks';
 import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
@@ -53,8 +54,7 @@ export const ProjectEndpointForm = ({
     new BigNumber(0)
   );
 
-  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
-
+  const { updatePrice } = usePriceUpdater();
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
   const { address } = useGetAccountInfo();
@@ -198,7 +198,7 @@ export const ProjectEndpointForm = ({
   }, [pendingTransactions]);
 
   useEffect(() => {
-    handleUpdateTotalUsdValue(totalUsdValue);
+    updatePrice(totalUsdValue);
   }, [totalUsdValue]);
 
   return (
