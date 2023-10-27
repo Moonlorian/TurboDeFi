@@ -11,6 +11,7 @@ import {
   Fragment,
   createContext,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState
@@ -28,7 +29,7 @@ import StructReader from 'StructReader/StructReader';
 import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID, GATEWAY_URL } from 'config';
-import { UsdValueContainer, UsdValueProvider } from 'services';
+import { UsdValueContainer, UsdValueContext, UsdValueProvider } from 'services';
 
 export const ProjectEndpointForm = ({
   module,
@@ -46,11 +47,15 @@ export const ProjectEndpointForm = ({
   const [executeAction, setExecuteAction] = useState(false);
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(new BigNumber(0));
+
+  const {handleUpdateTotalUsdValue} = useContext(UsdValueContext);
 
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
   const { address } = useGetAccountInfo();
   const { pendingTransactions } = useGetPendingTransactions();
+
 
   const executeEndpoint = () => {
     setResponse([]);
@@ -183,6 +188,10 @@ export const ProjectEndpointForm = ({
     }
   }, [pendingTransactions]);
 
+  useEffect(() => {
+    handleUpdateTotalUsdValue(totalUsdValue);
+  },[totalUsdValue]);
+
   return (
     <UsdValueProvider>
       <Card
@@ -192,7 +201,7 @@ export const ProjectEndpointForm = ({
         description={endpoint.description}
         reference={''}
         address={endpoint.address}
-        subtitle={<UsdValueContainer />}
+        subtitle={<UsdValueContainer totalUpdater={setTotalUsdValue}/>}
       >
         {endpoint.notImplemented ? (
           <p>

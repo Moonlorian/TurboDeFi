@@ -27,7 +27,7 @@ export const UsdValueProvider = ({ children }: { children: any }) => {
     </UsdValueContext.Provider>
   );
 };
-export const UsdValueContainer = () => {
+export const UsdValueContainer = ({ totalUpdater }: { totalUpdater?: any }) => {
   const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(
     new BigNumber(0)
   );
@@ -37,6 +37,9 @@ export const UsdValueContainer = () => {
 
   useEffect(() => {
     setTotalUsdValue(usdValueContext.totalUsdValue);
+    if (typeof totalUpdater == 'function') {
+      totalUpdater(usdValueContext.totalUsdValue);
+    }
   }, [usdValueContext.totalUsdValue]);
 
   return (
