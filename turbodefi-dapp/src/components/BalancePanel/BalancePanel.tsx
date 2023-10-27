@@ -86,11 +86,11 @@ export const BalancePanel = () => {
       ) : (
         <div className='grid auto-rows-min lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1'>
           {balanceList
-            .sort((previuos: any, last: any) =>
-              previuos.balance
-                .multipliedBy(previuos.price)
+            .sort((previous: any, last: any) =>
+              previous.balance
+                .multipliedBy(previous.price)
                 .dividedBy(
-                  10 ** parseInt(tokenInfo.get(previuos.token, 'decimals'))
+                  10 ** parseInt(tokenInfo.get(previous.token, 'decimals'))
                 )
                 .isLessThan(
                   last.balance
