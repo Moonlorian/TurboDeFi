@@ -35,6 +35,9 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
       );
 
       if (finalTokenIdList.length == 0) return;
+      if (finalTokenIdList.includes('SPROTEO-c2dffe') && !finalTokenIdList.includes('PROTEO-0c7311')) {
+        finalTokenIdList.push('PROTEO-0c7311')
+      }
       const tokenData = await getTokenListData(finalTokenIdList);
 
       const finalTokenList: { [key: string]: BigNumber } = { ...pricesList };
@@ -44,6 +47,10 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
 
       if (tokenList.includes('EGLD')){
         finalTokenList['EGLD'] = await getEgldPrice();
+      }
+
+      if (tokenList.includes('PROTEO-0c7311')){
+        finalTokenList['SPROTEO-c2dffe'] = finalTokenList['PROTEO-0c7311'].multipliedBy(2);
       }
 
       setPricesList(finalTokenList);
