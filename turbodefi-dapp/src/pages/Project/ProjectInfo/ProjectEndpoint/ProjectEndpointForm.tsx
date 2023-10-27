@@ -7,18 +7,9 @@ import {
   OutputContainer,
   Input
 } from 'components';
-import {
-  Fragment,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { DataType } from 'StructReader';
 import Executor from 'StructReader/Executor';
-import PrettyPrinter from 'StructReader/PrettyPrinter';
 import {
   useGetAccountInfo,
   useGetPendingTransactions,

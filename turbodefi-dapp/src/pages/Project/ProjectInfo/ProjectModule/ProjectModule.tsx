@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { UsdValueContainer, UsdValueProvider } from 'services';
+import BigNumber from 'bignumber.js';
+import { usePriceUpdater } from 'hooks';
 
 export const ProjectModule = ({
   module,
@@ -15,10 +17,19 @@ export const ProjectModule = ({
   module: StructModule;
   structReader: StructReader;
 }) => {
+  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(
+    new BigNumber(0)
+  );
   const [open, setOpen] = useState(false);
   const toggle = () => {
     setOpen(!open);
   };
+
+  const { updatePrice } = usePriceUpdater();
+
+  useEffect(() => {
+    updatePrice(totalUsdValue);
+  }, [totalUsdValue]);
   return (
     <UsdValueProvider>
       <Card
@@ -27,7 +38,7 @@ export const ProjectModule = ({
         title={module.label || module.name}
         description={module.description}
         reference={''}
-        subtitle={<UsdValueContainer />}
+        subtitle={<UsdValueContainer totalUpdater={setTotalUsdValue} />}
       >
         <ActionButtonList>
           <ActionButton
@@ -39,7 +50,11 @@ export const ProjectModule = ({
           </ActionButton>
         </ActionButtonList>
 
-        <div className={`transition-all overflow-hidden ${open ? 'max-h-[1024px]' : 'max-h-0'}`}>
+        <div
+          className={`transition-all overflow-hidden ${
+            open ? 'max-h-[1024px]' : 'max-h-0'
+          }`}
+        >
           <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
             {module.groups.map((group, index) => (
               <div className='w-full border rounded-lg' key={index}>

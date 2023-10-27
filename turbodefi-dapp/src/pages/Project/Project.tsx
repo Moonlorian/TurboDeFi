@@ -8,6 +8,7 @@ import StructReader from 'StructReader/StructReader';
 import StructModule from 'StructReader/StructParts/StructModule';
 import { ProjectModule } from './ProjectInfo';
 import { setPriority } from 'os';
+import { UsdValueProvider } from 'services';
 
 export const Project = () => {
   const [structReader, setStructReader] = useState<StructReader>();
@@ -51,22 +52,24 @@ export const Project = () => {
   if (path.length < 2 || projectId == '') return <ProyectSelector />;
 
   return (
-    <div className='flex flex-col gap-6 max-w-7xl w-full'>
-      {structReader?.isLoaded() && (
-        <>
-          <ProjectInfo project={structReader?.getProject()} />
-          {structReader
-            ?.getModules()
-            .map((module: StructModule, index) => (
-              <ProjectModule
-                key={index}
-                module={module}
-                structReader={structReader}
-              />
-            ))}
-        </>
-      )}
-    </div>
+    <UsdValueProvider>
+      <div className='flex flex-col gap-6 max-w-7xl w-full'>
+        {structReader?.isLoaded() && (
+          <>
+            <ProjectInfo project={structReader?.getProject()} />
+            {structReader
+              ?.getModules()
+              .map((module: StructModule, index) => (
+                <ProjectModule
+                  key={index}
+                  module={module}
+                  structReader={structReader}
+                />
+              ))}
+          </>
+        )}
+      </div>
+    </UsdValueProvider>
   );
 };
 

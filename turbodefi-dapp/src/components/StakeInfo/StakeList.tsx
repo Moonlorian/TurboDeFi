@@ -79,7 +79,6 @@ export const StakeList = () => {
 
   useEffect(() => {
     if (!tokenInfo.hasToken(egldId)) return;
-    console.log(stakedInfo);
     updatePrice(
       stakedInfo.reduce(
         (previous: BigNumber, current: stakedInfoType): BigNumber =>
@@ -96,7 +95,6 @@ export const StakeList = () => {
         new BigNumber(0)
       )
     );
-    console.log(price);
   }, [stakedInfo, price, tokenInfo.tokenList[egldId]]);
 
   useEffect(() => {
