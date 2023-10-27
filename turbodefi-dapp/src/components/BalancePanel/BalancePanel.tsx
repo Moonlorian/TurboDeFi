@@ -10,13 +10,17 @@ import {
   useGetTokenUSDPrices,
   useGetTokensBalanceInfo
 } from 'hooks';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
+import { UsdValueContext } from 'services';
 
 export const BalancePanel = () => {
   const [loadingTokens, setLoadingTokens] = useState(true);
-
   const [maxElements, setMaxElements] = useState(6);
+  const [totalUsd, setTotalUsd] = useState<BigNumber>(new BigNumber(0));
+  const [previousUsd, setPreviousUsd] = useState<BigNumber>(new BigNumber(0));
+
+  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
 
   const { hasPendingTransactions } = useGetPendingTransactions();
   const tokensBalance = useGetTokensBalanceInfo();
@@ -35,26 +39,6 @@ export const BalancePanel = () => {
     [tokensBalance.tokensBalance, tokensPrice.tokensPrice]
   );
 
-  const totalUsd: BigNumber = useMemo(
-    () =>
-      balanceList.reduce((previous, current, index, fullList) => {
-        return previous.plus(
-          current.balance
-            .multipliedBy(current.price)
-            .dividedBy(
-              10 **
-                (Number.isNaN(
-                  parseInt(tokenInfo.get(fullList[index].token, 'decimals'))
-                )
-                  ? 0
-                  : parseInt(tokenInfo.get(fullList[index].token, 'decimals')))
-            )
-            .multipliedBy(10 ** usdDecimals)
-        );
-      }, new BigNumber(0)),
-    [balanceList]
-  );
-
   useEffect(() => {
     setLoadingTokens(
       !Object.keys(tokenInfo.tokenList).length ||
@@ -67,13 +51,36 @@ export const BalancePanel = () => {
     tokensPrice.tokensPrice
   ]);
 
+  useEffect(() => {
+    setTotalUsd(
+      balanceList.reduce((previous, current, index, fullList) => {
+        return previous.plus(
+          current.balance
+            .multipliedBy(current.price)
+            .dividedBy(
+              10 **
+                (Number.isNaN(
+                  parseInt(tokenInfo.get(current.token, 'decimals'))
+                )
+                  ? 0
+                  : parseInt(tokenInfo.get(current.token, 'decimals')))
+            )
+        );
+      }, new BigNumber(0))
+    );
+  }, [balanceList]);
+
+  useEffect(() => {
+    handleUpdateTotalUsdValue(totalUsd.minus(previousUsd));
+    setPreviousUsd(totalUsd);
+  }, [totalUsd]);
   return (
     <Card
       className='border'
       title='Wallet Balances'
       reference=''
       subtitle={`($${formatAmount({
-        input: totalUsd.toFixed(0),
+        input: totalUsd.multipliedBy(10 ** usdDecimals).toFixed(0),
         decimals: usdDecimals,
         digits: 2,
         showIsLessThanDecimalsLabel: true,
