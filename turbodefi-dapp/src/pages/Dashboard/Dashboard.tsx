@@ -70,43 +70,28 @@ export const Dashboard = () => {
             title='My Dashboard'
             subtitle={<UsdValueContainer totalUpdater={setTotalUsdValue} />}
           >
-            <Disclosure defaultOpen={true}>
-              {({ open }) => (
-                <>
-                  <ActionButtonList className='top-[0.3%] sm:top-[10px] right-[0.5%]'>
-                    <Disclosure.Button
-                      className={`bg-transparent inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-main-color hover:bg-main-color/80 hover:text-white mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`}
-                    >
-                      <FontAwesomeIcon
-                        icon={open ? faChevronUp : faChevronDown}
-                      />
-                    </Disclosure.Button>
-                  </ActionButtonList>
-                  <Disclosure.Panel className=''>
-                    <BalancePanel />
-                    <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min mt-3'>
-                      {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */}
-                      {endpoints.map((endpoint, index) => (
-                        <div className='w-full border rounded-lg' key={index}>
-                          <ProjectEndpointForm
-                            module={endpoint.structReader.getModule(
-                              endpoint.endpoint.module || ''
-                            )}
-                            endpoint={endpoint.structReader.getModuleEndpoint(
-                              endpoint.endpoint.module || '',
-                              endpoint.endpoint.endpoint || ''
-                            )}
-                            structReader={endpoint.structReader}
-                            key={`endpoint_${index}`}
-                            fullTitle={true}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </Disclosure.Panel>
-                </>
-              )}
-            </Disclosure>
+            <div className=''>
+              <BalancePanel />
+              <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min mt-3'>
+                {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */}
+                {endpoints.map((endpoint, index) => (
+                  <div className='w-full border rounded-lg' key={index}>
+                    <ProjectEndpointForm
+                      module={endpoint.structReader.getModule(
+                        endpoint.endpoint.module || ''
+                      )}
+                      endpoint={endpoint.structReader.getModuleEndpoint(
+                        endpoint.endpoint.module || '',
+                        endpoint.endpoint.endpoint || ''
+                      )}
+                      structReader={endpoint.structReader}
+                      key={`endpoint_${index}`}
+                      fullTitle={true}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </Card>
         </div>
       </div>
