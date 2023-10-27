@@ -4,14 +4,16 @@ export const ActionButton = ({
   action,
   children,
   className = '',
-  disabled = false
+  disabled = false,
+  color = 'white'
 }: {
   action?: any;
   children?: any;
   className?: string;
   disabled?:boolean;
+  color?: string;
 }) => {
-  const finalClassName = ['text-white'];
+  const finalClassName = [];
   finalClassName.push(...className.split(' '));
   return (
     <Button
@@ -20,6 +22,7 @@ export const ActionButton = ({
       className={finalClassName
         .filter((item, index, arr) => arr.indexOf(item) === index)
         .join(' ')}
+      color={color}
     >
       {children}
     </Button>

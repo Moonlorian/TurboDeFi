@@ -10,7 +10,7 @@ import { FLowNewStepEndpointForm } from './FLowNewStepEndpointForm';
 import { FLowNewStepComponentForm } from './FLowNewStepComponentForm';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
-import { Disclosure } from '@headlessui/react';
+import { Disclosure, Transition } from '@headlessui/react';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks';
 import { EndpointsFromStep } from './EndpointsFromStep';
 
@@ -110,8 +110,17 @@ export const FlowStep = ({
                   </Disclosure.Button>
                 )}
               </ActionButtonList>
-              <Disclosure.Panel className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'>
-                <>
+              <Disclosure.Panel>
+                <Transition
+                  className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min'
+                  show={open}
+                  enter='transition-opacity duration-75'
+                  enterFrom='opacity-0'
+                  enterTo='opacity-100'
+                  leave='transition-opacity duration-150'
+                  leaveFrom='opacity-100'
+                  leaveTo='opacity-0'
+                >
                   {step.endpoints && step.endpoints?.length > 0 ? (
                     <EndpointsFromStep step={step} />
                   ) : (
@@ -124,7 +133,7 @@ export const FlowStep = ({
                       )}
                     </>
                   )}
-                </>
+                </Transition>
               </Disclosure.Panel>
             </>
           )}

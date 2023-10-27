@@ -23,6 +23,7 @@ export const Button = ({
   color = 'white'
 
 }: ButtonType) => {
+  console.log("I'm an action button with " + color + " color ", children?.toString());
   const defaultClassName = `bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-${color} hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`;
   return (
     <button
