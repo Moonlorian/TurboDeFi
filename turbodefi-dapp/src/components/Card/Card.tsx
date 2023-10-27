@@ -11,6 +11,7 @@ interface CardType extends PropsWithChildren, WithClassnameType {
   reference?: string;
   address?: string;
   subtitle?: string | React.ReactNode;
+  titleClassName?: string;
 }
 
 export const Card = (props: CardType) => {
@@ -21,7 +22,8 @@ export const Card = (props: CardType) => {
     reference,
     className,
     address,
-    subtitle
+    subtitle,
+    titleClassName,
   } = props;
 
   return (
@@ -31,7 +33,7 @@ export const Card = (props: CardType) => {
     >
       <span className='flex mb-2 items-center'>
         {title && (
-          <h2 className='flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2 mb-0'>
+          <h2 className={`flex text-lg md:text-xl font-medium group text-uppercase items-baseline gap-2 mb-0 ${titleClassName}`}>
             {title}
           </h2>
         )}

@@ -99,6 +99,7 @@ export const Dashboard = () => {
                             )}
                             structReader={endpoint.structReader}
                             key={`endpoint_${index}`}
+                            fullTitle={true}
                           />
                         </div>
                       ))}

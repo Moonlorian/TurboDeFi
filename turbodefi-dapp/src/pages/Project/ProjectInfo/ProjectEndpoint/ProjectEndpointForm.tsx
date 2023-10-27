@@ -35,27 +35,36 @@ export const ProjectEndpointForm = ({
   module,
   endpoint,
   structReader,
-  className = ''
+  className = '',
+  fullTitle
 }: {
   module: StructModule;
   endpoint: StructEndpoint;
   structReader: StructReader;
   className?: string;
+  fullTitle?: boolean;
 }) => {
   const [fieldValues, setFieldValues] = useState<string[]>([]);
   const [response, setResponse] = useState<DataType[]>([]);
   const [executeAction, setExecuteAction] = useState(false);
   const [showExecuteBtn, setShowExecuteBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(new BigNumber(0));
+  const [totalUsdValue, setTotalUsdValue] = useState<BigNumber>(
+    new BigNumber(0)
+  );
 
-  const {handleUpdateTotalUsdValue} = useContext(UsdValueContext);
+  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
 
   const tokenInfo = useGetTokenInfo();
   const balanceInfo = useGetTokensBalanceInfo();
   const { address } = useGetAccountInfo();
   const { pendingTransactions } = useGetPendingTransactions();
 
+  const cardTitle = fullTitle
+    ? `${structReader.getProject().name} -> ${module.label} -> ${
+        endpoint.label || endpoint.name
+      }`
+    : endpoint.label || endpoint.name;
 
   const executeEndpoint = () => {
     setResponse([]);
@@ -190,18 +199,19 @@ export const ProjectEndpointForm = ({
 
   useEffect(() => {
     handleUpdateTotalUsdValue(totalUsdValue);
-  },[totalUsdValue]);
+  }, [totalUsdValue]);
 
   return (
     <UsdValueProvider>
       <Card
         className={`flex-2 ${className}`}
         key={'projectEndpoint_' + endpoint.name}
-        title={endpoint.label || endpoint.name}
+        title={cardTitle}
+        titleClassName='text-capitalize'
         description={endpoint.description}
         reference={''}
         address={endpoint.address}
-        subtitle={<UsdValueContainer totalUpdater={setTotalUsdValue}/>}
+        subtitle={<UsdValueContainer totalUpdater={setTotalUsdValue} />}
       >
         {endpoint.notImplemented ? (
           <p>

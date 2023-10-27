@@ -35,6 +35,7 @@ export const EndpointStep = ({ endpoint }: { endpoint: FlowEndpointType }) => {
         )}
         structReader={structReader}
         key={`endpoint_${endpoint.id}`}
+        fullTitle={true}
       />
     </div>
   ) : (
