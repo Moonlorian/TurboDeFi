@@ -1,10 +1,25 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
-import { getDelegated, stakingProvidersLoadService } from 'services';
-import { useGetPendingTransactions, useGetTokenInfo } from 'hooks';
+import {
+  UsdValueContext,
+  getDelegated,
+  stakingProvidersLoadService
+} from 'services';
+import {
+  useGetPendingTransactions,
+  useGetTokenInfo,
+  useGetTokenUSDPrices
+} from 'hooks';
 import { StakeInfo } from './StakeInfo';
 import { Card } from 'components/Card';
+import { useGetEgldPrice } from '@multiversx/sdk-dapp/hooks';
 
 export type stakedInfoType = {
   type: 'regular' | 'legacy';
@@ -13,6 +28,7 @@ export type stakedInfoType = {
   userUnBondable: BigNumber;
   userActiveStake: BigNumber;
   claimableRewards: BigNumber;
+  total: BigNumber;
   userUndelegatedList: [
     {
       amount: BigNumber;
@@ -26,9 +42,14 @@ export const StakeList = () => {
   const [stakedInfo, setStakedInfo] = useState<stakedInfoType[]>([]);
   const [delegationProviders, setDelegationProviders] = useState<any[]>([]);
 
+  const { handleUpdateTotalUsdValue } = useContext(UsdValueContext);
+
   const { hasPendingTransactions } = useGetPendingTransactions();
   const { address } = useGetAccountInfo();
+  const tokenInfo = useGetTokenInfo();
+  const { price } = useGetEgldPrice();
 
+  const egldId = 'EGLD';
   const getDelegationProvider = useCallback(
     (contract: string) => {
       const filteredList = delegationProviders.filter(
@@ -42,19 +63,40 @@ export const StakeList = () => {
 
   const loadStakedInfo = async () => {
     const delegatedList = await getDelegated(address);
-    setStakedInfo(
-      delegatedList.filter(
-        (staked: stakedInfoType) =>
-          staked.userActiveStake.isGreaterThan(0) ||
-          staked.userWaitingStake.isGreaterThan(0)
-      )
+    const activeStakings: stakedInfoType[] = delegatedList.filter(
+      (staked: stakedInfoType) =>
+        staked.userActiveStake.isGreaterThan(0) ||
+        staked.userWaitingStake.isGreaterThan(0)
     );
+    setStakedInfo(activeStakings);
   };
 
   const loadDelegationProviders = async () => {
     const delegationProvidersList = await stakingProvidersLoadService();
     setDelegationProviders(delegationProvidersList);
   };
+
+  useEffect(() => {
+    if (!tokenInfo.hasToken(egldId)) return;
+    console.log(stakedInfo);
+    handleUpdateTotalUsdValue(
+      stakedInfo.reduce(
+        (previous: BigNumber, current: stakedInfoType): BigNumber =>
+          previous.plus(
+            current.total
+              .dividedBy(
+                10 **
+                  (tokenInfo.hasToken(egldId)
+                    ? tokenInfo.get(egldId, 'decimals')
+                    : 18)
+              )
+              .multipliedBy(price || 0)
+          ),
+        new BigNumber(0)
+      )
+    );
+    console.log(price);
+  }, [stakedInfo, price, tokenInfo.tokenList[egldId]]);
 
   useEffect(() => {
     loadStakedInfo();

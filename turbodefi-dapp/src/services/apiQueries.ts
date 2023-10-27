@@ -4,6 +4,7 @@ import { Nonce } from '@multiversx/sdk-network-providers/out/primitives';
 import BigNumber from 'bignumber.js';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import axios from 'axios';
+import { stakedInfoType } from 'components';
 
 type apiQueryOptions = {
   maxRetries?: number;
@@ -21,7 +22,7 @@ type apiQueryMandatoryOptions = {
 
 export const getEgldPrice = async () => {
   const url = `https://${
-    (environment != EnvironmentsEnum.mainnet) ? environment + '-' : ''
+    environment != EnvironmentsEnum.mainnet ? environment + '-' : ''
   }api.multiversx.com/economics`;
   return axios
     .get(url)
@@ -59,25 +60,39 @@ export const getDelegated = async (address: string) => {
       type: 'legacy',
       address: staked.address,
       contract: staked.contract,
-      userUnBondable: new BigNumber(staked.userUnBondable),
-      userActiveStake: new BigNumber(staked.userActiveStake),
-      claimableRewards: new BigNumber(staked.claimableRewards),
-      userUndelegatedList: Array.isArray(staked.userUndelegatedList)
+      userUnBondable: new BigNumber(staked.userUnBondable || 0),
+      userActiveStake: new BigNumber(staked.userActiveStake || 0),
+      claimableRewards: new BigNumber(staked.claimableRewards || 0),
+      userUndelegatedList: Array.isArray(staked.userUndelegatedList || 0)
         ? staked.userUndelegatedList.map((undelegated: any) => ({
-            amount: new BigNumber(undelegated.amount),
+            amount: new BigNumber(undelegated.amount || 0),
             seconds: undelegated.seconds.toNumber()
           }))
         : [],
       userWaitingStake: new BigNumber(staked.userWaitingStake)
     };
   });
-
   finalList.push(...stakedList);
   if (legacyStaked.length > 0) {
     finalList.push(...legacyStaked);
   }
 
-  return finalList;
+  return finalList.map((stakedInfo: stakedInfoType) => {
+    return {
+      ...stakedInfo,
+      total: new BigNumber(stakedInfo.userUnBondable || new BigNumber(0))
+        .plus(stakedInfo.userActiveStake || new BigNumber(0))
+        .plus(stakedInfo.claimableRewards || new BigNumber(0))
+        .plus(
+          stakedInfo.userUndelegatedList.reduce(
+            (previous: BigNumber, current: any) =>
+              previous.plus(current.amount),
+            new BigNumber(0)
+          )
+        )
+        .plus(stakedInfo.userWaitingStake)
+    };
+  });
 };
 
 export const getNFT = async (collection: string, nonce: number) => {

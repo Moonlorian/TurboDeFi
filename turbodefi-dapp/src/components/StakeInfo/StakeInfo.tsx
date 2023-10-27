@@ -8,6 +8,10 @@ import { legacyContract } from 'services/staking/config';
 import { environment } from 'config';
 import { claim, redelegate } from 'services/staking';
 import { stakedInfoType } from './StakeList';
+import BigNumber from 'bignumber.js';
+import { useContext, useEffect, useState } from 'react';
+import { useGetEgldPrice } from '@multiversx/sdk-dapp/hooks';
+import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 
 export const StakeInfo = ({
   stakeData,
@@ -16,6 +20,9 @@ export const StakeInfo = ({
   stakeData: stakedInfoType;
   providerInfo: any;
 }) => {
+  const [egldUsdPrice, setEgldUsdPrice] = useState<BigNumber>(new BigNumber(0));
+
+  const { price } = useGetEgldPrice();
   const tokenInfo = useGetTokenInfo();
   const { address } = useGetAccountInfo();
 
@@ -30,6 +37,10 @@ export const StakeInfo = ({
     const scAddress = stakeData.contract ?? legacyContract[environment];
     redelegate(scAddress, address);
   };
+
+  useEffect(() => {
+    setEgldUsdPrice(new BigNumber(price || 0));
+  }, [price]);
 
   return (
     <Card
@@ -59,6 +70,34 @@ export const StakeInfo = ({
                 {providerInfo.identity.name || providerInfo.identity.key}
               </span>
             )}
+            <div className='text-gray-500'>
+              <FormatAmount
+                value={stakeData.total.toFixed()}
+                decimals={
+                  tokenInfo.hasToken(egldId)
+                    ? tokenInfo.get(egldId, 'decimals')
+                    : 18
+                }
+                digits={4}
+                showLabel={true}
+              />
+              <span className='text-gray-500 text-sm ms-1'>
+                {'($'}
+                {formatAmount({
+                  input: stakeData.total
+                    .multipliedBy(egldUsdPrice)
+                    .toFixed(0),
+                  decimals: tokenInfo.hasToken(egldId)
+                    ? tokenInfo.get(egldId, 'decimals')
+                    : 18,
+                  digits: 2,
+                  showIsLessThanDecimalsLabel: true,
+                  addCommas: true,
+                  showLastNonZeroDecimal: false
+                })}
+                {')'}
+              </span>
+            </div>
             {providerInfo.identity?.description && (
               <div className=''>{providerInfo.identity?.description}</div>
             )}
@@ -67,7 +106,7 @@ export const StakeInfo = ({
       ) : (
         <h2>Legacy Delegation</h2>
       )}
-      <div className='flex mt-3'>
+      <div className='flex mt-3 items-center'>
         <Label>Staked: </Label>
         <FormatAmount
           value={stakeData.userActiveStake.toFixed()}
@@ -77,9 +116,25 @@ export const StakeInfo = ({
           digits={4}
           showLabel={true}
         />
+        <span className='text-gray-500 text-sm ms-1'>
+          {'($'}
+          {formatAmount({
+            input: stakeData.userActiveStake
+              .multipliedBy(egldUsdPrice)
+              .toFixed(0),
+            decimals: tokenInfo.hasToken(egldId)
+              ? tokenInfo.get(egldId, 'decimals')
+              : 18,
+            digits: 2,
+            showIsLessThanDecimalsLabel: true,
+            addCommas: true,
+            showLastNonZeroDecimal: false
+          })}
+          {')'}
+        </span>
       </div>
       {stakeData.userWaitingStake.isGreaterThan(0) && (
-        <div className='flex'>
+        <div className='flex items-center'>
           <Label>Waiting: </Label>
           <FormatAmount
             value={stakeData.userWaitingStake.toFixed()}
@@ -91,9 +146,25 @@ export const StakeInfo = ({
             digits={4}
             showLabel={true}
           />
+          <span className='text-gray-500 text-sm ms-1'>
+            {'($'}
+            {formatAmount({
+              input: stakeData.userWaitingStake
+                .multipliedBy(egldUsdPrice)
+                .toFixed(0),
+              decimals: tokenInfo.hasToken(egldId)
+                ? tokenInfo.get(egldId, 'decimals')
+                : 18,
+              digits: 2,
+              showIsLessThanDecimalsLabel: true,
+              addCommas: true,
+              showLastNonZeroDecimal: false
+            })}
+            {')'}
+          </span>
         </div>
       )}
-      <div className='flex mb-3'>
+      <div className='flex mb-3 items-center'>
         <Label>Pending rewards: </Label>
         <FormatAmount
           value={stakeData.claimableRewards.toFixed()}
@@ -103,6 +174,22 @@ export const StakeInfo = ({
           digits={4}
           showLabel={true}
         />
+        <span className='text-gray-500 text-sm ms-1'>
+          {'($'}
+          {formatAmount({
+            input: stakeData.claimableRewards
+              .multipliedBy(egldUsdPrice)
+              .toFixed(0),
+            decimals: tokenInfo.hasToken(egldId)
+              ? tokenInfo.get(egldId, 'decimals')
+              : 18,
+            digits: 2,
+            showIsLessThanDecimalsLabel: true,
+            addCommas: true,
+            showLastNonZeroDecimal: false
+          })}
+          {')'}
+        </span>
       </div>
       {stakeData.type == 'regular' && (
         <div>
