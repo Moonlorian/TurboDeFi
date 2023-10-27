@@ -49,7 +49,6 @@ export const Dashboard = () => {
         structReaders[endpoint.project] = structReader;
       }
     }
-    console.log(endpointsList);
     setEndpoints(endpointsList);
   };
 
