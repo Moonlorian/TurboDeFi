@@ -38,7 +38,6 @@ export const AshSwap = ({
     const currentTokenList = await getAshTokenList();
     setTokenList(currentTokenList.map((tokenData: any) => tokenData.id));
   };
-
   const loadAggregate = async () => {
     if (!tokenFrom || !tokenTo) return;
     if (amountFrom.isEqualTo(0)) {
