@@ -9,6 +9,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { UsdValueContainer, UsdValueProvider } from 'services';
 import BigNumber from 'bignumber.js';
 import { usePriceUpdater } from 'hooks';
+import { useLocation } from 'react-router-dom';
 
 export const ProjectModule = ({
   module,
@@ -21,6 +22,9 @@ export const ProjectModule = ({
     new BigNumber(0)
   );
   const [open, setOpen] = useState(false);
+
+  const location = useLocation();
+
   const toggle = () => {
     setOpen(!open);
   };
@@ -30,6 +34,34 @@ export const ProjectModule = ({
   useEffect(() => {
     updatePrice(totalUsdValue);
   }, [totalUsdValue]);
+
+  useEffect(() => {
+    if (location.hash != '') {
+      const endpointHash = location.hash.replace('#', '');
+
+      if (module.name == endpointHash) {
+        setOpen(true);
+      } else {
+        module.groups.map((group) => {
+          if (
+            module
+              .getGroupEndpoints(group.name)
+              .filter((endpoint) => endpoint.name == endpointHash).length > 0
+          ) {
+            setOpen(true);
+          }
+        });
+        if (
+          module.endpoints.filter(
+            (endpoint) => !endpoint.group && endpoint.name == endpointHash
+          ).length > 0
+        ) {
+          setOpen(true);
+        }
+      }
+    }
+  }, []);
+
   return (
     <UsdValueProvider>
       <Card

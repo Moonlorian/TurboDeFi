@@ -6,7 +6,7 @@ import { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt';
 import { ExplorerLink } from '@multiversx/sdk-dapp/UI';
 
 interface CardType extends PropsWithChildren, WithClassnameType {
-  title: string;
+  title: string | React.ReactNode;
   description?: string;
   reference?: string;
   address?: string;

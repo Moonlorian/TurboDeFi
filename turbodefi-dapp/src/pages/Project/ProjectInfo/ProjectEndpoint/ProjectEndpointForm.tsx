@@ -22,6 +22,7 @@ import { ShowEndpointData } from './ShowEndpointData';
 import BigNumber from 'bignumber.js';
 import { CHAIN_ID, GATEWAY_URL } from 'config';
 import { UsdValueContainer, UsdValueContext, UsdValueProvider } from 'services';
+import { Link } from 'react-router-dom';
 
 export const ProjectEndpointForm = ({
   module,
@@ -51,11 +52,27 @@ export const ProjectEndpointForm = ({
   const { address } = useGetAccountInfo();
   const { pendingTransactions } = useGetPendingTransactions();
 
-  const cardTitle = fullTitle
-    ? `${structReader.getProject().name} -> ${module.label} -> ${
-        endpoint.label || endpoint.name
-      }`
-    : endpoint.label || endpoint.name;
+  const cardTitle = fullTitle ? (
+    <>
+      <Link to={'/project/' + structReader.getProject().name}>
+        {structReader.getProject().name}
+      </Link>
+      {`-> `}
+      <Link
+        to={'/project/' + structReader.getProject().name + '#' + module.name}
+      >
+        {module.label}
+      </Link>
+      {` -> `}
+      <Link
+        to={'/project/' + structReader.getProject().name + '#' + endpoint.name}
+      >
+        {endpoint.label || endpoint.name}
+      </Link>
+    </>
+  ) : (
+    endpoint.label || endpoint.name
+  );
 
   const executeEndpoint = () => {
     setResponse([]);

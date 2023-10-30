@@ -1,13 +1,12 @@
 import { Card } from 'components';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ProjectInfo } from './ProjectInfo';
 import { ProjectList, environment } from 'config';
 import StructReader from 'StructReader/StructReader';
 import StructModule from 'StructReader/StructParts/StructModule';
 import { ProjectModule } from './ProjectInfo';
-import { setPriority } from 'os';
 import { UsdValueProvider } from 'services';
 
 export const Project = () => {
@@ -26,12 +25,9 @@ export const Project = () => {
   };
 
   useEffect(() => {
-    //Todo ==> Load here project, modules, etc.
-  }, [structReader]);
-
-  useEffect(() => {
     if (projectId === '') return;
-    if (!projectList.includes(projectId)) return;
+    const lowerProjectList = projectList.map((projectName) => projectName.toLocaleLowerCase());
+    if (!lowerProjectList.includes(projectId)) return;
     selectProject(projectId).then((newStructReader: StructReader) =>
       setStructReader(newStructReader)
     );
@@ -40,7 +36,8 @@ export const Project = () => {
   useEffect(() => {
     const path = location.pathname.replace(/^\/|\/$/g, '').split('/');
     const currentProjectId: string = path.slice(-1)[0];
-    if (!projectList.includes(currentProjectId)) {
+    const lowerProjectList = projectList.map((projectName) => projectName.toLocaleLowerCase());
+    if (!lowerProjectList.includes(currentProjectId)) {
       selectProjectId('');
     } else {
       selectProjectId(currentProjectId);
