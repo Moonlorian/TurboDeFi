@@ -5,11 +5,9 @@ import {
   useEffect,
   useState
 } from 'react';
-import { getApiFullGeneric, getEgldPrice, getUserBalance } from './apiQueries';
-import { getTokenList } from './tokenLoadService';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { getEgldPrice } from './apiQueries';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
-import { getTokenListData } from './graphql';
+import { getFullPairsList, getTokenListData } from './graphql';
 import BigNumber from 'bignumber.js';
 
 export const PricesDataContext = createContext<{
@@ -54,6 +52,11 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
         finalTokenList['SPROTEO-c2dffe'] = finalTokenList['PROTEO-0c7311'].multipliedBy(2);
       }
 
+      const pairList = await getFullPairsList({ pageSize: 100 });
+      pairList.map((pair) => {
+        finalTokenList[pair.liquidityPoolToken.identifier] = new BigNumber(pair.liquidityPoolTokenPriceUSD).dividedBy(10**pair.liquidityPoolToken.decimals);
+      });
+      
       setPricesList(finalTokenList);
       return finalTokenList;
     },

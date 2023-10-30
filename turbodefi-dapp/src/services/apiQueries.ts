@@ -6,14 +6,14 @@ import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import axios from 'axios';
 import { stakedInfoType } from 'components';
 
-type apiQueryOptions = {
+export type apiQueryOptions = {
   maxRetries?: number;
   milisecondsToWaitBetweenRetries?: number;
   pageSize?: number;
   milisecondsBetweenCalls?: number;
 };
 
-type apiQueryMandatoryOptions = {
+export type apiQueryMandatoryOptions = {
   maxRetries: number;
   milisecondsToWaitBetweenRetries: number;
   pageSize: number;
@@ -137,13 +137,7 @@ export const getApiGeneric = async (
   query: string,
   userOptions?: apiQueryOptions
 ) => {
-  const options: apiQueryMandatoryOptions = {
-    maxRetries: 10,
-    milisecondsToWaitBetweenRetries: 2000,
-    pageSize: 20,
-    milisecondsBetweenCalls: 400,
-    ...userOptions
-  };
+  const options: apiQueryMandatoryOptions = getOptions(userOptions);
   const finalArray = [];
 
   const provider = new ApiNetworkProvider(API_URL);
@@ -161,13 +155,7 @@ export const getApiFullGeneric = async (
   query: string,
   userOptions?: apiQueryOptions
 ) => {
-  const options: apiQueryMandatoryOptions = {
-    maxRetries: 10,
-    milisecondsToWaitBetweenRetries: 2000,
-    pageSize: 20,
-    milisecondsBetweenCalls: 400,
-    ...userOptions
-  };
+  const options: apiQueryMandatoryOptions = getOptions(userOptions);
   let currentPage = 0;
   const finalArray = [];
   const provider = new ApiNetworkProvider(API_URL);
@@ -194,7 +182,7 @@ export const getApiFullGeneric = async (
   return finalArray;
 };
 
-const asyncRetry = async (
+export const asyncRetry = async (
   maxRetries: number,
   milisecondsToWaitBetweenRetries: number,
   callBack: any,
@@ -222,3 +210,14 @@ const asyncRetry = async (
 const waitMiliSeconds = async (miliseconds: number) => {
   await new Promise((res) => setTimeout(() => res('p1'), miliseconds));
 };
+
+export const getOptions = (userOptions?:apiQueryOptions) => {
+  const options: apiQueryMandatoryOptions = {
+    maxRetries: 10,
+    milisecondsToWaitBetweenRetries: 2000,
+    pageSize: 20,
+    milisecondsBetweenCalls: 400,
+    ...userOptions
+  };
+  return options;
+}

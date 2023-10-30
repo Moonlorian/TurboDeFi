@@ -5,7 +5,7 @@ import {
   useEffect,
   useState
 } from 'react';
-import { getApiFullGeneric, getUserBalance } from './apiQueries';
+import { getUserBalance } from './apiQueries';
 import { getTokenList } from './tokenLoadService';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetPendingTransactions';
@@ -59,8 +59,9 @@ export const GlobalDataComponent = ({ children }: { children: ReactNode }) => {
       ticker: 'EGLD',
       identifier: 'EGLD'
     };
-    return(fullBalance);
+    return fullBalance;
   }, [address, balance]);
+
 
   useEffect(() => {
     const newTimer = setTimeout(() => {

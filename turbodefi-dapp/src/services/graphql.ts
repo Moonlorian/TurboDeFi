@@ -38,6 +38,84 @@ Yo have available all levels that you want and all fields that you need in each 
 
 import axios from 'axios';
 import { GRAPHQL_URL } from 'config';
+import {
+  apiQueryMandatoryOptions,
+  apiQueryOptions,
+  asyncRetry,
+  getOptions
+} from './apiQueries';
+
+export const getTokenListData = async (tokenList: string[]) => {
+  const params = [
+    buildQueryParam('identifiers', '[String!]', tokenList),
+    buildQueryParam('type', 'String!', ''),
+    buildQueryParam('enabledSwaps', 'Boolean', true)
+  ];
+
+  const queryName = 'tokens';
+
+  const responseStructure = {
+    balance: '',
+    decimals: '',
+    name: '',
+    identifier: '',
+    ticker: '',
+    owner: '',
+    assets: {
+      website: '',
+      description: '',
+      status: '',
+      pngUrl: '',
+      svgUrl: '',
+      __typename: ''
+    },
+    price: '',
+    type: ''
+  };
+  const tokensData = await request(params, queryName, responseStructure);
+  const response: { [key: string]: any } = {};
+  tokenList.map((tokenName) => {
+    response[tokenName] = {};
+  });
+  tokensData.data.data.tokens.map((tokenData: any) => {
+    response[tokenData.identifier] = tokenData;
+  });
+  return response;
+};
+
+export const getFullPairsList = async (userOptions?: apiQueryOptions) => {
+  const options: apiQueryMandatoryOptions = getOptions(userOptions);
+
+  let currentPage = 0;
+  let list = [];
+
+  do {
+    const params = [
+      buildQueryParam('offset', 'Int', currentPage * options.pageSize),
+      buildQueryParam('limit', 'Int', (currentPage * options.pageSize) + options.pageSize),
+      buildQueryParam('state', 'String', 'Active')
+    ];
+
+    const queryName = 'pairs';
+
+    const responseStructure = {
+      liquidityPoolTokenPriceUSD: '',
+      liquidityPoolToken: {
+        identifier: '',
+        decimals: ''
+      }
+    };
+
+    const tokenList = await asyncRetry(
+      options.maxRetries,
+      options.milisecondsToWaitBetweenRetries,
+      () => request(params, queryName, responseStructure)
+    );
+    list.push(...tokenList?.data.data.pairs);
+  } while (list.length === options.pageSize);
+  
+  return list;
+};
 
 export const request = async (
   params: any[],
@@ -85,44 +163,6 @@ export const request = async (
     }
   });
 
-  return response;
-};
-
-export const getTokenListData = async (tokenList: string[]) => {
-  const params = [
-    buildQueryParam('identifiers', '[String!]', tokenList),
-    buildQueryParam('type', 'String!', ''),
-    buildQueryParam('enabledSwaps', 'Boolean', true)
-  ];
-
-  const queryName = 'tokens';
-
-  const responseStructure = {
-    balance: '',
-    decimals: '',
-    name: '',
-    identifier: '',
-    ticker: '',
-    owner: '',
-    assets: {
-      website: '',
-      description: '',
-      status: '',
-      pngUrl: '',
-      svgUrl: '',
-      __typename: ''
-    },
-    price: '',
-    type: ''
-  };
-  const tokensData = await request(params, queryName, responseStructure);
-  const response: {[key:string]:any} = {};
-  tokenList.map((tokenName) => {
-    response[tokenName] = {};
-  })
-  tokensData.data.data.tokens.map((tokenData: any) => {
-    response[tokenData.identifier] = tokenData;
-  })
   return response;
 };
 
