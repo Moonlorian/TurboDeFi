@@ -54,7 +54,7 @@ export const TokenPricesLoader = ({ children }: { children: ReactNode }) => {
 
       const pairList = await getFullPairsList({ pageSize: 100 });
       pairList.map((pair) => {
-        finalTokenList[pair.liquidityPoolToken.identifier] = new BigNumber(pair.liquidityPoolTokenPriceUSD).dividedBy(10**pair.liquidityPoolToken.decimals);
+        finalTokenList[pair.liquidityPoolToken.identifier] = new BigNumber(pair.liquidityPoolTokenPriceUSD);
       });
       
       setPricesList(finalTokenList);
