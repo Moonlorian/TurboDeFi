@@ -11,12 +11,19 @@
       "description": "Boosted staking module of OneDex",
       "label": "SFT Boosted Staking",
       "address": "erd1qqqqqqqqqqqqqpgq8nlmvjm8gum6y2kqe0v296kgu8cm4jlemvlsays3ku",
+      "groups": [
+        {
+          "name": "boosted-staking",
+          "label": "Boosted Staking"
+        }
+      ],
       "endpoints": [
         {
           "name": "getUserStakingInfo",
           "label": "$ONE Token",
           "mutability": "readonly",
           "token": "ONE-f9954f",
+          "group": "boosted-staking",
           "inputs": [
             {
               "name": "opt_user_address",
@@ -34,6 +41,7 @@
           "label": "Claim pending rewards",
           "mutability": "mutable",
           "buttonLabel": "Claim",
+          "group": "boosted-staking",
           "inputs": [],
           "outputs": []
         },
@@ -55,12 +63,19 @@
       "description": "Staking module of OneDex",
       "label": "Staking",
       "address": "erd1qqqqqqqqqqqqqpgql9z9vm8d599ya2r9seklpkcas6qmude4mvlsgrj7hv",
+      "groups": [
+        {
+          "name": "staking",
+          "label": "Staking"
+        }
+      ],
       "endpoints": [
         {
           "name": "viewPool",
           "label": "$ONE Token",
           "mutability": "readonly",
           "token": "ONE-f9954f",
+          "group": "staking",
           "inputs": [
             {
               "name": "pool_id",
@@ -85,12 +100,31 @@
           "label": "Claim pending rewards",
           "mutability": "mutable",
           "buttonLabel": "Claim",
+          "group": "staking",
           "inputs": [
             {
               "name": "pool_id",
               "type": "u32",
               "defaultValue": "1",
               "fixedValue": true,
+              "hidden": true
+            }
+          ],
+          "outputs": []
+        },
+        {
+          "name": "userStake",
+          "label": "Stake $ONE tokens",
+          "mutability": "mutable",
+          "buttonLabel": "Stake",
+          "payableInTokens": [
+            "ONE-f9954f"
+          ],
+          "inputs": [
+            {
+              "name": "pool_id",
+              "type": "u32",
+              "defaultValue": "1",
               "hidden": true
             }
           ],
