@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { environment } from '../../config/index';
+import { CHAIN_ID, environment } from '../../config/index';
 import BigNumber from 'bignumber.js';
 import {
   AbiRegistry,
@@ -66,13 +66,13 @@ export type SorSwapResponse = {
 
 const aggregatorUrl = {
   testnet: '',
-  devnet: 'https://aggregator-devnet.ashswap.io',
+  devnet: 'https://aggregator-devnet2.ashswap.io',
   mainnet: 'https://aggregator.ashswap.io'
 };
 
 const aggregatorContract = {
   testnet: '',
-  devnet: 'erd1qqqqqqqqqqqqqpgqqtaru570tfcq4fwer9nlnzl6n4afp4yzh2uswv2vkh',
+  devnet: 'erd1qqqqqqqqqqqqqpgqh96hhj42huhe47j3jerlec7ndhw75gy72gesy7w2d6',
   mainnet: 'erd1qqqqqqqqqqqqqpgqglgkaxm73j7mhw5u940fsmmncnayxj884fvs54lnr6'
 };
 
@@ -103,12 +103,15 @@ export const swap = async (
   swapData: SorSwap[],
   tokenAddresses: string[],
   slippage: number,
-  minOut: BigNumber
+  minOut: BigNumber,
+  tokenInAmount: BigNumber
 ) => {
-  const steps: AggregatorStep[] = swapData.map((s) => {
+  const steps: AggregatorStep[] = swapData.map((s, index) => {
+    //const lastElement = index == swapData.length - 1;
+    const lastElement = false;
     const step: AggregatorStep = {
-      token_in: s.assetIn,
-      token_out: s.assetOut,
+      token_in: lastElement ? s.assetOut : s.assetIn,
+      token_out: lastElement ? s.assetIn : s.assetOut,
       amount_in: new BigNumber(s.amount),
       pool_address: s.poolId,
       function_name: s.functionName,
@@ -116,12 +119,13 @@ export const swap = async (
     };
     return step;
   });
+  console.log(tokenAddresses);
   const limits = tokenAddresses.map((tokenId, index) => {
     const listElement: any = {
       token: tokenId,
       amount:
         index == tokenAddresses.length - 1
-          ? minOut.multipliedBy(1 - slippage / 100).decimalPlaces(0, 1)
+          ? minOut.multipliedBy(0.1 - slippage / 100).decimalPlaces(0, 1)
           : new BigNumber(0)
     };
     return listElement;
@@ -137,10 +141,14 @@ export const swap = async (
     .aggregate([steps, ...limits])
     .withSender(new Address(sender))
     .withValue(0)
-    .withGasLimit(60000000)
-    .withChainID('1');
+    .withGasLimit(100000000)
+    .withChainID(CHAIN_ID);
   const payments = [
-    TokenTransfer.fungibleFromAmount(steps[0].token_in, steps[0].amount_in, 0)
+    TokenTransfer.fungibleFromAmount(
+      steps[0].token_in,
+      tokenInAmount.toFixed(),
+      0
+    )
   ];
   interaction.withMultiESDTNFTTransfer(payments);
   //TODO, check if they are NFT or ESDT tokens

@@ -264,7 +264,8 @@ export const AshSwap = ({
               swapData.swaps,
               swapData.tokenAddresses,
               1,
-              new BigNumber(swapData.returnAmountWithDecimal)
+              new BigNumber(swapData.returnAmountWithDecimal),
+              new BigNumber(swapData.swapAmountWithDecimal)
             )
           }
         >
