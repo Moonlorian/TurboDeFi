@@ -4,11 +4,13 @@ import BigNumber from 'bignumber.js';
 import {
   AbiRegistry,
   Address,
+  BigUIntValue,
   SmartContract,
   TokenTransfer
 } from '@multiversx/sdk-core/out';
 import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
 import { ashAbi } from './ash.abi';
+import { Aggregator, ChainId } from '@ashswap/ash-sdk-js/out';
 
 export type AggregatorStep = {
   token_in: string;
@@ -96,6 +98,33 @@ export const aggregate = async (from: string, to: string, amount: string) => {
     .then((response) => {
       return response.data;
     });
+};
+export const new_swap = async (
+  sender: string,
+  tokenIn: string,
+  tokenOut: string,
+  slippage: number,
+  amount: BigNumber
+) => {
+  //const xPortalProtocol = 'erd...';
+  const agService = new Aggregator({
+    chainId: CHAIN_ID == 'D' ? ChainId.Devnet : ChainId.Mainnet
+  });
+  const interaction = await agService.aggregate(
+    tokenIn,
+    tokenOut,
+    amount,
+    slippage
+  );
+  // remember to set the sender (caller) before sending the tx
+  const tx = interaction
+    .withSender(new Address(sender))
+    .check()
+    .buildTransaction();
+  // sign and send tx to the network
+  sendTransactions({
+    transactions: [tx]
+  });
 };
 
 export const swap = async (

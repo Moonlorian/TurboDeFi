@@ -3,6 +3,7 @@ import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons/faArrowsRotate
 import {
   aggregate,
   getAshTokenList,
+  new_swap,
   swap
 } from '../../services/ash/AshSwapService';
 import { Button, Card, FormatAmount, Label, TokenSelector } from '..';
@@ -259,13 +260,14 @@ export const AshSwap = ({
               .isGreaterThan(balanceInfo.getBalance(tokenFrom))
           }
           onClick={() =>
-            swap(
+            new_swap(
               address,
-              swapData.swaps,
-              swapData.tokenAddresses,
-              1,
-              new BigNumber(swapData.returnAmountWithDecimal),
-              new BigNumber(swapData.swapAmountWithDecimal)
+              tokenFrom,
+              tokenTo,
+              100,
+              amountFrom.multipliedBy(
+                10 ** tokenInfo.get(tokenFrom, 'decimals')
+              )
             )
           }
         >
