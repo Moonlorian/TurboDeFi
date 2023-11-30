@@ -32,6 +32,14 @@ export const useGetTokenInfo = () => {
     }
   }
 
+  function getID(tokenName:string) : string{
+    const tokenIds = Object.keys(tokenList);
+    for (let i = 0; i < tokenIds.length; i++){
+      if (tokenName.toUpperCase() === tokenList[tokenIds[i]].ticker.toUpperCase()) return tokenIds[i];
+    }
+    return '';
+  }
+
   /**
    * Get token in array format
    *
@@ -63,5 +71,5 @@ export const useGetTokenInfo = () => {
     [tokenList]
   );
 
-  return { get, getList, tokenList, hasToken };
+  return { get, getList, getID, tokenList, hasToken };
 };

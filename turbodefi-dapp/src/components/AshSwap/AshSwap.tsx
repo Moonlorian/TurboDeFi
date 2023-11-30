@@ -37,7 +37,14 @@ export const AshSwap = ({
 
   const loadTokenList = async () => {
     const currentTokenList = await getAshTokenList();
-    setTokenList(currentTokenList.map((tokenData: any) => tokenData.id));
+    const newTokenList = currentTokenList.map((tokenData: any) => tokenData.id);
+    newTokenList.push('EGLD');
+    setTokenList(newTokenList.sort());
+  };
+
+  const getEgldEquivalent = (tokenId: string): string => {
+    if (tokenId === 'EGLD') return tokenInfo.getID('WEGLD');
+    else return tokenId;
   };
   const loadAggregate = async () => {
     if (!tokenFrom || !tokenTo) return;
@@ -46,8 +53,8 @@ export const AshSwap = ({
       setSwapData({});
     } else {
       const path = await aggregate(
-        tokenFrom,
-        tokenTo,
+        getEgldEquivalent(tokenFrom),
+        getEgldEquivalent(tokenTo),
         amountFrom
           .multipliedBy(10 ** tokenInfo.get(tokenFrom, 'decimals'))
           .toFixed()
@@ -59,17 +66,19 @@ export const AshSwap = ({
 
   const loadTokensPrices = async () => {
     const tokenList = [];
-    if (tokenFrom) tokenList.push(tokenFrom);
-    if (tokenTo) tokenList.push(tokenTo);
+    const convertedTokenFrom = getEgldEquivalent(tokenFrom);
+    const convertedTokenTo = getEgldEquivalent(tokenTo);
+    if (tokenFrom) tokenList.push(convertedTokenFrom);
+    if (tokenTo) tokenList.push(getEgldEquivalent(tokenTo));
     if (tokenList.length == 0) return;
 
     const tokensData = await getTokenListData(tokenList);
 
     setPriceFrom(
-      new BigNumber(tokensData[tokenFrom]?.price ?? 0).decimalPlaces(18)
+      new BigNumber(tokensData[convertedTokenFrom]?.price ?? 0).decimalPlaces(18)
     );
     setPriceTo(
-      new BigNumber(tokensData[tokenTo]?.price ?? 0).decimalPlaces(18)
+      new BigNumber(tokensData[convertedTokenTo]?.price ?? 0).decimalPlaces(18)
     );
   };
 
