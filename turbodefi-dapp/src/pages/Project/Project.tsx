@@ -86,7 +86,7 @@ export const ProyectSelector = () => {
         <Form.Select
           aria-label='Select project to show'
           onChange={(e: any) => {
-            navigate('/project/' + e.target.value);
+            navigate('/project/' + e.target.value.toLowerCase());
           }}
         >
           <option value=''>Select project</option>
