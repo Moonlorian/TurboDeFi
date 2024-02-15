@@ -56,16 +56,16 @@ export const FLowsNewForm = ({
   }, [flowCreationStatus]);
 
   return (
-    <div className='ml-4 mb-6 relative'>
+    <div className='ml-4 mb-6 relative bg-cards-bg-color rounded-xl p-3 mt-2'>
       <ActionButtonList>
         {flowCreationStatus == 'creating' ? (
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton action={saveFlow}>
+            <ActionButton action={saveFlow} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
-            <ActionButton action={onCancel}>
+            <ActionButton action={onCancel} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faBan} />
             </ActionButton>
           </>

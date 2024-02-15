@@ -28,7 +28,7 @@ export const Card = (props: CardType) => {
 
   return (
     <div
-      className={`flex flex-wrap flex-col rounded-xl bg-white py-6 px-[4%] md:px-6 ${className}`}
+      className={`flex flex-wrap flex-col rounded-xl py-6 px-[4%] md:px-6 ${className}`}
       data-testid={props['data-testid']}
     >
       <span className='flex mb-2 items-center'>
@@ -48,10 +48,10 @@ export const Card = (props: CardType) => {
           </ExplorerLink>
         )}
         {subtitle && (
-          <span className='text-gray-500 text-base ms-2'>{subtitle}</span>
+          <span className='text-secondary-color text-base ms-2'>{subtitle}</span>
         )}
       </span>
-      {description && <p className='text-gray-400 pb-0 mb-0'>{description}</p>}
+      {description && <p className='text-secondary-color pb-0 mb-3'>{description}</p>}
       {reference != '' && (
         <a
           href={reference}

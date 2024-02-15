@@ -13,13 +13,13 @@ export const Header = () => {
   };
 
   return (
-    <header className='flex flex-row align-center justify-center pl-6 pr-6 pt-6 items-center'>
-      <div className='max-w-7xl w-full d-flex justify-between items-center'>
+    <header className='flex flex-row align-center justify-center pt-6 pb-0 px-[2%] md:px-6 items-center'>
+      <div className='max-w-7xl w-full d-flex justify-between items-center border bg-bg-color rounded-xl py-1'>
         <div className='flex items-baseline'>
           <Logo />
         </div>
         <nav className='hidden lg:flex h-full w-full text-sm justify-end'>
-          <div className='flex no-wrap items-center'>
+          <div className='flex no-wrap items-center mr-3'>
             <OptionsMenu />
           </div>
         </nav>

@@ -46,16 +46,16 @@ export const FLowNewStepForm = ({
   }, [creationStatus]);
 
   return (
-    <div className='ml-4 mb-6 relative'>
+    <div className='mb-6 relative border rounded-xl  py-6 px-[0px] md:px-6 bg-cards-bg-color'>
       <ActionButtonList>
         {creationStatus == 'creating' ? (
           <p>please wait</p>
         ) : (
           <>
-            <ActionButton action={saveFlowStep}>
+            <ActionButton action={saveFlowStep} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
-            <ActionButton action={onCancel}>
+            <ActionButton action={onCancel} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faBan} />
             </ActionButton>
           </>

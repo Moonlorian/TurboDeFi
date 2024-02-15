@@ -8,7 +8,7 @@ export const Logo = () => {
   return (
     <MxLink
       className='flex items-center justify-between max-w-[250px]'
-      to={isLoggedIn ? RouteNamesEnum.project : RouteNamesEnum.home}
+      to={isLoggedIn ? RouteNamesEnum.dashboard : RouteNamesEnum.home}
     >
       <img src={DappLogo} className='w-full' />
     </MxLink>

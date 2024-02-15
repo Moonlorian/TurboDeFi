@@ -212,7 +212,7 @@ export const ProjectEndpointForm = ({
   return (
     <UsdValueProvider>
       <Card
-        className={`flex-2 ${className}`}
+        className={`flex-2 bg-cards-bg-color ${className}`}
         key={'projectEndpoint_' + endpoint.name}
         title={cardTitle}
         titleClassName='text-capitalize'

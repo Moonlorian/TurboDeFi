@@ -60,3 +60,7 @@ nav a:hover {
 .dapp-core-component__main__text-truncate.dapp-core-component__main__text-capitalize.dapp-core-component__main__text-white.dapp-core-component__main__p-1.dapp-core-component__transactionsTable-styles__transaction-cell-font-small {
   max-width: 120px!important;
 }
+
+input {
+  border: 1px solid #e5e7eb;
+}

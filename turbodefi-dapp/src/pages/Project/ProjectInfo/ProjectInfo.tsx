@@ -9,7 +9,7 @@ export const ProjectInfo = ({ project }: { project: StructProject }) => {
   const navigate = useNavigate();
   return (
     <Card
-      className='flex-2 relative'
+      className='flex-2 relative bg-bg-color'
       key={'project_' + project.name}
       title={project.label || project.name}
       description={project.description}
@@ -21,6 +21,7 @@ export const ProjectInfo = ({ project }: { project: StructProject }) => {
           action={() => {
             navigate('/project');
           }}
+          bgColor='secondary-color'
         >
           <FontAwesomeIcon icon={faArrowLeft} />
         </ActionButton>

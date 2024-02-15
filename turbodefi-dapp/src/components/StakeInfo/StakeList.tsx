@@ -119,13 +119,13 @@ export const StakeList = () => {
         </>
       ) : (
         <Card
-          className='flex-2 border position-relative'
+          className='flex-2 border position-relative bg-cards-bg-color'
           key={''}
           title={''}
           description={''}
           reference={''}
         >
-          <p>You have no staked amount</p>
+          <p className='text-secondary-color'>You have no staked amount</p>
         </Card>
       )}
     </>

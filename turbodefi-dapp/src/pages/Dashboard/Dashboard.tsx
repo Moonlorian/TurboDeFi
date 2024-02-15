@@ -75,7 +75,7 @@ export const Dashboard = () => {
               <div className='grid md:gap-5 gap-[0.5rem] grid-cols-1 sm:grid-cols-2 auto-rows-min mt-3'>
                 {/* TODO LOAD HERE ALL USER PANELS IN DASHBOARD */}
                 {endpoints.map((endpoint, index) => (
-                  <div className='w-full border rounded-lg' key={index}>
+                  <div className='w-full border rounded-lg bg-cards-bg-color' key={index}>
                     <ProjectEndpointForm
                       module={endpoint.structReader.getModule(
                         endpoint.endpoint.module || ''

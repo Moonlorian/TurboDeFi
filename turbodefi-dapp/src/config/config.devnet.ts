@@ -5,8 +5,8 @@ export * from './sharedConfig';
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq8vzz7erevzuz5qmamaamcmt0qq6sv7mzam7q8dnkpx';
 export const API_URL = 'https://devnet-api.multiversx.com';
-//export const GATEWAY_URL = 'https://devnet-gateway.multiversx.com';
-export const GATEWAY_URL = 'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a';
+export const GATEWAY_URL = 'https://devnet-gateway.multiversx.com';
+// export const GATEWAY_URL = 'https://elrond-api-devnet.blastapi.io/9c12de34-9e4a-4a72-8f41-1042197ffe9a';
 export const EXPLORER_URL = 'https://devnet-explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://devnet-graph.xexchange.com/graphql';
 export const CHAIN_ID = 'D';

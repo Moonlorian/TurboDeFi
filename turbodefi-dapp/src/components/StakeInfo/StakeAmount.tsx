@@ -74,7 +74,7 @@ export const StakeAmount = () => {
 
   return (
     <Card
-      className='flex-2 border position-relative'
+      className='flex-2 border position-relative bg-cards-bg-color'
       key={''}
       title={''}
       description={''}

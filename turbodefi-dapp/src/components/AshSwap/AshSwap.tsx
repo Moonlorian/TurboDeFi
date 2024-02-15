@@ -143,13 +143,13 @@ export const AshSwap = ({
   return (
     <div className='flex flex-col w-full border rounded-xl'>
       <Card
-        className='flex-2'
+        className='flex-2 bg-cards-bg-color'
         key={'swap'}
         title={'SWAP'}
         description={'Powered by AshShawp'}
         reference={''}
       >
-        <div className='rounded-lg bg-neutral-100 py-4 px-3'>
+        <div className='rounded-lg bg-bg-color py-4 px-3'>
           <div className=''>
             <Label>From</Label>
           </div>
@@ -207,7 +207,7 @@ export const AshSwap = ({
             />
           </a>
         </div>
-        <div className='rounded-lg bg-neutral-100 py-4 px-3 mb-3'>
+        <div className='rounded-lg bg-bg-color py-4 px-3 mb-3'>
           <div className=''>
             <Label>To</Label>
           </div>

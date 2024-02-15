@@ -65,7 +65,7 @@ export const Flow = () => {
     <>
       <div className='flex flex-col gap-6 max-w-7xl w-full relative'>
         <Card
-          className='flex-2'
+          className='flex-2 bg-bg-color'
           key={'flow'}
           title={flow?.label || ''}
           description={flow?.description}
@@ -77,6 +77,7 @@ export const Flow = () => {
                 action={() => {
                   navigate('/Flows');
                 }}
+                bgColor='secondary-color'
               >
                 <FontAwesomeIcon icon={faArrowLeft} />
               </ActionButton>
@@ -84,6 +85,7 @@ export const Flow = () => {
                 <ActionButton
                   action={setCreatigStepAction}
                   disabled={hasPendingTransactions}
+                  bgColor='secondary-color'
                 >
                   <FontAwesomeIcon icon={faPlusSquare} />
                 </ActionButton>

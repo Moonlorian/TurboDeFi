@@ -77,7 +77,7 @@ export const ProyectSelector = () => {
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <Card
-        className='flex-2'
+        className='flex-2 bg-bg-color'
         key={'projectSelector'}
         title={'Select Project'}
         description={'Select project to show all its modules'}

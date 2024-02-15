@@ -40,7 +40,7 @@ export const FlowsList = ({
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <Card
-        className='flex-2 w-full position-relative'
+        className='flex-2 w-full position-relative bg-bg-color'
         key={'flow'}
         title={
           listType == 'user' || address == turbodefiAddress
@@ -56,7 +56,7 @@ export const FlowsList = ({
       >
         {canShowCreateButton() && (
           <ActionButtonList>
-            <ActionButton disabled={hasPendingTransactions} action={initCreatingFlow}>
+            <ActionButton disabled={hasPendingTransactions} action={initCreatingFlow} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faPlusSquare} />
             </ActionButton>
           </ActionButtonList>
@@ -75,7 +75,7 @@ export const FlowsList = ({
         <div>
           {flowsList.map((flow, index) => {
             return (
-              <div key={`${listType}Flow_${index}`}>
+              <div key={`${listType}Flow_${index}`} className='bg-cards-bg-color rounded-xl p-3 mt-2'>
                 <div
                   className='flex items-center pointer'
                   onClick={() => {
@@ -87,11 +87,11 @@ export const FlowsList = ({
                     icon={faArrowRight}
                     className={`mr-2 text-main-color fa-lg`}
                   />
-                  <h5 key={index} className='m-0'>
+                  <h5 key={index} className='m-0 text-secondary-color'>
                     {flow.label}
                   </h5>
                 </div>
-                <p className='text-gray-400 mb-6'>{flow.description}</p>
+                <p className='text-gray-400 mb-0'>{flow.description}</p>
               </div>
             );
           })}

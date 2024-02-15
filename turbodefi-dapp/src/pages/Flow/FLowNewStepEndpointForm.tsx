@@ -100,7 +100,7 @@ export const FLowNewStepEndpointForm = ({
   }, [selectedProject, selectedModule, selectedEndpoint]);
 
   return (
-    <div className='ml-4 mb-6 relative min-h-[20px]'>
+    <div className='ml-4 mb-6 relative min-h-[20px] border rounded-xl bg-cards-bg-color p-6 mb-3'>
       <ActionButtonList>
         {creationStatus == 'creating' ? (
           <p>please wait</p>
@@ -109,10 +109,14 @@ export const FLowNewStepEndpointForm = ({
             <ActionButton
               disabled={selectedEnpointId <= 0}
               action={saveEndpoint}
+              bgColor='secondary-color'
             >
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
-            <ActionButton action={onCancel}>
+            <ActionButton 
+              action={onCancel} 
+              bgColor='secondary-color'
+            >
               <FontAwesomeIcon icon={faBan} />
             </ActionButton>
           </>

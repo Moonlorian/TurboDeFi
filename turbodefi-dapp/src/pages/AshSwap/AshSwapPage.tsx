@@ -10,7 +10,7 @@ export const AshSwapPage = () => {
           description='Swap your tokens'
           reference={''}
         >
-          <div className='w-[100%] lg:w-[50%] m-auto'>
+          <div className='w-[100%] lg:w-[70%] m-auto'>
             <AshSwap />
           </div>
         </Card>

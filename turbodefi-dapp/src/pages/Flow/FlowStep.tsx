@@ -41,7 +41,7 @@ export const FlowStep = ({
   const onCLoseCreatingComponentStep = () => setCreatingComponentStep(false);
 
   return (
-    <div className='flex flex-col rounded-xl py-6 px-[0px] md:px-6 border mb-2 relative'>
+    <div className='flex flex-col rounded-xl py-6 px-[0px] md:px-6 border mb-2 relative bg-cards-bg-color/30'>
       <h5 className='flex items-center m-0'>
         <span className='rounded-full bg-main-color text-white w-[35px] h-[35px] flex items-center justify-center m-3'>
           {index}
@@ -81,7 +81,7 @@ export const FlowStep = ({
                   <>
                     <ActionButton
                       action={setCreatigEndpointStepAction}
-                      className='text-xs sm:text-base'
+                      className='text-xs sm:text-base bg-secondary-color'
                       disabled={hasPendingTransactions}
                     >
                       <FontAwesomeIcon icon={faPlusSquare} />
@@ -90,7 +90,7 @@ export const FlowStep = ({
                     {step.endpoints?.length == 0 && (
                       <ActionButton
                         action={setCreatigComponentStepAction}
-                        className='text-xs md:text-base'
+                        className='text-xs md:text-base bg-secondary-color'
                         disabled={hasPendingTransactions}
                       >
                         <FontAwesomeIcon icon={faPlusSquare} />

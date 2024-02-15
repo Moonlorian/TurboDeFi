@@ -9,6 +9,7 @@ interface ButtonType extends WithClassnameType, PropsWithChildren {
   id?: string;
   type?: 'button' | 'submit' | 'reset';
   color?: string;
+  bgColor?: string;
 }
 
 export const Button = ({
@@ -20,10 +21,11 @@ export const Button = ({
   type = 'button',
   id,
   className = '',
-  color = 'white'
+  color = 'white',
+  bgColor = 'main-color'
 
 }: ButtonType) => {
-  const defaultClassName = `bg-main-color inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-${color} hover:bg-main-color/80 mr-0 disabled:bg-main-color/20 disabled:text-black disabled:cursor-not-allowed`;
+  const defaultClassName = `bg-${bgColor} inline-block rounded-lg px-[1rem] py-2 text-center hover:no-underline my-0 text-${color} hover:opacity-80 mr-0 disabled:opacity-50 disabled:cursor-not-allowed`;
   return (
     <button
       id={id}

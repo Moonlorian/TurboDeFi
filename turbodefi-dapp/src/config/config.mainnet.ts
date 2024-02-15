@@ -4,7 +4,7 @@ export * from './sharedConfig';
 
 export const contractAddress = 'erd1qqqqqqqqqqqqqpgqchgs4elfyup4yfkrd6yafnmkxaxjqq9lam7q8l5dja';
 export const API_URL = 'https://api.multiversx.com';
-export const GATEWAY_URL = 'https://api.multiversx.com';
+export const GATEWAY_URL = 'https://gateway.multiversx.com';
 export const EXPLORER_URL = 'https://explorer.multiversx.com';
 export const GRAPHQL_URL = 'https://graph.xexchange.com/graphql';
 export const CHAIN_ID = '1';

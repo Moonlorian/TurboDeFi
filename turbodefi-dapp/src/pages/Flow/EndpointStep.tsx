@@ -26,7 +26,7 @@ export const EndpointStep = ({ endpoint }: { endpoint: FlowEndpointType }) => {
 
   if (!structReader) return;
   return structReader?.isLoaded() ? (
-    <div className='w-full border rounded-lg'>
+    <div className='w-full border rounded-lg bg-cards-bg-color'>
       <ProjectEndpointForm
         module={structReader.getModule(endpoint.module || '')}
         endpoint={structReader.getModuleEndpoint(

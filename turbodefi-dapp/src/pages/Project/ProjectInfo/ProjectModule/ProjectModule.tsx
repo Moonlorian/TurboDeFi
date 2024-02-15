@@ -65,7 +65,7 @@ export const ProjectModule = ({
   return (
     <UsdValueProvider>
       <Card
-        className='flex-2 relative'
+        className='flex-2 relative bg-bg-color'
         key={'projectModule_' + module.name}
         title={module.label || module.name}
         description={module.description}

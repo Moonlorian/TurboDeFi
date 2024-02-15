@@ -74,7 +74,7 @@ export const BalancePanel = () => {
   }, [totalUsd]);
   return (
     <Card
-      className='border'
+      className='border bg-cards-bg-color border-secondary-color'
       title='Wallet Balances'
       reference=''
       subtitle={`($${formatAmount({

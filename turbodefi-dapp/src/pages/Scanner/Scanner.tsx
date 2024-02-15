@@ -94,7 +94,7 @@ export const Scanner = () => {
   return (
     <div className='flex flex-col gap-6 max-w-7xl w-full'>
       <Card
-        className='flex-2'
+        className='flex-2 bg-bg-color'
         key={'walletScanner'}
         title={'Wallet Scanner'}
         description={

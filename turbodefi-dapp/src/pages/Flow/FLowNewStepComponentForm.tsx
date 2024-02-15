@@ -57,7 +57,7 @@ export const FLowNewStepComponentForm = ({
   }, [selectedComponent]);
 
   return (
-    <div className='ml-4 mb-6 relative min-h-[20px]'>
+    <div className='ml-4 mb-6 relative min-h-[20px] border rounded-xl bg-cards-bg-color p-6 mb-3'>
       <ActionButtonList>
         {creationStatus == 'creating' ? (
           <p>please wait</p>
@@ -66,10 +66,11 @@ export const FLowNewStepComponentForm = ({
             <ActionButton
               disabled={selectedComponentId <= 0}
               action={saveComponent}
+              bgColor='secondary-color'
             >
               <FontAwesomeIcon icon={faFloppyDisk} />
             </ActionButton>
-            <ActionButton action={onCancel}>
+            <ActionButton action={onCancel} bgColor='secondary-color'>
               <FontAwesomeIcon icon={faBan} />
             </ActionButton>
           </>
