@@ -381,11 +381,6 @@
           "type": "TokenIdentifier"
         },
         {
-          "name": "stake_token_decimals",
-          "type": "u32",
-          "hidden": true
-        },
-        {
           "name": "apr",
           "type": "BigUint",
           "hidden": true
